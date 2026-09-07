@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "aws-lambda": "^1.0.7"
+  },
+  "allowScripts": {
+    "aws-lambda@1.0.7": true,
+    "esbuild@0.28.2": true
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.163",
+    "esbuild": "^0.28.2"
+  }
+}
