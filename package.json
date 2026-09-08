@@ -4,10 +4,13 @@
   },
   "allowScripts": {
     "aws-lambda@1.0.7": true,
-    "esbuild@0.28.2": true
+    "esbuild@0.28.2": true,
+    "@types/node@26.5.0": true,
+    "aws-sdk@2.1693.0": true
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.163",
+    "@types/node": "^26.5.0",
     "esbuild": "^0.28.2"
   }
 }

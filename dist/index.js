@@ -1,3 +1,4 @@
+"use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -22,12 +23,30 @@ __export(index_exports, {
   handler: () => handler
 });
 module.exports = __toCommonJS(index_exports);
+function returnInvalidEventResponse() {
+  return {
+    statusCode: 400,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: "Invalid event data" })
+  };
+}
 var handler = async (event) => {
   console.log("Received event:", JSON.stringify(event, null, 2));
+  let rawBody = event.body;
+  if (rawBody === void 0) {
+    return returnInvalidEventResponse();
+  }
+  if (event.isBase64Encoded) {
+    rawBody = Buffer.from(rawBody, "base64").toString("utf-8");
+  }
+  const body = JSON.parse(rawBody);
+  if (!body.event_id || !body.event_type || !body.user_id || !body.amount) {
+    return returnInvalidEventResponse();
+  }
   return {
     statusCode: 200,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: "Received event successfully" })
+    body: JSON.stringify({ message: "Event is valid" })
   };
 };
 // Annotate the CommonJS export names for ESM import in node:
