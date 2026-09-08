@@ -3,3 +3,5 @@
 *.tfstate.*
 crash.log
 node_modules/
+dist/
+*.zip

@@ -38,6 +38,7 @@ resource "aws_lambda_function" "example" {
     variables = {
       ENVIRONMENT = "production"
       LOG_LEVEL   = "info"
+      QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
     }
   }
 
