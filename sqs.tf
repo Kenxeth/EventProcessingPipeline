@@ -1,3 +1,4 @@
+# Creating SQS Queue
 resource "aws_sqs_queue" "terraform_sqs_queue" {
   name                      = "terraform-example-queue"
   delay_seconds             = 0
@@ -10,7 +11,7 @@ resource "aws_sqs_queue" "terraform_sqs_queue" {
   }
 }
 
-// Policy for Lambda to send messages to SQS
+// Policy for Lambda role to send messages to SQS
 resource "aws_iam_role_policy" "lambda_sqs_policy" {
   name = "lambda-sqs-policy"
   role = aws_iam_role.lambda_execution_role.id

@@ -28309,6 +28309,7 @@ var require_dist_cjs17 = __commonJS({
 // lambda/index.ts
 var index_exports = {};
 __export(index_exports, {
+  SQSToLambdaHandler: () => SQSToLambdaHandler,
   handler: () => handler
 });
 module.exports = __toCommonJS(index_exports);
@@ -28344,7 +28345,14 @@ var handler = async (event) => {
     body: JSON.stringify({ message: "Event is valid" })
   };
 };
+var SQSToLambdaHandler = async (event) => {
+  for (const record of event.Records) {
+    const messageBody = JSON.parse(record.body);
+    console.log("Received SQS message:", messageBody);
+  }
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  SQSToLambdaHandler,
   handler
 });

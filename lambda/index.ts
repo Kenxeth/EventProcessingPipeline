@@ -1,4 +1,4 @@
-import type { APIGatewayProxyHandlerV2 } from 'aws-lambda'
+import type { APIGatewayProxyHandlerV2, SQSEvent, APIGatewayProxyEventV2 } from 'aws-lambda'
 import {SQSClient, SendMessageCommand} from "@aws-sdk/client-sqs";
 
 const sqs = new SQSClient();
@@ -11,7 +11,7 @@ function returnInvalidEventResponse() {
   }
 }
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler: APIGatewayProxyHandlerV2 = async (event : APIGatewayProxyEventV2) => {
   // console.log('Received event:', JSON.stringify(event, null, 2))
   let rawBody = event.body;
 
@@ -43,6 +43,15 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: "Event is valid" })
+  }
+
+}
+
+export const SQSToLambdaHandler = async (event: SQSEvent) => {
+
+  for (const record of event.Records) {
+    const messageBody = JSON.parse(record.body);
+    console.log('Received SQS message:', messageBody);
   }
 
 }
