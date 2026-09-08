@@ -1,7 +1,14 @@
 import type { APIGatewayProxyHandlerV2, SQSEvent, APIGatewayProxyEventV2 } from 'aws-lambda'
 import {SQSClient, SendMessageCommand} from "@aws-sdk/client-sqs";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  PutCommand
+} from "@aws-sdk/lib-dynamodb";
 
 const sqs = new SQSClient();
+const client = new DynamoDBClient({});
+const dynamo = DynamoDBDocumentClient.from(client);
 
 function returnInvalidEventResponse() {
   return {
@@ -51,6 +58,15 @@ export const SQSToLambdaHandler = async (event: SQSEvent) => {
 
   for (const record of event.Records) {
     const messageBody = JSON.parse(record.body);
+
+
+    await dynamo.send(
+      new PutCommand({
+        TableName: process.env.DYNAMODB_TABLE_ARN,
+        Item: messageBody
+      })
+    );
+
     console.log('Received SQS message:', messageBody);
   }
 

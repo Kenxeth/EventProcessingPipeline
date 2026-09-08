@@ -32,6 +32,31 @@ resource "aws_iam_role_policy_attachment" "worker_sqs_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
 
+# Letting this role read and write to DynamoDB table.
+data "aws_iam_policy_document" "lambda_dynamodb" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "dynamodb:PutItem",
+      "dynamodb:GetItem"
+    ]
+
+    resources = [
+      aws_dynamodb_table.userevents-dynamodb-table.arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "lambda_dynamodb" {
+  name   = "lambda-dynamodb-policy"
+  policy = data.aws_iam_policy_document.lambda_dynamodb.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_dynamodb" {
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = aws_iam_policy.lambda_dynamodb.arn
+}
 #  *** Turning function code into zip files. ***
 # ----------------------------------------------------
 
@@ -67,6 +92,7 @@ resource "aws_lambda_function" "sqs_to_lambda_worker" {
       ENVIRONMENT = "production"
       LOG_LEVEL   = "info"
       QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
+      DYNAMODB_TABLE_ARN = aws_dynamodb_table.userevents-dynamodb-table.arn
     }
   }
 
@@ -92,6 +118,7 @@ resource "aws_lambda_function" "example" {
       ENVIRONMENT = "production"
       LOG_LEVEL   = "info"
       QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
+      DYNAMODB_TABLE_ARN = aws_dynamodb_table.userevents-dynamodb-table.arn
     }
   }
 

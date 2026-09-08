@@ -5,12 +5,12 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res, err) => function __init() {
-  if (err) throw err[0];
+var __esm = (fn, res, err2) => function __init() {
+  if (err2) throw err2[0];
   try {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   } catch (e5) {
-    throw err = [e5], e5;
+    throw err2 = [e5], e5;
   }
 };
 var __commonJS = (cb, mod) => function __require() {
@@ -816,7 +816,7 @@ var init_poller = __esm({
     init_circularReplacer();
     init_sleep();
     init_waiter();
-    runPolling = async ({ minDelay, maxDelay, maxWaitTime, abortController, client, abortSignal }, input, acceptorChecks) => {
+    runPolling = async ({ minDelay, maxDelay, maxWaitTime, abortController, client: client2, abortSignal }, input, acceptorChecks) => {
       const observedResponses = {};
       const [minDelayMs, maxDelayMs] = [minDelay * 1e3, maxDelay * 1e3];
       let currentAttempt = 0;
@@ -837,7 +837,7 @@ var init_poller = __esm({
           }
           await sleep(delayMs / 1e3);
         }
-        const { state: state2, reason } = await acceptorChecks(client, input);
+        const { state: state2, reason } = await acceptorChecks(client2, input);
         if (reason) {
           const message = createMessageFromResponse(reason);
           observedResponses[message] |= 0;
@@ -848,12 +848,12 @@ var init_poller = __esm({
         }
         currentAttempt += 1;
         if (!didWarn403 && Date.now() >= warn403Time) {
-          checkWarn403(observedResponses, client);
+          checkWarn403(observedResponses, client2);
           didWarn403 = true;
         }
       }
     };
-    checkWarn403 = (observedResponses = {}, client) => {
+    checkWarn403 = (observedResponses = {}, client2) => {
       const orderedErrors = Object.keys(observedResponses);
       let maxCount = 0;
       let count403 = 0;
@@ -864,7 +864,7 @@ var init_poller = __esm({
           count403 += n3;
         }
       }
-      const clientLogger = client?.config?.logger;
+      const clientLogger = client2?.config?.logger;
       const warningLogger = typeof clientLogger?.warn === "function" && !clientLogger.constructor?.name?.includes?.("NoOpLogger") ? clientLogger : console;
       if (count403 >= 3 || orderedErrors[orderedErrors.length - 1]?.startsWith("403:")) {
         warningLogger.warn(`@smithy/util-waiter WARN - 403 status code encountered during waiter polling.`);
@@ -1015,7 +1015,7 @@ var init_client = __esm({
           handler2 = command5.resolveMiddleware(this.middlewareStack, this.config, options);
         }
         if (callback) {
-          handler2(command5).then((result) => callback(null, result.output), (err) => callback(err)).catch(() => {
+          handler2(command5).then((result) => callback(null, result.output), (err2) => callback(err2)).catch(() => {
           });
         } else {
           return handler2(command5).then((result) => result.output);
@@ -3675,12 +3675,12 @@ var init_chain = __esm({
         try {
           const credentials = await provider();
           return credentials;
-        } catch (err) {
-          lastProviderError = err;
-          if (err?.tryNextLink) {
+        } catch (err2) {
+          lastProviderError = err2;
+          if (err2?.tryNextLink) {
             continue;
           }
-          throw err;
+          throw err2;
         }
       }
       throw lastProviderError;
@@ -4388,8 +4388,8 @@ var init_getInstanceMetadataRegion = __esm({
           timeout: TIMEOUT_MS,
           signal: AbortSignal.timeout(TIMEOUT_MS)
         });
-        req.on("error", (err) => {
-          reject(err);
+        req.on("error", (err2) => {
+          reject(err2);
           req.destroy();
         });
         req.on("timeout", () => {
@@ -6629,9 +6629,9 @@ var init_headStream = __esm({
         const collector = new Collector();
         collector.limit = bytes;
         stream.pipe(collector);
-        stream.on("error", (err) => {
+        stream.on("error", (err2) => {
           collector.end();
-          reject(err);
+          reject(err2);
         });
         collector.on("error", reject);
         collector.on("finish", function() {
@@ -6792,9 +6792,9 @@ var init_stream_collector = __esm({
         const collector = new Collector2();
         const nodeStream = stream;
         nodeStream.pipe(collector);
-        nodeStream.on("error", (err) => {
+        nodeStream.on("error", (err2) => {
           collector.end();
-          reject(err);
+          reject(err2);
         });
         collector.on("error", reject);
         collector.on("finish", function() {
@@ -7112,8 +7112,8 @@ var init_HashCalculator = __esm({
       _write(chunk, encoding, callback) {
         try {
           this.hash.update(toUint8Array(chunk));
-        } catch (err) {
-          return callback(err);
+        } catch (err2) {
+          return callback(err2);
         }
         callback();
       }
@@ -7139,9 +7139,9 @@ var init_fileStreamHasher = __esm({
       const hash = new hashCtor();
       const hashCalculator = new HashCalculator(hash);
       fileStreamTee.pipe(hashCalculator);
-      fileStreamTee.on("error", (err) => {
+      fileStreamTee.on("error", (err2) => {
         hashCalculator.end();
-        reject(err);
+        reject(err2);
       });
       hashCalculator.on("error", reject);
       hashCalculator.on("finish", function() {
@@ -7165,9 +7165,9 @@ var init_readableStreamHasher = __esm({
       const hashCalculator = new HashCalculator(hash);
       readableStream.pipe(hashCalculator);
       return new Promise((resolve, reject) => {
-        readableStream.on("error", (err) => {
+        readableStream.on("error", (err2) => {
           hashCalculator.end();
-          reject(err);
+          reject(err2);
         });
         hashCalculator.on("error", reject);
         hashCalculator.on("finish", () => {
@@ -8400,12 +8400,12 @@ async function* readableToIterable(readStream) {
   let streamEnded = false;
   let generationEnded = false;
   const records = new Array();
-  readStream.on("error", (err) => {
+  readStream.on("error", (err2) => {
     if (!streamEnded) {
       streamEnded = true;
     }
-    if (err) {
-      throw err;
+    if (err2) {
+      throw err2;
     }
   });
   readStream.on("data", (data) => {
@@ -10732,23 +10732,23 @@ var init_StandardRetryStrategy2 = __esm({
             output.$metadata.totalRetryDelay = totalDelay;
             return { response, output };
           } catch (e5) {
-            const err = asSdkError(e5);
+            const err2 = asSdkError(e5);
             attempts++;
-            if (this.shouldRetry(err, attempts, maxAttempts)) {
-              retryTokenAmount = this.retryQuota.retrieveRetryTokens(err);
-              const delayFromDecider = this.delayDecider(isThrottlingError(err) ? THROTTLING_RETRY_DELAY_BASE : DEFAULT_RETRY_DELAY_BASE, attempts);
-              const delayFromResponse = getDelayFromRetryAfterHeader(err.$response);
+            if (this.shouldRetry(err2, attempts, maxAttempts)) {
+              retryTokenAmount = this.retryQuota.retrieveRetryTokens(err2);
+              const delayFromDecider = this.delayDecider(isThrottlingError(err2) ? THROTTLING_RETRY_DELAY_BASE : DEFAULT_RETRY_DELAY_BASE, attempts);
+              const delayFromResponse = getDelayFromRetryAfterHeader(err2.$response);
               const delay = Math.max(delayFromResponse || 0, delayFromDecider);
               totalDelay += delay;
               await new Promise((resolve) => setTimeout(resolve, delay));
               continue;
             }
-            if (!err.$metadata) {
-              err.$metadata = {};
+            if (!err2.$metadata) {
+              err2.$metadata = {};
             }
-            err.$metadata.attempts = attempts;
-            err.$metadata.totalRetryDelay = totalDelay;
-            throw err;
+            err2.$metadata.attempts = attempts;
+            err2.$metadata.totalRetryDelay = totalDelay;
+            throw err2;
           }
         }
       }
@@ -11540,10 +11540,10 @@ function createPaginator(ClientCtor, CommandCtor, inputTokenName, outputTokenNam
 var makePagedClientRequest, get;
 var init_createPaginator = __esm({
   "node_modules/@smithy/core/dist-es/legacy-root-exports/pagination/createPaginator.js"() {
-    makePagedClientRequest = async (CommandCtor, client, input, withCommand = (_) => _, ...args) => {
+    makePagedClientRequest = async (CommandCtor, client2, input, withCommand = (_) => _, ...args) => {
       let command5 = new CommandCtor(input);
       command5 = withCommand(command5) ?? command5;
-      return await client.send(command5, ...args);
+      return await client2.send(command5, ...args);
     };
     get = (fromObject, path) => {
       let cursor2 = fromObject;
@@ -14779,8 +14779,8 @@ var require_dist_cjs5 = __commonJS({
           ...options,
           hostname: options.hostname?.replace(/^\[(.+)\]$/, "$1")
         });
-        req.on("error", (err) => {
-          reject(Object.assign(new ProviderError2("Unable to connect to instance metadata service"), err));
+        req.on("error", (err2) => {
+          reject(Object.assign(new ProviderError2("Unable to connect to instance metadata service"), err2));
           req.destroy();
         });
         req.on("timeout", () => {
@@ -15013,11 +15013,11 @@ For more information, please visit: ` + STATIC_STABILITY_DOC_URL);
           let profile2;
           try {
             profile2 = await getProfile(options);
-          } catch (err) {
-            if (err.statusCode === 401) {
+          } catch (err2) {
+            if (err2.statusCode === 401) {
               disableFetchToken = false;
             }
-            throw err;
+            throw err2;
           }
           return profile2;
         }, maxRetries2)).trim();
@@ -15025,11 +15025,11 @@ For more information, please visit: ` + STATIC_STABILITY_DOC_URL);
           let creds;
           try {
             creds = await getCredentialsFromProfile(imdsProfile, options, init);
-          } catch (err) {
-            if (err.statusCode === 401) {
+          } catch (err2) {
+            if (err2.statusCode === 401) {
               disableFetchToken = false;
             }
-            throw err;
+            throw err2;
           }
           return creds;
         }, maxRetries2);
@@ -15436,11 +15436,11 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
             });
             resolve({ response: httpResponse });
           });
-          req.on("error", (err) => {
-            if (NODEJS_TIMEOUT_ERROR_CODES2.includes(err.code)) {
-              reject(Object.assign(err, { name: "TimeoutError" }));
+          req.on("error", (err2) => {
+            if (NODEJS_TIMEOUT_ERROR_CODES2.includes(err2.code)) {
+              reject(Object.assign(err2, { name: "TimeoutError" }));
             } else {
-              reject(err);
+              reject(err2);
             }
           });
           if (abortSignal) {
@@ -15643,8 +15643,8 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
         const ref = new ClientHttp2SessionRef(this.connect(url));
         const session = ref.deref();
         if (this.config.maxConcurrency) {
-          session.settings({ maxConcurrentStreams: this.config.maxConcurrency }, (err) => {
-            if (err) {
+          session.settings({ maxConcurrentStreams: this.config.maxConcurrency }, (err2) => {
+            if (err2) {
               throw new Error("Fail to set maxConcurrentStreams to " + this.config.maxConcurrency + "when creating new session for " + requestContext.destination.toString());
             }
           });
@@ -15822,12 +15822,12 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
           };
           const ref = useIsolatedSession ? this.connectionManager.createIsolatedSession(requestContext, connectConfig) : this.connectionManager.lease(requestContext, connectConfig);
           const session = ref.deref();
-          const rejectWithDestroy = (err) => {
+          const rejectWithDestroy = (err2) => {
             if (useIsolatedSession) {
               ref.destroy();
             }
             fulfilled = true;
-            reject(err);
+            reject(err2);
           };
           const queryString = query ? buildQueryString2(query) : "";
           let path = request.path;
@@ -25429,7 +25429,7 @@ var require_dist_cjs12 = __commonJS({
         };
         const requestHandler = isH22(this.callerClientConfig?.requestHandler) ? void 0 : this.callerClientConfig?.requestHandler;
         const region = this.profileData.region ?? await this.callerClientConfig?.region?.() ?? process.env.AWS_REGION;
-        const client = new SigninClient2({
+        const client2 = new SigninClient2({
           credentials: {
             accessKeyId: "",
             secretAccessKey: ""
@@ -25440,7 +25440,7 @@ var require_dist_cjs12 = __commonJS({
           userAgentAppId,
           ...this.init?.clientConfig
         });
-        this.createDPoPInterceptor(client.middlewareStack);
+        this.createDPoPInterceptor(client2.middlewareStack);
         const commandInput = {
           tokenInput: {
             clientId: freshToken.clientId,
@@ -25449,7 +25449,7 @@ var require_dist_cjs12 = __commonJS({
           }
         };
         try {
-          const response = await client.send(new CreateOAuth2TokenCommand2(commandInput));
+          const response = await client2.send(new CreateOAuth2TokenCommand2(commandInput));
           const { accessKeyId, secretAccessKey, sessionToken } = response.tokenOutput?.accessToken ?? {};
           const { refreshToken, expiresIn } = response.tokenOutput ?? {};
           if (!accessKeyId || !secretAccessKey || !sessionToken || !refreshToken) {
@@ -26053,12 +26053,12 @@ var require_dist_cjs16 = __commonJS({
       for (const provider of providers) {
         try {
           return await provider(awsIdentityProperties);
-        } catch (err) {
-          lastProviderError = err;
-          if (err?.tryNextLink) {
+        } catch (err2) {
+          lastProviderError = err2;
+          if (err2?.tryNextLink) {
             continue;
           }
-          throw err;
+          throw err2;
         }
       }
       throw lastProviderError;
@@ -28306,6 +28306,8488 @@ var require_dist_cjs17 = __commonJS({
   }
 });
 
+// node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/AccountIdEndpointModeConstants.js
+function validateAccountIdEndpointMode(value) {
+  return ACCOUNT_ID_ENDPOINT_MODE_VALUES.includes(value);
+}
+var DEFAULT_ACCOUNT_ID_ENDPOINT_MODE, ACCOUNT_ID_ENDPOINT_MODE_VALUES;
+var init_AccountIdEndpointModeConstants = __esm({
+  "node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/AccountIdEndpointModeConstants.js"() {
+    DEFAULT_ACCOUNT_ID_ENDPOINT_MODE = "preferred";
+    ACCOUNT_ID_ENDPOINT_MODE_VALUES = ["disabled", "preferred", "required"];
+  }
+});
+
+// node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/AccountIdEndpointModeConfigResolver.js
+var resolveAccountIdEndpointModeConfig;
+var init_AccountIdEndpointModeConfigResolver = __esm({
+  "node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/AccountIdEndpointModeConfigResolver.js"() {
+    init_client2();
+    init_AccountIdEndpointModeConstants();
+    resolveAccountIdEndpointModeConfig = (input) => {
+      const { accountIdEndpointMode } = input;
+      const accountIdEndpointModeProvider = normalizeProvider(accountIdEndpointMode ?? DEFAULT_ACCOUNT_ID_ENDPOINT_MODE);
+      return Object.assign(input, {
+        accountIdEndpointMode: async () => {
+          const accIdMode = await accountIdEndpointModeProvider();
+          if (!validateAccountIdEndpointMode(accIdMode)) {
+            throw new Error(`Invalid value for accountIdEndpointMode: ${accIdMode}. Valid values are: "required", "preferred", "disabled".`);
+          }
+          return accIdMode;
+        }
+      });
+    };
+  }
+});
+
+// node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/NodeAccountIdEndpointModeConfigOptions.js
+var err, _throw, ENV_ACCOUNT_ID_ENDPOINT_MODE, CONFIG_ACCOUNT_ID_ENDPOINT_MODE, NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS;
+var init_NodeAccountIdEndpointModeConfigOptions = __esm({
+  "node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/NodeAccountIdEndpointModeConfigOptions.js"() {
+    init_AccountIdEndpointModeConstants();
+    err = "Invalid AccountIdEndpointMode value";
+    _throw = (message) => {
+      throw new Error(message);
+    };
+    ENV_ACCOUNT_ID_ENDPOINT_MODE = "AWS_ACCOUNT_ID_ENDPOINT_MODE";
+    CONFIG_ACCOUNT_ID_ENDPOINT_MODE = "account_id_endpoint_mode";
+    NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS = {
+      environmentVariableSelector: (env2) => {
+        const value = env2[ENV_ACCOUNT_ID_ENDPOINT_MODE];
+        if (value && !validateAccountIdEndpointMode(value)) {
+          _throw(err);
+        }
+        return value;
+      },
+      configFileSelector: (profile) => {
+        const value = profile[CONFIG_ACCOUNT_ID_ENDPOINT_MODE];
+        if (value && !validateAccountIdEndpointMode(value)) {
+          _throw(err);
+        }
+        return value;
+      },
+      default: DEFAULT_ACCOUNT_ID_ENDPOINT_MODE
+    };
+  }
+});
+
+// node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/index.js
+var account_id_endpoint_exports = {};
+__export(account_id_endpoint_exports, {
+  ACCOUNT_ID_ENDPOINT_MODE_VALUES: () => ACCOUNT_ID_ENDPOINT_MODE_VALUES,
+  CONFIG_ACCOUNT_ID_ENDPOINT_MODE: () => CONFIG_ACCOUNT_ID_ENDPOINT_MODE,
+  DEFAULT_ACCOUNT_ID_ENDPOINT_MODE: () => DEFAULT_ACCOUNT_ID_ENDPOINT_MODE,
+  ENV_ACCOUNT_ID_ENDPOINT_MODE: () => ENV_ACCOUNT_ID_ENDPOINT_MODE,
+  NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS: () => NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS,
+  resolveAccountIdEndpointModeConfig: () => resolveAccountIdEndpointModeConfig,
+  validateAccountIdEndpointMode: () => validateAccountIdEndpointMode
+});
+var init_account_id_endpoint = __esm({
+  "node_modules/@aws-sdk/core/dist-es/submodules/account-id-endpoint/index.js"() {
+    init_AccountIdEndpointModeConfigResolver();
+    init_AccountIdEndpointModeConstants();
+    init_NodeAccountIdEndpointModeConfigOptions();
+  }
+});
+
+// node_modules/obliterator/iterator.js
+var require_iterator = __commonJS({
+  "node_modules/obliterator/iterator.js"(exports2, module2) {
+    function Iterator(next) {
+      Object.defineProperty(this, "_next", {
+        writable: false,
+        enumerable: false,
+        value: next
+      });
+      this.done = false;
+    }
+    Iterator.prototype.next = function() {
+      if (this.done)
+        return { done: true };
+      var step = this._next();
+      if (step.done)
+        this.done = true;
+      return step;
+    };
+    if (typeof Symbol !== "undefined")
+      Iterator.prototype[Symbol.iterator] = function() {
+        return this;
+      };
+    Iterator.of = function() {
+      var args = arguments, l3 = args.length, i5 = 0;
+      return new Iterator(function() {
+        if (i5 >= l3)
+          return { done: true };
+        return { done: false, value: args[i5++] };
+      });
+    };
+    Iterator.empty = function() {
+      var iterator = new Iterator(null);
+      iterator.done = true;
+      return iterator;
+    };
+    Iterator.is = function(value) {
+      if (value instanceof Iterator)
+        return true;
+      return typeof value === "object" && value !== null && typeof value.next === "function";
+    };
+    module2.exports = Iterator;
+  }
+});
+
+// node_modules/obliterator/foreach.js
+var require_foreach = __commonJS({
+  "node_modules/obliterator/foreach.js"(exports2, module2) {
+    var ARRAY_BUFFER_SUPPORT = typeof ArrayBuffer !== "undefined";
+    var SYMBOL_SUPPORT = typeof Symbol !== "undefined";
+    function forEach(iterable, callback) {
+      var iterator, k5, i5, l3, s2;
+      if (!iterable)
+        throw new Error("obliterator/forEach: invalid iterable.");
+      if (typeof callback !== "function")
+        throw new Error("obliterator/forEach: expecting a callback.");
+      if (Array.isArray(iterable) || ARRAY_BUFFER_SUPPORT && ArrayBuffer.isView(iterable) || typeof iterable === "string" || iterable.toString() === "[object Arguments]") {
+        for (i5 = 0, l3 = iterable.length; i5 < l3; i5++)
+          callback(iterable[i5], i5);
+        return;
+      }
+      if (typeof iterable.forEach === "function") {
+        iterable.forEach(callback);
+        return;
+      }
+      if (SYMBOL_SUPPORT && Symbol.iterator in iterable && typeof iterable.next !== "function") {
+        iterable = iterable[Symbol.iterator]();
+      }
+      if (typeof iterable.next === "function") {
+        iterator = iterable;
+        i5 = 0;
+        while (s2 = iterator.next(), s2.done !== true) {
+          callback(s2.value, i5);
+          i5++;
+        }
+        return;
+      }
+      for (k5 in iterable) {
+        if (iterable.hasOwnProperty(k5)) {
+          callback(iterable[k5], k5);
+        }
+      }
+      return;
+    }
+    forEach.forEachWithNullKeys = function(iterable, callback) {
+      var iterator, k5, i5, l3, s2;
+      if (!iterable)
+        throw new Error("obliterator/forEachWithNullKeys: invalid iterable.");
+      if (typeof callback !== "function")
+        throw new Error("obliterator/forEachWithNullKeys: expecting a callback.");
+      if (Array.isArray(iterable) || ARRAY_BUFFER_SUPPORT && ArrayBuffer.isView(iterable) || typeof iterable === "string" || iterable.toString() === "[object Arguments]") {
+        for (i5 = 0, l3 = iterable.length; i5 < l3; i5++)
+          callback(iterable[i5], null);
+        return;
+      }
+      if (iterable instanceof Set) {
+        iterable.forEach(function(value) {
+          callback(value, null);
+        });
+        return;
+      }
+      if (typeof iterable.forEach === "function") {
+        iterable.forEach(callback);
+        return;
+      }
+      if (SYMBOL_SUPPORT && Symbol.iterator in iterable && typeof iterable.next !== "function") {
+        iterable = iterable[Symbol.iterator]();
+      }
+      if (typeof iterable.next === "function") {
+        iterator = iterable;
+        i5 = 0;
+        while (s2 = iterator.next(), s2.done !== true) {
+          callback(s2.value, null);
+          i5++;
+        }
+        return;
+      }
+      for (k5 in iterable) {
+        if (iterable.hasOwnProperty(k5)) {
+          callback(iterable[k5], k5);
+        }
+      }
+      return;
+    };
+    module2.exports = forEach;
+  }
+});
+
+// node_modules/mnemonist/utils/typed-arrays.js
+var require_typed_arrays = __commonJS({
+  "node_modules/mnemonist/utils/typed-arrays.js"(exports2) {
+    var MAX_8BIT_INTEGER = Math.pow(2, 8) - 1;
+    var MAX_16BIT_INTEGER = Math.pow(2, 16) - 1;
+    var MAX_32BIT_INTEGER = Math.pow(2, 32) - 1;
+    var MAX_SIGNED_8BIT_INTEGER = Math.pow(2, 7) - 1;
+    var MAX_SIGNED_16BIT_INTEGER = Math.pow(2, 15) - 1;
+    var MAX_SIGNED_32BIT_INTEGER = Math.pow(2, 31) - 1;
+    exports2.getPointerArray = function(size) {
+      var maxIndex = size - 1;
+      if (maxIndex <= MAX_8BIT_INTEGER)
+        return Uint8Array;
+      if (maxIndex <= MAX_16BIT_INTEGER)
+        return Uint16Array;
+      if (maxIndex <= MAX_32BIT_INTEGER)
+        return Uint32Array;
+      return Float64Array;
+    };
+    exports2.getSignedPointerArray = function(size) {
+      var maxIndex = size - 1;
+      if (maxIndex <= MAX_SIGNED_8BIT_INTEGER)
+        return Int8Array;
+      if (maxIndex <= MAX_SIGNED_16BIT_INTEGER)
+        return Int16Array;
+      if (maxIndex <= MAX_SIGNED_32BIT_INTEGER)
+        return Int32Array;
+      return Float64Array;
+    };
+    exports2.getNumberType = function(value) {
+      if (value === (value | 0)) {
+        if (Math.sign(value) === -1) {
+          if (value <= 127 && value >= -128)
+            return Int8Array;
+          if (value <= 32767 && value >= -32768)
+            return Int16Array;
+          return Int32Array;
+        } else {
+          if (value <= 255)
+            return Uint8Array;
+          if (value <= 65535)
+            return Uint16Array;
+          return Uint32Array;
+        }
+      }
+      return Float64Array;
+    };
+    var TYPE_PRIORITY = {
+      Uint8Array: 1,
+      Int8Array: 2,
+      Uint16Array: 3,
+      Int16Array: 4,
+      Uint32Array: 5,
+      Int32Array: 6,
+      Float32Array: 7,
+      Float64Array: 8
+    };
+    exports2.getMinimalRepresentation = function(array, getter) {
+      var maxType = null, maxPriority = 0, p3, t, v, i5, l3;
+      for (i5 = 0, l3 = array.length; i5 < l3; i5++) {
+        v = getter ? getter(array[i5]) : array[i5];
+        t = exports2.getNumberType(v);
+        p3 = TYPE_PRIORITY[t.name];
+        if (p3 > maxPriority) {
+          maxPriority = p3;
+          maxType = t;
+        }
+      }
+      return maxType;
+    };
+    exports2.isTypedArray = function(value) {
+      return typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView(value);
+    };
+    exports2.concat = function() {
+      var length = 0, i5, o3, l3;
+      for (i5 = 0, l3 = arguments.length; i5 < l3; i5++)
+        length += arguments[i5].length;
+      var array = new arguments[0].constructor(length);
+      for (i5 = 0, o3 = 0; i5 < l3; i5++) {
+        array.set(arguments[i5], o3);
+        o3 += arguments[i5].length;
+      }
+      return array;
+    };
+    exports2.indices = function(length) {
+      var PointerArray = exports2.getPointerArray(length);
+      var array = new PointerArray(length);
+      for (var i5 = 0; i5 < length; i5++)
+        array[i5] = i5;
+      return array;
+    };
+  }
+});
+
+// node_modules/mnemonist/utils/iterables.js
+var require_iterables = __commonJS({
+  "node_modules/mnemonist/utils/iterables.js"(exports2) {
+    var forEach = require_foreach();
+    var typed = require_typed_arrays();
+    function isArrayLike(target) {
+      return Array.isArray(target) || typed.isTypedArray(target);
+    }
+    function guessLength(target) {
+      if (typeof target.length === "number")
+        return target.length;
+      if (typeof target.size === "number")
+        return target.size;
+      return;
+    }
+    function toArray(target) {
+      var l3 = guessLength(target);
+      var array = typeof l3 === "number" ? new Array(l3) : [];
+      var i5 = 0;
+      forEach(target, function(value) {
+        array[i5++] = value;
+      });
+      return array;
+    }
+    function toArrayWithIndices(target) {
+      var l3 = guessLength(target);
+      var IndexArray = typeof l3 === "number" ? typed.getPointerArray(l3) : Array;
+      var array = typeof l3 === "number" ? new Array(l3) : [];
+      var indices = typeof l3 === "number" ? new IndexArray(l3) : [];
+      var i5 = 0;
+      forEach(target, function(value) {
+        array[i5] = value;
+        indices[i5] = i5++;
+      });
+      return [array, indices];
+    }
+    exports2.isArrayLike = isArrayLike;
+    exports2.guessLength = guessLength;
+    exports2.toArray = toArray;
+    exports2.toArrayWithIndices = toArrayWithIndices;
+  }
+});
+
+// node_modules/mnemonist/lru-cache.js
+var require_lru_cache = __commonJS({
+  "node_modules/mnemonist/lru-cache.js"(exports2, module2) {
+    var Iterator = require_iterator();
+    var forEach = require_foreach();
+    var typed = require_typed_arrays();
+    var iterables = require_iterables();
+    function LRUCache(Keys, Values, capacity) {
+      if (arguments.length < 2) {
+        capacity = Keys;
+        Keys = null;
+        Values = null;
+      }
+      this.capacity = capacity;
+      if (typeof this.capacity !== "number" || this.capacity <= 0)
+        throw new Error("mnemonist/lru-cache: capacity should be positive number.");
+      var PointerArray = typed.getPointerArray(capacity);
+      this.forward = new PointerArray(capacity);
+      this.backward = new PointerArray(capacity);
+      this.K = typeof Keys === "function" ? new Keys(capacity) : new Array(capacity);
+      this.V = typeof Values === "function" ? new Values(capacity) : new Array(capacity);
+      this.size = 0;
+      this.head = 0;
+      this.tail = 0;
+      this.items = {};
+    }
+    LRUCache.prototype.clear = function() {
+      this.size = 0;
+      this.head = 0;
+      this.tail = 0;
+      this.items = {};
+    };
+    LRUCache.prototype.splayOnTop = function(pointer) {
+      var oldHead = this.head;
+      if (this.head === pointer)
+        return this;
+      var previous = this.backward[pointer], next = this.forward[pointer];
+      if (this.tail === pointer) {
+        this.tail = previous;
+      } else {
+        this.backward[next] = previous;
+      }
+      this.forward[previous] = next;
+      this.backward[oldHead] = pointer;
+      this.head = pointer;
+      this.forward[pointer] = oldHead;
+      return this;
+    };
+    LRUCache.prototype.set = function(key, value) {
+      var pointer = this.items[key];
+      if (typeof pointer !== "undefined") {
+        this.splayOnTop(pointer);
+        this.V[pointer] = value;
+        return;
+      }
+      if (this.size < this.capacity) {
+        pointer = this.size++;
+      } else {
+        pointer = this.tail;
+        this.tail = this.backward[pointer];
+        delete this.items[this.K[pointer]];
+      }
+      this.items[key] = pointer;
+      this.K[pointer] = key;
+      this.V[pointer] = value;
+      this.forward[pointer] = this.head;
+      this.backward[this.head] = pointer;
+      this.head = pointer;
+    };
+    LRUCache.prototype.setpop = function(key, value) {
+      var oldValue = null;
+      var oldKey = null;
+      var pointer = this.items[key];
+      if (typeof pointer !== "undefined") {
+        this.splayOnTop(pointer);
+        oldValue = this.V[pointer];
+        this.V[pointer] = value;
+        return { evicted: false, key, value: oldValue };
+      }
+      if (this.size < this.capacity) {
+        pointer = this.size++;
+      } else {
+        pointer = this.tail;
+        this.tail = this.backward[pointer];
+        oldValue = this.V[pointer];
+        oldKey = this.K[pointer];
+        delete this.items[this.K[pointer]];
+      }
+      this.items[key] = pointer;
+      this.K[pointer] = key;
+      this.V[pointer] = value;
+      this.forward[pointer] = this.head;
+      this.backward[this.head] = pointer;
+      this.head = pointer;
+      if (oldKey) {
+        return { evicted: true, key: oldKey, value: oldValue };
+      } else {
+        return null;
+      }
+    };
+    LRUCache.prototype.has = function(key) {
+      return key in this.items;
+    };
+    LRUCache.prototype.get = function(key) {
+      var pointer = this.items[key];
+      if (typeof pointer === "undefined")
+        return;
+      this.splayOnTop(pointer);
+      return this.V[pointer];
+    };
+    LRUCache.prototype.peek = function(key) {
+      var pointer = this.items[key];
+      if (typeof pointer === "undefined")
+        return;
+      return this.V[pointer];
+    };
+    LRUCache.prototype.forEach = function(callback, scope) {
+      scope = arguments.length > 1 ? scope : this;
+      var i5 = 0, l3 = this.size;
+      var pointer = this.head, keys = this.K, values = this.V, forward = this.forward;
+      while (i5 < l3) {
+        callback.call(scope, values[pointer], keys[pointer], this);
+        pointer = forward[pointer];
+        i5++;
+      }
+    };
+    LRUCache.prototype.keys = function() {
+      var i5 = 0, l3 = this.size;
+      var pointer = this.head, keys = this.K, forward = this.forward;
+      return new Iterator(function() {
+        if (i5 >= l3)
+          return { done: true };
+        var key = keys[pointer];
+        i5++;
+        if (i5 < l3)
+          pointer = forward[pointer];
+        return {
+          done: false,
+          value: key
+        };
+      });
+    };
+    LRUCache.prototype.values = function() {
+      var i5 = 0, l3 = this.size;
+      var pointer = this.head, values = this.V, forward = this.forward;
+      return new Iterator(function() {
+        if (i5 >= l3)
+          return { done: true };
+        var value = values[pointer];
+        i5++;
+        if (i5 < l3)
+          pointer = forward[pointer];
+        return {
+          done: false,
+          value
+        };
+      });
+    };
+    LRUCache.prototype.entries = function() {
+      var i5 = 0, l3 = this.size;
+      var pointer = this.head, keys = this.K, values = this.V, forward = this.forward;
+      return new Iterator(function() {
+        if (i5 >= l3)
+          return { done: true };
+        var key = keys[pointer], value = values[pointer];
+        i5++;
+        if (i5 < l3)
+          pointer = forward[pointer];
+        return {
+          done: false,
+          value: [key, value]
+        };
+      });
+    };
+    if (typeof Symbol !== "undefined")
+      LRUCache.prototype[Symbol.iterator] = LRUCache.prototype.entries;
+    LRUCache.prototype.inspect = function() {
+      var proxy = /* @__PURE__ */ new Map();
+      var iterator = this.entries(), step;
+      while (step = iterator.next(), !step.done)
+        proxy.set(step.value[0], step.value[1]);
+      Object.defineProperty(proxy, "constructor", {
+        value: LRUCache,
+        enumerable: false
+      });
+      return proxy;
+    };
+    if (typeof Symbol !== "undefined")
+      LRUCache.prototype[/* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom")] = LRUCache.prototype.inspect;
+    LRUCache.from = function(iterable, Keys, Values, capacity) {
+      if (arguments.length < 2) {
+        capacity = iterables.guessLength(iterable);
+        if (typeof capacity !== "number")
+          throw new Error("mnemonist/lru-cache.from: could not guess iterable length. Please provide desired capacity as last argument.");
+      } else if (arguments.length === 2) {
+        capacity = Keys;
+        Keys = null;
+        Values = null;
+      }
+      var cache5 = new LRUCache(Keys, Values, capacity);
+      forEach(iterable, function(value, key) {
+        cache5.set(key, value);
+      });
+      return cache5;
+    };
+    module2.exports = LRUCache;
+  }
+});
+
+// node_modules/@aws-sdk/endpoint-cache/dist-cjs/index.js
+var require_dist_cjs18 = __commonJS({
+  "node_modules/@aws-sdk/endpoint-cache/dist-cjs/index.js"(exports2) {
+    var LRUCache = require_lru_cache();
+    var EndpointCache2 = class {
+      cache;
+      constructor(capacity) {
+        this.cache = new LRUCache(capacity);
+      }
+      getEndpoint(key) {
+        const endpointsWithExpiry = this.get(key);
+        if (!endpointsWithExpiry || endpointsWithExpiry.length === 0) {
+          return void 0;
+        }
+        const endpoints = endpointsWithExpiry.map((endpoint) => endpoint.Address);
+        return endpoints[Math.floor(Math.random() * endpoints.length)];
+      }
+      get(key) {
+        if (!this.has(key)) {
+          return;
+        }
+        const value = this.cache.get(key);
+        if (!value) {
+          return;
+        }
+        const now = Date.now();
+        const endpointsWithExpiry = value.filter((endpoint) => now < endpoint.Expires);
+        if (endpointsWithExpiry.length === 0) {
+          this.delete(key);
+          return void 0;
+        }
+        return endpointsWithExpiry;
+      }
+      set(key, endpoints) {
+        const now = Date.now();
+        this.cache.set(key, endpoints.map(({ Address, CachePeriodInMinutes }) => ({
+          Address,
+          Expires: now + CachePeriodInMinutes * 60 * 1e3
+        })));
+      }
+      delete(key) {
+        this.cache.set(key, []);
+      }
+      has(key) {
+        if (!this.cache.has(key)) {
+          return false;
+        }
+        const endpoints = this.cache.peek(key);
+        if (!endpoints) {
+          return false;
+        }
+        return endpoints.length > 0;
+      }
+      clear() {
+        this.cache.clear();
+      }
+    };
+    exports2.EndpointCache = EndpointCache2;
+  }
+});
+
+// node_modules/@aws-sdk/middleware-endpoint-discovery/dist-cjs/index.js
+var require_dist_cjs19 = __commonJS({
+  "node_modules/@aws-sdk/middleware-endpoint-discovery/dist-cjs/index.js"(exports2) {
+    var { HttpRequest: HttpRequest2 } = (init_protocols(), __toCommonJS(protocols_exports));
+    var { EndpointCache: EndpointCache2 } = require_dist_cjs18();
+    var ENV_ENDPOINT_DISCOVERY = ["AWS_ENABLE_ENDPOINT_DISCOVERY", "AWS_ENDPOINT_DISCOVERY_ENABLED"];
+    var CONFIG_ENDPOINT_DISCOVERY = "endpoint_discovery_enabled";
+    var isFalsy = (value) => ["false", "0"].indexOf(value) >= 0;
+    var NODE_ENDPOINT_DISCOVERY_CONFIG_OPTIONS = {
+      environmentVariableSelector: (env2) => {
+        for (let i5 = 0; i5 < ENV_ENDPOINT_DISCOVERY.length; i5++) {
+          const envKey = ENV_ENDPOINT_DISCOVERY[i5];
+          if (envKey in env2) {
+            const value = env2[envKey];
+            if (value === "") {
+              throw Error(`Environment variable ${envKey} can't be empty of undefined, got "${value}"`);
+            }
+            return !isFalsy(value);
+          }
+        }
+      },
+      configFileSelector: (profile) => {
+        if (CONFIG_ENDPOINT_DISCOVERY in profile) {
+          const value = profile[CONFIG_ENDPOINT_DISCOVERY];
+          if (value === void 0) {
+            throw Error(`Shared config entry ${CONFIG_ENDPOINT_DISCOVERY} can't be undefined, got "${value}"`);
+          }
+          return !isFalsy(value);
+        }
+      },
+      default: void 0
+    };
+    var getCacheKey = async (commandName, config, options) => {
+      const { accessKeyId } = await config.credentials();
+      const { identifiers } = options;
+      return JSON.stringify({
+        ...accessKeyId && { accessKeyId },
+        ...identifiers && {
+          commandName,
+          identifiers: Object.entries(identifiers).sort().reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+        }
+      });
+    };
+    var requestQueue = {};
+    var updateDiscoveredEndpointInCache = async (config, options) => new Promise((resolve, reject) => {
+      const { endpointCache } = config;
+      const { cacheKey, commandName, identifiers } = options;
+      const endpoints = endpointCache.get(cacheKey);
+      if (endpoints && endpoints.length === 1 && endpoints[0].Address === "") {
+        if (options.isDiscoveredEndpointRequired) {
+          if (!requestQueue[cacheKey])
+            requestQueue[cacheKey] = [];
+          requestQueue[cacheKey].push({ resolve, reject });
+        } else {
+          resolve();
+        }
+      } else if (endpoints && endpoints.length > 0) {
+        resolve();
+      } else {
+        const placeholderEndpoints = [{ Address: "", CachePeriodInMinutes: 1 }];
+        endpointCache.set(cacheKey, placeholderEndpoints);
+        const command5 = new options.endpointDiscoveryCommandCtor({
+          Operation: commandName.slice(0, -7),
+          Identifiers: identifiers
+        });
+        const handler2 = command5.resolveMiddleware(options.clientStack, config, options.options);
+        handler2(command5).then((result) => {
+          endpointCache.set(cacheKey, result.output.Endpoints);
+          if (requestQueue[cacheKey]) {
+            requestQueue[cacheKey].forEach(({ resolve: resolve2 }) => {
+              resolve2();
+            });
+            delete requestQueue[cacheKey];
+          }
+          resolve();
+        }).catch((error2) => {
+          endpointCache.delete(cacheKey);
+          const errorToThrow = Object.assign(new Error(`The operation to discover endpoint failed. Please retry, or provide a custom endpoint and disable endpoint discovery to proceed.`), { reason: error2 });
+          if (requestQueue[cacheKey]) {
+            requestQueue[cacheKey].forEach(({ reject: reject2 }) => {
+              reject2(errorToThrow);
+            });
+            delete requestQueue[cacheKey];
+          }
+          if (options.isDiscoveredEndpointRequired) {
+            reject(errorToThrow);
+          } else {
+            endpointCache.set(cacheKey, placeholderEndpoints);
+            resolve();
+          }
+        });
+      }
+    });
+    var endpointDiscoveryMiddleware = (config, middlewareConfig) => (next, context) => async (args) => {
+      if (config.isCustomEndpoint) {
+        if (config.isClientEndpointDiscoveryEnabled) {
+          throw new Error(`Custom endpoint is supplied; endpointDiscoveryEnabled must not be true.`);
+        }
+        return next(args);
+      }
+      const { endpointDiscoveryCommandCtor } = config;
+      const { isDiscoveredEndpointRequired, identifiers } = middlewareConfig;
+      const clientName = context.clientName;
+      const commandName = context.commandName;
+      const isEndpointDiscoveryEnabled = await config.endpointDiscoveryEnabled();
+      const cacheKey = await getCacheKey(commandName, config, { identifiers });
+      if (isDiscoveredEndpointRequired) {
+        if (isEndpointDiscoveryEnabled === false) {
+          throw new Error(`Endpoint Discovery is disabled but ${commandName} on ${clientName} requires it. Please check your configurations.`);
+        }
+        await updateDiscoveredEndpointInCache(config, {
+          ...middlewareConfig,
+          commandName,
+          cacheKey,
+          endpointDiscoveryCommandCtor
+        });
+      } else if (isEndpointDiscoveryEnabled) {
+        updateDiscoveredEndpointInCache(config, {
+          ...middlewareConfig,
+          commandName,
+          cacheKey,
+          endpointDiscoveryCommandCtor
+        });
+      }
+      const { request } = args;
+      if (cacheKey && HttpRequest2.isInstance(request)) {
+        const endpoint = config.endpointCache.getEndpoint(cacheKey);
+        if (endpoint) {
+          request.hostname = endpoint;
+        }
+      }
+      return next(args);
+    };
+    var endpointDiscoveryMiddlewareOptions = {
+      name: "endpointDiscoveryMiddleware",
+      step: "build",
+      tags: ["ENDPOINT_DISCOVERY"],
+      override: true
+    };
+    var getEndpointDiscoveryPlugin = (pluginConfig, middlewareConfig) => ({
+      applyToStack: (commandStack) => {
+        commandStack.add(endpointDiscoveryMiddleware(pluginConfig, middlewareConfig), endpointDiscoveryMiddlewareOptions);
+      }
+    });
+    var getEndpointDiscoveryRequiredPlugin = (pluginConfig, middlewareConfig) => ({
+      applyToStack: (commandStack) => {
+        commandStack.add(endpointDiscoveryMiddleware(pluginConfig, { ...middlewareConfig, isDiscoveredEndpointRequired: true }), endpointDiscoveryMiddlewareOptions);
+      }
+    });
+    var getEndpointDiscoveryOptionalPlugin = (pluginConfig, middlewareConfig) => ({
+      applyToStack: (commandStack) => {
+        commandStack.add(endpointDiscoveryMiddleware(pluginConfig, { ...middlewareConfig, isDiscoveredEndpointRequired: false }), endpointDiscoveryMiddlewareOptions);
+      }
+    });
+    var resolveEndpointDiscoveryConfig = (input, { endpointDiscoveryCommandCtor }) => {
+      const { endpointCacheSize, endpointDiscoveryEnabled, endpointDiscoveryEnabledProvider } = input;
+      return Object.assign(input, {
+        endpointDiscoveryCommandCtor,
+        endpointCache: new EndpointCache2(endpointCacheSize ?? 1e3),
+        endpointDiscoveryEnabled: endpointDiscoveryEnabled !== void 0 ? () => Promise.resolve(endpointDiscoveryEnabled) : endpointDiscoveryEnabledProvider,
+        isClientEndpointDiscoveryEnabled: endpointDiscoveryEnabled !== void 0
+      });
+    };
+    exports2.NODE_ENDPOINT_DISCOVERY_CONFIG_OPTIONS = NODE_ENDPOINT_DISCOVERY_CONFIG_OPTIONS;
+    exports2.endpointDiscoveryMiddlewareOptions = endpointDiscoveryMiddlewareOptions;
+    exports2.getEndpointDiscoveryOptionalPlugin = getEndpointDiscoveryOptionalPlugin;
+    exports2.getEndpointDiscoveryPlugin = getEndpointDiscoveryPlugin;
+    exports2.getEndpointDiscoveryRequiredPlugin = getEndpointDiscoveryRequiredPlugin;
+    exports2.resolveEndpointDiscoveryConfig = resolveEndpointDiscoveryConfig;
+  }
+});
+
+// node_modules/@aws-sdk/dynamodb-codec/dist-cjs/index.js
+var require_dist_cjs20 = __commonJS({
+  "node_modules/@aws-sdk/dynamodb-codec/dist-cjs/index.js"(exports2) {
+    var { JsonCodec: JsonCodec3, JsonShapeSerializer: JsonShapeSerializer3, JsonShapeDeserializer: JsonShapeDeserializer3, JsonCodec2: JsonCodec22, JsonShapeSerializer2: JsonShapeSerializer22, JsonShapeDeserializer2: JsonShapeDeserializer22 } = (init_protocols2(), __toCommonJS(protocols_exports2));
+    var { NormalizedSchema: NormalizedSchema2 } = (init_schema(), __toCommonJS(schema_exports));
+    var { toBase64: toBase643, fromBase64: fromBase642 } = (init_serde(), __toCommonJS(serde_exports));
+    var DynamoDBJsonCodec = class extends JsonCodec3 {
+      constructor() {
+        super({
+          timestampFormat: {
+            useTrait: true,
+            default: 7
+          },
+          jsonName: false
+        });
+      }
+      createSerializer() {
+        const serializer = new DynamoDBJsonShapeSerializer(this.settings);
+        serializer.setSerdeContext(this.serdeContext);
+        return serializer;
+      }
+      createDeserializer() {
+        const deserializer = new DynamoDBJsonShapeDeserializer(this.settings);
+        deserializer.setSerdeContext(this.serdeContext);
+        return deserializer;
+      }
+    };
+    var ATTRIBUTE_VALUE$1 = "com.amazonaws.dynamodb#AttributeValue";
+    var DynamoDBJsonShapeSerializer = class extends JsonShapeSerializer3 {
+      _write(schema, value, container) {
+        const ns = NormalizedSchema2.of(schema);
+        if (ns.isStructSchema() && ns.getName(true) === ATTRIBUTE_VALUE$1) {
+          if (value && typeof value === "object") {
+            const av = value;
+            const out = this.copyRemoveNulls(av);
+            const base64Encode = this.serdeContext?.base64Encoder ?? toBase643;
+            if (av.B instanceof Uint8Array) {
+              out.B = base64Encode(av.B);
+            }
+            if (Array.isArray(av.BS)) {
+              out.BS = av.BS.map(base64Encode);
+            }
+            if (Array.isArray(av.L)) {
+              const list2 = [];
+              for (const v of av.L) {
+                if (v != null) {
+                  list2.push(this._write(ns, v, container));
+                }
+              }
+              out.L = list2;
+            }
+            if (av.M && typeof av.M === "object") {
+              out.M = {};
+              for (const [k5, v] of Object.entries(av.M)) {
+                if (v != null) {
+                  out.M[k5] = this._write(ns, v, container);
+                }
+              }
+            }
+            return out;
+          }
+        }
+        return super._write(ns, value, container);
+      }
+      copyRemoveNulls(v) {
+        if (typeof v !== "object") {
+          return v;
+        }
+        if (v === null) {
+          return {};
+        }
+        if (Array.isArray(v)) {
+          const out2 = [];
+          for (const item of v) {
+            if (item != null) {
+              out2.push(this.copyRemoveNulls(item));
+            }
+          }
+          return out2;
+        }
+        const out = {};
+        for (const [k5, _v] of Object.entries(v)) {
+          if (_v != null) {
+            if (["B", "BS", "L", "M"].includes(k5)) {
+              continue;
+            }
+            out[k5] = this.copyRemoveNulls(_v);
+          }
+        }
+        return out;
+      }
+    };
+    var DynamoDBJsonShapeDeserializer = class extends JsonShapeDeserializer3 {
+      _read(schema, value) {
+        const ns = NormalizedSchema2.of(schema);
+        if (ns.isStructSchema() && ns.getName(true) === ATTRIBUTE_VALUE$1) {
+          if (value && typeof value === "object") {
+            const av = value;
+            const out = av;
+            const base64Decoder = this.serdeContext?.base64Decoder ?? fromBase642;
+            if (typeof av.B === "string") {
+              out.B = base64Decoder(av.B);
+            }
+            if (Array.isArray(av.BS)) {
+              out.BS = av.BS.map(base64Decoder);
+            }
+            if (Array.isArray(av.L)) {
+              out.L = av.L.map((v) => this._read(ns, v));
+            }
+            if (av.M && typeof av.M === "object") {
+              for (const [k5, v] of Object.entries(av.M)) {
+                out.M[k5] = this._read(ns, v);
+              }
+            }
+            return out;
+          }
+        }
+        return super._read(ns, value);
+      }
+    };
+    var ATTRIBUTE_VALUE = "com.amazonaws.dynamodb#AttributeValue";
+    var DynamoDBJsonShapeSerializer2 = class extends JsonShapeSerializer22 {
+      writeValue(schema, value, container) {
+        if (value != null && typeof value === "object") {
+          const ns = NormalizedSchema2.of(schema);
+          if (ns.isStructSchema() && ns.getName(true) === ATTRIBUTE_VALUE) {
+            this.writeAttributeValue(value);
+            return;
+          }
+        }
+        super.writeValue(schema, value, container);
+      }
+      writeAttributeValue(av) {
+        const base64Encode = this.serdeContext?.base64Encoder ?? toBase643;
+        this.writeAscii("{");
+        let first = true;
+        for (const key in av) {
+          const val = av[key];
+          if (val == null)
+            continue;
+          if (!first) {
+            this.writeAscii(",");
+          }
+          first = false;
+          this.writeAsciiQuoted(key);
+          this.writeAscii(":");
+          switch (key) {
+            case "B":
+              if (val instanceof Uint8Array) {
+                this.writeBase64(val);
+              } else {
+                this.writeJsonString(val);
+              }
+              break;
+            case "BS":
+              this.writeAscii("[");
+              {
+                const arr = val;
+                for (let i5 = 0; i5 < arr.length; i5++) {
+                  if (i5 > 0)
+                    this.writeAscii(",");
+                  const item = arr[i5];
+                  if (item instanceof Uint8Array) {
+                    this.writeBase64(item);
+                  } else {
+                    this.writeJsonString(base64Encode(item));
+                  }
+                }
+              }
+              this.writeAscii("]");
+              break;
+            case "L":
+              this.writeAscii("[");
+              {
+                const arr = val;
+                for (let i5 = 0; i5 < arr.length; i5++) {
+                  if (i5 > 0)
+                    this.writeAscii(",");
+                  if (arr[i5] != null) {
+                    this.writeAttributeValue(arr[i5]);
+                  } else {
+                    this.writeAscii("null");
+                  }
+                }
+              }
+              this.writeAscii("]");
+              break;
+            case "M":
+              this.writeAscii("{");
+              {
+                const map3 = val;
+                let mapFirst = true;
+                for (const k5 in map3) {
+                  if (map3[k5] == null)
+                    continue;
+                  if (!mapFirst)
+                    this.writeAscii(",");
+                  mapFirst = false;
+                  this.writeJsonString(k5);
+                  this.writeAscii(":");
+                  this.writeAttributeValue(map3[k5]);
+                }
+              }
+              this.writeAscii("}");
+              break;
+            case "SS":
+            case "NS":
+              this.writeAscii("[");
+              {
+                const arr = val;
+                for (let i5 = 0; i5 < arr.length; i5++) {
+                  if (i5 > 0)
+                    this.writeAscii(",");
+                  this.writeJsonString(arr[i5]);
+                }
+              }
+              this.writeAscii("]");
+              break;
+            case "S":
+            case "N":
+              this.writeJsonString(val);
+              break;
+            case "BOOL":
+              this.writeAscii(val ? "true" : "false");
+              break;
+            case "NULL":
+              this.writeAscii(val ? "true" : "false");
+              break;
+            default:
+              this.writeAscii(JSON.stringify(val));
+              break;
+          }
+        }
+        this.writeAscii("}");
+      }
+    };
+    var DynamoDBJsonShapeDeserializer2 = class extends JsonShapeDeserializer22 {
+      _read(schema, value) {
+        const ns = NormalizedSchema2.of(schema);
+        if (ns.isStructSchema() && ns.getName(true) === ATTRIBUTE_VALUE) {
+          if (value && typeof value === "object") {
+            return this.readAttributeValue(value);
+          }
+        }
+        return super._read(ns, value);
+      }
+      readAttributeValue(av) {
+        const base64Decode = this.serdeContext?.base64Decoder ?? fromBase642;
+        const out = av;
+        if (typeof av.B === "string") {
+          out.B = base64Decode(av.B);
+        }
+        if (Array.isArray(av.BS)) {
+          out.BS = av.BS.map(base64Decode);
+        }
+        if (Array.isArray(av.L)) {
+          out.L = av.L.map((v) => this.readAttributeValue(v));
+        }
+        if (av.M && typeof av.M === "object") {
+          const m3 = av.M;
+          for (const k5 in m3) {
+            m3[k5] = this.readAttributeValue(m3[k5]);
+          }
+        }
+        return out;
+      }
+    };
+    var DynamoDBJsonCodec2 = class extends JsonCodec22 {
+      constructor() {
+        super({
+          timestampFormat: {
+            useTrait: true,
+            default: 7
+          },
+          jsonName: false
+        });
+      }
+      createSerializer() {
+        const serializer = new DynamoDBJsonShapeSerializer2(this.settings);
+        serializer.setSerdeContext(this.serdeContext);
+        return serializer;
+      }
+      createDeserializer() {
+        const deserializer = new DynamoDBJsonShapeDeserializer2(this.settings);
+        deserializer.setSerdeContext(this.serdeContext);
+        return deserializer;
+      }
+    };
+    exports2.DynamoDBJsonCodec = DynamoDBJsonCodec;
+    exports2.DynamoDBJsonCodec2 = DynamoDBJsonCodec2;
+  }
+});
+
+// node_modules/@aws-sdk/client-dynamodb/dist-cjs/index.js
+var require_dist_cjs21 = __commonJS({
+  "node_modules/@aws-sdk/client-dynamodb/dist-cjs/index.js"(exports2) {
+    var { NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS: NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS2, resolveAccountIdEndpointModeConfig: resolveAccountIdEndpointModeConfig2 } = (init_account_id_endpoint(), __toCommonJS(account_id_endpoint_exports));
+    var { awsEndpointFunctions: awsEndpointFunctions2, emitWarningIfUnsupportedVersion: emitWarningIfUnsupportedVersion$1, createDefaultUserAgentProvider: createDefaultUserAgentProvider2, NODE_APP_ID_CONFIG_OPTIONS: NODE_APP_ID_CONFIG_OPTIONS2, getAwsRegionExtensionConfiguration: getAwsRegionExtensionConfiguration2, resolveAwsRegionExtensionConfiguration: resolveAwsRegionExtensionConfiguration2, resolveUserAgentConfig: resolveUserAgentConfig2, resolveHostHeaderConfig: resolveHostHeaderConfig2, getUserAgentPlugin: getUserAgentPlugin2, getHostHeaderPlugin: getHostHeaderPlugin2, getLoggerPlugin: getLoggerPlugin2, getRecursionDetectionPlugin: getRecursionDetectionPlugin2 } = (init_client3(), __toCommonJS(client_exports2));
+    var { NODE_ENDPOINT_DISCOVERY_CONFIG_OPTIONS, resolveEndpointDiscoveryConfig } = require_dist_cjs19();
+    var { getHttpAuthSchemeEndpointRuleSetPlugin: getHttpAuthSchemeEndpointRuleSetPlugin2, DefaultIdentityProviderConfig: DefaultIdentityProviderConfig2, getHttpSigningPlugin: getHttpSigningPlugin2, createPaginator: createPaginator2 } = (init_dist_es(), __toCommonJS(dist_es_exports));
+    var { normalizeProvider: normalizeProvider3, getSmithyContext: getSmithyContext2, makeBuilder: makeBuilder2, ServiceException: ServiceException2, NoOpLogger: NoOpLogger2, emitWarningIfUnsupportedVersion: emitWarningIfUnsupportedVersion3, loadConfigsForDefaultMode: loadConfigsForDefaultMode2, getDefaultExtensionConfiguration: getDefaultExtensionConfiguration2, resolveDefaultRuntimeConfig: resolveDefaultRuntimeConfig2, Client: Client2, createWaiter: createWaiter2, checkExceptions: checkExceptions2, WaiterState: WaiterState2, createAggregatedClient: createAggregatedClient2 } = (init_client2(), __toCommonJS(client_exports));
+    var { Command: $Command } = (init_client2(), __toCommonJS(client_exports));
+    exports2.$Command = $Command;
+    exports2.__Client = Client2;
+    var { resolveDefaultsModeConfig: resolveDefaultsModeConfig2, loadConfig: loadConfig2, NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS: NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS2, NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS: NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS2, NODE_REGION_CONFIG_OPTIONS: NODE_REGION_CONFIG_OPTIONS2, NODE_REGION_CONFIG_FILE_OPTIONS: NODE_REGION_CONFIG_FILE_OPTIONS2, resolveRegionConfig: resolveRegionConfig2 } = (init_config2(), __toCommonJS(config_exports));
+    var { getEndpointPlugin: getEndpointPlugin2, BinaryDecisionDiagram: BinaryDecisionDiagram2, EndpointCache: EndpointCache2, decideEndpoint: decideEndpoint2, customEndpointFunctions: customEndpointFunctions2, resolveEndpointConfig: resolveEndpointConfig2 } = (init_endpoints(), __toCommonJS(endpoints_exports));
+    var { parseUrl: parseUrl2, getHttpHandlerExtensionConfiguration: getHttpHandlerExtensionConfiguration2, resolveHttpHandlerRuntimeConfig: resolveHttpHandlerRuntimeConfig2, getContentLengthPlugin: getContentLengthPlugin2 } = (init_protocols(), __toCommonJS(protocols_exports));
+    var { DEFAULT_RETRY_MODE: DEFAULT_RETRY_MODE2, NODE_RETRY_MODE_CONFIG_OPTIONS: NODE_RETRY_MODE_CONFIG_OPTIONS2, NODE_MAX_ATTEMPT_CONFIG_OPTIONS: NODE_MAX_ATTEMPT_CONFIG_OPTIONS2, Retry: Retry2, resolveRetryConfig: resolveRetryConfig2, getRetryPlugin: getRetryPlugin2 } = (init_retry2(), __toCommonJS(retry_exports));
+    var { TypeRegistry: TypeRegistry2, getSchemaSerdePlugin: getSchemaSerdePlugin2 } = (init_schema(), __toCommonJS(schema_exports));
+    var { resolveAwsSdkSigV4Config: resolveAwsSdkSigV4Config2, AwsSdkSigV4Signer: AwsSdkSigV4Signer2, NODE_AUTH_SCHEME_PREFERENCE_OPTIONS: NODE_AUTH_SCHEME_PREFERENCE_OPTIONS2 } = (init_httpAuthSchemes2(), __toCommonJS(httpAuthSchemes_exports));
+    var { defaultProvider } = require_dist_cjs16();
+    var { toUtf8: toUtf83, fromUtf8: fromUtf83, toBase64: toBase643, fromBase64: fromBase642, calculateBodyLength: calculateBodyLength2 } = (init_serde(), __toCommonJS(serde_exports));
+    var { streamCollector: streamCollector7, NodeHttpHandler } = require_dist_cjs6();
+    var { AwsJson1_0Protocol: AwsJson1_0Protocol2 } = (init_protocols2(), __toCommonJS(protocols_exports2));
+    var { DynamoDBJsonCodec2 } = require_dist_cjs20();
+    var { Sha256 } = (init_checksum2(), __toCommonJS(checksum_exports));
+    var defaultDynamoDBHttpAuthSchemeParametersProvider = async (config, context, input) => {
+      return {
+        operation: getSmithyContext2(context).operation,
+        region: await normalizeProvider3(config.region)() || (() => {
+          throw new Error("expected `region` to be configured for `aws.auth#sigv4`");
+        })()
+      };
+    };
+    function createAwsAuthSigv4HttpAuthOption5(authParameters) {
+      return {
+        schemeId: "aws.auth#sigv4",
+        signingProperties: {
+          name: "dynamodb",
+          region: authParameters.region
+        },
+        propertiesExtractor: (config, context) => ({
+          signingProperties: {
+            config,
+            context
+          }
+        })
+      };
+    }
+    var defaultDynamoDBHttpAuthSchemeProvider = (authParameters) => {
+      const options = [];
+      switch (authParameters.operation) {
+        default: {
+          options.push(createAwsAuthSigv4HttpAuthOption5(authParameters));
+        }
+      }
+      return options;
+    };
+    var resolveHttpAuthSchemeConfig5 = (config) => {
+      const config_0 = resolveAwsSdkSigV4Config2(config);
+      return Object.assign(config_0, {
+        authSchemePreference: normalizeProvider3(config.authSchemePreference ?? [])
+      });
+    };
+    var resolveClientEndpointParameters5 = (options) => {
+      return Object.assign(options, {
+        useDualstackEndpoint: options.useDualstackEndpoint ?? false,
+        useFipsEndpoint: options.useFipsEndpoint ?? false,
+        defaultSigningName: "dynamodb"
+      });
+    };
+    var commonParams5 = {
+      UseFIPS: { type: "builtInParams", name: "useFipsEndpoint" },
+      AccountId: { type: "builtInParams", name: "accountId" },
+      Endpoint: { type: "builtInParams", name: "endpoint" },
+      Region: { type: "builtInParams", name: "region" },
+      UseDualStack: { type: "builtInParams", name: "useDualstackEndpoint" },
+      AccountIdEndpointMode: { type: "builtInParams", name: "accountIdEndpointMode" }
+    };
+    var command5 = makeBuilder2(commonParams5, "DynamoDB_20120810", "DynamoDBClient", getEndpointPlugin2);
+    var _ep05 = {};
+    var _ep12 = {
+      ResourceArnList: { type: "operationContextParams", get: (input) => Object.keys(input?.RequestItems ?? {}) }
+    };
+    var _ep2 = {
+      ResourceArn: { type: "contextParams", name: "TableName" }
+    };
+    var _ep3 = {
+      ResourceArn: { type: "contextParams", name: "GlobalTableName" }
+    };
+    var _ep4 = {
+      ResourceArn: { type: "contextParams", name: "BackupArn" }
+    };
+    var _ep5 = {
+      ResourceArn: { type: "contextParams", name: "ResourceArn" }
+    };
+    var _ep6 = {
+      ResourceArn: { type: "contextParams", name: "ExportArn" }
+    };
+    var _ep7 = {
+      ResourceArn: { type: "contextParams", name: "ImportArn" }
+    };
+    var _ep8 = {
+      ResourceArn: { type: "contextParams", name: "TableArn" }
+    };
+    var _ep9 = {
+      ResourceArn: { type: "operationContextParams", get: (input) => input?.TableCreationParameters?.TableName }
+    };
+    var _ep10 = {
+      ResourceArn: { type: "contextParams", name: "TargetTableName" }
+    };
+    var _ep11 = {
+      IsSearchOperation: { type: "staticContextParams", value: true },
+      ResourceArn: { type: "contextParams", name: "TableName" }
+    };
+    var _ep122 = {
+      ResourceArnList: { type: "operationContextParams", get: (input) => input?.TransactItems?.map((obj) => obj?.Get?.TableName) }
+    };
+    var _ep13 = {
+      ResourceArnList: { type: "operationContextParams", get: (input) => input?.TransactItems?.map((obj) => [obj?.ConditionCheck?.TableName, obj?.Put?.TableName, obj?.Delete?.TableName, obj?.Update?.TableName].filter((i6) => i6)).flat() }
+    };
+    var _mw05 = (Command2, cs, config, o4) => [];
+    var DynamoDBServiceException = class _DynamoDBServiceException extends ServiceException2 {
+      constructor(options) {
+        super(options);
+        Object.setPrototypeOf(this, _DynamoDBServiceException.prototype);
+      }
+    };
+    var BackupInUseException = class _BackupInUseException extends DynamoDBServiceException {
+      name = "BackupInUseException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "BackupInUseException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _BackupInUseException.prototype);
+      }
+    };
+    var BackupNotFoundException = class _BackupNotFoundException extends DynamoDBServiceException {
+      name = "BackupNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "BackupNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _BackupNotFoundException.prototype);
+      }
+    };
+    var InternalServerError = class _InternalServerError extends DynamoDBServiceException {
+      name = "InternalServerError";
+      $fault = "server";
+      constructor(opts) {
+        super({
+          name: "InternalServerError",
+          $fault: "server",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InternalServerError.prototype);
+      }
+    };
+    var RequestLimitExceeded = class _RequestLimitExceeded extends DynamoDBServiceException {
+      name = "RequestLimitExceeded";
+      $fault = "client";
+      ThrottlingReasons;
+      constructor(opts) {
+        super({
+          name: "RequestLimitExceeded",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _RequestLimitExceeded.prototype);
+        this.ThrottlingReasons = opts.ThrottlingReasons;
+      }
+    };
+    var ThrottlingException = class _ThrottlingException extends DynamoDBServiceException {
+      name = "ThrottlingException";
+      $fault = "client";
+      throttlingReasons;
+      constructor(opts) {
+        super({
+          name: "ThrottlingException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ThrottlingException.prototype);
+        this.throttlingReasons = opts.throttlingReasons;
+      }
+    };
+    var InvalidEndpointException = class _InvalidEndpointException extends DynamoDBServiceException {
+      name = "InvalidEndpointException";
+      $fault = "client";
+      Message;
+      constructor(opts) {
+        super({
+          name: "InvalidEndpointException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidEndpointException.prototype);
+        this.Message = opts.Message;
+      }
+    };
+    var ProvisionedThroughputExceededException = class _ProvisionedThroughputExceededException extends DynamoDBServiceException {
+      name = "ProvisionedThroughputExceededException";
+      $fault = "client";
+      ThrottlingReasons;
+      constructor(opts) {
+        super({
+          name: "ProvisionedThroughputExceededException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ProvisionedThroughputExceededException.prototype);
+        this.ThrottlingReasons = opts.ThrottlingReasons;
+      }
+    };
+    var ResourceNotFoundException2 = class _ResourceNotFoundException extends DynamoDBServiceException {
+      name = "ResourceNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ResourceNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ResourceNotFoundException.prototype);
+      }
+    };
+    var ItemCollectionSizeLimitExceededException = class _ItemCollectionSizeLimitExceededException extends DynamoDBServiceException {
+      name = "ItemCollectionSizeLimitExceededException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ItemCollectionSizeLimitExceededException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ItemCollectionSizeLimitExceededException.prototype);
+      }
+    };
+    var ReplicatedWriteConflictException = class _ReplicatedWriteConflictException extends DynamoDBServiceException {
+      name = "ReplicatedWriteConflictException";
+      $fault = "client";
+      $retryable = {};
+      constructor(opts) {
+        super({
+          name: "ReplicatedWriteConflictException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ReplicatedWriteConflictException.prototype);
+      }
+    };
+    var ContinuousBackupsUnavailableException = class _ContinuousBackupsUnavailableException extends DynamoDBServiceException {
+      name = "ContinuousBackupsUnavailableException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ContinuousBackupsUnavailableException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ContinuousBackupsUnavailableException.prototype);
+      }
+    };
+    var LimitExceededException = class _LimitExceededException extends DynamoDBServiceException {
+      name = "LimitExceededException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "LimitExceededException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _LimitExceededException.prototype);
+      }
+    };
+    var TableInUseException = class _TableInUseException extends DynamoDBServiceException {
+      name = "TableInUseException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "TableInUseException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TableInUseException.prototype);
+      }
+    };
+    var TableNotFoundException = class _TableNotFoundException extends DynamoDBServiceException {
+      name = "TableNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "TableNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TableNotFoundException.prototype);
+      }
+    };
+    var GlobalTableAlreadyExistsException = class _GlobalTableAlreadyExistsException extends DynamoDBServiceException {
+      name = "GlobalTableAlreadyExistsException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "GlobalTableAlreadyExistsException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _GlobalTableAlreadyExistsException.prototype);
+      }
+    };
+    var ResourceInUseException = class _ResourceInUseException extends DynamoDBServiceException {
+      name = "ResourceInUseException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ResourceInUseException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ResourceInUseException.prototype);
+      }
+    };
+    var TransactionConflictException = class _TransactionConflictException extends DynamoDBServiceException {
+      name = "TransactionConflictException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "TransactionConflictException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TransactionConflictException.prototype);
+      }
+    };
+    var PolicyNotFoundException = class _PolicyNotFoundException extends DynamoDBServiceException {
+      name = "PolicyNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "PolicyNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _PolicyNotFoundException.prototype);
+      }
+    };
+    var ExportNotFoundException = class _ExportNotFoundException extends DynamoDBServiceException {
+      name = "ExportNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ExportNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ExportNotFoundException.prototype);
+      }
+    };
+    var GlobalTableNotFoundException = class _GlobalTableNotFoundException extends DynamoDBServiceException {
+      name = "GlobalTableNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "GlobalTableNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _GlobalTableNotFoundException.prototype);
+      }
+    };
+    var ImportNotFoundException = class _ImportNotFoundException extends DynamoDBServiceException {
+      name = "ImportNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ImportNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ImportNotFoundException.prototype);
+      }
+    };
+    var DuplicateItemException = class _DuplicateItemException extends DynamoDBServiceException {
+      name = "DuplicateItemException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "DuplicateItemException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _DuplicateItemException.prototype);
+      }
+    };
+    var IdempotentParameterMismatchException = class _IdempotentParameterMismatchException extends DynamoDBServiceException {
+      name = "IdempotentParameterMismatchException";
+      $fault = "client";
+      Message;
+      constructor(opts) {
+        super({
+          name: "IdempotentParameterMismatchException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _IdempotentParameterMismatchException.prototype);
+        this.Message = opts.Message;
+      }
+    };
+    var TransactionInProgressException = class _TransactionInProgressException extends DynamoDBServiceException {
+      name = "TransactionInProgressException";
+      $fault = "client";
+      Message;
+      constructor(opts) {
+        super({
+          name: "TransactionInProgressException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TransactionInProgressException.prototype);
+        this.Message = opts.Message;
+      }
+    };
+    var ExportConflictException = class _ExportConflictException extends DynamoDBServiceException {
+      name = "ExportConflictException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ExportConflictException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ExportConflictException.prototype);
+      }
+    };
+    var InvalidExportTimeException = class _InvalidExportTimeException extends DynamoDBServiceException {
+      name = "InvalidExportTimeException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "InvalidExportTimeException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidExportTimeException.prototype);
+      }
+    };
+    var PointInTimeRecoveryUnavailableException = class _PointInTimeRecoveryUnavailableException extends DynamoDBServiceException {
+      name = "PointInTimeRecoveryUnavailableException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "PointInTimeRecoveryUnavailableException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _PointInTimeRecoveryUnavailableException.prototype);
+      }
+    };
+    var ImportConflictException = class _ImportConflictException extends DynamoDBServiceException {
+      name = "ImportConflictException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ImportConflictException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ImportConflictException.prototype);
+      }
+    };
+    var TableAlreadyExistsException = class _TableAlreadyExistsException extends DynamoDBServiceException {
+      name = "TableAlreadyExistsException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "TableAlreadyExistsException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TableAlreadyExistsException.prototype);
+      }
+    };
+    var InvalidRestoreTimeException = class _InvalidRestoreTimeException extends DynamoDBServiceException {
+      name = "InvalidRestoreTimeException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "InvalidRestoreTimeException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidRestoreTimeException.prototype);
+      }
+    };
+    var ReplicaAlreadyExistsException = class _ReplicaAlreadyExistsException extends DynamoDBServiceException {
+      name = "ReplicaAlreadyExistsException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ReplicaAlreadyExistsException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ReplicaAlreadyExistsException.prototype);
+      }
+    };
+    var ReplicaNotFoundException = class _ReplicaNotFoundException extends DynamoDBServiceException {
+      name = "ReplicaNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ReplicaNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ReplicaNotFoundException.prototype);
+      }
+    };
+    var IndexNotFoundException = class _IndexNotFoundException extends DynamoDBServiceException {
+      name = "IndexNotFoundException";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "IndexNotFoundException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _IndexNotFoundException.prototype);
+      }
+    };
+    var ConditionalCheckFailedException = class _ConditionalCheckFailedException extends DynamoDBServiceException {
+      name = "ConditionalCheckFailedException";
+      $fault = "client";
+      Item;
+      constructor(opts) {
+        super({
+          name: "ConditionalCheckFailedException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ConditionalCheckFailedException.prototype);
+        this.Item = opts.Item;
+      }
+    };
+    var TransactionCanceledException = class _TransactionCanceledException extends DynamoDBServiceException {
+      name = "TransactionCanceledException";
+      $fault = "client";
+      Message;
+      CancellationReasons;
+      constructor(opts) {
+        super({
+          name: "TransactionCanceledException",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TransactionCanceledException.prototype);
+        this.Message = opts.Message;
+        this.CancellationReasons = opts.CancellationReasons;
+      }
+    };
+    var _A2 = "Action";
+    var _ABA = "ArchivalBackupArn";
+    var _ACDTP = "ApproximateCreationDateTimePrecision";
+    var _AD = "AttributeDefinition";
+    var _ADT = "ArchivalDateTime";
+    var _ADt = "AttributeDefinitions";
+    var _AM = "AttributeMap";
+    var _AMRCU = "AccountMaxReadCapacityUnits";
+    var _AMWCU = "AccountMaxWriteCapacityUnits";
+    var _AN = "AttributeName";
+    var _AR2 = "ArchivalReason";
+    var _AS = "ArchivalSummary";
+    var _ASD = "AutoScalingDisabled";
+    var _ASPD = "AutoScalingPolicyDescription";
+    var _ASPDL = "AutoScalingPolicyDescriptionList";
+    var _ASPU = "AutoScalingPolicyUpdate";
+    var _ASRA = "AutoScalingRoleArn";
+    var _ASSD = "AutoScalingSettingsDescription";
+    var _ASSU = "AutoScalingSettingsUpdate";
+    var _ASTTSPCD = "AutoScalingTargetTrackingScalingPolicyConfigurationDescription";
+    var _ASTTSPCU = "AutoScalingTargetTrackingScalingPolicyConfigurationUpdate";
+    var _AT3 = "AttributeType";
+    var _ATG = "AttributesToGet";
+    var _AU = "AttributeUpdates";
+    var _AV = "AttributeValue";
+    var _AVL = "AttributeValueList";
+    var _AVU = "AttributeValueUpdate";
+    var _Ad = "Address";
+    var _At = "Attributes";
+    var _B = "Backfilling";
+    var _BA = "BackupArn";
+    var _BCDT = "BackupCreationDateTime";
+    var _BD = "BackupDescription";
+    var _BDa = "BackupDetails";
+    var _BEDT = "BackupExpiryDateTime";
+    var _BES = "BatchExecuteStatement";
+    var _BESI = "BatchExecuteStatementInput";
+    var _BESO = "BatchExecuteStatementOutput";
+    var _BGI = "BatchGetItem";
+    var _BGII = "BatchGetItemInput";
+    var _BGIO = "BatchGetItemOutput";
+    var _BGRM = "BatchGetResponseMap";
+    var _BGRMa = "BatchGetRequestMap";
+    var _BIUE = "BackupInUseException";
+    var _BM = "BillingMode";
+    var _BMO = "BillingModeOverride";
+    var _BMS = "BillingModeSummary";
+    var _BN = "BackupName";
+    var _BNFE = "BackupNotFoundException";
+    var _BOOL = "BOOL";
+    var _BS = "BackupStatus";
+    var _BSB = "BackupSizeBytes";
+    var _BSBi = "BilledSizeBytes";
+    var _BSE = "BatchStatementError";
+    var _BSR = "BatchStatementRequest";
+    var _BSRa = "BatchStatementResponse";
+    var _BS_ = "BS";
+    var _BSa = "BackupSummary";
+    var _BSac = "BackupSummaries";
+    var _BT = "BackupType";
+    var _BWI = "BatchWriteItem";
+    var _BWII = "BatchWriteItemInput";
+    var _BWIO = "BatchWriteItemOutput";
+    var _BWIRM = "BatchWriteItemRequestMap";
+    var _B_ = "B";
+    var _C2 = "Code";
+    var _CB = "CreateBackup";
+    var _CBD = "ContinuousBackupsDescription";
+    var _CBI = "CreateBackupInput";
+    var _CBO = "CreateBackupOutput";
+    var _CBS = "ContinuousBackupsStatus";
+    var _CBUE = "ContinuousBackupsUnavailableException";
+    var _CC = "ConsumedCapacity";
+    var _CCFE = "ConditionalCheckFailedException";
+    var _CCM = "ConsumedCapacityMultiple";
+    var _CCo = "ConditionCheck";
+    var _CDT = "CreationDateTime";
+    var _CE = "ConditionExpression";
+    var _CGSIA = "CreateGlobalSecondaryIndexAction";
+    var _CGT = "CreateGlobalTable";
+    var _CGTI = "CreateGlobalTableInput";
+    var _CGTO = "CreateGlobalTableOutput";
+    var _CGTWGMA = "CreateGlobalTableWitnessGroupMemberAction";
+    var _CIA = "ContributorInsightsAction";
+    var _CIM = "ContributorInsightsMode";
+    var _CIRL = "ContributorInsightsRuleList";
+    var _CIS = "ContributorInsightsSummary";
+    var _CISo = "ContributorInsightsStatus";
+    var _CISon = "ContributorInsightsSummaries";
+    var _CO = "ComparisonOperator";
+    var _COo = "ConditionalOperator";
+    var _COs = "CsvOptions";
+    var _CPIM = "CachePeriodInMinutes";
+    var _CR = "CancellationReasons";
+    var _CRA = "CreateReplicaAction";
+    var _CRGMA = "CreateReplicationGroupMemberAction";
+    var _CRL = "CancellationReasonList";
+    var _CRSRA = "ConfirmRemoveSelfResourceAccess";
+    var _CRT = "ClientRequestToken";
+    var _CRa = "CancellationReason";
+    var _CRo = "ConsistentRead";
+    var _CT2 = "ClientToken";
+    var _CTI = "CreateTableInput";
+    var _CTO = "CreateTableOutput";
+    var _CTr = "CreateTable";
+    var _CU = "CapacityUnits";
+    var _CVIA = "CreateVectorIndexAction";
+    var _CWLGA = "CloudWatchLogGroupArn";
+    var _Ca = "Capacity";
+    var _Co = "Condition";
+    var _Cou = "Count";
+    var _Cr = "Create";
+    var _Cs = "Csv";
+    var _D = "Dimensions";
+    var _DB = "DeleteBackup";
+    var _DBI = "DeleteBackupInput";
+    var _DBIe = "DescribeBackupInput";
+    var _DBO = "DeleteBackupOutput";
+    var _DBOe = "DescribeBackupOutput";
+    var _DBe = "DescribeBackup";
+    var _DCB = "DescribeContinuousBackups";
+    var _DCBI = "DescribeContinuousBackupsInput";
+    var _DCBO = "DescribeContinuousBackupsOutput";
+    var _DCI = "DescribeContributorInsights";
+    var _DCII = "DescribeContributorInsightsInput";
+    var _DCIO = "DescribeContributorInsightsOutput";
+    var _DE = "DescribeEndpoints";
+    var _DEI = "DescribeExportInput";
+    var _DEO = "DescribeExportOutput";
+    var _DER = "DescribeEndpointsRequest";
+    var _DERe = "DescribeEndpointsResponse";
+    var _DEe = "DescribeExport";
+    var _DF = "DistanceFunction";
+    var _DGSIA = "DeleteGlobalSecondaryIndexAction";
+    var _DGT = "DescribeGlobalTable";
+    var _DGTI = "DescribeGlobalTableInput";
+    var _DGTO = "DescribeGlobalTableOutput";
+    var _DGTS = "DescribeGlobalTableSettings";
+    var _DGTSI = "DescribeGlobalTableSettingsInput";
+    var _DGTSO = "DescribeGlobalTableSettingsOutput";
+    var _DGTWGMA = "DeleteGlobalTableWitnessGroupMemberAction";
+    var _DI = "DeleteItem";
+    var _DIE = "DuplicateItemException";
+    var _DII = "DeleteItemInput";
+    var _DIIe = "DescribeImportInput";
+    var _DIO = "DeleteItemOutput";
+    var _DIOe = "DescribeImportOutput";
+    var _DIe = "DescribeImport";
+    var _DKSD = "DescribeKinesisStreamingDestination";
+    var _DKSDI = "DescribeKinesisStreamingDestinationInput";
+    var _DKSDO = "DescribeKinesisStreamingDestinationOutput";
+    var _DKSDi = "DisableKinesisStreamingDestination";
+    var _DL = "DescribeLimits";
+    var _DLI = "DescribeLimitsInput";
+    var _DLO = "DescribeLimitsOutput";
+    var _DPE = "DeletionProtectionEnabled";
+    var _DR = "DeleteRequest";
+    var _DRA = "DeleteReplicaAction";
+    var _DRGMA = "DeleteReplicationGroupMemberAction";
+    var _DRP = "DeleteResourcePolicy";
+    var _DRPI = "DeleteResourcePolicyInput";
+    var _DRPO = "DeleteResourcePolicyOutput";
+    var _DS2 = "DestinationStatus";
+    var _DSD = "DestinationStatusDescription";
+    var _DSI = "DisableScaleIn";
+    var _DT = "DeleteTable";
+    var _DTI = "DeleteTableInput";
+    var _DTIe = "DescribeTableInput";
+    var _DTO = "DeleteTableOutput";
+    var _DTOe = "DescribeTableOutput";
+    var _DTRAS = "DescribeTableReplicaAutoScaling";
+    var _DTRASI = "DescribeTableReplicaAutoScalingInput";
+    var _DTRASO = "DescribeTableReplicaAutoScalingOutput";
+    var _DTTL = "DescribeTimeToLive";
+    var _DTTLI = "DescribeTimeToLiveInput";
+    var _DTTLO = "DescribeTimeToLiveOutput";
+    var _DTe = "DescribeTable";
+    var _DVIA = "DeleteVectorIndexAction";
+    var _De = "Delimiter";
+    var _Del = "Delete";
+    var _E2 = "Error";
+    var _EA = "ExportArn";
+    var _EAM = "ExpectedAttributeMap";
+    var _EAN = "ExpressionAttributeNames";
+    var _EAV = "ExpressionAttributeValues";
+    var _EAVM = "ExpressionAttributeValueMap";
+    var _EAVx = "ExpectedAttributeValue";
+    var _EC = "ErrorCount";
+    var _ECE = "ExportConflictException";
+    var _ED = "ExportDescription";
+    var _EDx = "ExceptionDescription";
+    var _EF = "ExportFormat";
+    var _EFT = "ExportFromTime";
+    var _EKSC = "EnableKinesisStreamingConfiguration";
+    var _EKSD = "EnableKinesisStreamingDestination";
+    var _EM = "ExportManifest";
+    var _EN = "ExceptionName";
+    var _ENFE = "ExportNotFoundException";
+    var _ERDT = "EarliestRestorableDateTime";
+    var _ERI = "ExpectedRevisionId";
+    var _ES = "ExportStatus";
+    var _ESBA = "ExclusiveStartBackupArn";
+    var _ESGTN = "ExclusiveStartGlobalTableName";
+    var _ESI = "ExecuteStatementInput";
+    var _ESK = "ExclusiveStartKey";
+    var _ESO = "ExecuteStatementOutput";
+    var _ESTN = "ExclusiveStartTableName";
+    var _ESx = "ExportSummary";
+    var _ESxe = "ExecuteStatement";
+    var _ESxp = "ExportSummaries";
+    var _ET = "EndTime";
+    var _ETI = "ExecuteTransactionInput";
+    var _ETO = "ExecuteTransactionOutput";
+    var _ETT = "ExportToTime";
+    var _ETTPIT = "ExportTableToPointInTime";
+    var _ETTPITI = "ExportTableToPointInTimeInput";
+    var _ETTPITO = "ExportTableToPointInTimeOutput";
+    var _ETx = "ExportTime";
+    var _ETxe = "ExecuteTransaction";
+    var _ETxp = "ExportType";
+    var _EVT = "ExportViewType";
+    var _En = "Endpoints";
+    var _Ena = "Enabled";
+    var _End = "Endpoint";
+    var _Ex = "Expected";
+    var _Exi = "Exists";
+    var _FC = "FailureCode";
+    var _FCM = "FilterConditionMap";
+    var _FE = "FailureException";
+    var _FEi = "FilterExpression";
+    var _FM = "FailureMessage";
+    var _G = "Get";
+    var _GI = "GetItem";
+    var _GII = "GetItemInput";
+    var _GIO = "GetItemOutput";
+    var _GRP = "GetResourcePolicy";
+    var _GRPI = "GetResourcePolicyInput";
+    var _GRPO = "GetResourcePolicyOutput";
+    var _GSI = "GlobalSecondaryIndexes";
+    var _GSIASU = "GlobalSecondaryIndexAutoScalingUpdate";
+    var _GSIASUL = "GlobalSecondaryIndexAutoScalingUpdateList";
+    var _GSID = "GlobalSecondaryIndexDescription";
+    var _GSIDL = "GlobalSecondaryIndexDescriptionList";
+    var _GSII = "GlobalSecondaryIndexInfo";
+    var _GSIL = "GlobalSecondaryIndexList";
+    var _GSIO = "GlobalSecondaryIndexOverride";
+    var _GSIU = "GlobalSecondaryIndexUpdate";
+    var _GSIUL = "GlobalSecondaryIndexUpdateList";
+    var _GSIUl = "GlobalSecondaryIndexUpdates";
+    var _GSIWTD = "GlobalSecondaryIndexWarmThroughputDescription";
+    var _GSIl = "GlobalSecondaryIndex";
+    var _GT = "GlobalTable";
+    var _GTA = "GlobalTableArn";
+    var _GTAEE = "GlobalTableAlreadyExistsException";
+    var _GTBM = "GlobalTableBillingMode";
+    var _GTD = "GlobalTableDescription";
+    var _GTGSISU = "GlobalTableGlobalSecondaryIndexSettingsUpdate";
+    var _GTGSISUL = "GlobalTableGlobalSecondaryIndexSettingsUpdateList";
+    var _GTL = "GlobalTableList";
+    var _GTN = "GlobalTableName";
+    var _GTNFE = "GlobalTableNotFoundException";
+    var _GTPWCASSU = "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate";
+    var _GTPWCU = "GlobalTableProvisionedWriteCapacityUnits";
+    var _GTS = "GlobalTableStatus";
+    var _GTSA = "GlobalTableSourceArn";
+    var _GTSRM = "GlobalTableSettingsReplicationMode";
+    var _GTV = "GlobalTableVersion";
+    var _GTW = "GlobalTableWitnesses";
+    var _GTWD = "GlobalTableWitnessDescription";
+    var _GTWDL = "GlobalTableWitnessDescriptionList";
+    var _GTWGU = "GlobalTableWitnessGroupUpdate";
+    var _GTWGUL = "GlobalTableWitnessGroupUpdateList";
+    var _GTWU = "GlobalTableWitnessUpdates";
+    var _GTl = "GlobalTables";
+    var _HL = "HeaderList";
+    var _I = "Item";
+    var _IA = "ImportArn";
+    var _IAn = "IndexArn";
+    var _IC = "ItemCount";
+    var _ICE2 = "ImportConflictException";
+    var _ICK = "ItemCollectionKey";
+    var _ICKAM = "ItemCollectionKeyAttributeMap";
+    var _ICM = "ItemCollectionMetrics";
+    var _ICMM = "ItemCollectionMetricsMultiple";
+    var _ICMPT = "ItemCollectionMetricsPerTable";
+    var _ICSLEE = "ItemCollectionSizeLimitExceededException";
+    var _ICT = "InputCompressionType";
+    var _IEDT = "InaccessibleEncryptionDateTime";
+    var _IEE = "InvalidEndpointException";
+    var _IES = "IncrementalExportSpecification";
+    var _IETE = "InvalidExportTimeException";
+    var _IF = "InputFormat";
+    var _IFO = "InputFormatOptions";
+    var _IIC = "ImportedItemCount";
+    var _IL = "ItemList";
+    var _IN = "IndexName";
+    var _INFE = "ImportNotFoundException";
+    var _INFEn = "IndexNotFoundException";
+    var _IPME = "IdempotentParameterMismatchException";
+    var _IR = "ItemResponse";
+    var _IRL = "ItemResponseList";
+    var _IRTE = "InvalidRestoreTimeException";
+    var _IS = "IndexStatus";
+    var _ISB = "IndexSizeBytes";
+    var _ISE3 = "InternalServerError";
+    var _ISL = "ImportSummaryList";
+    var _ISm = "ImportSummary";
+    var _ISmp = "ImportStatus";
+    var _IT2 = "ImportTable";
+    var _ITD = "ImportTableDescription";
+    var _ITI = "ImportTableInput";
+    var _ITO = "ImportTableOutput";
+    var _It = "Items";
+    var _K2 = "Key";
+    var _KAA = "KeysAndAttributes";
+    var _KC = "KeyConditions";
+    var _KCE = "KeyConditionExpression";
+    var _KDSD = "KinesisDataStreamDestinations";
+    var _KDSDi = "KinesisDataStreamDestination";
+    var _KL = "KeyList";
+    var _KMSMKA = "KMSMasterKeyArn";
+    var _KMSMKI = "KMSMasterKeyId";
+    var _KS = "KeySchema";
+    var _KSDI = "KinesisStreamingDestinationInput";
+    var _KSDO = "KinesisStreamingDestinationOutput";
+    var _KSE = "KeySchemaElement";
+    var _KT = "KeyType";
+    var _Ke = "Keys";
+    var _L = "Limit";
+    var _LAV = "ListAttributeValue";
+    var _LB = "ListBackups";
+    var _LBI = "ListBackupsInput";
+    var _LBO = "ListBackupsOutput";
+    var _LCI = "ListContributorInsights";
+    var _LCII = "ListContributorInsightsInput";
+    var _LCIO = "ListContributorInsightsOutput";
+    var _LDDT = "LastDecreaseDateTime";
+    var _LE = "ListExports";
+    var _LEBA = "LastEvaluatedBackupArn";
+    var _LEE = "LimitExceededException";
+    var _LEGTN = "LastEvaluatedGlobalTableName";
+    var _LEI = "ListExportsInput";
+    var _LEK = "LastEvaluatedKey";
+    var _LEO = "ListExportsOutput";
+    var _LETN = "LastEvaluatedTableName";
+    var _LGT = "ListGlobalTables";
+    var _LGTI = "ListGlobalTablesInput";
+    var _LGTO = "ListGlobalTablesOutput";
+    var _LI = "ListImports";
+    var _LIDT = "LastIncreaseDateTime";
+    var _LII = "ListImportsInput";
+    var _LIO = "ListImportsOutput";
+    var _LRDT = "LatestRestorableDateTime";
+    var _LSA = "LatestStreamArn";
+    var _LSI = "LocalSecondaryIndexes";
+    var _LSID = "LocalSecondaryIndexDescription";
+    var _LSIDL = "LocalSecondaryIndexDescriptionList";
+    var _LSII = "LocalSecondaryIndexInfo";
+    var _LSIL = "LocalSecondaryIndexList";
+    var _LSIO = "LocalSecondaryIndexOverride";
+    var _LSIo = "LocalSecondaryIndex";
+    var _LSL = "LatestStreamLabel";
+    var _LT = "ListTables";
+    var _LTI = "ListTablesInput";
+    var _LTO = "ListTablesOutput";
+    var _LTOR = "ListTagsOfResource";
+    var _LTORI = "ListTagsOfResourceInput";
+    var _LTORO = "ListTagsOfResourceOutput";
+    var _LUDT = "LastUpdateDateTime";
+    var _LUTPPRDT = "LastUpdateToPayPerRequestDateTime";
+    var _L_ = "L";
+    var _M = "Message";
+    var _MAV = "MapAttributeValue";
+    var _MR = "MaxResults";
+    var _MRC = "MultiRegionConsistency";
+    var _MRRU = "MaxReadRequestUnits";
+    var _MU = "MinimumUnits";
+    var _MUa = "MaximumUnits";
+    var _MWRU = "MaxWriteRequestUnits";
+    var _M_ = "M";
+    var _N = "N";
+    var _NKA = "NonKeyAttributes";
+    var _NODT = "NumberOfDecreasesToday";
+    var _NS = "NS";
+    var _NT = "NextToken";
+    var _NULL = "NULL";
+    var _ODT = "OnDemandThroughput";
+    var _ODTO = "OnDemandThroughputOverride";
+    var _P2 = "Parameters";
+    var _PE = "ProjectionExpression";
+    var _PI2 = "PutItem";
+    var _PIC = "ProcessedItemCount";
+    var _PII = "PutItemInput";
+    var _PIIAM = "PutItemInputAttributeMap";
+    var _PIO = "PutItemOutput";
+    var _PITRD = "PointInTimeRecoveryDescription";
+    var _PITRE = "PointInTimeRecoveryEnabled";
+    var _PITRS = "PointInTimeRecoveryStatus";
+    var _PITRSo = "PointInTimeRecoverySpecification";
+    var _PITRUE = "PointInTimeRecoveryUnavailableException";
+    var _PN = "PolicyName";
+    var _PNFE = "PolicyNotFoundException";
+    var _PQLBR = "PartiQLBatchRequest";
+    var _PQLBRa = "PartiQLBatchResponse";
+    var _PR = "PutRequest";
+    var _PRCASS = "ProvisionedReadCapacityAutoScalingSettings";
+    var _PRCASSU = "ProvisionedReadCapacityAutoScalingSettingsUpdate";
+    var _PRCASU = "ProvisionedReadCapacityAutoScalingUpdate";
+    var _PRCU = "ProvisionedReadCapacityUnits";
+    var _PRP = "PutResourcePolicy";
+    var _PRPI = "PutResourcePolicyInput";
+    var _PRPO = "PutResourcePolicyOutput";
+    var _PS = "PageSize";
+    var _PSB = "ProcessedSizeBytes";
+    var _PSP = "PreparedStatementParameters";
+    var _PSa = "ParameterizedStatement";
+    var _PSar = "ParameterizedStatements";
+    var _PT = "ProvisionedThroughput";
+    var _PTD = "ProvisionedThroughputDescription";
+    var _PTEE = "ProvisionedThroughputExceededException";
+    var _PTO = "ProvisionedThroughputOverride";
+    var _PTr = "ProjectionType";
+    var _PWCASS = "ProvisionedWriteCapacityAutoScalingSettings";
+    var _PWCASSU = "ProvisionedWriteCapacityAutoScalingSettingsUpdate";
+    var _PWCASU = "ProvisionedWriteCapacityAutoScalingUpdate";
+    var _PWCU = "ProvisionedWriteCapacityUnits";
+    var _Po = "Policy";
+    var _Pr2 = "Projection";
+    var _Pu = "Put";
+    var _Q = "Query";
+    var _QF = "QueryFilter";
+    var _QI = "QueryInput";
+    var _QO = "QueryOutput";
+    var _R = "Responses";
+    var _RA2 = "ResourceArn";
+    var _RAEE = "ReplicaAlreadyExistsException";
+    var _RASD = "ReplicaAutoScalingDescription";
+    var _RASDL = "ReplicaAutoScalingDescriptionList";
+    var _RASU = "ReplicaAutoScalingUpdate";
+    var _RASUL = "ReplicaAutoScalingUpdateList";
+    var _RAe = "ReplicaArn";
+    var _RBMS = "ReplicaBillingModeSummary";
+    var _RCC = "ReturnConsumedCapacity";
+    var _RCU = "ReadCapacityUnits";
+    var _RD = "ReplicaDescription";
+    var _RDL = "ReplicaDescriptionList";
+    var _RDT = "RestoreDateTime";
+    var _RG = "ReplicationGroup";
+    var _RGSI = "ReplicaGlobalSecondaryIndex";
+    var _RGSIASD = "ReplicaGlobalSecondaryIndexAutoScalingDescription";
+    var _RGSIASDL = "ReplicaGlobalSecondaryIndexAutoScalingDescriptionList";
+    var _RGSIASU = "ReplicaGlobalSecondaryIndexAutoScalingUpdate";
+    var _RGSIASUL = "ReplicaGlobalSecondaryIndexAutoScalingUpdateList";
+    var _RGSID = "ReplicaGlobalSecondaryIndexDescription";
+    var _RGSIDL = "ReplicaGlobalSecondaryIndexDescriptionList";
+    var _RGSIL = "ReplicaGlobalSecondaryIndexList";
+    var _RGSIS = "ReplicaGlobalSecondaryIndexSettings";
+    var _RGSISD = "ReplicaGlobalSecondaryIndexSettingsDescription";
+    var _RGSISDL = "ReplicaGlobalSecondaryIndexSettingsDescriptionList";
+    var _RGSISU = "ReplicaGlobalSecondaryIndexSettingsUpdate";
+    var _RGSISUL = "ReplicaGlobalSecondaryIndexSettingsUpdateList";
+    var _RGSIU = "ReplicaGlobalSecondaryIndexUpdates";
+    var _RGU = "ReplicationGroupUpdate";
+    var _RGUL = "ReplicationGroupUpdateList";
+    var _RI = "RequestItems";
+    var _RICM = "ReturnItemCollectionMetrics";
+    var _RIDT = "ReplicaInaccessibleDateTime";
+    var _RIP = "RestoreInProgress";
+    var _RIUE = "ResourceInUseException";
+    var _RIe = "RevisionId";
+    var _RL = "ReplicaList";
+    var _RLE = "RequestLimitExceeded";
+    var _RN = "RegionName";
+    var _RNFE2 = "ReplicaNotFoundException";
+    var _RNFEe = "ResourceNotFoundException";
+    var _RP = "ResourcePolicy";
+    var _RPID = "RecoveryPeriodInDays";
+    var _RPRCASS = "ReplicaProvisionedReadCapacityAutoScalingSettings";
+    var _RPRCASSU = "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate";
+    var _RPRCASU = "ReplicaProvisionedReadCapacityAutoScalingUpdate";
+    var _RPRCU = "ReplicaProvisionedReadCapacityUnits";
+    var _RPWCASS = "ReplicaProvisionedWriteCapacityAutoScalingSettings";
+    var _RPWCU = "ReplicaProvisionedWriteCapacityUnits";
+    var _RS = "ReplicaSettings";
+    var _RSD = "ReplicaStatusDescription";
+    var _RSDL = "ReplicaSettingsDescriptionList";
+    var _RSDe = "ReplicaSettingsDescription";
+    var _RSPP = "ReplicaStatusPercentProgress";
+    var _RSU = "ReplicaSettingsUpdate";
+    var _RSUL = "ReplicaSettingsUpdateList";
+    var _RSe = "ReplicaStatus";
+    var _RSes = "RestoreSummary";
+    var _RTC = "ReplicaTableClass";
+    var _RTCS = "ReplicaTableClassSummary";
+    var _RTFB = "RestoreTableFromBackup";
+    var _RTFBI = "RestoreTableFromBackupInput";
+    var _RTFBO = "RestoreTableFromBackupOutput";
+    var _RTTPIT = "RestoreTableToPointInTime";
+    var _RTTPITI = "RestoreTableToPointInTimeInput";
+    var _RTTPITO = "RestoreTableToPointInTimeOutput";
+    var _RU = "ReplicaUpdate";
+    var _RUL = "ReplicaUpdateList";
+    var _RUPS = "ReadUnitsPerSecond";
+    var _RUe = "ReplicaUpdates";
+    var _RV = "ReturnValues";
+    var _RVOCCF = "ReturnValuesOnConditionCheckFailure";
+    var _RWCE = "ReplicatedWriteConflictException";
+    var _Re = "Replica";
+    var _Rep = "Replicas";
+    var _S = "Statements";
+    var _SA = "StreamArn";
+    var _SB = "S3Bucket";
+    var _SBA = "SourceBackupArn";
+    var _SBO = "S3BucketOwner";
+    var _SBS = "S3BucketSource";
+    var _SC = "ScannedCount";
+    var _SCE = "SearchConditionExpression";
+    var _SD = "StreamDescription";
+    var _SE = "StreamEnabled";
+    var _SERGB = "SizeEstimateRangeGB";
+    var _SF = "ScanFilter";
+    var _SI2 = "ScanInput";
+    var _SIC = "ScaleInCooldown";
+    var _SICM = "SecondaryIndexesCapacityMap";
+    var _SIF = "ScanIndexForward";
+    var _SKP = "S3KeyPrefix";
+    var _SO = "ScanOutput";
+    var _SOC = "ScaleOutCooldown";
+    var _SP = "ScalingPolicies";
+    var _SPU = "ScalingPolicyUpdate";
+    var _SPr = "S3Prefix";
+    var _SR = "SearchResults";
+    var _SRI = "SearchResultItem";
+    var _SRL = "SearchResultList";
+    var _SS = "StreamSpecification";
+    var _SSA = "S3SseAlgorithm";
+    var _SSE = "SearchSchemaElement";
+    var _SSED = "SSEDescription";
+    var _SSES = "SSESpecification";
+    var _SSESO = "SSESpecificationOverride";
+    var _SSET = "SearchSchemaElementType";
+    var _SSETy = "SSEType";
+    var _SSKKI = "S3SseKmsKeyId";
+    var _SS_ = "SS";
+    var _SSe = "SearchSchema";
+    var _ST2 = "StartTime";
+    var _STA = "SourceTableArn";
+    var _STD = "SourceTableDetails";
+    var _STFD = "SourceTableFeatureDetails";
+    var _STN = "SourceTableName";
+    var _SV = "SearchVector";
+    var _SVI = "SearchVectorsInput";
+    var _SVL = "SearchVectorList";
+    var _SVO = "SearchVectorsOutput";
+    var _SVT = "StreamViewType";
+    var _SVe = "SearchVectors";
+    var _S_ = "S";
+    var _Sc = "Score";
+    var _Sca = "Scan";
+    var _Se = "Select";
+    var _Seg = "Segment";
+    var _St = "Statement";
+    var _Sta = "Status";
+    var _T2 = "Table";
+    var _TA = "TableArn";
+    var _TAEE = "TableAlreadyExistsException";
+    var _TASD = "TableAutoScalingDescription";
+    var _TC2 = "TableClass";
+    var _TCDT = "TableCreationDateTime";
+    var _TCE = "TransactionCanceledException";
+    var _TCEr = "TransactionConflictException";
+    var _TCO = "TableClassOverride";
+    var _TCP = "TableCreationParameters";
+    var _TCS = "TableClassSummary";
+    var _TD = "TableDescription";
+    var _TE = "ThrottlingException";
+    var _TGI = "TransactGetItem";
+    var _TGII = "TransactGetItemsInput";
+    var _TGIL = "TransactGetItemList";
+    var _TGIO = "TransactGetItemsOutput";
+    var _TGIr = "TransactGetItems";
+    var _TI = "TableId";
+    var _TIPE = "TransactionInProgressException";
+    var _TIUE = "TableInUseException";
+    var _TIr = "TransactItems";
+    var _TK = "TopK";
+    var _TKa = "TagKeys";
+    var _TL = "TagList";
+    var _TMRCU = "TableMaxReadCapacityUnits";
+    var _TMWCU = "TableMaxWriteCapacityUnits";
+    var _TN = "TableName";
+    var _TNFE = "TableNotFoundException";
+    var _TNa = "TableNames";
+    var _TR = "ThrottlingReasons";
+    var _TRI = "TagResourceInput";
+    var _TRL = "ThrottlingReasonList";
+    var _TRLB = "TimeRangeLowerBound";
+    var _TRUB = "TimeRangeUpperBound";
+    var _TRa = "TagResource";
+    var _TRh = "ThrottlingReason";
+    var _TS = "TransactStatements";
+    var _TSB = "TableSizeBytes";
+    var _TSa = "TableStatus";
+    var _TSo = "TotalSegments";
+    var _TTLD = "TimeToLiveDescription";
+    var _TTLS = "TimeToLiveStatus";
+    var _TTLSi = "TimeToLiveSpecification";
+    var _TTN = "TargetTableName";
+    var _TTSPC = "TargetTrackingScalingPolicyConfiguration";
+    var _TV = "TargetValue";
+    var _TWI = "TransactWriteItem";
+    var _TWII = "TransactWriteItemsInput";
+    var _TWIL = "TransactWriteItemList";
+    var _TWIO = "TransactWriteItemsOutput";
+    var _TWIr = "TransactWriteItems";
+    var _TWTD = "TableWarmThroughputDescription";
+    var _Ta2 = "Tags";
+    var _Tag = "Tag";
+    var _U = "Update";
+    var _UCB = "UpdateContinuousBackups";
+    var _UCBI = "UpdateContinuousBackupsInput";
+    var _UCBO = "UpdateContinuousBackupsOutput";
+    var _UCI = "UpdateContributorInsights";
+    var _UCII = "UpdateContributorInsightsInput";
+    var _UCIO = "UpdateContributorInsightsOutput";
+    var _UE2 = "UpdateExpression";
+    var _UGSIA = "UpdateGlobalSecondaryIndexAction";
+    var _UGT = "UpdateGlobalTable";
+    var _UGTI = "UpdateGlobalTableInput";
+    var _UGTO = "UpdateGlobalTableOutput";
+    var _UGTS = "UpdateGlobalTableSettings";
+    var _UGTSI = "UpdateGlobalTableSettingsInput";
+    var _UGTSO = "UpdateGlobalTableSettingsOutput";
+    var _UI = "UnprocessedItems";
+    var _UII = "UpdateItemInput";
+    var _UIO = "UpdateItemOutput";
+    var _UIp = "UpdateItem";
+    var _UK = "UnprocessedKeys";
+    var _UKSC = "UpdateKinesisStreamingConfiguration";
+    var _UKSD = "UpdateKinesisStreamingDestination";
+    var _UKSDI = "UpdateKinesisStreamingDestinationInput";
+    var _UKSDO = "UpdateKinesisStreamingDestinationOutput";
+    var _ULRT = "UseLatestRestorableTime";
+    var _UR = "UntagResource";
+    var _URGMA = "UpdateReplicationGroupMemberAction";
+    var _URI = "UntagResourceInput";
+    var _UT = "UpdateTable";
+    var _UTI = "UpdateTableInput";
+    var _UTO = "UpdateTableOutput";
+    var _UTRAS = "UpdateTableReplicaAutoScaling";
+    var _UTRASI = "UpdateTableReplicaAutoScalingInput";
+    var _UTRASO = "UpdateTableReplicaAutoScalingOutput";
+    var _UTTL = "UpdateTimeToLive";
+    var _UTTLI = "UpdateTimeToLiveInput";
+    var _UTTLO = "UpdateTimeToLiveOutput";
+    var _V2 = "Value";
+    var _VA = "VectorAttribute";
+    var _VAD = "VectorAttributeDefinition";
+    var _VC = "VectorCapacity";
+    var _VI = "VectorIndexes";
+    var _VICM = "VectorIndexesCapacityMap";
+    var _VID = "VectorIndexDescription";
+    var _VIDL = "VectorIndexDescriptionList";
+    var _VII = "VectorIndexInfo";
+    var _VIL = "VectorIndexList";
+    var _VIO = "VectorIndexOverride";
+    var _VIU = "VectorIndexUpdates";
+    var _VIUL = "VectorIndexUpdateList";
+    var _VIUe = "VectorIndexUpdate";
+    var _VIe = "VectorIndex";
+    var _VSRB = "VectorSearchRequestBytes";
+    var _VWRB = "VectorWriteRequestBytes";
+    var _WCU = "WriteCapacityUnits";
+    var _WR = "WriteRequest";
+    var _WRr = "WriteRequests";
+    var _WS = "WitnessStatus";
+    var _WT = "WarmThroughput";
+    var _WUPS = "WriteUnitsPerSecond";
+    var _aQE2 = "awsQueryError";
+    var _c5 = "client";
+    var _e5 = "error";
+    var _hE5 = "httpError";
+    var _hH2 = "httpHeader";
+    var _m4 = "message";
+    var _r3 = "reason";
+    var _re = "resource";
+    var _s5 = "smithy.ts.sdk.synthetic.com.amazonaws.dynamodb";
+    var _se3 = "server";
+    var _tR = "throttlingReasons";
+    var _xacrsra = "x-amz-confirm-remove-self-resource-access";
+    var n05 = "com.amazonaws.dynamodb";
+    var _s_registry5 = TypeRegistry2.for(_s5);
+    var DynamoDBServiceException$ = [-3, _s5, "DynamoDBServiceException", 0, [], []];
+    _s_registry5.registerError(DynamoDBServiceException$, DynamoDBServiceException);
+    var n0_registry5 = TypeRegistry2.for(n05);
+    var BackupInUseException$ = [
+      -3,
+      n05,
+      _BIUE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(BackupInUseException$, BackupInUseException);
+    var BackupNotFoundException$ = [
+      -3,
+      n05,
+      _BNFE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(BackupNotFoundException$, BackupNotFoundException);
+    var ConditionalCheckFailedException$ = [
+      -3,
+      n05,
+      _CCFE,
+      { [_e5]: _c5 },
+      [_m4, _I],
+      [0, () => AttributeMap]
+    ];
+    n0_registry5.registerError(ConditionalCheckFailedException$, ConditionalCheckFailedException);
+    var ContinuousBackupsUnavailableException$ = [
+      -3,
+      n05,
+      _CBUE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ContinuousBackupsUnavailableException$, ContinuousBackupsUnavailableException);
+    var DuplicateItemException$ = [
+      -3,
+      n05,
+      _DIE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(DuplicateItemException$, DuplicateItemException);
+    var ExportConflictException$ = [
+      -3,
+      n05,
+      _ECE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ExportConflictException$, ExportConflictException);
+    var ExportNotFoundException$ = [
+      -3,
+      n05,
+      _ENFE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ExportNotFoundException$, ExportNotFoundException);
+    var GlobalTableAlreadyExistsException$ = [
+      -3,
+      n05,
+      _GTAEE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(GlobalTableAlreadyExistsException$, GlobalTableAlreadyExistsException);
+    var GlobalTableNotFoundException$ = [
+      -3,
+      n05,
+      _GTNFE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(GlobalTableNotFoundException$, GlobalTableNotFoundException);
+    var IdempotentParameterMismatchException$ = [
+      -3,
+      n05,
+      _IPME,
+      { [_e5]: _c5 },
+      [_M],
+      [0]
+    ];
+    n0_registry5.registerError(IdempotentParameterMismatchException$, IdempotentParameterMismatchException);
+    var ImportConflictException$ = [
+      -3,
+      n05,
+      _ICE2,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ImportConflictException$, ImportConflictException);
+    var ImportNotFoundException$ = [
+      -3,
+      n05,
+      _INFE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ImportNotFoundException$, ImportNotFoundException);
+    var IndexNotFoundException$ = [
+      -3,
+      n05,
+      _INFEn,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(IndexNotFoundException$, IndexNotFoundException);
+    var InternalServerError$ = [
+      -3,
+      n05,
+      _ISE3,
+      { [_e5]: _se3 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(InternalServerError$, InternalServerError);
+    var InvalidEndpointException$ = [
+      -3,
+      n05,
+      _IEE,
+      { [_e5]: _c5, [_hE5]: 421 },
+      [_M],
+      [0]
+    ];
+    n0_registry5.registerError(InvalidEndpointException$, InvalidEndpointException);
+    var InvalidExportTimeException$ = [
+      -3,
+      n05,
+      _IETE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(InvalidExportTimeException$, InvalidExportTimeException);
+    var InvalidRestoreTimeException$ = [
+      -3,
+      n05,
+      _IRTE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(InvalidRestoreTimeException$, InvalidRestoreTimeException);
+    var ItemCollectionSizeLimitExceededException$ = [
+      -3,
+      n05,
+      _ICSLEE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ItemCollectionSizeLimitExceededException$, ItemCollectionSizeLimitExceededException);
+    var LimitExceededException$ = [
+      -3,
+      n05,
+      _LEE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(LimitExceededException$, LimitExceededException);
+    var PointInTimeRecoveryUnavailableException$ = [
+      -3,
+      n05,
+      _PITRUE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(PointInTimeRecoveryUnavailableException$, PointInTimeRecoveryUnavailableException);
+    var PolicyNotFoundException$ = [
+      -3,
+      n05,
+      _PNFE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(PolicyNotFoundException$, PolicyNotFoundException);
+    var ProvisionedThroughputExceededException$ = [
+      -3,
+      n05,
+      _PTEE,
+      { [_e5]: _c5 },
+      [_m4, _TR],
+      [0, () => ThrottlingReasonList]
+    ];
+    n0_registry5.registerError(ProvisionedThroughputExceededException$, ProvisionedThroughputExceededException);
+    var ReplicaAlreadyExistsException$ = [
+      -3,
+      n05,
+      _RAEE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ReplicaAlreadyExistsException$, ReplicaAlreadyExistsException);
+    var ReplicaNotFoundException$ = [
+      -3,
+      n05,
+      _RNFE2,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ReplicaNotFoundException$, ReplicaNotFoundException);
+    var ReplicatedWriteConflictException$ = [
+      -3,
+      n05,
+      _RWCE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ReplicatedWriteConflictException$, ReplicatedWriteConflictException);
+    var RequestLimitExceeded$ = [
+      -3,
+      n05,
+      _RLE,
+      { [_e5]: _c5 },
+      [_m4, _TR],
+      [0, () => ThrottlingReasonList]
+    ];
+    n0_registry5.registerError(RequestLimitExceeded$, RequestLimitExceeded);
+    var ResourceInUseException$ = [
+      -3,
+      n05,
+      _RIUE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ResourceInUseException$, ResourceInUseException);
+    var ResourceNotFoundException$2 = [
+      -3,
+      n05,
+      _RNFEe,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(ResourceNotFoundException$2, ResourceNotFoundException2);
+    var TableAlreadyExistsException$ = [
+      -3,
+      n05,
+      _TAEE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(TableAlreadyExistsException$, TableAlreadyExistsException);
+    var TableInUseException$ = [
+      -3,
+      n05,
+      _TIUE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(TableInUseException$, TableInUseException);
+    var TableNotFoundException$ = [
+      -3,
+      n05,
+      _TNFE,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(TableNotFoundException$, TableNotFoundException);
+    var ThrottlingException$ = [
+      -3,
+      n05,
+      _TE,
+      { [_aQE2]: [`Throttling`, 400], [_e5]: _c5, [_hE5]: 400 },
+      [_m4, _tR],
+      [0, () => ThrottlingReasonList]
+    ];
+    n0_registry5.registerError(ThrottlingException$, ThrottlingException);
+    var TransactionCanceledException$ = [
+      -3,
+      n05,
+      _TCE,
+      { [_e5]: _c5 },
+      [_M, _CR],
+      [0, () => CancellationReasonList]
+    ];
+    n0_registry5.registerError(TransactionCanceledException$, TransactionCanceledException);
+    var TransactionConflictException$ = [
+      -3,
+      n05,
+      _TCEr,
+      { [_e5]: _c5 },
+      [_m4],
+      [0]
+    ];
+    n0_registry5.registerError(TransactionConflictException$, TransactionConflictException);
+    var TransactionInProgressException$ = [
+      -3,
+      n05,
+      _TIPE,
+      { [_e5]: _c5 },
+      [_M],
+      [0]
+    ];
+    n0_registry5.registerError(TransactionInProgressException$, TransactionInProgressException);
+    var errorTypeRegistries5 = [
+      _s_registry5,
+      n0_registry5
+    ];
+    var ArchivalSummary$ = [
+      3,
+      n05,
+      _AS,
+      0,
+      [_ADT, _AR2, _ABA],
+      [4, 0, 0]
+    ];
+    var AttributeDefinition$ = [
+      3,
+      n05,
+      _AD,
+      0,
+      [_AN, _AT3],
+      [0, 0],
+      2
+    ];
+    var AttributeValueUpdate$ = [
+      3,
+      n05,
+      _AVU,
+      0,
+      [_V2, _A2],
+      [() => AttributeValue$, 0]
+    ];
+    var AutoScalingPolicyDescription$ = [
+      3,
+      n05,
+      _ASPD,
+      0,
+      [_PN, _TTSPC],
+      [0, () => AutoScalingTargetTrackingScalingPolicyConfigurationDescription$]
+    ];
+    var AutoScalingPolicyUpdate$ = [
+      3,
+      n05,
+      _ASPU,
+      0,
+      [_TTSPC, _PN],
+      [() => AutoScalingTargetTrackingScalingPolicyConfigurationUpdate$, 0],
+      1
+    ];
+    var AutoScalingSettingsDescription$ = [
+      3,
+      n05,
+      _ASSD,
+      0,
+      [_MU, _MUa, _ASD, _ASRA, _SP],
+      [1, 1, 2, 0, () => AutoScalingPolicyDescriptionList]
+    ];
+    var AutoScalingSettingsUpdate$ = [
+      3,
+      n05,
+      _ASSU,
+      0,
+      [_MU, _MUa, _ASD, _ASRA, _SPU],
+      [1, 1, 2, 0, () => AutoScalingPolicyUpdate$]
+    ];
+    var AutoScalingTargetTrackingScalingPolicyConfigurationDescription$ = [
+      3,
+      n05,
+      _ASTTSPCD,
+      0,
+      [_TV, _DSI, _SIC, _SOC],
+      [1, 2, 1, 1],
+      1
+    ];
+    var AutoScalingTargetTrackingScalingPolicyConfigurationUpdate$ = [
+      3,
+      n05,
+      _ASTTSPCU,
+      0,
+      [_TV, _DSI, _SIC, _SOC],
+      [1, 2, 1, 1],
+      1
+    ];
+    var BackupDescription$ = [
+      3,
+      n05,
+      _BD,
+      0,
+      [_BDa, _STD, _STFD],
+      [() => BackupDetails$, () => SourceTableDetails$, () => SourceTableFeatureDetails$]
+    ];
+    var BackupDetails$ = [
+      3,
+      n05,
+      _BDa,
+      0,
+      [_BA, _BN, _BS, _BT, _BCDT, _BSB, _BEDT],
+      [0, 0, 0, 0, 4, 1, 4],
+      5
+    ];
+    var BackupSummary$ = [
+      3,
+      n05,
+      _BSa,
+      0,
+      [_TN, _TI, _TA, _BA, _BN, _BCDT, _BEDT, _BS, _BT, _BSB],
+      [0, 0, 0, 0, 0, 4, 4, 0, 0, 1]
+    ];
+    var BatchExecuteStatementInput$ = [
+      3,
+      n05,
+      _BESI,
+      0,
+      [_S, _RCC],
+      [() => PartiQLBatchRequest, 0],
+      1
+    ];
+    var BatchExecuteStatementOutput$ = [
+      3,
+      n05,
+      _BESO,
+      0,
+      [_R, _CC],
+      [() => PartiQLBatchResponse, () => ConsumedCapacityMultiple]
+    ];
+    var BatchGetItemInput$ = [
+      3,
+      n05,
+      _BGII,
+      0,
+      [_RI, _RCC],
+      [() => BatchGetRequestMap, 0],
+      1
+    ];
+    var BatchGetItemOutput$ = [
+      3,
+      n05,
+      _BGIO,
+      0,
+      [_R, _UK, _CC],
+      [() => BatchGetResponseMap, () => BatchGetRequestMap, () => ConsumedCapacityMultiple]
+    ];
+    var BatchStatementError$ = [
+      3,
+      n05,
+      _BSE,
+      0,
+      [_C2, _M, _I],
+      [0, 0, () => AttributeMap]
+    ];
+    var BatchStatementRequest$ = [
+      3,
+      n05,
+      _BSR,
+      0,
+      [_St, _P2, _CRo, _RVOCCF],
+      [0, () => PreparedStatementParameters, 2, 0],
+      1
+    ];
+    var BatchStatementResponse$ = [
+      3,
+      n05,
+      _BSRa,
+      0,
+      [_E2, _TN, _I],
+      [() => BatchStatementError$, 0, () => AttributeMap]
+    ];
+    var BatchWriteItemInput$ = [
+      3,
+      n05,
+      _BWII,
+      0,
+      [_RI, _RCC, _RICM],
+      [() => BatchWriteItemRequestMap, 0, 0],
+      1
+    ];
+    var BatchWriteItemOutput$ = [
+      3,
+      n05,
+      _BWIO,
+      0,
+      [_UI, _ICM, _CC],
+      [() => BatchWriteItemRequestMap, () => ItemCollectionMetricsPerTable, () => ConsumedCapacityMultiple]
+    ];
+    var BillingModeSummary$ = [
+      3,
+      n05,
+      _BMS,
+      0,
+      [_BM, _LUTPPRDT],
+      [0, 4]
+    ];
+    var CancellationReason$ = [
+      3,
+      n05,
+      _CRa,
+      0,
+      [_I, _C2, _M],
+      [() => AttributeMap, 0, 0]
+    ];
+    var Capacity$ = [
+      3,
+      n05,
+      _Ca,
+      0,
+      [_RCU, _WCU, _CU],
+      [1, 1, 1]
+    ];
+    var Condition$ = [
+      3,
+      n05,
+      _Co,
+      0,
+      [_CO, _AVL],
+      [0, () => AttributeValueList],
+      1
+    ];
+    var ConditionCheck$ = [
+      3,
+      n05,
+      _CCo,
+      0,
+      [_K2, _TN, _CE, _EAN, _EAV, _RVOCCF],
+      [() => Key, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      3
+    ];
+    var ConsumedCapacity$ = [
+      3,
+      n05,
+      _CC,
+      0,
+      [_TN, _CU, _RCU, _WCU, _T2, _LSI, _GSI, _VI],
+      [0, 1, 1, 1, () => Capacity$, () => SecondaryIndexesCapacityMap, () => SecondaryIndexesCapacityMap, () => VectorIndexesCapacityMap]
+    ];
+    var ContinuousBackupsDescription$ = [
+      3,
+      n05,
+      _CBD,
+      0,
+      [_CBS, _PITRD],
+      [0, () => PointInTimeRecoveryDescription$],
+      1
+    ];
+    var ContributorInsightsSummary$ = [
+      3,
+      n05,
+      _CIS,
+      0,
+      [_TN, _IN, _CISo, _CIM],
+      [0, 0, 0, 0]
+    ];
+    var CreateBackupInput$ = [
+      3,
+      n05,
+      _CBI,
+      0,
+      [_TN, _BN],
+      [0, 0],
+      2
+    ];
+    var CreateBackupOutput$ = [
+      3,
+      n05,
+      _CBO,
+      0,
+      [_BDa],
+      [() => BackupDetails$]
+    ];
+    var CreateGlobalSecondaryIndexAction$ = [
+      3,
+      n05,
+      _CGSIA,
+      0,
+      [_IN, _KS, _Pr2, _PT, _ODT, _WT],
+      [0, () => KeySchema, () => Projection$, () => ProvisionedThroughput$, () => OnDemandThroughput$, () => WarmThroughput$],
+      3
+    ];
+    var CreateGlobalTableInput$ = [
+      3,
+      n05,
+      _CGTI,
+      0,
+      [_GTN, _RG],
+      [0, () => ReplicaList],
+      2
+    ];
+    var CreateGlobalTableOutput$ = [
+      3,
+      n05,
+      _CGTO,
+      0,
+      [_GTD],
+      [() => GlobalTableDescription$]
+    ];
+    var CreateGlobalTableWitnessGroupMemberAction$ = [
+      3,
+      n05,
+      _CGTWGMA,
+      0,
+      [_RN],
+      [0],
+      1
+    ];
+    var CreateReplicaAction$ = [
+      3,
+      n05,
+      _CRA,
+      0,
+      [_RN],
+      [0],
+      1
+    ];
+    var CreateReplicationGroupMemberAction$ = [
+      3,
+      n05,
+      _CRGMA,
+      0,
+      [_RN, _KMSMKI, _PTO, _ODTO, _GSI, _TCO],
+      [0, 0, () => ProvisionedThroughputOverride$, () => OnDemandThroughputOverride$, () => ReplicaGlobalSecondaryIndexList, 0],
+      1
+    ];
+    var CreateTableInput$ = [
+      3,
+      n05,
+      _CTI,
+      0,
+      [_TN, _ADt, _KS, _LSI, _GSI, _BM, _PT, _SS, _SSES, _Ta2, _TC2, _DPE, _WT, _RP, _ODT, _GTSA, _GTSRM, _VI],
+      [0, () => AttributeDefinitions, () => KeySchema, () => LocalSecondaryIndexList, () => GlobalSecondaryIndexList, 0, () => ProvisionedThroughput$, () => StreamSpecification$, () => SSESpecification$, () => TagList, 0, 2, () => WarmThroughput$, 0, () => OnDemandThroughput$, 0, 0, () => VectorIndexList],
+      1
+    ];
+    var CreateTableOutput$ = [
+      3,
+      n05,
+      _CTO,
+      0,
+      [_TD],
+      [() => TableDescription$]
+    ];
+    var CreateVectorIndexAction$ = [
+      3,
+      n05,
+      _CVIA,
+      0,
+      [_IN, _VA, _Pr2, _D, _DF, _SSe],
+      [0, () => VectorAttributeDefinition$, () => Projection$, 1, 0, () => SearchSchema],
+      5
+    ];
+    var CsvOptions$ = [
+      3,
+      n05,
+      _COs,
+      0,
+      [_De, _HL],
+      [0, 64 | 0]
+    ];
+    var Delete$ = [
+      3,
+      n05,
+      _Del,
+      0,
+      [_K2, _TN, _CE, _EAN, _EAV, _RVOCCF],
+      [() => Key, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      2
+    ];
+    var DeleteBackupInput$ = [
+      3,
+      n05,
+      _DBI,
+      0,
+      [_BA],
+      [0],
+      1
+    ];
+    var DeleteBackupOutput$ = [
+      3,
+      n05,
+      _DBO,
+      0,
+      [_BD],
+      [() => BackupDescription$]
+    ];
+    var DeleteGlobalSecondaryIndexAction$ = [
+      3,
+      n05,
+      _DGSIA,
+      0,
+      [_IN],
+      [0],
+      1
+    ];
+    var DeleteGlobalTableWitnessGroupMemberAction$ = [
+      3,
+      n05,
+      _DGTWGMA,
+      0,
+      [_RN],
+      [0],
+      1
+    ];
+    var DeleteItemInput$ = [
+      3,
+      n05,
+      _DII,
+      0,
+      [_TN, _K2, _Ex, _COo, _RV, _RCC, _RICM, _CE, _EAN, _EAV, _RVOCCF],
+      [0, () => Key, () => ExpectedAttributeMap, 0, 0, 0, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      2
+    ];
+    var DeleteItemOutput$ = [
+      3,
+      n05,
+      _DIO,
+      0,
+      [_At, _CC, _ICM],
+      [() => AttributeMap, () => ConsumedCapacity$, () => ItemCollectionMetrics$]
+    ];
+    var DeleteReplicaAction$ = [
+      3,
+      n05,
+      _DRA,
+      0,
+      [_RN],
+      [0],
+      1
+    ];
+    var DeleteReplicationGroupMemberAction$ = [
+      3,
+      n05,
+      _DRGMA,
+      0,
+      [_RN],
+      [0],
+      1
+    ];
+    var DeleteRequest$ = [
+      3,
+      n05,
+      _DR,
+      0,
+      [_K2],
+      [() => Key],
+      1
+    ];
+    var DeleteResourcePolicyInput$ = [
+      3,
+      n05,
+      _DRPI,
+      0,
+      [_RA2, _ERI],
+      [0, 0],
+      1
+    ];
+    var DeleteResourcePolicyOutput$ = [
+      3,
+      n05,
+      _DRPO,
+      0,
+      [_RIe],
+      [0]
+    ];
+    var DeleteTableInput$ = [
+      3,
+      n05,
+      _DTI,
+      0,
+      [_TN],
+      [0],
+      1
+    ];
+    var DeleteTableOutput$ = [
+      3,
+      n05,
+      _DTO,
+      0,
+      [_TD],
+      [() => TableDescription$]
+    ];
+    var DeleteVectorIndexAction$ = [
+      3,
+      n05,
+      _DVIA,
+      0,
+      [_IN],
+      [0],
+      1
+    ];
+    var DescribeBackupInput$ = [
+      3,
+      n05,
+      _DBIe,
+      0,
+      [_BA],
+      [0],
+      1
+    ];
+    var DescribeBackupOutput$ = [
+      3,
+      n05,
+      _DBOe,
+      0,
+      [_BD],
+      [() => BackupDescription$]
+    ];
+    var DescribeContinuousBackupsInput$ = [
+      3,
+      n05,
+      _DCBI,
+      0,
+      [_TN],
+      [0],
+      1
+    ];
+    var DescribeContinuousBackupsOutput$ = [
+      3,
+      n05,
+      _DCBO,
+      0,
+      [_CBD],
+      [() => ContinuousBackupsDescription$]
+    ];
+    var DescribeContributorInsightsInput$ = [
+      3,
+      n05,
+      _DCII,
+      0,
+      [_TN, _IN],
+      [0, 0],
+      1
+    ];
+    var DescribeContributorInsightsOutput$ = [
+      3,
+      n05,
+      _DCIO,
+      0,
+      [_TN, _IN, _CIRL, _CISo, _LUDT, _FE, _CIM],
+      [0, 0, 64 | 0, 0, 4, () => FailureException$, 0]
+    ];
+    var DescribeEndpointsRequest$ = [
+      3,
+      n05,
+      _DER,
+      0,
+      [],
+      []
+    ];
+    var DescribeEndpointsResponse$ = [
+      3,
+      n05,
+      _DERe,
+      0,
+      [_En],
+      [() => Endpoints],
+      1
+    ];
+    var DescribeExportInput$ = [
+      3,
+      n05,
+      _DEI,
+      0,
+      [_EA],
+      [0],
+      1
+    ];
+    var DescribeExportOutput$ = [
+      3,
+      n05,
+      _DEO,
+      0,
+      [_ED],
+      [() => ExportDescription$]
+    ];
+    var DescribeGlobalTableInput$ = [
+      3,
+      n05,
+      _DGTI,
+      0,
+      [_GTN],
+      [0],
+      1
+    ];
+    var DescribeGlobalTableOutput$ = [
+      3,
+      n05,
+      _DGTO,
+      0,
+      [_GTD],
+      [() => GlobalTableDescription$]
+    ];
+    var DescribeGlobalTableSettingsInput$ = [
+      3,
+      n05,
+      _DGTSI,
+      0,
+      [_GTN],
+      [0],
+      1
+    ];
+    var DescribeGlobalTableSettingsOutput$ = [
+      3,
+      n05,
+      _DGTSO,
+      0,
+      [_GTN, _RS],
+      [0, () => ReplicaSettingsDescriptionList]
+    ];
+    var DescribeImportInput$ = [
+      3,
+      n05,
+      _DIIe,
+      0,
+      [_IA],
+      [0],
+      1
+    ];
+    var DescribeImportOutput$ = [
+      3,
+      n05,
+      _DIOe,
+      0,
+      [_ITD],
+      [() => ImportTableDescription$],
+      1
+    ];
+    var DescribeKinesisStreamingDestinationInput$ = [
+      3,
+      n05,
+      _DKSDI,
+      0,
+      [_TN],
+      [0],
+      1
+    ];
+    var DescribeKinesisStreamingDestinationOutput$ = [
+      3,
+      n05,
+      _DKSDO,
+      0,
+      [_TN, _KDSD],
+      [0, () => KinesisDataStreamDestinations]
+    ];
+    var DescribeLimitsInput$ = [
+      3,
+      n05,
+      _DLI,
+      0,
+      [],
+      []
+    ];
+    var DescribeLimitsOutput$ = [
+      3,
+      n05,
+      _DLO,
+      0,
+      [_AMRCU, _AMWCU, _TMRCU, _TMWCU],
+      [1, 1, 1, 1]
+    ];
+    var DescribeTableInput$ = [
+      3,
+      n05,
+      _DTIe,
+      0,
+      [_TN],
+      [0],
+      1
+    ];
+    var DescribeTableOutput$ = [
+      3,
+      n05,
+      _DTOe,
+      0,
+      [_T2],
+      [() => TableDescription$]
+    ];
+    var DescribeTableReplicaAutoScalingInput$ = [
+      3,
+      n05,
+      _DTRASI,
+      0,
+      [_TN],
+      [0],
+      1
+    ];
+    var DescribeTableReplicaAutoScalingOutput$ = [
+      3,
+      n05,
+      _DTRASO,
+      0,
+      [_TASD],
+      [() => TableAutoScalingDescription$]
+    ];
+    var DescribeTimeToLiveInput$ = [
+      3,
+      n05,
+      _DTTLI,
+      0,
+      [_TN],
+      [0],
+      1
+    ];
+    var DescribeTimeToLiveOutput$ = [
+      3,
+      n05,
+      _DTTLO,
+      0,
+      [_TTLD],
+      [() => TimeToLiveDescription$]
+    ];
+    var EnableKinesisStreamingConfiguration$ = [
+      3,
+      n05,
+      _EKSC,
+      0,
+      [_ACDTP],
+      [0]
+    ];
+    var Endpoint$ = [
+      3,
+      n05,
+      _End,
+      0,
+      [_Ad, _CPIM],
+      [0, 1],
+      2
+    ];
+    var ExecuteStatementInput$ = [
+      3,
+      n05,
+      _ESI,
+      0,
+      [_St, _P2, _CRo, _NT, _RCC, _L, _RVOCCF],
+      [0, () => PreparedStatementParameters, 2, 0, 0, 1, 0],
+      1
+    ];
+    var ExecuteStatementOutput$ = [
+      3,
+      n05,
+      _ESO,
+      0,
+      [_It, _NT, _CC, _LEK],
+      [() => ItemList, 0, () => ConsumedCapacity$, () => Key]
+    ];
+    var ExecuteTransactionInput$ = [
+      3,
+      n05,
+      _ETI,
+      0,
+      [_TS, _CRT, _RCC],
+      [() => ParameterizedStatements, [0, 4], 0],
+      1
+    ];
+    var ExecuteTransactionOutput$ = [
+      3,
+      n05,
+      _ETO,
+      0,
+      [_R, _CC],
+      [() => ItemResponseList, () => ConsumedCapacityMultiple]
+    ];
+    var ExpectedAttributeValue$ = [
+      3,
+      n05,
+      _EAVx,
+      0,
+      [_V2, _Exi, _CO, _AVL],
+      [() => AttributeValue$, 2, 0, () => AttributeValueList]
+    ];
+    var ExportDescription$ = [
+      3,
+      n05,
+      _ED,
+      0,
+      [_EA, _ES, _ST2, _ET, _EM, _TA, _TI, _ETx, _CT2, _SB, _SBO, _SPr, _SSA, _SSKKI, _FC, _FM, _EF, _BSBi, _IC, _ETxp, _IES],
+      [0, 0, 4, 4, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, () => IncrementalExportSpecification$]
+    ];
+    var ExportSummary$ = [
+      3,
+      n05,
+      _ESx,
+      0,
+      [_EA, _ES, _ETxp],
+      [0, 0, 0]
+    ];
+    var ExportTableToPointInTimeInput$ = [
+      3,
+      n05,
+      _ETTPITI,
+      0,
+      [_TA, _SB, _ETx, _CT2, _SBO, _SPr, _SSA, _SSKKI, _EF, _ETxp, _IES],
+      [0, 0, 4, [0, 4], 0, 0, 0, 0, 0, 0, () => IncrementalExportSpecification$],
+      2
+    ];
+    var ExportTableToPointInTimeOutput$ = [
+      3,
+      n05,
+      _ETTPITO,
+      0,
+      [_ED],
+      [() => ExportDescription$]
+    ];
+    var FailureException$ = [
+      3,
+      n05,
+      _FE,
+      0,
+      [_EN, _EDx],
+      [0, 0]
+    ];
+    var Get$ = [
+      3,
+      n05,
+      _G,
+      0,
+      [_K2, _TN, _PE, _EAN],
+      [() => Key, 0, 0, 128 | 0],
+      2
+    ];
+    var GetItemInput$ = [
+      3,
+      n05,
+      _GII,
+      0,
+      [_TN, _K2, _ATG, _CRo, _RCC, _PE, _EAN],
+      [0, () => Key, 64 | 0, 2, 0, 0, 128 | 0],
+      2
+    ];
+    var GetItemOutput$ = [
+      3,
+      n05,
+      _GIO,
+      0,
+      [_I, _CC],
+      [() => AttributeMap, () => ConsumedCapacity$]
+    ];
+    var GetResourcePolicyInput$ = [
+      3,
+      n05,
+      _GRPI,
+      0,
+      [_RA2],
+      [0],
+      1
+    ];
+    var GetResourcePolicyOutput$ = [
+      3,
+      n05,
+      _GRPO,
+      0,
+      [_Po, _RIe],
+      [0, 0]
+    ];
+    var GlobalSecondaryIndex$ = [
+      3,
+      n05,
+      _GSIl,
+      0,
+      [_IN, _KS, _Pr2, _PT, _ODT, _WT],
+      [0, () => KeySchema, () => Projection$, () => ProvisionedThroughput$, () => OnDemandThroughput$, () => WarmThroughput$],
+      3
+    ];
+    var GlobalSecondaryIndexAutoScalingUpdate$ = [
+      3,
+      n05,
+      _GSIASU,
+      0,
+      [_IN, _PWCASU],
+      [0, () => AutoScalingSettingsUpdate$]
+    ];
+    var GlobalSecondaryIndexDescription$ = [
+      3,
+      n05,
+      _GSID,
+      0,
+      [_IN, _KS, _Pr2, _IS, _B, _PT, _ISB, _IC, _IAn, _ODT, _WT],
+      [0, () => KeySchema, () => Projection$, 0, 2, () => ProvisionedThroughputDescription$, 1, 1, 0, () => OnDemandThroughput$, () => GlobalSecondaryIndexWarmThroughputDescription$]
+    ];
+    var GlobalSecondaryIndexInfo$ = [
+      3,
+      n05,
+      _GSII,
+      0,
+      [_IN, _KS, _Pr2, _PT, _ODT],
+      [0, () => KeySchema, () => Projection$, () => ProvisionedThroughput$, () => OnDemandThroughput$]
+    ];
+    var GlobalSecondaryIndexUpdate$ = [
+      3,
+      n05,
+      _GSIU,
+      0,
+      [_U, _Cr, _Del],
+      [() => UpdateGlobalSecondaryIndexAction$, () => CreateGlobalSecondaryIndexAction$, () => DeleteGlobalSecondaryIndexAction$]
+    ];
+    var GlobalSecondaryIndexWarmThroughputDescription$ = [
+      3,
+      n05,
+      _GSIWTD,
+      0,
+      [_RUPS, _WUPS, _Sta],
+      [1, 1, 0]
+    ];
+    var GlobalTable$ = [
+      3,
+      n05,
+      _GT,
+      0,
+      [_GTN, _RG],
+      [0, () => ReplicaList]
+    ];
+    var GlobalTableDescription$ = [
+      3,
+      n05,
+      _GTD,
+      0,
+      [_RG, _GTA, _CDT, _GTS, _GTN],
+      [() => ReplicaDescriptionList, 0, 4, 0, 0]
+    ];
+    var GlobalTableGlobalSecondaryIndexSettingsUpdate$ = [
+      3,
+      n05,
+      _GTGSISU,
+      0,
+      [_IN, _PWCU, _PWCASSU],
+      [0, 1, () => AutoScalingSettingsUpdate$],
+      1
+    ];
+    var GlobalTableWitnessDescription$ = [
+      3,
+      n05,
+      _GTWD,
+      0,
+      [_RN, _WS],
+      [0, 0]
+    ];
+    var GlobalTableWitnessGroupUpdate$ = [
+      3,
+      n05,
+      _GTWGU,
+      0,
+      [_Cr, _Del],
+      [() => CreateGlobalTableWitnessGroupMemberAction$, () => DeleteGlobalTableWitnessGroupMemberAction$]
+    ];
+    var ImportSummary$ = [
+      3,
+      n05,
+      _ISm,
+      0,
+      [_IA, _ISmp, _TA, _SBS, _CWLGA, _IF, _ST2, _ET],
+      [0, 0, 0, () => S3BucketSource$, 0, 0, 4, 4]
+    ];
+    var ImportTableDescription$ = [
+      3,
+      n05,
+      _ITD,
+      0,
+      [_IA, _ISmp, _TA, _TI, _CT2, _SBS, _EC, _CWLGA, _IF, _IFO, _ICT, _TCP, _ST2, _ET, _PSB, _PIC, _IIC, _FC, _FM],
+      [0, 0, 0, 0, 0, () => S3BucketSource$, 1, 0, 0, () => InputFormatOptions$, 0, () => TableCreationParameters$, 4, 4, 1, 1, 1, 0, 0]
+    ];
+    var ImportTableInput$ = [
+      3,
+      n05,
+      _ITI,
+      0,
+      [_SBS, _IF, _TCP, _CT2, _IFO, _ICT],
+      [() => S3BucketSource$, 0, () => TableCreationParameters$, [0, 4], () => InputFormatOptions$, 0],
+      3
+    ];
+    var ImportTableOutput$ = [
+      3,
+      n05,
+      _ITO,
+      0,
+      [_ITD],
+      [() => ImportTableDescription$],
+      1
+    ];
+    var IncrementalExportSpecification$ = [
+      3,
+      n05,
+      _IES,
+      0,
+      [_EFT, _ETT, _EVT],
+      [4, 4, 0]
+    ];
+    var InputFormatOptions$ = [
+      3,
+      n05,
+      _IFO,
+      0,
+      [_Cs],
+      [() => CsvOptions$]
+    ];
+    var ItemCollectionMetrics$ = [
+      3,
+      n05,
+      _ICM,
+      0,
+      [_ICK, _SERGB],
+      [() => ItemCollectionKeyAttributeMap, 64 | 1]
+    ];
+    var ItemResponse$ = [
+      3,
+      n05,
+      _IR,
+      0,
+      [_I],
+      [() => AttributeMap]
+    ];
+    var KeysAndAttributes$ = [
+      3,
+      n05,
+      _KAA,
+      0,
+      [_Ke, _ATG, _CRo, _PE, _EAN],
+      [() => KeyList, 64 | 0, 2, 0, 128 | 0],
+      1
+    ];
+    var KeySchemaElement$ = [
+      3,
+      n05,
+      _KSE,
+      0,
+      [_AN, _KT],
+      [0, 0],
+      2
+    ];
+    var KinesisDataStreamDestination$ = [
+      3,
+      n05,
+      _KDSDi,
+      0,
+      [_SA, _DS2, _DSD, _ACDTP],
+      [0, 0, 0, 0]
+    ];
+    var KinesisStreamingDestinationInput$ = [
+      3,
+      n05,
+      _KSDI,
+      0,
+      [_TN, _SA, _EKSC],
+      [0, 0, () => EnableKinesisStreamingConfiguration$],
+      2
+    ];
+    var KinesisStreamingDestinationOutput$ = [
+      3,
+      n05,
+      _KSDO,
+      0,
+      [_TN, _SA, _DS2, _EKSC],
+      [0, 0, 0, () => EnableKinesisStreamingConfiguration$]
+    ];
+    var ListBackupsInput$ = [
+      3,
+      n05,
+      _LBI,
+      0,
+      [_TN, _L, _TRLB, _TRUB, _ESBA, _BT],
+      [0, 1, 4, 4, 0, 0]
+    ];
+    var ListBackupsOutput$ = [
+      3,
+      n05,
+      _LBO,
+      0,
+      [_BSac, _LEBA],
+      [() => BackupSummaries, 0]
+    ];
+    var ListContributorInsightsInput$ = [
+      3,
+      n05,
+      _LCII,
+      0,
+      [_TN, _NT, _MR],
+      [0, 0, 1]
+    ];
+    var ListContributorInsightsOutput$ = [
+      3,
+      n05,
+      _LCIO,
+      0,
+      [_CISon, _NT],
+      [() => ContributorInsightsSummaries, 0]
+    ];
+    var ListExportsInput$ = [
+      3,
+      n05,
+      _LEI,
+      0,
+      [_TA, _MR, _NT],
+      [0, 1, 0]
+    ];
+    var ListExportsOutput$ = [
+      3,
+      n05,
+      _LEO,
+      0,
+      [_ESxp, _NT],
+      [() => ExportSummaries, 0]
+    ];
+    var ListGlobalTablesInput$ = [
+      3,
+      n05,
+      _LGTI,
+      0,
+      [_ESGTN, _L, _RN],
+      [0, 1, 0]
+    ];
+    var ListGlobalTablesOutput$ = [
+      3,
+      n05,
+      _LGTO,
+      0,
+      [_GTl, _LEGTN],
+      [() => GlobalTableList, 0]
+    ];
+    var ListImportsInput$ = [
+      3,
+      n05,
+      _LII,
+      0,
+      [_TA, _PS, _NT],
+      [0, 1, 0]
+    ];
+    var ListImportsOutput$ = [
+      3,
+      n05,
+      _LIO,
+      0,
+      [_ISL, _NT],
+      [() => ImportSummaryList, 0]
+    ];
+    var ListTablesInput$ = [
+      3,
+      n05,
+      _LTI,
+      0,
+      [_ESTN, _L],
+      [0, 1]
+    ];
+    var ListTablesOutput$ = [
+      3,
+      n05,
+      _LTO,
+      0,
+      [_TNa, _LETN],
+      [64 | 0, 0]
+    ];
+    var ListTagsOfResourceInput$ = [
+      3,
+      n05,
+      _LTORI,
+      0,
+      [_RA2, _NT],
+      [0, 0],
+      1
+    ];
+    var ListTagsOfResourceOutput$ = [
+      3,
+      n05,
+      _LTORO,
+      0,
+      [_Ta2, _NT],
+      [() => TagList, 0]
+    ];
+    var LocalSecondaryIndex$ = [
+      3,
+      n05,
+      _LSIo,
+      0,
+      [_IN, _KS, _Pr2],
+      [0, () => KeySchema, () => Projection$],
+      3
+    ];
+    var LocalSecondaryIndexDescription$ = [
+      3,
+      n05,
+      _LSID,
+      0,
+      [_IN, _KS, _Pr2, _ISB, _IC, _IAn],
+      [0, () => KeySchema, () => Projection$, 1, 1, 0]
+    ];
+    var LocalSecondaryIndexInfo$ = [
+      3,
+      n05,
+      _LSII,
+      0,
+      [_IN, _KS, _Pr2],
+      [0, () => KeySchema, () => Projection$]
+    ];
+    var OnDemandThroughput$ = [
+      3,
+      n05,
+      _ODT,
+      0,
+      [_MRRU, _MWRU],
+      [1, 1]
+    ];
+    var OnDemandThroughputOverride$ = [
+      3,
+      n05,
+      _ODTO,
+      0,
+      [_MRRU],
+      [1]
+    ];
+    var ParameterizedStatement$ = [
+      3,
+      n05,
+      _PSa,
+      0,
+      [_St, _P2, _RVOCCF],
+      [0, () => PreparedStatementParameters, 0],
+      1
+    ];
+    var PointInTimeRecoveryDescription$ = [
+      3,
+      n05,
+      _PITRD,
+      0,
+      [_PITRS, _RPID, _ERDT, _LRDT],
+      [0, 1, 4, 4]
+    ];
+    var PointInTimeRecoverySpecification$ = [
+      3,
+      n05,
+      _PITRSo,
+      0,
+      [_PITRE, _RPID],
+      [2, 1],
+      1
+    ];
+    var Projection$ = [
+      3,
+      n05,
+      _Pr2,
+      0,
+      [_PTr, _NKA],
+      [0, 64 | 0]
+    ];
+    var ProvisionedThroughput$ = [
+      3,
+      n05,
+      _PT,
+      0,
+      [_RCU, _WCU],
+      [1, 1],
+      2
+    ];
+    var ProvisionedThroughputDescription$ = [
+      3,
+      n05,
+      _PTD,
+      0,
+      [_LIDT, _LDDT, _NODT, _RCU, _WCU],
+      [4, 4, 1, 1, 1]
+    ];
+    var ProvisionedThroughputOverride$ = [
+      3,
+      n05,
+      _PTO,
+      0,
+      [_RCU],
+      [1]
+    ];
+    var Put$ = [
+      3,
+      n05,
+      _Pu,
+      0,
+      [_I, _TN, _CE, _EAN, _EAV, _RVOCCF],
+      [() => PutItemInputAttributeMap, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      2
+    ];
+    var PutItemInput$ = [
+      3,
+      n05,
+      _PII,
+      0,
+      [_TN, _I, _Ex, _RV, _RCC, _RICM, _COo, _CE, _EAN, _EAV, _RVOCCF],
+      [0, () => PutItemInputAttributeMap, () => ExpectedAttributeMap, 0, 0, 0, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      2
+    ];
+    var PutItemOutput$ = [
+      3,
+      n05,
+      _PIO,
+      0,
+      [_At, _CC, _ICM],
+      [() => AttributeMap, () => ConsumedCapacity$, () => ItemCollectionMetrics$]
+    ];
+    var PutRequest$ = [
+      3,
+      n05,
+      _PR,
+      0,
+      [_I],
+      [() => PutItemInputAttributeMap],
+      1
+    ];
+    var PutResourcePolicyInput$ = [
+      3,
+      n05,
+      _PRPI,
+      0,
+      [_RA2, _Po, _ERI, _CRSRA],
+      [0, 0, 0, [2, { [_hH2]: _xacrsra }]],
+      2
+    ];
+    var PutResourcePolicyOutput$ = [
+      3,
+      n05,
+      _PRPO,
+      0,
+      [_RIe],
+      [0]
+    ];
+    var QueryInput$ = [
+      3,
+      n05,
+      _QI,
+      0,
+      [_TN, _IN, _Se, _ATG, _L, _CRo, _KC, _QF, _COo, _SIF, _ESK, _RCC, _PE, _FEi, _KCE, _EAN, _EAV],
+      [0, 0, 0, 64 | 0, 1, 2, () => KeyConditions, () => FilterConditionMap, 0, 2, () => Key, 0, 0, 0, 0, 128 | 0, () => ExpressionAttributeValueMap],
+      1
+    ];
+    var QueryOutput$ = [
+      3,
+      n05,
+      _QO,
+      0,
+      [_It, _Cou, _SC, _LEK, _CC],
+      [() => ItemList, 1, 1, () => Key, () => ConsumedCapacity$]
+    ];
+    var Replica$ = [
+      3,
+      n05,
+      _Re,
+      0,
+      [_RN],
+      [0]
+    ];
+    var ReplicaAutoScalingDescription$ = [
+      3,
+      n05,
+      _RASD,
+      0,
+      [_RN, _GSI, _RPRCASS, _RPWCASS, _RSe],
+      [0, () => ReplicaGlobalSecondaryIndexAutoScalingDescriptionList, () => AutoScalingSettingsDescription$, () => AutoScalingSettingsDescription$, 0]
+    ];
+    var ReplicaAutoScalingUpdate$ = [
+      3,
+      n05,
+      _RASU,
+      0,
+      [_RN, _RGSIU, _RPRCASU],
+      [0, () => ReplicaGlobalSecondaryIndexAutoScalingUpdateList, () => AutoScalingSettingsUpdate$],
+      1
+    ];
+    var ReplicaDescription$ = [
+      3,
+      n05,
+      _RD,
+      0,
+      [_RN, _RSe, _RAe, _RSD, _RSPP, _KMSMKI, _PTO, _ODTO, _WT, _GSI, _RIDT, _RTCS, _GTSRM],
+      [0, 0, 0, 0, 0, 0, () => ProvisionedThroughputOverride$, () => OnDemandThroughputOverride$, () => TableWarmThroughputDescription$, () => ReplicaGlobalSecondaryIndexDescriptionList, 4, () => TableClassSummary$, 0]
+    ];
+    var ReplicaGlobalSecondaryIndex$ = [
+      3,
+      n05,
+      _RGSI,
+      0,
+      [_IN, _PTO, _ODTO],
+      [0, () => ProvisionedThroughputOverride$, () => OnDemandThroughputOverride$],
+      1
+    ];
+    var ReplicaGlobalSecondaryIndexAutoScalingDescription$ = [
+      3,
+      n05,
+      _RGSIASD,
+      0,
+      [_IN, _IS, _PRCASS, _PWCASS],
+      [0, 0, () => AutoScalingSettingsDescription$, () => AutoScalingSettingsDescription$]
+    ];
+    var ReplicaGlobalSecondaryIndexAutoScalingUpdate$ = [
+      3,
+      n05,
+      _RGSIASU,
+      0,
+      [_IN, _PRCASU],
+      [0, () => AutoScalingSettingsUpdate$]
+    ];
+    var ReplicaGlobalSecondaryIndexDescription$ = [
+      3,
+      n05,
+      _RGSID,
+      0,
+      [_IN, _PTO, _ODTO, _WT],
+      [0, () => ProvisionedThroughputOverride$, () => OnDemandThroughputOverride$, () => GlobalSecondaryIndexWarmThroughputDescription$]
+    ];
+    var ReplicaGlobalSecondaryIndexSettingsDescription$ = [
+      3,
+      n05,
+      _RGSISD,
+      0,
+      [_IN, _IS, _PRCU, _PRCASS, _PWCU, _PWCASS],
+      [0, 0, 1, () => AutoScalingSettingsDescription$, 1, () => AutoScalingSettingsDescription$],
+      1
+    ];
+    var ReplicaGlobalSecondaryIndexSettingsUpdate$ = [
+      3,
+      n05,
+      _RGSISU,
+      0,
+      [_IN, _PRCU, _PRCASSU],
+      [0, 1, () => AutoScalingSettingsUpdate$],
+      1
+    ];
+    var ReplicaSettingsDescription$ = [
+      3,
+      n05,
+      _RSDe,
+      0,
+      [_RN, _RSe, _RBMS, _RPRCU, _RPRCASS, _RPWCU, _RPWCASS, _RGSIS, _RTCS],
+      [0, 0, () => BillingModeSummary$, 1, () => AutoScalingSettingsDescription$, 1, () => AutoScalingSettingsDescription$, () => ReplicaGlobalSecondaryIndexSettingsDescriptionList, () => TableClassSummary$],
+      1
+    ];
+    var ReplicaSettingsUpdate$ = [
+      3,
+      n05,
+      _RSU,
+      0,
+      [_RN, _RPRCU, _RPRCASSU, _RGSISU, _RTC],
+      [0, 1, () => AutoScalingSettingsUpdate$, () => ReplicaGlobalSecondaryIndexSettingsUpdateList, 0],
+      1
+    ];
+    var ReplicationGroupUpdate$ = [
+      3,
+      n05,
+      _RGU,
+      0,
+      [_Cr, _U, _Del],
+      [() => CreateReplicationGroupMemberAction$, () => UpdateReplicationGroupMemberAction$, () => DeleteReplicationGroupMemberAction$]
+    ];
+    var ReplicaUpdate$ = [
+      3,
+      n05,
+      _RU,
+      0,
+      [_Cr, _Del],
+      [() => CreateReplicaAction$, () => DeleteReplicaAction$]
+    ];
+    var RestoreSummary$ = [
+      3,
+      n05,
+      _RSes,
+      0,
+      [_RDT, _RIP, _SBA, _STA],
+      [4, 2, 0, 0],
+      2
+    ];
+    var RestoreTableFromBackupInput$ = [
+      3,
+      n05,
+      _RTFBI,
+      0,
+      [_TTN, _BA, _BMO, _GSIO, _LSIO, _PTO, _ODTO, _SSESO, _VIO],
+      [0, 0, 0, () => GlobalSecondaryIndexList, () => LocalSecondaryIndexList, () => ProvisionedThroughput$, () => OnDemandThroughput$, () => SSESpecification$, () => VectorIndexList],
+      2
+    ];
+    var RestoreTableFromBackupOutput$ = [
+      3,
+      n05,
+      _RTFBO,
+      0,
+      [_TD],
+      [() => TableDescription$]
+    ];
+    var RestoreTableToPointInTimeInput$ = [
+      3,
+      n05,
+      _RTTPITI,
+      0,
+      [_TTN, _STA, _STN, _ULRT, _RDT, _BMO, _GSIO, _LSIO, _PTO, _ODTO, _SSESO, _VIO],
+      [0, 0, 0, 2, 4, 0, () => GlobalSecondaryIndexList, () => LocalSecondaryIndexList, () => ProvisionedThroughput$, () => OnDemandThroughput$, () => SSESpecification$, () => VectorIndexList],
+      1
+    ];
+    var RestoreTableToPointInTimeOutput$ = [
+      3,
+      n05,
+      _RTTPITO,
+      0,
+      [_TD],
+      [() => TableDescription$]
+    ];
+    var S3BucketSource$ = [
+      3,
+      n05,
+      _SBS,
+      0,
+      [_SB, _SBO, _SKP],
+      [0, 0, 0],
+      1
+    ];
+    var ScanInput$ = [
+      3,
+      n05,
+      _SI2,
+      0,
+      [_TN, _IN, _ATG, _L, _Se, _SF, _COo, _ESK, _RCC, _TSo, _Seg, _PE, _FEi, _EAN, _EAV, _CRo],
+      [0, 0, 64 | 0, 1, 0, () => FilterConditionMap, 0, () => Key, 0, 1, 1, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 2],
+      1
+    ];
+    var ScanOutput$ = [
+      3,
+      n05,
+      _SO,
+      0,
+      [_It, _Cou, _SC, _LEK, _CC],
+      [() => ItemList, 1, 1, () => Key, () => ConsumedCapacity$]
+    ];
+    var SearchResultItem$ = [
+      3,
+      n05,
+      _SRI,
+      0,
+      [_I, _Sc],
+      [() => AttributeMap, 1]
+    ];
+    var SearchSchemaElement$ = [
+      3,
+      n05,
+      _SSE,
+      0,
+      [_AN, _SSET],
+      [0, 0],
+      2
+    ];
+    var SearchVectorsInput$ = [
+      3,
+      n05,
+      _SVI,
+      0,
+      [_TN, _IN, _SV, _TK, _RCC, _EAN, _EAV, _PE, _SCE],
+      [0, 0, () => SearchVectorList, 1, 0, 128 | 0, () => ExpressionAttributeValueMap, 0, 0],
+      4
+    ];
+    var SearchVectorsOutput$ = [
+      3,
+      n05,
+      _SVO,
+      0,
+      [_CC, _SR],
+      [() => VectorCapacity$, () => SearchResultList]
+    ];
+    var SourceTableDetails$ = [
+      3,
+      n05,
+      _STD,
+      0,
+      [_TN, _TI, _KS, _TCDT, _PT, _TA, _TSB, _ODT, _IC, _BM],
+      [0, 0, () => KeySchema, 4, () => ProvisionedThroughput$, 0, 1, () => OnDemandThroughput$, 1, 0],
+      5
+    ];
+    var SourceTableFeatureDetails$ = [
+      3,
+      n05,
+      _STFD,
+      0,
+      [_LSI, _GSI, _SD, _TTLD, _SSED, _VI],
+      [() => LocalSecondaryIndexes, () => GlobalSecondaryIndexes, () => StreamSpecification$, () => TimeToLiveDescription$, () => SSEDescription$, () => VectorIndexes]
+    ];
+    var SSEDescription$ = [
+      3,
+      n05,
+      _SSED,
+      0,
+      [_Sta, _SSETy, _KMSMKA, _IEDT],
+      [0, 0, 0, 4]
+    ];
+    var SSESpecification$ = [
+      3,
+      n05,
+      _SSES,
+      0,
+      [_Ena, _SSETy, _KMSMKI],
+      [2, 0, 0]
+    ];
+    var StreamSpecification$ = [
+      3,
+      n05,
+      _SS,
+      0,
+      [_SE, _SVT],
+      [2, 0],
+      1
+    ];
+    var TableAutoScalingDescription$ = [
+      3,
+      n05,
+      _TASD,
+      0,
+      [_TN, _TSa, _Rep],
+      [0, 0, () => ReplicaAutoScalingDescriptionList]
+    ];
+    var TableClassSummary$ = [
+      3,
+      n05,
+      _TCS,
+      0,
+      [_TC2, _LUDT],
+      [0, 4]
+    ];
+    var TableCreationParameters$ = [
+      3,
+      n05,
+      _TCP,
+      0,
+      [_TN, _ADt, _KS, _BM, _PT, _ODT, _SSES, _GSI, _VI],
+      [0, () => AttributeDefinitions, () => KeySchema, 0, () => ProvisionedThroughput$, () => OnDemandThroughput$, () => SSESpecification$, () => GlobalSecondaryIndexList, () => VectorIndexList],
+      3
+    ];
+    var TableDescription$ = [
+      3,
+      n05,
+      _TD,
+      0,
+      [_ADt, _TN, _KS, _TSa, _CDT, _PT, _TSB, _IC, _TA, _TI, _BMS, _LSI, _GSI, _SS, _LSL, _LSA, _GTV, _Rep, _GTW, _GTSRM, _RSes, _SSED, _AS, _TCS, _DPE, _ODT, _WT, _MRC, _VI],
+      [() => AttributeDefinitions, 0, () => KeySchema, 0, 4, () => ProvisionedThroughputDescription$, 1, 1, 0, 0, () => BillingModeSummary$, () => LocalSecondaryIndexDescriptionList, () => GlobalSecondaryIndexDescriptionList, () => StreamSpecification$, 0, 0, 0, () => ReplicaDescriptionList, () => GlobalTableWitnessDescriptionList, 0, () => RestoreSummary$, () => SSEDescription$, () => ArchivalSummary$, () => TableClassSummary$, 2, () => OnDemandThroughput$, () => TableWarmThroughputDescription$, 0, () => VectorIndexDescriptionList]
+    ];
+    var TableWarmThroughputDescription$ = [
+      3,
+      n05,
+      _TWTD,
+      0,
+      [_RUPS, _WUPS, _Sta],
+      [1, 1, 0]
+    ];
+    var Tag$2 = [
+      3,
+      n05,
+      _Tag,
+      0,
+      [_K2, _V2],
+      [0, 0],
+      2
+    ];
+    var TagResourceInput$ = [
+      3,
+      n05,
+      _TRI,
+      0,
+      [_RA2, _Ta2],
+      [0, () => TagList],
+      2
+    ];
+    var ThrottlingReason$ = [
+      3,
+      n05,
+      _TRh,
+      0,
+      [_r3, _re],
+      [0, 0]
+    ];
+    var TimeToLiveDescription$ = [
+      3,
+      n05,
+      _TTLD,
+      0,
+      [_TTLS, _AN],
+      [0, 0]
+    ];
+    var TimeToLiveSpecification$ = [
+      3,
+      n05,
+      _TTLSi,
+      0,
+      [_Ena, _AN],
+      [2, 0],
+      2
+    ];
+    var TransactGetItem$ = [
+      3,
+      n05,
+      _TGI,
+      0,
+      [_G],
+      [() => Get$],
+      1
+    ];
+    var TransactGetItemsInput$ = [
+      3,
+      n05,
+      _TGII,
+      0,
+      [_TIr, _RCC],
+      [() => TransactGetItemList, 0],
+      1
+    ];
+    var TransactGetItemsOutput$ = [
+      3,
+      n05,
+      _TGIO,
+      0,
+      [_CC, _R],
+      [() => ConsumedCapacityMultiple, () => ItemResponseList]
+    ];
+    var TransactWriteItem$ = [
+      3,
+      n05,
+      _TWI,
+      0,
+      [_CCo, _Pu, _Del, _U],
+      [() => ConditionCheck$, () => Put$, () => Delete$, () => Update$]
+    ];
+    var TransactWriteItemsInput$ = [
+      3,
+      n05,
+      _TWII,
+      0,
+      [_TIr, _RCC, _RICM, _CRT],
+      [() => TransactWriteItemList, 0, 0, [0, 4]],
+      1
+    ];
+    var TransactWriteItemsOutput$ = [
+      3,
+      n05,
+      _TWIO,
+      0,
+      [_CC, _ICM],
+      [() => ConsumedCapacityMultiple, () => ItemCollectionMetricsPerTable]
+    ];
+    var UntagResourceInput$ = [
+      3,
+      n05,
+      _URI,
+      0,
+      [_RA2, _TKa],
+      [0, 64 | 0],
+      2
+    ];
+    var Update$ = [
+      3,
+      n05,
+      _U,
+      0,
+      [_K2, _UE2, _TN, _CE, _EAN, _EAV, _RVOCCF],
+      [() => Key, 0, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      3
+    ];
+    var UpdateContinuousBackupsInput$ = [
+      3,
+      n05,
+      _UCBI,
+      0,
+      [_TN, _PITRSo],
+      [0, () => PointInTimeRecoverySpecification$],
+      2
+    ];
+    var UpdateContinuousBackupsOutput$ = [
+      3,
+      n05,
+      _UCBO,
+      0,
+      [_CBD],
+      [() => ContinuousBackupsDescription$]
+    ];
+    var UpdateContributorInsightsInput$ = [
+      3,
+      n05,
+      _UCII,
+      0,
+      [_TN, _CIA, _IN, _CIM],
+      [0, 0, 0, 0],
+      2
+    ];
+    var UpdateContributorInsightsOutput$ = [
+      3,
+      n05,
+      _UCIO,
+      0,
+      [_TN, _IN, _CISo, _CIM],
+      [0, 0, 0, 0]
+    ];
+    var UpdateGlobalSecondaryIndexAction$ = [
+      3,
+      n05,
+      _UGSIA,
+      0,
+      [_IN, _PT, _ODT, _WT],
+      [0, () => ProvisionedThroughput$, () => OnDemandThroughput$, () => WarmThroughput$],
+      1
+    ];
+    var UpdateGlobalTableInput$ = [
+      3,
+      n05,
+      _UGTI,
+      0,
+      [_GTN, _RUe],
+      [0, () => ReplicaUpdateList],
+      2
+    ];
+    var UpdateGlobalTableOutput$ = [
+      3,
+      n05,
+      _UGTO,
+      0,
+      [_GTD],
+      [() => GlobalTableDescription$]
+    ];
+    var UpdateGlobalTableSettingsInput$ = [
+      3,
+      n05,
+      _UGTSI,
+      0,
+      [_GTN, _GTBM, _GTPWCU, _GTPWCASSU, _GTGSISU, _RSU],
+      [0, 0, 1, () => AutoScalingSettingsUpdate$, () => GlobalTableGlobalSecondaryIndexSettingsUpdateList, () => ReplicaSettingsUpdateList],
+      1
+    ];
+    var UpdateGlobalTableSettingsOutput$ = [
+      3,
+      n05,
+      _UGTSO,
+      0,
+      [_GTN, _RS],
+      [0, () => ReplicaSettingsDescriptionList]
+    ];
+    var UpdateItemInput$ = [
+      3,
+      n05,
+      _UII,
+      0,
+      [_TN, _K2, _AU, _Ex, _COo, _RV, _RCC, _RICM, _UE2, _CE, _EAN, _EAV, _RVOCCF],
+      [0, () => Key, () => AttributeUpdates, () => ExpectedAttributeMap, 0, 0, 0, 0, 0, 0, 128 | 0, () => ExpressionAttributeValueMap, 0],
+      2
+    ];
+    var UpdateItemOutput$ = [
+      3,
+      n05,
+      _UIO,
+      0,
+      [_At, _CC, _ICM],
+      [() => AttributeMap, () => ConsumedCapacity$, () => ItemCollectionMetrics$]
+    ];
+    var UpdateKinesisStreamingConfiguration$ = [
+      3,
+      n05,
+      _UKSC,
+      0,
+      [_ACDTP],
+      [0]
+    ];
+    var UpdateKinesisStreamingDestinationInput$ = [
+      3,
+      n05,
+      _UKSDI,
+      0,
+      [_TN, _SA, _UKSC],
+      [0, 0, () => UpdateKinesisStreamingConfiguration$],
+      2
+    ];
+    var UpdateKinesisStreamingDestinationOutput$ = [
+      3,
+      n05,
+      _UKSDO,
+      0,
+      [_TN, _SA, _DS2, _UKSC],
+      [0, 0, 0, () => UpdateKinesisStreamingConfiguration$]
+    ];
+    var UpdateReplicationGroupMemberAction$ = [
+      3,
+      n05,
+      _URGMA,
+      0,
+      [_RN, _KMSMKI, _PTO, _ODTO, _GSI, _TCO],
+      [0, 0, () => ProvisionedThroughputOverride$, () => OnDemandThroughputOverride$, () => ReplicaGlobalSecondaryIndexList, 0],
+      1
+    ];
+    var UpdateTableInput$ = [
+      3,
+      n05,
+      _UTI,
+      0,
+      [_TN, _ADt, _BM, _PT, _GSIUl, _SS, _SSES, _RUe, _TC2, _DPE, _MRC, _GTWU, _ODT, _WT, _GTSRM, _VIU],
+      [0, () => AttributeDefinitions, 0, () => ProvisionedThroughput$, () => GlobalSecondaryIndexUpdateList, () => StreamSpecification$, () => SSESpecification$, () => ReplicationGroupUpdateList, 0, 2, 0, () => GlobalTableWitnessGroupUpdateList, () => OnDemandThroughput$, () => WarmThroughput$, 0, () => VectorIndexUpdateList],
+      1
+    ];
+    var UpdateTableOutput$ = [
+      3,
+      n05,
+      _UTO,
+      0,
+      [_TD],
+      [() => TableDescription$]
+    ];
+    var UpdateTableReplicaAutoScalingInput$ = [
+      3,
+      n05,
+      _UTRASI,
+      0,
+      [_TN, _GSIUl, _PWCASU, _RUe],
+      [0, () => GlobalSecondaryIndexAutoScalingUpdateList, () => AutoScalingSettingsUpdate$, () => ReplicaAutoScalingUpdateList],
+      1
+    ];
+    var UpdateTableReplicaAutoScalingOutput$ = [
+      3,
+      n05,
+      _UTRASO,
+      0,
+      [_TASD],
+      [() => TableAutoScalingDescription$]
+    ];
+    var UpdateTimeToLiveInput$ = [
+      3,
+      n05,
+      _UTTLI,
+      0,
+      [_TN, _TTLSi],
+      [0, () => TimeToLiveSpecification$],
+      2
+    ];
+    var UpdateTimeToLiveOutput$ = [
+      3,
+      n05,
+      _UTTLO,
+      0,
+      [_TTLSi],
+      [() => TimeToLiveSpecification$]
+    ];
+    var VectorAttributeDefinition$ = [
+      3,
+      n05,
+      _VAD,
+      0,
+      [_AN],
+      [0],
+      1
+    ];
+    var VectorCapacity$ = [
+      3,
+      n05,
+      _VC,
+      0,
+      [_VSRB, _VWRB],
+      [1, 1]
+    ];
+    var VectorIndex$ = [
+      3,
+      n05,
+      _VIe,
+      0,
+      [_IN, _VA, _Pr2, _D, _DF, _SSe],
+      [0, () => VectorAttributeDefinition$, () => Projection$, 1, 0, () => SearchSchema],
+      5
+    ];
+    var VectorIndexDescription$ = [
+      3,
+      n05,
+      _VID,
+      0,
+      [_IN, _SSe, _Pr2, _VA, _D, _DF, _IS, _B, _ISB, _IC, _IAn],
+      [0, () => SearchSchema, () => Projection$, () => VectorAttributeDefinition$, 1, 0, 0, 2, 1, 1, 0]
+    ];
+    var VectorIndexInfo$ = [
+      3,
+      n05,
+      _VII,
+      0,
+      [_IN, _VA, _SSe, _Pr2, _D, _DF],
+      [0, () => VectorAttributeDefinition$, () => SearchSchema, () => Projection$, 1, 0]
+    ];
+    var VectorIndexUpdate$ = [
+      3,
+      n05,
+      _VIUe,
+      0,
+      [_Cr, _Del],
+      [() => CreateVectorIndexAction$, () => DeleteVectorIndexAction$]
+    ];
+    var WarmThroughput$ = [
+      3,
+      n05,
+      _WT,
+      0,
+      [_RUPS, _WUPS],
+      [1, 1]
+    ];
+    var WriteRequest$ = [
+      3,
+      n05,
+      _WR,
+      0,
+      [_PR, _DR],
+      [() => PutRequest$, () => DeleteRequest$]
+    ];
+    var __Unit = "unit";
+    var AttributeDefinitions = [
+      1,
+      n05,
+      _ADt,
+      0,
+      () => AttributeDefinition$
+    ];
+    var AttributeValueList = [
+      1,
+      n05,
+      _AVL,
+      0,
+      () => AttributeValue$
+    ];
+    var AutoScalingPolicyDescriptionList = [
+      1,
+      n05,
+      _ASPDL,
+      0,
+      () => AutoScalingPolicyDescription$
+    ];
+    var BackupSummaries = [
+      1,
+      n05,
+      _BSac,
+      0,
+      () => BackupSummary$
+    ];
+    var CancellationReasonList = [
+      1,
+      n05,
+      _CRL,
+      0,
+      () => CancellationReason$
+    ];
+    var ConsumedCapacityMultiple = [
+      1,
+      n05,
+      _CCM,
+      0,
+      () => ConsumedCapacity$
+    ];
+    var ContributorInsightsSummaries = [
+      1,
+      n05,
+      _CISon,
+      0,
+      () => ContributorInsightsSummary$
+    ];
+    var Endpoints = [
+      1,
+      n05,
+      _En,
+      0,
+      () => Endpoint$
+    ];
+    var ExportSummaries = [
+      1,
+      n05,
+      _ESxp,
+      0,
+      () => ExportSummary$
+    ];
+    var GlobalSecondaryIndexAutoScalingUpdateList = [
+      1,
+      n05,
+      _GSIASUL,
+      0,
+      () => GlobalSecondaryIndexAutoScalingUpdate$
+    ];
+    var GlobalSecondaryIndexDescriptionList = [
+      1,
+      n05,
+      _GSIDL,
+      0,
+      () => GlobalSecondaryIndexDescription$
+    ];
+    var GlobalSecondaryIndexes = [
+      1,
+      n05,
+      _GSI,
+      0,
+      () => GlobalSecondaryIndexInfo$
+    ];
+    var GlobalSecondaryIndexList = [
+      1,
+      n05,
+      _GSIL,
+      0,
+      () => GlobalSecondaryIndex$
+    ];
+    var GlobalSecondaryIndexUpdateList = [
+      1,
+      n05,
+      _GSIUL,
+      0,
+      () => GlobalSecondaryIndexUpdate$
+    ];
+    var GlobalTableGlobalSecondaryIndexSettingsUpdateList = [
+      1,
+      n05,
+      _GTGSISUL,
+      0,
+      () => GlobalTableGlobalSecondaryIndexSettingsUpdate$
+    ];
+    var GlobalTableList = [
+      1,
+      n05,
+      _GTL,
+      0,
+      () => GlobalTable$
+    ];
+    var GlobalTableWitnessDescriptionList = [
+      1,
+      n05,
+      _GTWDL,
+      0,
+      () => GlobalTableWitnessDescription$
+    ];
+    var GlobalTableWitnessGroupUpdateList = [
+      1,
+      n05,
+      _GTWGUL,
+      0,
+      () => GlobalTableWitnessGroupUpdate$
+    ];
+    var ImportSummaryList = [
+      1,
+      n05,
+      _ISL,
+      0,
+      () => ImportSummary$
+    ];
+    var ItemCollectionMetricsMultiple = [
+      1,
+      n05,
+      _ICMM,
+      0,
+      () => ItemCollectionMetrics$
+    ];
+    var ItemList = [
+      1,
+      n05,
+      _IL,
+      0,
+      () => AttributeMap
+    ];
+    var ItemResponseList = [
+      1,
+      n05,
+      _IRL,
+      0,
+      () => ItemResponse$
+    ];
+    var KeyList = [
+      1,
+      n05,
+      _KL,
+      0,
+      () => Key
+    ];
+    var KeySchema = [
+      1,
+      n05,
+      _KS,
+      0,
+      () => KeySchemaElement$
+    ];
+    var KinesisDataStreamDestinations = [
+      1,
+      n05,
+      _KDSD,
+      0,
+      () => KinesisDataStreamDestination$
+    ];
+    var ListAttributeValue = [
+      1,
+      n05,
+      _LAV,
+      0,
+      () => AttributeValue$
+    ];
+    var LocalSecondaryIndexDescriptionList = [
+      1,
+      n05,
+      _LSIDL,
+      0,
+      () => LocalSecondaryIndexDescription$
+    ];
+    var LocalSecondaryIndexes = [
+      1,
+      n05,
+      _LSI,
+      0,
+      () => LocalSecondaryIndexInfo$
+    ];
+    var LocalSecondaryIndexList = [
+      1,
+      n05,
+      _LSIL,
+      0,
+      () => LocalSecondaryIndex$
+    ];
+    var ParameterizedStatements = [
+      1,
+      n05,
+      _PSar,
+      0,
+      () => ParameterizedStatement$
+    ];
+    var PartiQLBatchRequest = [
+      1,
+      n05,
+      _PQLBR,
+      0,
+      () => BatchStatementRequest$
+    ];
+    var PartiQLBatchResponse = [
+      1,
+      n05,
+      _PQLBRa,
+      0,
+      () => BatchStatementResponse$
+    ];
+    var PreparedStatementParameters = [
+      1,
+      n05,
+      _PSP,
+      0,
+      () => AttributeValue$
+    ];
+    var ReplicaAutoScalingDescriptionList = [
+      1,
+      n05,
+      _RASDL,
+      0,
+      () => ReplicaAutoScalingDescription$
+    ];
+    var ReplicaAutoScalingUpdateList = [
+      1,
+      n05,
+      _RASUL,
+      0,
+      () => ReplicaAutoScalingUpdate$
+    ];
+    var ReplicaDescriptionList = [
+      1,
+      n05,
+      _RDL,
+      0,
+      () => ReplicaDescription$
+    ];
+    var ReplicaGlobalSecondaryIndexAutoScalingDescriptionList = [
+      1,
+      n05,
+      _RGSIASDL,
+      0,
+      () => ReplicaGlobalSecondaryIndexAutoScalingDescription$
+    ];
+    var ReplicaGlobalSecondaryIndexAutoScalingUpdateList = [
+      1,
+      n05,
+      _RGSIASUL,
+      0,
+      () => ReplicaGlobalSecondaryIndexAutoScalingUpdate$
+    ];
+    var ReplicaGlobalSecondaryIndexDescriptionList = [
+      1,
+      n05,
+      _RGSIDL,
+      0,
+      () => ReplicaGlobalSecondaryIndexDescription$
+    ];
+    var ReplicaGlobalSecondaryIndexList = [
+      1,
+      n05,
+      _RGSIL,
+      0,
+      () => ReplicaGlobalSecondaryIndex$
+    ];
+    var ReplicaGlobalSecondaryIndexSettingsDescriptionList = [
+      1,
+      n05,
+      _RGSISDL,
+      0,
+      () => ReplicaGlobalSecondaryIndexSettingsDescription$
+    ];
+    var ReplicaGlobalSecondaryIndexSettingsUpdateList = [
+      1,
+      n05,
+      _RGSISUL,
+      0,
+      () => ReplicaGlobalSecondaryIndexSettingsUpdate$
+    ];
+    var ReplicaList = [
+      1,
+      n05,
+      _RL,
+      0,
+      () => Replica$
+    ];
+    var ReplicaSettingsDescriptionList = [
+      1,
+      n05,
+      _RSDL,
+      0,
+      () => ReplicaSettingsDescription$
+    ];
+    var ReplicaSettingsUpdateList = [
+      1,
+      n05,
+      _RSUL,
+      0,
+      () => ReplicaSettingsUpdate$
+    ];
+    var ReplicationGroupUpdateList = [
+      1,
+      n05,
+      _RGUL,
+      0,
+      () => ReplicationGroupUpdate$
+    ];
+    var ReplicaUpdateList = [
+      1,
+      n05,
+      _RUL,
+      0,
+      () => ReplicaUpdate$
+    ];
+    var SearchResultList = [
+      1,
+      n05,
+      _SRL,
+      0,
+      () => SearchResultItem$
+    ];
+    var SearchSchema = [
+      1,
+      n05,
+      _SSe,
+      0,
+      () => SearchSchemaElement$
+    ];
+    var SearchVectorList = [
+      1,
+      n05,
+      _SVL,
+      0,
+      () => AttributeValue$
+    ];
+    var TagList = [
+      1,
+      n05,
+      _TL,
+      0,
+      () => Tag$2
+    ];
+    var ThrottlingReasonList = [
+      1,
+      n05,
+      _TRL,
+      0,
+      () => ThrottlingReason$
+    ];
+    var TransactGetItemList = [
+      1,
+      n05,
+      _TGIL,
+      0,
+      () => TransactGetItem$
+    ];
+    var TransactWriteItemList = [
+      1,
+      n05,
+      _TWIL,
+      0,
+      () => TransactWriteItem$
+    ];
+    var VectorIndexDescriptionList = [
+      1,
+      n05,
+      _VIDL,
+      0,
+      () => VectorIndexDescription$
+    ];
+    var VectorIndexes = [
+      1,
+      n05,
+      _VI,
+      0,
+      () => VectorIndexInfo$
+    ];
+    var VectorIndexList = [
+      1,
+      n05,
+      _VIL,
+      0,
+      () => VectorIndex$
+    ];
+    var VectorIndexUpdateList = [
+      1,
+      n05,
+      _VIUL,
+      0,
+      () => VectorIndexUpdate$
+    ];
+    var WriteRequests = [
+      1,
+      n05,
+      _WRr,
+      0,
+      () => WriteRequest$
+    ];
+    var AttributeMap = [
+      2,
+      n05,
+      _AM,
+      0,
+      0,
+      () => AttributeValue$
+    ];
+    var AttributeUpdates = [
+      2,
+      n05,
+      _AU,
+      0,
+      0,
+      () => AttributeValueUpdate$
+    ];
+    var BatchGetRequestMap = [
+      2,
+      n05,
+      _BGRMa,
+      0,
+      0,
+      () => KeysAndAttributes$
+    ];
+    var BatchGetResponseMap = [
+      2,
+      n05,
+      _BGRM,
+      0,
+      0,
+      () => ItemList
+    ];
+    var BatchWriteItemRequestMap = [
+      2,
+      n05,
+      _BWIRM,
+      0,
+      0,
+      () => WriteRequests
+    ];
+    var ExpectedAttributeMap = [
+      2,
+      n05,
+      _EAM,
+      0,
+      0,
+      () => ExpectedAttributeValue$
+    ];
+    var ExpressionAttributeValueMap = [
+      2,
+      n05,
+      _EAVM,
+      0,
+      0,
+      () => AttributeValue$
+    ];
+    var FilterConditionMap = [
+      2,
+      n05,
+      _FCM,
+      0,
+      0,
+      () => Condition$
+    ];
+    var ItemCollectionKeyAttributeMap = [
+      2,
+      n05,
+      _ICKAM,
+      0,
+      0,
+      () => AttributeValue$
+    ];
+    var ItemCollectionMetricsPerTable = [
+      2,
+      n05,
+      _ICMPT,
+      0,
+      0,
+      () => ItemCollectionMetricsMultiple
+    ];
+    var Key = [
+      2,
+      n05,
+      _K2,
+      0,
+      0,
+      () => AttributeValue$
+    ];
+    var KeyConditions = [
+      2,
+      n05,
+      _KC,
+      0,
+      0,
+      () => Condition$
+    ];
+    var MapAttributeValue = [
+      2,
+      n05,
+      _MAV,
+      0,
+      0,
+      () => AttributeValue$
+    ];
+    var PutItemInputAttributeMap = [
+      2,
+      n05,
+      _PIIAM,
+      0,
+      0,
+      () => AttributeValue$
+    ];
+    var SecondaryIndexesCapacityMap = [
+      2,
+      n05,
+      _SICM,
+      0,
+      0,
+      () => Capacity$
+    ];
+    var VectorIndexesCapacityMap = [
+      2,
+      n05,
+      _VICM,
+      0,
+      0,
+      () => VectorCapacity$
+    ];
+    var AttributeValue$ = [
+      4,
+      n05,
+      _AV,
+      0,
+      [_S_, _N, _B_, _SS_, _NS, _BS_, _M_, _L_, _NULL, _BOOL],
+      [0, 0, 21, 64 | 0, 64 | 0, 64 | 21, () => MapAttributeValue, () => ListAttributeValue, 2, 2]
+    ];
+    var BatchExecuteStatement$ = [
+      9,
+      n05,
+      _BES,
+      0,
+      () => BatchExecuteStatementInput$,
+      () => BatchExecuteStatementOutput$
+    ];
+    var BatchGetItem$ = [
+      9,
+      n05,
+      _BGI,
+      0,
+      () => BatchGetItemInput$,
+      () => BatchGetItemOutput$
+    ];
+    var BatchWriteItem$ = [
+      9,
+      n05,
+      _BWI,
+      0,
+      () => BatchWriteItemInput$,
+      () => BatchWriteItemOutput$
+    ];
+    var CreateBackup$ = [
+      9,
+      n05,
+      _CB,
+      0,
+      () => CreateBackupInput$,
+      () => CreateBackupOutput$
+    ];
+    var CreateGlobalTable$ = [
+      9,
+      n05,
+      _CGT,
+      0,
+      () => CreateGlobalTableInput$,
+      () => CreateGlobalTableOutput$
+    ];
+    var CreateTable$ = [
+      9,
+      n05,
+      _CTr,
+      0,
+      () => CreateTableInput$,
+      () => CreateTableOutput$
+    ];
+    var DeleteBackup$ = [
+      9,
+      n05,
+      _DB,
+      0,
+      () => DeleteBackupInput$,
+      () => DeleteBackupOutput$
+    ];
+    var DeleteItem$ = [
+      9,
+      n05,
+      _DI,
+      0,
+      () => DeleteItemInput$,
+      () => DeleteItemOutput$
+    ];
+    var DeleteResourcePolicy$ = [
+      9,
+      n05,
+      _DRP,
+      0,
+      () => DeleteResourcePolicyInput$,
+      () => DeleteResourcePolicyOutput$
+    ];
+    var DeleteTable$ = [
+      9,
+      n05,
+      _DT,
+      0,
+      () => DeleteTableInput$,
+      () => DeleteTableOutput$
+    ];
+    var DescribeBackup$ = [
+      9,
+      n05,
+      _DBe,
+      0,
+      () => DescribeBackupInput$,
+      () => DescribeBackupOutput$
+    ];
+    var DescribeContinuousBackups$ = [
+      9,
+      n05,
+      _DCB,
+      0,
+      () => DescribeContinuousBackupsInput$,
+      () => DescribeContinuousBackupsOutput$
+    ];
+    var DescribeContributorInsights$ = [
+      9,
+      n05,
+      _DCI,
+      0,
+      () => DescribeContributorInsightsInput$,
+      () => DescribeContributorInsightsOutput$
+    ];
+    var DescribeEndpoints$ = [
+      9,
+      n05,
+      _DE,
+      0,
+      () => DescribeEndpointsRequest$,
+      () => DescribeEndpointsResponse$
+    ];
+    var DescribeExport$ = [
+      9,
+      n05,
+      _DEe,
+      0,
+      () => DescribeExportInput$,
+      () => DescribeExportOutput$
+    ];
+    var DescribeGlobalTable$ = [
+      9,
+      n05,
+      _DGT,
+      0,
+      () => DescribeGlobalTableInput$,
+      () => DescribeGlobalTableOutput$
+    ];
+    var DescribeGlobalTableSettings$ = [
+      9,
+      n05,
+      _DGTS,
+      0,
+      () => DescribeGlobalTableSettingsInput$,
+      () => DescribeGlobalTableSettingsOutput$
+    ];
+    var DescribeImport$ = [
+      9,
+      n05,
+      _DIe,
+      0,
+      () => DescribeImportInput$,
+      () => DescribeImportOutput$
+    ];
+    var DescribeKinesisStreamingDestination$ = [
+      9,
+      n05,
+      _DKSD,
+      0,
+      () => DescribeKinesisStreamingDestinationInput$,
+      () => DescribeKinesisStreamingDestinationOutput$
+    ];
+    var DescribeLimits$ = [
+      9,
+      n05,
+      _DL,
+      0,
+      () => DescribeLimitsInput$,
+      () => DescribeLimitsOutput$
+    ];
+    var DescribeTable$ = [
+      9,
+      n05,
+      _DTe,
+      0,
+      () => DescribeTableInput$,
+      () => DescribeTableOutput$
+    ];
+    var DescribeTableReplicaAutoScaling$ = [
+      9,
+      n05,
+      _DTRAS,
+      0,
+      () => DescribeTableReplicaAutoScalingInput$,
+      () => DescribeTableReplicaAutoScalingOutput$
+    ];
+    var DescribeTimeToLive$ = [
+      9,
+      n05,
+      _DTTL,
+      0,
+      () => DescribeTimeToLiveInput$,
+      () => DescribeTimeToLiveOutput$
+    ];
+    var DisableKinesisStreamingDestination$ = [
+      9,
+      n05,
+      _DKSDi,
+      0,
+      () => KinesisStreamingDestinationInput$,
+      () => KinesisStreamingDestinationOutput$
+    ];
+    var EnableKinesisStreamingDestination$ = [
+      9,
+      n05,
+      _EKSD,
+      0,
+      () => KinesisStreamingDestinationInput$,
+      () => KinesisStreamingDestinationOutput$
+    ];
+    var ExecuteStatement$ = [
+      9,
+      n05,
+      _ESxe,
+      0,
+      () => ExecuteStatementInput$,
+      () => ExecuteStatementOutput$
+    ];
+    var ExecuteTransaction$ = [
+      9,
+      n05,
+      _ETxe,
+      0,
+      () => ExecuteTransactionInput$,
+      () => ExecuteTransactionOutput$
+    ];
+    var ExportTableToPointInTime$ = [
+      9,
+      n05,
+      _ETTPIT,
+      0,
+      () => ExportTableToPointInTimeInput$,
+      () => ExportTableToPointInTimeOutput$
+    ];
+    var GetItem$ = [
+      9,
+      n05,
+      _GI,
+      0,
+      () => GetItemInput$,
+      () => GetItemOutput$
+    ];
+    var GetResourcePolicy$ = [
+      9,
+      n05,
+      _GRP,
+      0,
+      () => GetResourcePolicyInput$,
+      () => GetResourcePolicyOutput$
+    ];
+    var ImportTable$ = [
+      9,
+      n05,
+      _IT2,
+      0,
+      () => ImportTableInput$,
+      () => ImportTableOutput$
+    ];
+    var ListBackups$ = [
+      9,
+      n05,
+      _LB,
+      0,
+      () => ListBackupsInput$,
+      () => ListBackupsOutput$
+    ];
+    var ListContributorInsights$ = [
+      9,
+      n05,
+      _LCI,
+      0,
+      () => ListContributorInsightsInput$,
+      () => ListContributorInsightsOutput$
+    ];
+    var ListExports$ = [
+      9,
+      n05,
+      _LE,
+      0,
+      () => ListExportsInput$,
+      () => ListExportsOutput$
+    ];
+    var ListGlobalTables$ = [
+      9,
+      n05,
+      _LGT,
+      0,
+      () => ListGlobalTablesInput$,
+      () => ListGlobalTablesOutput$
+    ];
+    var ListImports$ = [
+      9,
+      n05,
+      _LI,
+      0,
+      () => ListImportsInput$,
+      () => ListImportsOutput$
+    ];
+    var ListTables$ = [
+      9,
+      n05,
+      _LT,
+      0,
+      () => ListTablesInput$,
+      () => ListTablesOutput$
+    ];
+    var ListTagsOfResource$ = [
+      9,
+      n05,
+      _LTOR,
+      0,
+      () => ListTagsOfResourceInput$,
+      () => ListTagsOfResourceOutput$
+    ];
+    var PutItem$ = [
+      9,
+      n05,
+      _PI2,
+      0,
+      () => PutItemInput$,
+      () => PutItemOutput$
+    ];
+    var PutResourcePolicy$ = [
+      9,
+      n05,
+      _PRP,
+      0,
+      () => PutResourcePolicyInput$,
+      () => PutResourcePolicyOutput$
+    ];
+    var Query$ = [
+      9,
+      n05,
+      _Q,
+      0,
+      () => QueryInput$,
+      () => QueryOutput$
+    ];
+    var RestoreTableFromBackup$ = [
+      9,
+      n05,
+      _RTFB,
+      0,
+      () => RestoreTableFromBackupInput$,
+      () => RestoreTableFromBackupOutput$
+    ];
+    var RestoreTableToPointInTime$ = [
+      9,
+      n05,
+      _RTTPIT,
+      0,
+      () => RestoreTableToPointInTimeInput$,
+      () => RestoreTableToPointInTimeOutput$
+    ];
+    var Scan$ = [
+      9,
+      n05,
+      _Sca,
+      0,
+      () => ScanInput$,
+      () => ScanOutput$
+    ];
+    var SearchVectors$ = [
+      9,
+      n05,
+      _SVe,
+      0,
+      () => SearchVectorsInput$,
+      () => SearchVectorsOutput$
+    ];
+    var TagResource$ = [
+      9,
+      n05,
+      _TRa,
+      0,
+      () => TagResourceInput$,
+      () => __Unit
+    ];
+    var TransactGetItems$ = [
+      9,
+      n05,
+      _TGIr,
+      0,
+      () => TransactGetItemsInput$,
+      () => TransactGetItemsOutput$
+    ];
+    var TransactWriteItems$ = [
+      9,
+      n05,
+      _TWIr,
+      0,
+      () => TransactWriteItemsInput$,
+      () => TransactWriteItemsOutput$
+    ];
+    var UntagResource$ = [
+      9,
+      n05,
+      _UR,
+      0,
+      () => UntagResourceInput$,
+      () => __Unit
+    ];
+    var UpdateContinuousBackups$ = [
+      9,
+      n05,
+      _UCB,
+      0,
+      () => UpdateContinuousBackupsInput$,
+      () => UpdateContinuousBackupsOutput$
+    ];
+    var UpdateContributorInsights$ = [
+      9,
+      n05,
+      _UCI,
+      0,
+      () => UpdateContributorInsightsInput$,
+      () => UpdateContributorInsightsOutput$
+    ];
+    var UpdateGlobalTable$ = [
+      9,
+      n05,
+      _UGT,
+      0,
+      () => UpdateGlobalTableInput$,
+      () => UpdateGlobalTableOutput$
+    ];
+    var UpdateGlobalTableSettings$ = [
+      9,
+      n05,
+      _UGTS,
+      0,
+      () => UpdateGlobalTableSettingsInput$,
+      () => UpdateGlobalTableSettingsOutput$
+    ];
+    var UpdateItem$ = [
+      9,
+      n05,
+      _UIp,
+      0,
+      () => UpdateItemInput$,
+      () => UpdateItemOutput$
+    ];
+    var UpdateKinesisStreamingDestination$ = [
+      9,
+      n05,
+      _UKSD,
+      0,
+      () => UpdateKinesisStreamingDestinationInput$,
+      () => UpdateKinesisStreamingDestinationOutput$
+    ];
+    var UpdateTable$ = [
+      9,
+      n05,
+      _UT,
+      0,
+      () => UpdateTableInput$,
+      () => UpdateTableOutput$
+    ];
+    var UpdateTableReplicaAutoScaling$ = [
+      9,
+      n05,
+      _UTRAS,
+      0,
+      () => UpdateTableReplicaAutoScalingInput$,
+      () => UpdateTableReplicaAutoScalingOutput$
+    ];
+    var UpdateTimeToLive$ = [
+      9,
+      n05,
+      _UTTL,
+      0,
+      () => UpdateTimeToLiveInput$,
+      () => UpdateTimeToLiveOutput$
+    ];
+    var DescribeEndpointsCommand = class extends command5(_ep05, _mw05, "DescribeEndpoints", DescribeEndpoints$) {
+    };
+    var version = "3.1126.0";
+    var packageInfo = {
+      version
+    };
+    var L = "ref";
+    var M2 = "argv";
+    var a5 = -1;
+    var b5 = true;
+    var c5 = false;
+    var d5 = "isSet";
+    var e5 = "booleanEquals";
+    var f5 = "PartitionResult";
+    var g5 = "stringEquals";
+    var h5 = "getAttr";
+    var i5 = "parsedEndpoint";
+    var j5 = "aws.parseArn";
+    var k5 = (n4) => "ParsedArn_ssa_" + n4;
+    var l3 = "service";
+    var m3 = "dynamodb";
+    var n3 = "isValidHostLabel";
+    var o3 = "accountId";
+    var p3 = "FirstArn";
+    var q3 = (n4) => "https://{ParsedArn_ssa_" + n4 + "#accountId}.search-ddb.{Region}.{PartitionResult#dualStackDnsSuffix}";
+    var s2 = (n4) => "https://{ParsedArn_ssa_" + n4 + "#accountId}.ddb.{Region}.{PartitionResult#dualStackDnsSuffix}";
+    var t = (n4) => "https://{ParsedArn_ssa_" + n4 + "#accountId}.search-ddb.{Region}.{PartitionResult#dnsSuffix}";
+    var u = (n4) => "https://{ParsedArn_ssa_" + n4 + "#accountId}.ddb.{Region}.{PartitionResult#dnsSuffix}";
+    var v = { [L]: "Region" };
+    var w = { [L]: f5 };
+    var x = { "fn": h5, [M2]: [{ [L]: i5 }, "authority"] };
+    var y = { [L]: "AccountIdEndpointMode" };
+    var z = { "fn": h5, [M2]: [w, "name"] };
+    var A = { "fn": h5, [M2]: [{ [L]: "ParsedArn_ssa_2" }, "region"] };
+    var B = { [L]: "ParsedArn_ssa_2" };
+    var C = { [L]: "ResourceArnList" };
+    var D = { "fn": h5, [M2]: [{ [L]: "ParsedArn_ssa_1" }, "region"] };
+    var E = { [L]: "ParsedArn_ssa_1" };
+    var F = { [L]: "AccountId" };
+    var G = {};
+    var H = { "metricValues": ["O"] };
+    var I = [v];
+    var J = [{ [L]: "Endpoint" }];
+    var K2 = [{ [L]: "ResourceArn" }];
+    var _data5 = {
+      conditions: [
+        [d5, I],
+        [d5, J],
+        [e5, [{ [L]: "UseFIPS" }, b5]],
+        [e5, [{ [L]: "UseDualStack" }, b5]],
+        ["aws.partition", I, f5],
+        [g5, [v, "local"]],
+        [e5, [{ fn: h5, [M2]: [w, "supportsFIPS"] }, b5]],
+        ["parseURL", J, i5],
+        [g5, ["dynamodb.{Region}.{PartitionResult#dualStackDnsSuffix}", x]],
+        [e5, [{ fn: h5, [M2]: [w, "supportsDualStack"] }, b5]],
+        [g5, ["search-dynamodb.{Region}.{PartitionResult#dualStackDnsSuffix}", x]],
+        [d5, [y]],
+        [g5, [z, "aws"]],
+        [g5, [y, "disabled"]],
+        [d5, K2],
+        [j5, K2, k5(2)],
+        [g5, [A, v]],
+        [g5, [{ fn: h5, [M2]: [B, l3] }, m3]],
+        [n3, [A, c5]],
+        [n3, [{ fn: h5, [M2]: [B, o3] }, c5]],
+        [d5, [C]],
+        [h5, [C, "[0]"], p3],
+        [j5, [{ [L]: p3 }], k5(1)],
+        [g5, [D, v]],
+        [g5, [{ fn: h5, [M2]: [E, l3] }, m3]],
+        [n3, [{ fn: h5, [M2]: [E, o3] }, c5]],
+        [n3, [D, c5]],
+        [d5, [F]],
+        [g5, [y, "required"]],
+        [n3, [F, c5]],
+        [g5, [z, "aws-us-gov"]],
+        [e5, [{ fn: "coalesce", [M2]: [{ [L]: "IsSearchOperation" }, c5] }, b5]]
+      ],
+      results: [
+        [a5],
+        [a5, "Invalid Configuration: FIPS and custom endpoint are not supported"],
+        [a5, "Invalid Configuration: Dualstack and custom endpoint are not supported"],
+        [a5, "Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html"],
+        ["{Endpoint}", G],
+        [a5, "Invalid Configuration: FIPS and local endpoint are not supported"],
+        [a5, "Invalid Configuration: Dualstack and local endpoint are not supported"],
+        ["http://localhost:8000", { authSchemes: [{ signingRegion: "us-east-1", name: "sigv4", signingName: m3 }] }],
+        [a5, "Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported"],
+        ["https://search-dynamodb-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", G],
+        ["https://dynamodb-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", G],
+        [a5, "FIPS and DualStack are enabled, but this partition does not support one or both"],
+        ["https://search-dynamodb.{Region}.{PartitionResult#dnsSuffix}", G],
+        ["https://dynamodb.{Region}.{PartitionResult#dnsSuffix}", G],
+        ["https://search-dynamodb-fips.{Region}.{PartitionResult#dnsSuffix}", G],
+        ["https://dynamodb-fips.{Region}.{PartitionResult#dnsSuffix}", G],
+        [a5, "FIPS is enabled but this partition does not support FIPS"],
+        [q3(2), H],
+        [s2(2), H],
+        [q3(1), H],
+        [s2(1), H],
+        ["https://{AccountId}.search-ddb.{Region}.{PartitionResult#dualStackDnsSuffix}", H],
+        ["https://{AccountId}.ddb.{Region}.{PartitionResult#dualStackDnsSuffix}", H],
+        [a5, "Credentials-sourced account ID parameter is invalid"],
+        [a5, "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded"],
+        [a5, "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition"],
+        ["https://search-dynamodb.{Region}.{PartitionResult#dualStackDnsSuffix}", G],
+        ["https://dynamodb.{Region}.{PartitionResult#dualStackDnsSuffix}", G],
+        [a5, "DualStack is enabled but this partition does not support DualStack"],
+        [t(2), H],
+        [u(2), H],
+        [t(1), H],
+        [u(1), H],
+        ["https://{AccountId}.search-ddb.{Region}.{PartitionResult#dnsSuffix}", H],
+        ["https://{AccountId}.ddb.{Region}.{PartitionResult#dnsSuffix}", H],
+        [a5, "Invalid Configuration: Missing Region"]
+      ]
+    };
+    var root5 = 2;
+    var r5 = 1e8;
+    var nodes5 = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      6,
+      3,
+      1,
+      4,
+      r5 + 35,
+      2,
+      r5 + 1,
+      5,
+      3,
+      r5 + 2,
+      r5 + 4,
+      1,
+      77,
+      7,
+      2,
+      61,
+      8,
+      3,
+      34,
+      9,
+      4,
+      10,
+      r5 + 35,
+      5,
+      r5 + 7,
+      11,
+      11,
+      12,
+      69,
+      12,
+      14,
+      13,
+      28,
+      r5 + 25,
+      69,
+      13,
+      33,
+      15,
+      14,
+      16,
+      21,
+      15,
+      17,
+      21,
+      16,
+      18,
+      21,
+      17,
+      19,
+      21,
+      18,
+      20,
+      21,
+      19,
+      32,
+      21,
+      20,
+      22,
+      28,
+      21,
+      23,
+      28,
+      22,
+      24,
+      28,
+      23,
+      25,
+      28,
+      24,
+      26,
+      28,
+      25,
+      27,
+      28,
+      26,
+      31,
+      28,
+      27,
+      29,
+      33,
+      29,
+      30,
+      r5 + 23,
+      31,
+      r5 + 33,
+      r5 + 34,
+      31,
+      r5 + 31,
+      r5 + 32,
+      31,
+      r5 + 29,
+      r5 + 30,
+      28,
+      r5 + 24,
+      69,
+      4,
+      35,
+      r5 + 35,
+      5,
+      r5 + 6,
+      36,
+      9,
+      37,
+      r5 + 28,
+      11,
+      38,
+      60,
+      12,
+      40,
+      39,
+      28,
+      r5 + 25,
+      60,
+      13,
+      59,
+      41,
+      14,
+      42,
+      47,
+      15,
+      43,
+      47,
+      16,
+      44,
+      47,
+      17,
+      45,
+      47,
+      18,
+      46,
+      47,
+      19,
+      58,
+      47,
+      20,
+      48,
+      54,
+      21,
+      49,
+      54,
+      22,
+      50,
+      54,
+      23,
+      51,
+      54,
+      24,
+      52,
+      54,
+      25,
+      53,
+      54,
+      26,
+      57,
+      54,
+      27,
+      55,
+      59,
+      29,
+      56,
+      r5 + 23,
+      31,
+      r5 + 21,
+      r5 + 22,
+      31,
+      r5 + 19,
+      r5 + 20,
+      31,
+      r5 + 17,
+      r5 + 18,
+      28,
+      r5 + 24,
+      60,
+      31,
+      r5 + 26,
+      r5 + 27,
+      3,
+      70,
+      62,
+      4,
+      63,
+      r5 + 35,
+      5,
+      r5 + 5,
+      64,
+      6,
+      65,
+      r5 + 16,
+      11,
+      66,
+      67,
+      28,
+      r5 + 8,
+      67,
+      30,
+      69,
+      68,
+      31,
+      r5 + 14,
+      r5 + 15,
+      31,
+      r5 + 12,
+      r5 + 13,
+      4,
+      71,
+      r5 + 35,
+      5,
+      r5 + 5,
+      72,
+      6,
+      73,
+      r5 + 11,
+      9,
+      74,
+      r5 + 11,
+      11,
+      75,
+      76,
+      28,
+      r5 + 8,
+      76,
+      31,
+      r5 + 9,
+      r5 + 10,
+      2,
+      r5 + 1,
+      78,
+      3,
+      r5 + 2,
+      79,
+      4,
+      80,
+      r5 + 4,
+      7,
+      81,
+      r5 + 4,
+      8,
+      r5 + 3,
+      82,
+      10,
+      r5 + 3,
+      r5 + 4
+    ]);
+    var bdd5 = BinaryDecisionDiagram2.from(nodes5, root5, _data5.conditions, _data5.results);
+    var cache5 = new EndpointCache2({
+      size: 50,
+      params: [
+        "AccountId",
+        "AccountIdEndpointMode",
+        "Endpoint",
+        "IsSearchOperation",
+        "Region",
+        "ResourceArn",
+        "ResourceArnList",
+        "UseDualStack",
+        "UseFIPS"
+      ]
+    });
+    var defaultEndpointResolver5 = (endpointParams, context = {}) => {
+      return cache5.get(endpointParams, () => decideEndpoint2(bdd5, {
+        endpointParams,
+        logger: context.logger
+      }));
+    };
+    customEndpointFunctions2.aws = awsEndpointFunctions2;
+    var getRuntimeConfig$1 = (config) => {
+      return {
+        apiVersion: "2012-08-10",
+        base64Decoder: config?.base64Decoder ?? fromBase642,
+        base64Encoder: config?.base64Encoder ?? toBase643,
+        disableHostPrefix: config?.disableHostPrefix ?? false,
+        endpointProvider: config?.endpointProvider ?? defaultEndpointResolver5,
+        extensions: config?.extensions ?? [],
+        httpAuthSchemeProvider: config?.httpAuthSchemeProvider ?? defaultDynamoDBHttpAuthSchemeProvider,
+        httpAuthSchemes: config?.httpAuthSchemes ?? [
+          {
+            schemeId: "aws.auth#sigv4",
+            identityProvider: (ipc) => ipc.getIdentityProvider("aws.auth#sigv4"),
+            signer: new AwsSdkSigV4Signer2()
+          }
+        ],
+        logger: config?.logger ?? new NoOpLogger2(),
+        protocol: config?.protocol ?? AwsJson1_0Protocol2,
+        protocolSettings: config?.protocolSettings ?? {
+          defaultNamespace: "com.amazonaws.dynamodb",
+          errorTypeRegistries: errorTypeRegistries5,
+          xmlNamespace: "http://dynamodb.amazonaws.com/doc/2012-08-10/",
+          version: "2012-08-10",
+          serviceTarget: "DynamoDB_20120810",
+          jsonCodec: new DynamoDBJsonCodec2()
+        },
+        serviceId: config?.serviceId ?? "DynamoDB",
+        sha256: config?.sha256 ?? Sha256,
+        urlParser: config?.urlParser ?? parseUrl2,
+        utf8Decoder: config?.utf8Decoder ?? fromUtf83,
+        utf8Encoder: config?.utf8Encoder ?? toUtf83
+      };
+    };
+    var getRuntimeConfig9 = (config) => {
+      emitWarningIfUnsupportedVersion3(process.version);
+      const defaultsMode = resolveDefaultsModeConfig2(config);
+      const defaultConfigProvider = () => defaultsMode().then(loadConfigsForDefaultMode2);
+      const clientSharedValues = getRuntimeConfig$1(config);
+      emitWarningIfUnsupportedVersion$1(process.version);
+      const loaderConfig = {
+        profile: config?.profile,
+        logger: clientSharedValues.logger
+      };
+      return {
+        ...clientSharedValues,
+        ...config,
+        runtime: "node",
+        defaultsMode,
+        accountIdEndpointMode: config?.accountIdEndpointMode ?? loadConfig2(NODE_ACCOUNT_ID_ENDPOINT_MODE_CONFIG_OPTIONS2, loaderConfig),
+        authSchemePreference: config?.authSchemePreference ?? loadConfig2(NODE_AUTH_SCHEME_PREFERENCE_OPTIONS2, loaderConfig),
+        bodyLengthChecker: config?.bodyLengthChecker ?? calculateBodyLength2,
+        credentialDefaultProvider: config?.credentialDefaultProvider ?? defaultProvider,
+        defaultUserAgentProvider: config?.defaultUserAgentProvider ?? createDefaultUserAgentProvider2({ serviceId: clientSharedValues.serviceId, clientVersion: packageInfo.version }),
+        endpointDiscoveryEnabledProvider: config?.endpointDiscoveryEnabledProvider ?? loadConfig2(NODE_ENDPOINT_DISCOVERY_CONFIG_OPTIONS, loaderConfig),
+        maxAttempts: config?.maxAttempts ?? loadConfig2(Retry2.v2026 ? { ...NODE_MAX_ATTEMPT_CONFIG_OPTIONS2, default: 4 } : NODE_MAX_ATTEMPT_CONFIG_OPTIONS2, config),
+        region: config?.region ?? loadConfig2(NODE_REGION_CONFIG_OPTIONS2, { ...NODE_REGION_CONFIG_FILE_OPTIONS2, ...loaderConfig }),
+        requestHandler: NodeHttpHandler.create(config?.requestHandler ?? defaultConfigProvider),
+        retryMode: config?.retryMode ?? loadConfig2({
+          ...NODE_RETRY_MODE_CONFIG_OPTIONS2,
+          default: async () => (await defaultConfigProvider()).retryMode || DEFAULT_RETRY_MODE2
+        }, config),
+        streamCollector: config?.streamCollector ?? streamCollector7,
+        useDualstackEndpoint: config?.useDualstackEndpoint ?? loadConfig2(NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS2, loaderConfig),
+        useFipsEndpoint: config?.useFipsEndpoint ?? loadConfig2(NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS2, loaderConfig),
+        userAgentAppId: config?.userAgentAppId ?? loadConfig2(NODE_APP_ID_CONFIG_OPTIONS2, loaderConfig)
+      };
+    };
+    var getHttpAuthExtensionConfiguration5 = (runtimeConfig) => {
+      const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
+      let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
+      let _credentials = runtimeConfig.credentials;
+      return {
+        setHttpAuthScheme(httpAuthScheme) {
+          const index = _httpAuthSchemes.findIndex((scheme) => scheme.schemeId === httpAuthScheme.schemeId);
+          if (index === -1) {
+            _httpAuthSchemes.push(httpAuthScheme);
+          } else {
+            _httpAuthSchemes.splice(index, 1, httpAuthScheme);
+          }
+        },
+        httpAuthSchemes() {
+          return _httpAuthSchemes;
+        },
+        setHttpAuthSchemeProvider(httpAuthSchemeProvider) {
+          _httpAuthSchemeProvider = httpAuthSchemeProvider;
+        },
+        httpAuthSchemeProvider() {
+          return _httpAuthSchemeProvider;
+        },
+        setCredentials(credentials) {
+          _credentials = credentials;
+        },
+        credentials() {
+          return _credentials;
+        }
+      };
+    };
+    var resolveHttpAuthRuntimeConfig5 = (config) => {
+      return {
+        httpAuthSchemes: config.httpAuthSchemes(),
+        httpAuthSchemeProvider: config.httpAuthSchemeProvider(),
+        credentials: config.credentials()
+      };
+    };
+    var resolveRuntimeExtensions5 = (runtimeConfig, extensions) => {
+      const extensionConfiguration = Object.assign(getAwsRegionExtensionConfiguration2(runtimeConfig), getDefaultExtensionConfiguration2(runtimeConfig), getHttpHandlerExtensionConfiguration2(runtimeConfig), getHttpAuthExtensionConfiguration5(runtimeConfig));
+      extensions.forEach((extension) => extension.configure(extensionConfiguration));
+      return Object.assign(runtimeConfig, resolveAwsRegionExtensionConfiguration2(extensionConfiguration), resolveDefaultRuntimeConfig2(extensionConfiguration), resolveHttpHandlerRuntimeConfig2(extensionConfiguration), resolveHttpAuthRuntimeConfig5(extensionConfiguration));
+    };
+    var DynamoDBClient2 = class extends Client2 {
+      config;
+      constructor(...[configuration]) {
+        const _config_0 = getRuntimeConfig9(configuration || {});
+        super(_config_0);
+        this.initConfig = _config_0;
+        const _config_1 = resolveClientEndpointParameters5(_config_0);
+        const _config_2 = resolveAccountIdEndpointModeConfig2(_config_1);
+        const _config_3 = resolveUserAgentConfig2(_config_2);
+        const _config_4 = resolveRetryConfig2(_config_3, { defaultBaseDelay: Retry2.v2026 ? 25 : void 0, defaultMaxAttempts: Retry2.v2026 ? 4 : void 0 });
+        const _config_5 = resolveRegionConfig2(_config_4);
+        const _config_6 = resolveHostHeaderConfig2(_config_5);
+        const _config_7 = resolveEndpointConfig2(_config_6);
+        const _config_8 = resolveHttpAuthSchemeConfig5(_config_7);
+        const _config_9 = resolveEndpointDiscoveryConfig(_config_8, { endpointDiscoveryCommandCtor: DescribeEndpointsCommand });
+        const _config_10 = resolveRuntimeExtensions5(_config_9, configuration?.extensions || []);
+        this.config = _config_10;
+        this.middlewareStack.use(getSchemaSerdePlugin2(this.config));
+        this.middlewareStack.use(getUserAgentPlugin2(this.config));
+        this.middlewareStack.use(getRetryPlugin2(this.config));
+        this.middlewareStack.use(getContentLengthPlugin2(this.config));
+        this.middlewareStack.use(getHostHeaderPlugin2(this.config));
+        this.middlewareStack.use(getLoggerPlugin2(this.config));
+        this.middlewareStack.use(getRecursionDetectionPlugin2(this.config));
+        this.middlewareStack.use(getHttpAuthSchemeEndpointRuleSetPlugin2(this.config, {
+          httpAuthSchemeParametersProvider: defaultDynamoDBHttpAuthSchemeParametersProvider,
+          identityProviderConfigProvider: async (config) => new DefaultIdentityProviderConfig2({
+            "aws.auth#sigv4": config.credentials
+          })
+        }));
+        this.middlewareStack.use(getHttpSigningPlugin2(this.config));
+      }
+      destroy() {
+        super.destroy();
+      }
+    };
+    var BatchExecuteStatementCommand = class extends command5(_ep05, _mw05, "BatchExecuteStatement", BatchExecuteStatement$) {
+    };
+    var BatchGetItemCommand = class extends command5(_ep12, _mw05, "BatchGetItem", BatchGetItem$) {
+    };
+    var BatchWriteItemCommand = class extends command5(_ep12, _mw05, "BatchWriteItem", BatchWriteItem$) {
+    };
+    var CreateBackupCommand = class extends command5(_ep2, _mw05, "CreateBackup", CreateBackup$) {
+    };
+    var CreateGlobalTableCommand = class extends command5(_ep3, _mw05, "CreateGlobalTable", CreateGlobalTable$) {
+    };
+    var CreateTableCommand = class extends command5(_ep2, _mw05, "CreateTable", CreateTable$) {
+    };
+    var DeleteBackupCommand = class extends command5(_ep4, _mw05, "DeleteBackup", DeleteBackup$) {
+    };
+    var DeleteItemCommand = class extends command5(_ep2, _mw05, "DeleteItem", DeleteItem$) {
+    };
+    var DeleteResourcePolicyCommand = class extends command5(_ep5, _mw05, "DeleteResourcePolicy", DeleteResourcePolicy$) {
+    };
+    var DeleteTableCommand = class extends command5(_ep2, _mw05, "DeleteTable", DeleteTable$) {
+    };
+    var DescribeBackupCommand = class extends command5(_ep4, _mw05, "DescribeBackup", DescribeBackup$) {
+    };
+    var DescribeContinuousBackupsCommand = class extends command5(_ep2, _mw05, "DescribeContinuousBackups", DescribeContinuousBackups$) {
+    };
+    var DescribeContributorInsightsCommand = class extends command5(_ep2, _mw05, "DescribeContributorInsights", DescribeContributorInsights$) {
+    };
+    var DescribeExportCommand = class extends command5(_ep6, _mw05, "DescribeExport", DescribeExport$) {
+    };
+    var DescribeGlobalTableCommand = class extends command5(_ep3, _mw05, "DescribeGlobalTable", DescribeGlobalTable$) {
+    };
+    var DescribeGlobalTableSettingsCommand = class extends command5(_ep3, _mw05, "DescribeGlobalTableSettings", DescribeGlobalTableSettings$) {
+    };
+    var DescribeImportCommand = class extends command5(_ep7, _mw05, "DescribeImport", DescribeImport$) {
+    };
+    var DescribeKinesisStreamingDestinationCommand = class extends command5(_ep2, _mw05, "DescribeKinesisStreamingDestination", DescribeKinesisStreamingDestination$) {
+    };
+    var DescribeLimitsCommand = class extends command5(_ep05, _mw05, "DescribeLimits", DescribeLimits$) {
+    };
+    var DescribeTableCommand = class extends command5(_ep2, _mw05, "DescribeTable", DescribeTable$) {
+    };
+    var DescribeTableReplicaAutoScalingCommand = class extends command5(_ep2, _mw05, "DescribeTableReplicaAutoScaling", DescribeTableReplicaAutoScaling$) {
+    };
+    var DescribeTimeToLiveCommand = class extends command5(_ep2, _mw05, "DescribeTimeToLive", DescribeTimeToLive$) {
+    };
+    var DisableKinesisStreamingDestinationCommand = class extends command5(_ep2, _mw05, "DisableKinesisStreamingDestination", DisableKinesisStreamingDestination$) {
+    };
+    var EnableKinesisStreamingDestinationCommand = class extends command5(_ep2, _mw05, "EnableKinesisStreamingDestination", EnableKinesisStreamingDestination$) {
+    };
+    var ExecuteStatementCommand = class extends command5(_ep05, _mw05, "ExecuteStatement", ExecuteStatement$) {
+    };
+    var ExecuteTransactionCommand = class extends command5(_ep05, _mw05, "ExecuteTransaction", ExecuteTransaction$) {
+    };
+    var ExportTableToPointInTimeCommand = class extends command5(_ep8, _mw05, "ExportTableToPointInTime", ExportTableToPointInTime$) {
+    };
+    var GetItemCommand = class extends command5(_ep2, _mw05, "GetItem", GetItem$) {
+    };
+    var GetResourcePolicyCommand = class extends command5(_ep5, _mw05, "GetResourcePolicy", GetResourcePolicy$) {
+    };
+    var ImportTableCommand = class extends command5(_ep9, _mw05, "ImportTable", ImportTable$) {
+    };
+    var ListBackupsCommand = class extends command5(_ep2, _mw05, "ListBackups", ListBackups$) {
+    };
+    var ListContributorInsightsCommand = class extends command5(_ep2, _mw05, "ListContributorInsights", ListContributorInsights$) {
+    };
+    var ListExportsCommand = class extends command5(_ep8, _mw05, "ListExports", ListExports$) {
+    };
+    var ListGlobalTablesCommand = class extends command5(_ep05, _mw05, "ListGlobalTables", ListGlobalTables$) {
+    };
+    var ListImportsCommand = class extends command5(_ep8, _mw05, "ListImports", ListImports$) {
+    };
+    var ListTablesCommand = class extends command5(_ep05, _mw05, "ListTables", ListTables$) {
+    };
+    var ListTagsOfResourceCommand = class extends command5(_ep5, _mw05, "ListTagsOfResource", ListTagsOfResource$) {
+    };
+    var PutItemCommand = class extends command5(_ep2, _mw05, "PutItem", PutItem$) {
+    };
+    var PutResourcePolicyCommand = class extends command5(_ep5, _mw05, "PutResourcePolicy", PutResourcePolicy$) {
+    };
+    var QueryCommand = class extends command5(_ep2, _mw05, "Query", Query$) {
+    };
+    var RestoreTableFromBackupCommand = class extends command5(_ep10, _mw05, "RestoreTableFromBackup", RestoreTableFromBackup$) {
+    };
+    var RestoreTableToPointInTimeCommand = class extends command5(_ep10, _mw05, "RestoreTableToPointInTime", RestoreTableToPointInTime$) {
+    };
+    var ScanCommand = class extends command5(_ep2, _mw05, "Scan", Scan$) {
+    };
+    var SearchVectorsCommand = class extends command5(_ep11, _mw05, "SearchVectors", SearchVectors$) {
+    };
+    var TagResourceCommand = class extends command5(_ep5, _mw05, "TagResource", TagResource$) {
+    };
+    var TransactGetItemsCommand = class extends command5(_ep122, _mw05, "TransactGetItems", TransactGetItems$) {
+    };
+    var TransactWriteItemsCommand = class extends command5(_ep13, _mw05, "TransactWriteItems", TransactWriteItems$) {
+    };
+    var UntagResourceCommand = class extends command5(_ep5, _mw05, "UntagResource", UntagResource$) {
+    };
+    var UpdateContinuousBackupsCommand = class extends command5(_ep2, _mw05, "UpdateContinuousBackups", UpdateContinuousBackups$) {
+    };
+    var UpdateContributorInsightsCommand = class extends command5(_ep2, _mw05, "UpdateContributorInsights", UpdateContributorInsights$) {
+    };
+    var UpdateGlobalTableCommand = class extends command5(_ep3, _mw05, "UpdateGlobalTable", UpdateGlobalTable$) {
+    };
+    var UpdateGlobalTableSettingsCommand = class extends command5(_ep3, _mw05, "UpdateGlobalTableSettings", UpdateGlobalTableSettings$) {
+    };
+    var UpdateItemCommand = class extends command5(_ep2, _mw05, "UpdateItem", UpdateItem$) {
+    };
+    var UpdateKinesisStreamingDestinationCommand = class extends command5(_ep2, _mw05, "UpdateKinesisStreamingDestination", UpdateKinesisStreamingDestination$) {
+    };
+    var UpdateTableCommand = class extends command5(_ep2, _mw05, "UpdateTable", UpdateTable$) {
+    };
+    var UpdateTableReplicaAutoScalingCommand = class extends command5(_ep2, _mw05, "UpdateTableReplicaAutoScaling", UpdateTableReplicaAutoScaling$) {
+    };
+    var UpdateTimeToLiveCommand = class extends command5(_ep2, _mw05, "UpdateTimeToLive", UpdateTimeToLive$) {
+    };
+    var paginateListContributorInsights = createPaginator2(DynamoDBClient2, ListContributorInsightsCommand, "NextToken", "NextToken", "MaxResults");
+    var paginateListExports = createPaginator2(DynamoDBClient2, ListExportsCommand, "NextToken", "NextToken", "MaxResults");
+    var paginateListImports = createPaginator2(DynamoDBClient2, ListImportsCommand, "NextToken", "NextToken", "PageSize");
+    var paginateListTables = createPaginator2(DynamoDBClient2, ListTablesCommand, "ExclusiveStartTableName", "LastEvaluatedTableName", "Limit");
+    var paginateQuery = createPaginator2(DynamoDBClient2, QueryCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
+    var paginateScan = createPaginator2(DynamoDBClient2, ScanCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
+    var checkState$5 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new DescribeContributorInsightsCommand(input));
+        reason = result;
+        try {
+          const returnComparator = () => {
+            return result.ContributorInsightsStatus;
+          };
+          if (returnComparator() === "ENABLED") {
+            return { state: WaiterState2.SUCCESS, reason };
+          }
+        } catch (e6) {
+        }
+        try {
+          const returnComparator = () => {
+            return result.ContributorInsightsStatus;
+          };
+          if (returnComparator() === "FAILED") {
+            return { state: WaiterState2.FAILURE, reason };
+          }
+        } catch (e6) {
+        }
+      } catch (exception) {
+        reason = exception;
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForContributorInsightsEnabled = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$5);
+    };
+    var waitUntilContributorInsightsEnabled = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$5);
+      return checkExceptions2(result);
+    };
+    var checkState$4 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new DescribeExportCommand(input));
+        reason = result;
+        try {
+          const returnComparator = () => {
+            return result.ExportDescription.ExportStatus;
+          };
+          if (returnComparator() === "COMPLETED") {
+            return { state: WaiterState2.SUCCESS, reason };
+          }
+        } catch (e6) {
+        }
+        try {
+          const returnComparator = () => {
+            return result.ExportDescription.ExportStatus;
+          };
+          if (returnComparator() === "FAILED") {
+            return { state: WaiterState2.FAILURE, reason };
+          }
+        } catch (e6) {
+        }
+      } catch (exception) {
+        reason = exception;
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForExportCompleted = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$4);
+    };
+    var waitUntilExportCompleted = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$4);
+      return checkExceptions2(result);
+    };
+    var checkState$3 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new DescribeImportCommand(input));
+        reason = result;
+        try {
+          const returnComparator = () => {
+            return result.ImportTableDescription.ImportStatus;
+          };
+          if (returnComparator() === "COMPLETED") {
+            return { state: WaiterState2.SUCCESS, reason };
+          }
+        } catch (e6) {
+        }
+        try {
+          const returnComparator = () => {
+            return result.ImportTableDescription.ImportStatus;
+          };
+          if (returnComparator() === "FAILED") {
+            return { state: WaiterState2.FAILURE, reason };
+          }
+        } catch (e6) {
+        }
+        try {
+          const returnComparator = () => {
+            return result.ImportTableDescription.ImportStatus;
+          };
+          if (returnComparator() === "CANCELLED") {
+            return { state: WaiterState2.FAILURE, reason };
+          }
+        } catch (e6) {
+        }
+      } catch (exception) {
+        reason = exception;
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForImportCompleted = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$3);
+    };
+    var waitUntilImportCompleted = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$3);
+      return checkExceptions2(result);
+    };
+    var checkState$2 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new DescribeKinesisStreamingDestinationCommand(input));
+        reason = result;
+        try {
+          const returnComparator = () => {
+            let flat_1 = [].concat(...result.KinesisDataStreamDestinations);
+            let projection_3 = flat_1.map((element_2) => {
+              return element_2.DestinationStatus;
+            });
+            return projection_3;
+          };
+          for (let anyStringEq_4 of returnComparator()) {
+            if (anyStringEq_4 == "ACTIVE") {
+              return { state: WaiterState2.SUCCESS, reason };
+            }
+          }
+        } catch (e6) {
+        }
+        try {
+          const returnComparator = () => {
+            let filterRes_2 = result.KinesisDataStreamDestinations.filter((element_1) => {
+              return (element_1.DestinationStatus == "DISABLED" || element_1.DestinationStatus == "ENABLE_FAILED") && (element_1.DestinationStatus == "ENABLE_FAILED" || element_1.DestinationStatus == "DISABLED");
+            });
+            return result.KinesisDataStreamDestinations.length > 0 && filterRes_2.length == result.KinesisDataStreamDestinations.length;
+          };
+          if (returnComparator() == true) {
+            return { state: WaiterState2.FAILURE, reason };
+          }
+        } catch (e6) {
+        }
+      } catch (exception) {
+        reason = exception;
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForKinesisStreamingDestinationActive = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$2);
+    };
+    var waitUntilKinesisStreamingDestinationActive = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$2);
+      return checkExceptions2(result);
+    };
+    var checkState$1 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new DescribeTableCommand(input));
+        reason = result;
+        try {
+          const returnComparator = () => {
+            return result.Table.TableStatus;
+          };
+          if (returnComparator() === "ACTIVE") {
+            return { state: WaiterState2.SUCCESS, reason };
+          }
+        } catch (e6) {
+        }
+      } catch (exception) {
+        reason = exception;
+        if (exception.name === "ResourceNotFoundException") {
+          return { state: WaiterState2.RETRY, reason };
+        }
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForTableExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$1);
+    };
+    var waitUntilTableExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$1);
+      return checkExceptions2(result);
+    };
+    var checkState = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new DescribeTableCommand(input));
+        reason = result;
+      } catch (exception) {
+        reason = exception;
+        if (exception.name === "ResourceNotFoundException") {
+          return { state: WaiterState2.SUCCESS, reason };
+        }
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForTableNotExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState);
+    };
+    var waitUntilTableNotExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 20, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState);
+      return checkExceptions2(result);
+    };
+    var commands5 = {
+      BatchExecuteStatementCommand,
+      BatchGetItemCommand,
+      BatchWriteItemCommand,
+      CreateBackupCommand,
+      CreateGlobalTableCommand,
+      CreateTableCommand,
+      DeleteBackupCommand,
+      DeleteItemCommand,
+      DeleteResourcePolicyCommand,
+      DeleteTableCommand,
+      DescribeBackupCommand,
+      DescribeContinuousBackupsCommand,
+      DescribeContributorInsightsCommand,
+      DescribeEndpointsCommand,
+      DescribeExportCommand,
+      DescribeGlobalTableCommand,
+      DescribeGlobalTableSettingsCommand,
+      DescribeImportCommand,
+      DescribeKinesisStreamingDestinationCommand,
+      DescribeLimitsCommand,
+      DescribeTableCommand,
+      DescribeTableReplicaAutoScalingCommand,
+      DescribeTimeToLiveCommand,
+      DisableKinesisStreamingDestinationCommand,
+      EnableKinesisStreamingDestinationCommand,
+      ExecuteStatementCommand,
+      ExecuteTransactionCommand,
+      ExportTableToPointInTimeCommand,
+      GetItemCommand,
+      GetResourcePolicyCommand,
+      ImportTableCommand,
+      ListBackupsCommand,
+      ListContributorInsightsCommand,
+      ListExportsCommand,
+      ListGlobalTablesCommand,
+      ListImportsCommand,
+      ListTablesCommand,
+      ListTagsOfResourceCommand,
+      PutItemCommand,
+      PutResourcePolicyCommand,
+      QueryCommand,
+      RestoreTableFromBackupCommand,
+      RestoreTableToPointInTimeCommand,
+      ScanCommand,
+      SearchVectorsCommand,
+      TagResourceCommand,
+      TransactGetItemsCommand,
+      TransactWriteItemsCommand,
+      UntagResourceCommand,
+      UpdateContinuousBackupsCommand,
+      UpdateContributorInsightsCommand,
+      UpdateGlobalTableCommand,
+      UpdateGlobalTableSettingsCommand,
+      UpdateItemCommand,
+      UpdateKinesisStreamingDestinationCommand,
+      UpdateTableCommand,
+      UpdateTableReplicaAutoScalingCommand,
+      UpdateTimeToLiveCommand
+    };
+    var paginators = {
+      paginateListContributorInsights,
+      paginateListExports,
+      paginateListImports,
+      paginateListTables,
+      paginateQuery,
+      paginateScan
+    };
+    var waiters = {
+      waitUntilContributorInsightsEnabled,
+      waitUntilExportCompleted,
+      waitUntilImportCompleted,
+      waitUntilKinesisStreamingDestinationActive,
+      waitUntilTableExists,
+      waitUntilTableNotExists
+    };
+    var DynamoDB = class extends DynamoDBClient2 {
+    };
+    createAggregatedClient2(commands5, DynamoDB, { paginators, waiters });
+    var ApproximateCreationDateTimePrecision = {
+      MICROSECOND: "MICROSECOND",
+      MILLISECOND: "MILLISECOND"
+    };
+    var AttributeAction = {
+      ADD: "ADD",
+      DELETE: "DELETE",
+      PUT: "PUT"
+    };
+    var ScalarAttributeType = {
+      B: "B",
+      N: "N",
+      S: "S"
+    };
+    var BackupStatus = {
+      AVAILABLE: "AVAILABLE",
+      CREATING: "CREATING",
+      DELETED: "DELETED"
+    };
+    var BackupType = {
+      AWS_BACKUP: "AWS_BACKUP",
+      SYSTEM: "SYSTEM",
+      USER: "USER"
+    };
+    var BillingMode = {
+      PAY_PER_REQUEST: "PAY_PER_REQUEST",
+      PROVISIONED: "PROVISIONED"
+    };
+    var KeyType = {
+      HASH: "HASH",
+      RANGE: "RANGE"
+    };
+    var ProjectionType = {
+      ALL: "ALL",
+      INCLUDE: "INCLUDE",
+      KEYS_ONLY: "KEYS_ONLY"
+    };
+    var SSEType = {
+      AES256: "AES256",
+      KMS: "KMS"
+    };
+    var SSEStatus = {
+      DISABLED: "DISABLED",
+      DISABLING: "DISABLING",
+      ENABLED: "ENABLED",
+      ENABLING: "ENABLING",
+      UPDATING: "UPDATING"
+    };
+    var StreamViewType = {
+      KEYS_ONLY: "KEYS_ONLY",
+      NEW_AND_OLD_IMAGES: "NEW_AND_OLD_IMAGES",
+      NEW_IMAGE: "NEW_IMAGE",
+      OLD_IMAGE: "OLD_IMAGE"
+    };
+    var TimeToLiveStatus = {
+      DISABLED: "DISABLED",
+      DISABLING: "DISABLING",
+      ENABLED: "ENABLED",
+      ENABLING: "ENABLING"
+    };
+    var VectorDistanceFunction = {
+      COSINE: "COSINE",
+      DOT_PRODUCT: "DOT_PRODUCT",
+      EUCLIDEAN: "EUCLIDEAN"
+    };
+    var SearchSchemaElementType = {
+      HASH: "HASH",
+      INLINE_FILTER: "INLINE_FILTER"
+    };
+    var BackupTypeFilter = {
+      ALL: "ALL",
+      AWS_BACKUP: "AWS_BACKUP",
+      SYSTEM: "SYSTEM",
+      USER: "USER"
+    };
+    var ReturnConsumedCapacity = {
+      INDEXES: "INDEXES",
+      NONE: "NONE",
+      TOTAL: "TOTAL"
+    };
+    var ReturnValuesOnConditionCheckFailure = {
+      ALL_OLD: "ALL_OLD",
+      NONE: "NONE"
+    };
+    var BatchStatementErrorCodeEnum = {
+      AccessDenied: "AccessDenied",
+      ConditionalCheckFailed: "ConditionalCheckFailed",
+      DuplicateItem: "DuplicateItem",
+      InternalServerError: "InternalServerError",
+      ItemCollectionSizeLimitExceeded: "ItemCollectionSizeLimitExceeded",
+      ProvisionedThroughputExceeded: "ProvisionedThroughputExceeded",
+      RequestLimitExceeded: "RequestLimitExceeded",
+      ResourceNotFound: "ResourceNotFound",
+      ThrottlingError: "ThrottlingError",
+      TransactionConflict: "TransactionConflict",
+      ValidationError: "ValidationError"
+    };
+    var ReturnItemCollectionMetrics = {
+      NONE: "NONE",
+      SIZE: "SIZE"
+    };
+    var ComparisonOperator = {
+      BEGINS_WITH: "BEGINS_WITH",
+      BETWEEN: "BETWEEN",
+      CONTAINS: "CONTAINS",
+      EQ: "EQ",
+      GE: "GE",
+      GT: "GT",
+      IN: "IN",
+      LE: "LE",
+      LT: "LT",
+      NE: "NE",
+      NOT_CONTAINS: "NOT_CONTAINS",
+      NOT_NULL: "NOT_NULL",
+      NULL: "NULL"
+    };
+    var ConditionalOperator = {
+      AND: "AND",
+      OR: "OR"
+    };
+    var ContinuousBackupsStatus = {
+      DISABLED: "DISABLED",
+      ENABLED: "ENABLED"
+    };
+    var PointInTimeRecoveryStatus = {
+      DISABLED: "DISABLED",
+      ENABLED: "ENABLED"
+    };
+    var ContributorInsightsAction = {
+      DISABLE: "DISABLE",
+      ENABLE: "ENABLE"
+    };
+    var ContributorInsightsMode = {
+      ACCESSED_AND_THROTTLED_KEYS: "ACCESSED_AND_THROTTLED_KEYS",
+      THROTTLED_KEYS: "THROTTLED_KEYS"
+    };
+    var ContributorInsightsStatus = {
+      DISABLED: "DISABLED",
+      DISABLING: "DISABLING",
+      ENABLED: "ENABLED",
+      ENABLING: "ENABLING",
+      FAILED: "FAILED"
+    };
+    var GlobalTableStatus = {
+      ACTIVE: "ACTIVE",
+      CREATING: "CREATING",
+      DELETING: "DELETING",
+      UPDATING: "UPDATING"
+    };
+    var IndexStatus = {
+      ACTIVE: "ACTIVE",
+      CREATING: "CREATING",
+      DELETING: "DELETING",
+      UPDATING: "UPDATING"
+    };
+    var GlobalTableSettingsReplicationMode = {
+      DISABLED: "DISABLED",
+      ENABLED: "ENABLED",
+      ENABLED_WITH_OVERRIDES: "ENABLED_WITH_OVERRIDES"
+    };
+    var ReplicaStatus = {
+      ACTIVE: "ACTIVE",
+      ARCHIVED: "ARCHIVED",
+      ARCHIVING: "ARCHIVING",
+      CREATING: "CREATING",
+      CREATION_FAILED: "CREATION_FAILED",
+      DELETING: "DELETING",
+      INACCESSIBLE_ENCRYPTION_CREDENTIALS: "INACCESSIBLE_ENCRYPTION_CREDENTIALS",
+      REGION_DISABLED: "REGION_DISABLED",
+      REPLICATION_NOT_AUTHORIZED: "REPLICATION_NOT_AUTHORIZED",
+      UPDATING: "UPDATING"
+    };
+    var TableClass = {
+      STANDARD: "STANDARD",
+      STANDARD_INFREQUENT_ACCESS: "STANDARD_INFREQUENT_ACCESS"
+    };
+    var TableStatus = {
+      ACTIVE: "ACTIVE",
+      ARCHIVED: "ARCHIVED",
+      ARCHIVING: "ARCHIVING",
+      CREATING: "CREATING",
+      DELETING: "DELETING",
+      INACCESSIBLE_ENCRYPTION_CREDENTIALS: "INACCESSIBLE_ENCRYPTION_CREDENTIALS",
+      REPLICATION_NOT_AUTHORIZED: "REPLICATION_NOT_AUTHORIZED",
+      UPDATING: "UPDATING"
+    };
+    var WitnessStatus = {
+      ACTIVE: "ACTIVE",
+      CREATING: "CREATING",
+      DELETING: "DELETING"
+    };
+    var MultiRegionConsistency = {
+      EVENTUAL: "EVENTUAL",
+      STRONG: "STRONG"
+    };
+    var ReturnValue = {
+      ALL_NEW: "ALL_NEW",
+      ALL_OLD: "ALL_OLD",
+      NONE: "NONE",
+      UPDATED_NEW: "UPDATED_NEW",
+      UPDATED_OLD: "UPDATED_OLD"
+    };
+    var ExportFormat = {
+      DYNAMODB_JSON: "DYNAMODB_JSON",
+      ION: "ION"
+    };
+    var ExportStatus = {
+      COMPLETED: "COMPLETED",
+      FAILED: "FAILED",
+      IN_PROGRESS: "IN_PROGRESS"
+    };
+    var ExportType = {
+      FULL_EXPORT: "FULL_EXPORT",
+      INCREMENTAL_EXPORT: "INCREMENTAL_EXPORT"
+    };
+    var ExportViewType = {
+      NEW_AND_OLD_IMAGES: "NEW_AND_OLD_IMAGES",
+      NEW_IMAGE: "NEW_IMAGE"
+    };
+    var S3SseAlgorithm = {
+      AES256: "AES256",
+      KMS: "KMS"
+    };
+    var ImportStatus = {
+      CANCELLED: "CANCELLED",
+      CANCELLING: "CANCELLING",
+      COMPLETED: "COMPLETED",
+      FAILED: "FAILED",
+      IN_PROGRESS: "IN_PROGRESS"
+    };
+    var InputCompressionType = {
+      GZIP: "GZIP",
+      NONE: "NONE",
+      ZSTD: "ZSTD"
+    };
+    var InputFormat = {
+      CSV: "CSV",
+      DYNAMODB_JSON: "DYNAMODB_JSON",
+      ION: "ION"
+    };
+    var DestinationStatus = {
+      ACTIVE: "ACTIVE",
+      DISABLED: "DISABLED",
+      DISABLING: "DISABLING",
+      ENABLE_FAILED: "ENABLE_FAILED",
+      ENABLING: "ENABLING",
+      UPDATING: "UPDATING"
+    };
+    var Select = {
+      ALL_ATTRIBUTES: "ALL_ATTRIBUTES",
+      ALL_PROJECTED_ATTRIBUTES: "ALL_PROJECTED_ATTRIBUTES",
+      COUNT: "COUNT",
+      SPECIFIC_ATTRIBUTES: "SPECIFIC_ATTRIBUTES"
+    };
+    exports2.ApproximateCreationDateTimePrecision = ApproximateCreationDateTimePrecision;
+    exports2.ArchivalSummary$ = ArchivalSummary$;
+    exports2.AttributeAction = AttributeAction;
+    exports2.AttributeDefinition$ = AttributeDefinition$;
+    exports2.AttributeValue$ = AttributeValue$;
+    exports2.AttributeValueUpdate$ = AttributeValueUpdate$;
+    exports2.AutoScalingPolicyDescription$ = AutoScalingPolicyDescription$;
+    exports2.AutoScalingPolicyUpdate$ = AutoScalingPolicyUpdate$;
+    exports2.AutoScalingSettingsDescription$ = AutoScalingSettingsDescription$;
+    exports2.AutoScalingSettingsUpdate$ = AutoScalingSettingsUpdate$;
+    exports2.AutoScalingTargetTrackingScalingPolicyConfigurationDescription$ = AutoScalingTargetTrackingScalingPolicyConfigurationDescription$;
+    exports2.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate$ = AutoScalingTargetTrackingScalingPolicyConfigurationUpdate$;
+    exports2.BackupDescription$ = BackupDescription$;
+    exports2.BackupDetails$ = BackupDetails$;
+    exports2.BackupInUseException = BackupInUseException;
+    exports2.BackupInUseException$ = BackupInUseException$;
+    exports2.BackupNotFoundException = BackupNotFoundException;
+    exports2.BackupNotFoundException$ = BackupNotFoundException$;
+    exports2.BackupStatus = BackupStatus;
+    exports2.BackupSummary$ = BackupSummary$;
+    exports2.BackupType = BackupType;
+    exports2.BackupTypeFilter = BackupTypeFilter;
+    exports2.BatchExecuteStatement$ = BatchExecuteStatement$;
+    exports2.BatchExecuteStatementCommand = BatchExecuteStatementCommand;
+    exports2.BatchExecuteStatementInput$ = BatchExecuteStatementInput$;
+    exports2.BatchExecuteStatementOutput$ = BatchExecuteStatementOutput$;
+    exports2.BatchGetItem$ = BatchGetItem$;
+    exports2.BatchGetItemCommand = BatchGetItemCommand;
+    exports2.BatchGetItemInput$ = BatchGetItemInput$;
+    exports2.BatchGetItemOutput$ = BatchGetItemOutput$;
+    exports2.BatchStatementError$ = BatchStatementError$;
+    exports2.BatchStatementErrorCodeEnum = BatchStatementErrorCodeEnum;
+    exports2.BatchStatementRequest$ = BatchStatementRequest$;
+    exports2.BatchStatementResponse$ = BatchStatementResponse$;
+    exports2.BatchWriteItem$ = BatchWriteItem$;
+    exports2.BatchWriteItemCommand = BatchWriteItemCommand;
+    exports2.BatchWriteItemInput$ = BatchWriteItemInput$;
+    exports2.BatchWriteItemOutput$ = BatchWriteItemOutput$;
+    exports2.BillingMode = BillingMode;
+    exports2.BillingModeSummary$ = BillingModeSummary$;
+    exports2.CancellationReason$ = CancellationReason$;
+    exports2.Capacity$ = Capacity$;
+    exports2.ComparisonOperator = ComparisonOperator;
+    exports2.Condition$ = Condition$;
+    exports2.ConditionCheck$ = ConditionCheck$;
+    exports2.ConditionalCheckFailedException = ConditionalCheckFailedException;
+    exports2.ConditionalCheckFailedException$ = ConditionalCheckFailedException$;
+    exports2.ConditionalOperator = ConditionalOperator;
+    exports2.ConsumedCapacity$ = ConsumedCapacity$;
+    exports2.ContinuousBackupsDescription$ = ContinuousBackupsDescription$;
+    exports2.ContinuousBackupsStatus = ContinuousBackupsStatus;
+    exports2.ContinuousBackupsUnavailableException = ContinuousBackupsUnavailableException;
+    exports2.ContinuousBackupsUnavailableException$ = ContinuousBackupsUnavailableException$;
+    exports2.ContributorInsightsAction = ContributorInsightsAction;
+    exports2.ContributorInsightsMode = ContributorInsightsMode;
+    exports2.ContributorInsightsStatus = ContributorInsightsStatus;
+    exports2.ContributorInsightsSummary$ = ContributorInsightsSummary$;
+    exports2.CreateBackup$ = CreateBackup$;
+    exports2.CreateBackupCommand = CreateBackupCommand;
+    exports2.CreateBackupInput$ = CreateBackupInput$;
+    exports2.CreateBackupOutput$ = CreateBackupOutput$;
+    exports2.CreateGlobalSecondaryIndexAction$ = CreateGlobalSecondaryIndexAction$;
+    exports2.CreateGlobalTable$ = CreateGlobalTable$;
+    exports2.CreateGlobalTableCommand = CreateGlobalTableCommand;
+    exports2.CreateGlobalTableInput$ = CreateGlobalTableInput$;
+    exports2.CreateGlobalTableOutput$ = CreateGlobalTableOutput$;
+    exports2.CreateGlobalTableWitnessGroupMemberAction$ = CreateGlobalTableWitnessGroupMemberAction$;
+    exports2.CreateReplicaAction$ = CreateReplicaAction$;
+    exports2.CreateReplicationGroupMemberAction$ = CreateReplicationGroupMemberAction$;
+    exports2.CreateTable$ = CreateTable$;
+    exports2.CreateTableCommand = CreateTableCommand;
+    exports2.CreateTableInput$ = CreateTableInput$;
+    exports2.CreateTableOutput$ = CreateTableOutput$;
+    exports2.CreateVectorIndexAction$ = CreateVectorIndexAction$;
+    exports2.CsvOptions$ = CsvOptions$;
+    exports2.Delete$ = Delete$;
+    exports2.DeleteBackup$ = DeleteBackup$;
+    exports2.DeleteBackupCommand = DeleteBackupCommand;
+    exports2.DeleteBackupInput$ = DeleteBackupInput$;
+    exports2.DeleteBackupOutput$ = DeleteBackupOutput$;
+    exports2.DeleteGlobalSecondaryIndexAction$ = DeleteGlobalSecondaryIndexAction$;
+    exports2.DeleteGlobalTableWitnessGroupMemberAction$ = DeleteGlobalTableWitnessGroupMemberAction$;
+    exports2.DeleteItem$ = DeleteItem$;
+    exports2.DeleteItemCommand = DeleteItemCommand;
+    exports2.DeleteItemInput$ = DeleteItemInput$;
+    exports2.DeleteItemOutput$ = DeleteItemOutput$;
+    exports2.DeleteReplicaAction$ = DeleteReplicaAction$;
+    exports2.DeleteReplicationGroupMemberAction$ = DeleteReplicationGroupMemberAction$;
+    exports2.DeleteRequest$ = DeleteRequest$;
+    exports2.DeleteResourcePolicy$ = DeleteResourcePolicy$;
+    exports2.DeleteResourcePolicyCommand = DeleteResourcePolicyCommand;
+    exports2.DeleteResourcePolicyInput$ = DeleteResourcePolicyInput$;
+    exports2.DeleteResourcePolicyOutput$ = DeleteResourcePolicyOutput$;
+    exports2.DeleteTable$ = DeleteTable$;
+    exports2.DeleteTableCommand = DeleteTableCommand;
+    exports2.DeleteTableInput$ = DeleteTableInput$;
+    exports2.DeleteTableOutput$ = DeleteTableOutput$;
+    exports2.DeleteVectorIndexAction$ = DeleteVectorIndexAction$;
+    exports2.DescribeBackup$ = DescribeBackup$;
+    exports2.DescribeBackupCommand = DescribeBackupCommand;
+    exports2.DescribeBackupInput$ = DescribeBackupInput$;
+    exports2.DescribeBackupOutput$ = DescribeBackupOutput$;
+    exports2.DescribeContinuousBackups$ = DescribeContinuousBackups$;
+    exports2.DescribeContinuousBackupsCommand = DescribeContinuousBackupsCommand;
+    exports2.DescribeContinuousBackupsInput$ = DescribeContinuousBackupsInput$;
+    exports2.DescribeContinuousBackupsOutput$ = DescribeContinuousBackupsOutput$;
+    exports2.DescribeContributorInsights$ = DescribeContributorInsights$;
+    exports2.DescribeContributorInsightsCommand = DescribeContributorInsightsCommand;
+    exports2.DescribeContributorInsightsInput$ = DescribeContributorInsightsInput$;
+    exports2.DescribeContributorInsightsOutput$ = DescribeContributorInsightsOutput$;
+    exports2.DescribeEndpoints$ = DescribeEndpoints$;
+    exports2.DescribeEndpointsCommand = DescribeEndpointsCommand;
+    exports2.DescribeEndpointsRequest$ = DescribeEndpointsRequest$;
+    exports2.DescribeEndpointsResponse$ = DescribeEndpointsResponse$;
+    exports2.DescribeExport$ = DescribeExport$;
+    exports2.DescribeExportCommand = DescribeExportCommand;
+    exports2.DescribeExportInput$ = DescribeExportInput$;
+    exports2.DescribeExportOutput$ = DescribeExportOutput$;
+    exports2.DescribeGlobalTable$ = DescribeGlobalTable$;
+    exports2.DescribeGlobalTableCommand = DescribeGlobalTableCommand;
+    exports2.DescribeGlobalTableInput$ = DescribeGlobalTableInput$;
+    exports2.DescribeGlobalTableOutput$ = DescribeGlobalTableOutput$;
+    exports2.DescribeGlobalTableSettings$ = DescribeGlobalTableSettings$;
+    exports2.DescribeGlobalTableSettingsCommand = DescribeGlobalTableSettingsCommand;
+    exports2.DescribeGlobalTableSettingsInput$ = DescribeGlobalTableSettingsInput$;
+    exports2.DescribeGlobalTableSettingsOutput$ = DescribeGlobalTableSettingsOutput$;
+    exports2.DescribeImport$ = DescribeImport$;
+    exports2.DescribeImportCommand = DescribeImportCommand;
+    exports2.DescribeImportInput$ = DescribeImportInput$;
+    exports2.DescribeImportOutput$ = DescribeImportOutput$;
+    exports2.DescribeKinesisStreamingDestination$ = DescribeKinesisStreamingDestination$;
+    exports2.DescribeKinesisStreamingDestinationCommand = DescribeKinesisStreamingDestinationCommand;
+    exports2.DescribeKinesisStreamingDestinationInput$ = DescribeKinesisStreamingDestinationInput$;
+    exports2.DescribeKinesisStreamingDestinationOutput$ = DescribeKinesisStreamingDestinationOutput$;
+    exports2.DescribeLimits$ = DescribeLimits$;
+    exports2.DescribeLimitsCommand = DescribeLimitsCommand;
+    exports2.DescribeLimitsInput$ = DescribeLimitsInput$;
+    exports2.DescribeLimitsOutput$ = DescribeLimitsOutput$;
+    exports2.DescribeTable$ = DescribeTable$;
+    exports2.DescribeTableCommand = DescribeTableCommand;
+    exports2.DescribeTableInput$ = DescribeTableInput$;
+    exports2.DescribeTableOutput$ = DescribeTableOutput$;
+    exports2.DescribeTableReplicaAutoScaling$ = DescribeTableReplicaAutoScaling$;
+    exports2.DescribeTableReplicaAutoScalingCommand = DescribeTableReplicaAutoScalingCommand;
+    exports2.DescribeTableReplicaAutoScalingInput$ = DescribeTableReplicaAutoScalingInput$;
+    exports2.DescribeTableReplicaAutoScalingOutput$ = DescribeTableReplicaAutoScalingOutput$;
+    exports2.DescribeTimeToLive$ = DescribeTimeToLive$;
+    exports2.DescribeTimeToLiveCommand = DescribeTimeToLiveCommand;
+    exports2.DescribeTimeToLiveInput$ = DescribeTimeToLiveInput$;
+    exports2.DescribeTimeToLiveOutput$ = DescribeTimeToLiveOutput$;
+    exports2.DestinationStatus = DestinationStatus;
+    exports2.DisableKinesisStreamingDestination$ = DisableKinesisStreamingDestination$;
+    exports2.DisableKinesisStreamingDestinationCommand = DisableKinesisStreamingDestinationCommand;
+    exports2.DuplicateItemException = DuplicateItemException;
+    exports2.DuplicateItemException$ = DuplicateItemException$;
+    exports2.DynamoDB = DynamoDB;
+    exports2.DynamoDBClient = DynamoDBClient2;
+    exports2.DynamoDBServiceException = DynamoDBServiceException;
+    exports2.DynamoDBServiceException$ = DynamoDBServiceException$;
+    exports2.EnableKinesisStreamingConfiguration$ = EnableKinesisStreamingConfiguration$;
+    exports2.EnableKinesisStreamingDestination$ = EnableKinesisStreamingDestination$;
+    exports2.EnableKinesisStreamingDestinationCommand = EnableKinesisStreamingDestinationCommand;
+    exports2.Endpoint$ = Endpoint$;
+    exports2.ExecuteStatement$ = ExecuteStatement$;
+    exports2.ExecuteStatementCommand = ExecuteStatementCommand;
+    exports2.ExecuteStatementInput$ = ExecuteStatementInput$;
+    exports2.ExecuteStatementOutput$ = ExecuteStatementOutput$;
+    exports2.ExecuteTransaction$ = ExecuteTransaction$;
+    exports2.ExecuteTransactionCommand = ExecuteTransactionCommand;
+    exports2.ExecuteTransactionInput$ = ExecuteTransactionInput$;
+    exports2.ExecuteTransactionOutput$ = ExecuteTransactionOutput$;
+    exports2.ExpectedAttributeValue$ = ExpectedAttributeValue$;
+    exports2.ExportConflictException = ExportConflictException;
+    exports2.ExportConflictException$ = ExportConflictException$;
+    exports2.ExportDescription$ = ExportDescription$;
+    exports2.ExportFormat = ExportFormat;
+    exports2.ExportNotFoundException = ExportNotFoundException;
+    exports2.ExportNotFoundException$ = ExportNotFoundException$;
+    exports2.ExportStatus = ExportStatus;
+    exports2.ExportSummary$ = ExportSummary$;
+    exports2.ExportTableToPointInTime$ = ExportTableToPointInTime$;
+    exports2.ExportTableToPointInTimeCommand = ExportTableToPointInTimeCommand;
+    exports2.ExportTableToPointInTimeInput$ = ExportTableToPointInTimeInput$;
+    exports2.ExportTableToPointInTimeOutput$ = ExportTableToPointInTimeOutput$;
+    exports2.ExportType = ExportType;
+    exports2.ExportViewType = ExportViewType;
+    exports2.FailureException$ = FailureException$;
+    exports2.Get$ = Get$;
+    exports2.GetItem$ = GetItem$;
+    exports2.GetItemCommand = GetItemCommand;
+    exports2.GetItemInput$ = GetItemInput$;
+    exports2.GetItemOutput$ = GetItemOutput$;
+    exports2.GetResourcePolicy$ = GetResourcePolicy$;
+    exports2.GetResourcePolicyCommand = GetResourcePolicyCommand;
+    exports2.GetResourcePolicyInput$ = GetResourcePolicyInput$;
+    exports2.GetResourcePolicyOutput$ = GetResourcePolicyOutput$;
+    exports2.GlobalSecondaryIndex$ = GlobalSecondaryIndex$;
+    exports2.GlobalSecondaryIndexAutoScalingUpdate$ = GlobalSecondaryIndexAutoScalingUpdate$;
+    exports2.GlobalSecondaryIndexDescription$ = GlobalSecondaryIndexDescription$;
+    exports2.GlobalSecondaryIndexInfo$ = GlobalSecondaryIndexInfo$;
+    exports2.GlobalSecondaryIndexUpdate$ = GlobalSecondaryIndexUpdate$;
+    exports2.GlobalSecondaryIndexWarmThroughputDescription$ = GlobalSecondaryIndexWarmThroughputDescription$;
+    exports2.GlobalTable$ = GlobalTable$;
+    exports2.GlobalTableAlreadyExistsException = GlobalTableAlreadyExistsException;
+    exports2.GlobalTableAlreadyExistsException$ = GlobalTableAlreadyExistsException$;
+    exports2.GlobalTableDescription$ = GlobalTableDescription$;
+    exports2.GlobalTableGlobalSecondaryIndexSettingsUpdate$ = GlobalTableGlobalSecondaryIndexSettingsUpdate$;
+    exports2.GlobalTableNotFoundException = GlobalTableNotFoundException;
+    exports2.GlobalTableNotFoundException$ = GlobalTableNotFoundException$;
+    exports2.GlobalTableSettingsReplicationMode = GlobalTableSettingsReplicationMode;
+    exports2.GlobalTableStatus = GlobalTableStatus;
+    exports2.GlobalTableWitnessDescription$ = GlobalTableWitnessDescription$;
+    exports2.GlobalTableWitnessGroupUpdate$ = GlobalTableWitnessGroupUpdate$;
+    exports2.IdempotentParameterMismatchException = IdempotentParameterMismatchException;
+    exports2.IdempotentParameterMismatchException$ = IdempotentParameterMismatchException$;
+    exports2.ImportConflictException = ImportConflictException;
+    exports2.ImportConflictException$ = ImportConflictException$;
+    exports2.ImportNotFoundException = ImportNotFoundException;
+    exports2.ImportNotFoundException$ = ImportNotFoundException$;
+    exports2.ImportStatus = ImportStatus;
+    exports2.ImportSummary$ = ImportSummary$;
+    exports2.ImportTable$ = ImportTable$;
+    exports2.ImportTableCommand = ImportTableCommand;
+    exports2.ImportTableDescription$ = ImportTableDescription$;
+    exports2.ImportTableInput$ = ImportTableInput$;
+    exports2.ImportTableOutput$ = ImportTableOutput$;
+    exports2.IncrementalExportSpecification$ = IncrementalExportSpecification$;
+    exports2.IndexNotFoundException = IndexNotFoundException;
+    exports2.IndexNotFoundException$ = IndexNotFoundException$;
+    exports2.IndexStatus = IndexStatus;
+    exports2.InputCompressionType = InputCompressionType;
+    exports2.InputFormat = InputFormat;
+    exports2.InputFormatOptions$ = InputFormatOptions$;
+    exports2.InternalServerError = InternalServerError;
+    exports2.InternalServerError$ = InternalServerError$;
+    exports2.InvalidEndpointException = InvalidEndpointException;
+    exports2.InvalidEndpointException$ = InvalidEndpointException$;
+    exports2.InvalidExportTimeException = InvalidExportTimeException;
+    exports2.InvalidExportTimeException$ = InvalidExportTimeException$;
+    exports2.InvalidRestoreTimeException = InvalidRestoreTimeException;
+    exports2.InvalidRestoreTimeException$ = InvalidRestoreTimeException$;
+    exports2.ItemCollectionMetrics$ = ItemCollectionMetrics$;
+    exports2.ItemCollectionSizeLimitExceededException = ItemCollectionSizeLimitExceededException;
+    exports2.ItemCollectionSizeLimitExceededException$ = ItemCollectionSizeLimitExceededException$;
+    exports2.ItemResponse$ = ItemResponse$;
+    exports2.KeySchemaElement$ = KeySchemaElement$;
+    exports2.KeyType = KeyType;
+    exports2.KeysAndAttributes$ = KeysAndAttributes$;
+    exports2.KinesisDataStreamDestination$ = KinesisDataStreamDestination$;
+    exports2.KinesisStreamingDestinationInput$ = KinesisStreamingDestinationInput$;
+    exports2.KinesisStreamingDestinationOutput$ = KinesisStreamingDestinationOutput$;
+    exports2.LimitExceededException = LimitExceededException;
+    exports2.LimitExceededException$ = LimitExceededException$;
+    exports2.ListBackups$ = ListBackups$;
+    exports2.ListBackupsCommand = ListBackupsCommand;
+    exports2.ListBackupsInput$ = ListBackupsInput$;
+    exports2.ListBackupsOutput$ = ListBackupsOutput$;
+    exports2.ListContributorInsights$ = ListContributorInsights$;
+    exports2.ListContributorInsightsCommand = ListContributorInsightsCommand;
+    exports2.ListContributorInsightsInput$ = ListContributorInsightsInput$;
+    exports2.ListContributorInsightsOutput$ = ListContributorInsightsOutput$;
+    exports2.ListExports$ = ListExports$;
+    exports2.ListExportsCommand = ListExportsCommand;
+    exports2.ListExportsInput$ = ListExportsInput$;
+    exports2.ListExportsOutput$ = ListExportsOutput$;
+    exports2.ListGlobalTables$ = ListGlobalTables$;
+    exports2.ListGlobalTablesCommand = ListGlobalTablesCommand;
+    exports2.ListGlobalTablesInput$ = ListGlobalTablesInput$;
+    exports2.ListGlobalTablesOutput$ = ListGlobalTablesOutput$;
+    exports2.ListImports$ = ListImports$;
+    exports2.ListImportsCommand = ListImportsCommand;
+    exports2.ListImportsInput$ = ListImportsInput$;
+    exports2.ListImportsOutput$ = ListImportsOutput$;
+    exports2.ListTables$ = ListTables$;
+    exports2.ListTablesCommand = ListTablesCommand;
+    exports2.ListTablesInput$ = ListTablesInput$;
+    exports2.ListTablesOutput$ = ListTablesOutput$;
+    exports2.ListTagsOfResource$ = ListTagsOfResource$;
+    exports2.ListTagsOfResourceCommand = ListTagsOfResourceCommand;
+    exports2.ListTagsOfResourceInput$ = ListTagsOfResourceInput$;
+    exports2.ListTagsOfResourceOutput$ = ListTagsOfResourceOutput$;
+    exports2.LocalSecondaryIndex$ = LocalSecondaryIndex$;
+    exports2.LocalSecondaryIndexDescription$ = LocalSecondaryIndexDescription$;
+    exports2.LocalSecondaryIndexInfo$ = LocalSecondaryIndexInfo$;
+    exports2.MultiRegionConsistency = MultiRegionConsistency;
+    exports2.OnDemandThroughput$ = OnDemandThroughput$;
+    exports2.OnDemandThroughputOverride$ = OnDemandThroughputOverride$;
+    exports2.ParameterizedStatement$ = ParameterizedStatement$;
+    exports2.PointInTimeRecoveryDescription$ = PointInTimeRecoveryDescription$;
+    exports2.PointInTimeRecoverySpecification$ = PointInTimeRecoverySpecification$;
+    exports2.PointInTimeRecoveryStatus = PointInTimeRecoveryStatus;
+    exports2.PointInTimeRecoveryUnavailableException = PointInTimeRecoveryUnavailableException;
+    exports2.PointInTimeRecoveryUnavailableException$ = PointInTimeRecoveryUnavailableException$;
+    exports2.PolicyNotFoundException = PolicyNotFoundException;
+    exports2.PolicyNotFoundException$ = PolicyNotFoundException$;
+    exports2.Projection$ = Projection$;
+    exports2.ProjectionType = ProjectionType;
+    exports2.ProvisionedThroughput$ = ProvisionedThroughput$;
+    exports2.ProvisionedThroughputDescription$ = ProvisionedThroughputDescription$;
+    exports2.ProvisionedThroughputExceededException = ProvisionedThroughputExceededException;
+    exports2.ProvisionedThroughputExceededException$ = ProvisionedThroughputExceededException$;
+    exports2.ProvisionedThroughputOverride$ = ProvisionedThroughputOverride$;
+    exports2.Put$ = Put$;
+    exports2.PutItem$ = PutItem$;
+    exports2.PutItemCommand = PutItemCommand;
+    exports2.PutItemInput$ = PutItemInput$;
+    exports2.PutItemOutput$ = PutItemOutput$;
+    exports2.PutRequest$ = PutRequest$;
+    exports2.PutResourcePolicy$ = PutResourcePolicy$;
+    exports2.PutResourcePolicyCommand = PutResourcePolicyCommand;
+    exports2.PutResourcePolicyInput$ = PutResourcePolicyInput$;
+    exports2.PutResourcePolicyOutput$ = PutResourcePolicyOutput$;
+    exports2.Query$ = Query$;
+    exports2.QueryCommand = QueryCommand;
+    exports2.QueryInput$ = QueryInput$;
+    exports2.QueryOutput$ = QueryOutput$;
+    exports2.Replica$ = Replica$;
+    exports2.ReplicaAlreadyExistsException = ReplicaAlreadyExistsException;
+    exports2.ReplicaAlreadyExistsException$ = ReplicaAlreadyExistsException$;
+    exports2.ReplicaAutoScalingDescription$ = ReplicaAutoScalingDescription$;
+    exports2.ReplicaAutoScalingUpdate$ = ReplicaAutoScalingUpdate$;
+    exports2.ReplicaDescription$ = ReplicaDescription$;
+    exports2.ReplicaGlobalSecondaryIndex$ = ReplicaGlobalSecondaryIndex$;
+    exports2.ReplicaGlobalSecondaryIndexAutoScalingDescription$ = ReplicaGlobalSecondaryIndexAutoScalingDescription$;
+    exports2.ReplicaGlobalSecondaryIndexAutoScalingUpdate$ = ReplicaGlobalSecondaryIndexAutoScalingUpdate$;
+    exports2.ReplicaGlobalSecondaryIndexDescription$ = ReplicaGlobalSecondaryIndexDescription$;
+    exports2.ReplicaGlobalSecondaryIndexSettingsDescription$ = ReplicaGlobalSecondaryIndexSettingsDescription$;
+    exports2.ReplicaGlobalSecondaryIndexSettingsUpdate$ = ReplicaGlobalSecondaryIndexSettingsUpdate$;
+    exports2.ReplicaNotFoundException = ReplicaNotFoundException;
+    exports2.ReplicaNotFoundException$ = ReplicaNotFoundException$;
+    exports2.ReplicaSettingsDescription$ = ReplicaSettingsDescription$;
+    exports2.ReplicaSettingsUpdate$ = ReplicaSettingsUpdate$;
+    exports2.ReplicaStatus = ReplicaStatus;
+    exports2.ReplicaUpdate$ = ReplicaUpdate$;
+    exports2.ReplicatedWriteConflictException = ReplicatedWriteConflictException;
+    exports2.ReplicatedWriteConflictException$ = ReplicatedWriteConflictException$;
+    exports2.ReplicationGroupUpdate$ = ReplicationGroupUpdate$;
+    exports2.RequestLimitExceeded = RequestLimitExceeded;
+    exports2.RequestLimitExceeded$ = RequestLimitExceeded$;
+    exports2.ResourceInUseException = ResourceInUseException;
+    exports2.ResourceInUseException$ = ResourceInUseException$;
+    exports2.ResourceNotFoundException = ResourceNotFoundException2;
+    exports2.ResourceNotFoundException$ = ResourceNotFoundException$2;
+    exports2.RestoreSummary$ = RestoreSummary$;
+    exports2.RestoreTableFromBackup$ = RestoreTableFromBackup$;
+    exports2.RestoreTableFromBackupCommand = RestoreTableFromBackupCommand;
+    exports2.RestoreTableFromBackupInput$ = RestoreTableFromBackupInput$;
+    exports2.RestoreTableFromBackupOutput$ = RestoreTableFromBackupOutput$;
+    exports2.RestoreTableToPointInTime$ = RestoreTableToPointInTime$;
+    exports2.RestoreTableToPointInTimeCommand = RestoreTableToPointInTimeCommand;
+    exports2.RestoreTableToPointInTimeInput$ = RestoreTableToPointInTimeInput$;
+    exports2.RestoreTableToPointInTimeOutput$ = RestoreTableToPointInTimeOutput$;
+    exports2.ReturnConsumedCapacity = ReturnConsumedCapacity;
+    exports2.ReturnItemCollectionMetrics = ReturnItemCollectionMetrics;
+    exports2.ReturnValue = ReturnValue;
+    exports2.ReturnValuesOnConditionCheckFailure = ReturnValuesOnConditionCheckFailure;
+    exports2.S3BucketSource$ = S3BucketSource$;
+    exports2.S3SseAlgorithm = S3SseAlgorithm;
+    exports2.SSEDescription$ = SSEDescription$;
+    exports2.SSESpecification$ = SSESpecification$;
+    exports2.SSEStatus = SSEStatus;
+    exports2.SSEType = SSEType;
+    exports2.ScalarAttributeType = ScalarAttributeType;
+    exports2.Scan$ = Scan$;
+    exports2.ScanCommand = ScanCommand;
+    exports2.ScanInput$ = ScanInput$;
+    exports2.ScanOutput$ = ScanOutput$;
+    exports2.SearchResultItem$ = SearchResultItem$;
+    exports2.SearchSchemaElement$ = SearchSchemaElement$;
+    exports2.SearchSchemaElementType = SearchSchemaElementType;
+    exports2.SearchVectors$ = SearchVectors$;
+    exports2.SearchVectorsCommand = SearchVectorsCommand;
+    exports2.SearchVectorsInput$ = SearchVectorsInput$;
+    exports2.SearchVectorsOutput$ = SearchVectorsOutput$;
+    exports2.Select = Select;
+    exports2.SourceTableDetails$ = SourceTableDetails$;
+    exports2.SourceTableFeatureDetails$ = SourceTableFeatureDetails$;
+    exports2.StreamSpecification$ = StreamSpecification$;
+    exports2.StreamViewType = StreamViewType;
+    exports2.TableAlreadyExistsException = TableAlreadyExistsException;
+    exports2.TableAlreadyExistsException$ = TableAlreadyExistsException$;
+    exports2.TableAutoScalingDescription$ = TableAutoScalingDescription$;
+    exports2.TableClass = TableClass;
+    exports2.TableClassSummary$ = TableClassSummary$;
+    exports2.TableCreationParameters$ = TableCreationParameters$;
+    exports2.TableDescription$ = TableDescription$;
+    exports2.TableInUseException = TableInUseException;
+    exports2.TableInUseException$ = TableInUseException$;
+    exports2.TableNotFoundException = TableNotFoundException;
+    exports2.TableNotFoundException$ = TableNotFoundException$;
+    exports2.TableStatus = TableStatus;
+    exports2.TableWarmThroughputDescription$ = TableWarmThroughputDescription$;
+    exports2.Tag$ = Tag$2;
+    exports2.TagResource$ = TagResource$;
+    exports2.TagResourceCommand = TagResourceCommand;
+    exports2.TagResourceInput$ = TagResourceInput$;
+    exports2.ThrottlingException = ThrottlingException;
+    exports2.ThrottlingException$ = ThrottlingException$;
+    exports2.ThrottlingReason$ = ThrottlingReason$;
+    exports2.TimeToLiveDescription$ = TimeToLiveDescription$;
+    exports2.TimeToLiveSpecification$ = TimeToLiveSpecification$;
+    exports2.TimeToLiveStatus = TimeToLiveStatus;
+    exports2.TransactGetItem$ = TransactGetItem$;
+    exports2.TransactGetItems$ = TransactGetItems$;
+    exports2.TransactGetItemsCommand = TransactGetItemsCommand;
+    exports2.TransactGetItemsInput$ = TransactGetItemsInput$;
+    exports2.TransactGetItemsOutput$ = TransactGetItemsOutput$;
+    exports2.TransactWriteItem$ = TransactWriteItem$;
+    exports2.TransactWriteItems$ = TransactWriteItems$;
+    exports2.TransactWriteItemsCommand = TransactWriteItemsCommand;
+    exports2.TransactWriteItemsInput$ = TransactWriteItemsInput$;
+    exports2.TransactWriteItemsOutput$ = TransactWriteItemsOutput$;
+    exports2.TransactionCanceledException = TransactionCanceledException;
+    exports2.TransactionCanceledException$ = TransactionCanceledException$;
+    exports2.TransactionConflictException = TransactionConflictException;
+    exports2.TransactionConflictException$ = TransactionConflictException$;
+    exports2.TransactionInProgressException = TransactionInProgressException;
+    exports2.TransactionInProgressException$ = TransactionInProgressException$;
+    exports2.UntagResource$ = UntagResource$;
+    exports2.UntagResourceCommand = UntagResourceCommand;
+    exports2.UntagResourceInput$ = UntagResourceInput$;
+    exports2.Update$ = Update$;
+    exports2.UpdateContinuousBackups$ = UpdateContinuousBackups$;
+    exports2.UpdateContinuousBackupsCommand = UpdateContinuousBackupsCommand;
+    exports2.UpdateContinuousBackupsInput$ = UpdateContinuousBackupsInput$;
+    exports2.UpdateContinuousBackupsOutput$ = UpdateContinuousBackupsOutput$;
+    exports2.UpdateContributorInsights$ = UpdateContributorInsights$;
+    exports2.UpdateContributorInsightsCommand = UpdateContributorInsightsCommand;
+    exports2.UpdateContributorInsightsInput$ = UpdateContributorInsightsInput$;
+    exports2.UpdateContributorInsightsOutput$ = UpdateContributorInsightsOutput$;
+    exports2.UpdateGlobalSecondaryIndexAction$ = UpdateGlobalSecondaryIndexAction$;
+    exports2.UpdateGlobalTable$ = UpdateGlobalTable$;
+    exports2.UpdateGlobalTableCommand = UpdateGlobalTableCommand;
+    exports2.UpdateGlobalTableInput$ = UpdateGlobalTableInput$;
+    exports2.UpdateGlobalTableOutput$ = UpdateGlobalTableOutput$;
+    exports2.UpdateGlobalTableSettings$ = UpdateGlobalTableSettings$;
+    exports2.UpdateGlobalTableSettingsCommand = UpdateGlobalTableSettingsCommand;
+    exports2.UpdateGlobalTableSettingsInput$ = UpdateGlobalTableSettingsInput$;
+    exports2.UpdateGlobalTableSettingsOutput$ = UpdateGlobalTableSettingsOutput$;
+    exports2.UpdateItem$ = UpdateItem$;
+    exports2.UpdateItemCommand = UpdateItemCommand;
+    exports2.UpdateItemInput$ = UpdateItemInput$;
+    exports2.UpdateItemOutput$ = UpdateItemOutput$;
+    exports2.UpdateKinesisStreamingConfiguration$ = UpdateKinesisStreamingConfiguration$;
+    exports2.UpdateKinesisStreamingDestination$ = UpdateKinesisStreamingDestination$;
+    exports2.UpdateKinesisStreamingDestinationCommand = UpdateKinesisStreamingDestinationCommand;
+    exports2.UpdateKinesisStreamingDestinationInput$ = UpdateKinesisStreamingDestinationInput$;
+    exports2.UpdateKinesisStreamingDestinationOutput$ = UpdateKinesisStreamingDestinationOutput$;
+    exports2.UpdateReplicationGroupMemberAction$ = UpdateReplicationGroupMemberAction$;
+    exports2.UpdateTable$ = UpdateTable$;
+    exports2.UpdateTableCommand = UpdateTableCommand;
+    exports2.UpdateTableInput$ = UpdateTableInput$;
+    exports2.UpdateTableOutput$ = UpdateTableOutput$;
+    exports2.UpdateTableReplicaAutoScaling$ = UpdateTableReplicaAutoScaling$;
+    exports2.UpdateTableReplicaAutoScalingCommand = UpdateTableReplicaAutoScalingCommand;
+    exports2.UpdateTableReplicaAutoScalingInput$ = UpdateTableReplicaAutoScalingInput$;
+    exports2.UpdateTableReplicaAutoScalingOutput$ = UpdateTableReplicaAutoScalingOutput$;
+    exports2.UpdateTimeToLive$ = UpdateTimeToLive$;
+    exports2.UpdateTimeToLiveCommand = UpdateTimeToLiveCommand;
+    exports2.UpdateTimeToLiveInput$ = UpdateTimeToLiveInput$;
+    exports2.UpdateTimeToLiveOutput$ = UpdateTimeToLiveOutput$;
+    exports2.VectorAttributeDefinition$ = VectorAttributeDefinition$;
+    exports2.VectorCapacity$ = VectorCapacity$;
+    exports2.VectorDistanceFunction = VectorDistanceFunction;
+    exports2.VectorIndex$ = VectorIndex$;
+    exports2.VectorIndexDescription$ = VectorIndexDescription$;
+    exports2.VectorIndexInfo$ = VectorIndexInfo$;
+    exports2.VectorIndexUpdate$ = VectorIndexUpdate$;
+    exports2.WarmThroughput$ = WarmThroughput$;
+    exports2.WitnessStatus = WitnessStatus;
+    exports2.WriteRequest$ = WriteRequest$;
+    exports2.errorTypeRegistries = errorTypeRegistries5;
+    exports2.paginateListContributorInsights = paginateListContributorInsights;
+    exports2.paginateListExports = paginateListExports;
+    exports2.paginateListImports = paginateListImports;
+    exports2.paginateListTables = paginateListTables;
+    exports2.paginateQuery = paginateQuery;
+    exports2.paginateScan = paginateScan;
+    exports2.waitForContributorInsightsEnabled = waitForContributorInsightsEnabled;
+    exports2.waitForExportCompleted = waitForExportCompleted;
+    exports2.waitForImportCompleted = waitForImportCompleted;
+    exports2.waitForKinesisStreamingDestinationActive = waitForKinesisStreamingDestinationActive;
+    exports2.waitForTableExists = waitForTableExists;
+    exports2.waitForTableNotExists = waitForTableNotExists;
+    exports2.waitUntilContributorInsightsEnabled = waitUntilContributorInsightsEnabled;
+    exports2.waitUntilExportCompleted = waitUntilExportCompleted;
+    exports2.waitUntilImportCompleted = waitUntilImportCompleted;
+    exports2.waitUntilKinesisStreamingDestinationActive = waitUntilKinesisStreamingDestinationActive;
+    exports2.waitUntilTableExists = waitUntilTableExists;
+    exports2.waitUntilTableNotExists = waitUntilTableNotExists;
+  }
+});
+
+// node_modules/@aws-sdk/util-dynamodb/dist-cjs/index.js
+var require_dist_cjs22 = __commonJS({
+  "node_modules/@aws-sdk/util-dynamodb/dist-cjs/index.js"(exports2) {
+    var NumberValue = class _NumberValue {
+      value;
+      constructor(value) {
+        if (typeof value === "object" && "N" in value) {
+          this.value = String(value.N);
+        } else {
+          this.value = String(value);
+        }
+        const valueOf = typeof value.valueOf() === "number" ? value.valueOf() : 0;
+        const imprecise = valueOf > Number.MAX_SAFE_INTEGER || valueOf < Number.MIN_SAFE_INTEGER || Math.abs(valueOf) === Infinity || Number.isNaN(valueOf);
+        if (imprecise) {
+          throw new Error(`NumberValue should not be initialized with an imprecise number=${valueOf}. Use a string instead.`);
+        }
+      }
+      static from(value) {
+        return new _NumberValue(value);
+      }
+      toAttributeValue() {
+        return {
+          N: this.toString()
+        };
+      }
+      toBigInt() {
+        const stringValue = this.toString();
+        return BigInt(stringValue);
+      }
+      toString() {
+        return String(this.value);
+      }
+      valueOf() {
+        return this.toString();
+      }
+    };
+    var convertToAttr = (data, options) => {
+      if (data === void 0) {
+        throw new Error(`Pass options.removeUndefinedValues=true to remove undefined values from map/array/set.`);
+      } else if (data === null && typeof data === "object") {
+        return convertToNullAttr();
+      } else if (Array.isArray(data)) {
+        return convertToListAttr(data, options);
+      } else if (data?.constructor?.name === "Set") {
+        return convertToSetAttr(data, options);
+      } else if (data?.constructor?.name === "Map") {
+        return convertToMapAttrFromIterable(data, options);
+      } else if (data?.constructor?.name === "Object" || !data.constructor && typeof data === "object") {
+        return convertToMapAttrFromEnumerableProps(data, options);
+      } else if (isBinary(data)) {
+        if (data.length === 0 && options?.convertEmptyValues) {
+          return convertToNullAttr();
+        }
+        return convertToBinaryAttr(data);
+      } else if (typeof data === "boolean" || data?.constructor?.name === "Boolean") {
+        return { BOOL: data.valueOf() };
+      } else if (typeof data === "number" || data?.constructor?.name === "Number") {
+        return convertToNumberAttr(data, options);
+      } else if (data instanceof NumberValue) {
+        return data.toAttributeValue();
+      } else if (typeof data === "bigint") {
+        return convertToBigIntAttr(data);
+      } else if (typeof data === "string" || data?.constructor?.name === "String") {
+        if (data.length === 0 && options?.convertEmptyValues) {
+          return convertToNullAttr();
+        }
+        return convertToStringAttr(data);
+      } else if (options?.convertClassInstanceToMap && typeof data === "object") {
+        return convertToMapAttrFromEnumerableProps(data, options);
+      }
+      throw new Error(`Unsupported type passed: ${data}. Pass options.convertClassInstanceToMap=true to marshall typeof object as map attribute.`);
+    };
+    var convertToListAttr = (data, options) => ({
+      L: data.filter((item) => typeof item !== "function" && (!options?.removeUndefinedValues || options?.removeUndefinedValues && item !== void 0)).map((item) => convertToAttr(item, options))
+    });
+    var convertToSetAttr = (set, options) => {
+      const setToOperate = options?.removeUndefinedValues ? new Set([...set].filter((value) => value !== void 0)) : set;
+      if (!options?.removeUndefinedValues && setToOperate.has(void 0)) {
+        throw new Error(`Pass options.removeUndefinedValues=true to remove undefined values from map/array/set.`);
+      }
+      if (setToOperate.size === 0) {
+        if (options?.convertEmptyValues) {
+          return convertToNullAttr();
+        }
+        throw new Error(`Pass a non-empty set, or options.convertEmptyValues=true.`);
+      }
+      const item = setToOperate.values().next().value;
+      if (item instanceof NumberValue) {
+        return {
+          NS: Array.from(setToOperate).map((_) => _.toString())
+        };
+      } else if (typeof item === "number") {
+        return {
+          NS: Array.from(setToOperate).map((num) => convertToNumberAttr(num, options)).map((item2) => item2.N)
+        };
+      } else if (typeof item === "bigint") {
+        return {
+          NS: Array.from(setToOperate).map(convertToBigIntAttr).map((item2) => item2.N)
+        };
+      } else if (typeof item === "string") {
+        return {
+          SS: Array.from(setToOperate).map(convertToStringAttr).map((item2) => item2.S)
+        };
+      } else if (isBinary(item)) {
+        return {
+          BS: Array.from(setToOperate).map(convertToBinaryAttr).map((item2) => item2.B)
+        };
+      } else {
+        throw new Error(`Only Number Set (NS), Binary Set (BS) or String Set (SS) are allowed.`);
+      }
+    };
+    var convertToMapAttrFromIterable = (data, options) => ({
+      M: ((data2) => {
+        const map3 = {};
+        for (const [key, value] of data2) {
+          if (typeof value !== "function" && (value !== void 0 || !options?.removeUndefinedValues)) {
+            map3[key] = convertToAttr(value, options);
+          }
+        }
+        return map3;
+      })(data)
+    });
+    var convertToMapAttrFromEnumerableProps = (data, options) => ({
+      M: ((data2) => {
+        const map3 = {};
+        for (const key in data2) {
+          const value = data2[key];
+          if (typeof value !== "function" && (value !== void 0 || !options?.removeUndefinedValues)) {
+            map3[key] = convertToAttr(value, options);
+          }
+        }
+        return map3;
+      })(data)
+    });
+    var convertToNullAttr = () => ({ NULL: true });
+    var convertToBinaryAttr = (data) => ({ B: data });
+    var convertToStringAttr = (data) => ({ S: data.toString() });
+    var convertToBigIntAttr = (data) => ({ N: data.toString() });
+    var validateBigIntAndThrow = (errorPrefix) => {
+      throw new Error(`${errorPrefix} Use NumberValue from @aws-sdk/lib-dynamodb.`);
+    };
+    var convertToNumberAttr = (num, options) => {
+      if ([Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY].map((val) => val.toString()).includes(num.toString())) {
+        throw new Error(`Special numeric value ${num.toString()} is not allowed`);
+      } else if (!options?.allowImpreciseNumbers) {
+        if (Number(num) > Number.MAX_SAFE_INTEGER) {
+          validateBigIntAndThrow(`Number ${num.toString()} is greater than Number.MAX_SAFE_INTEGER.`);
+        } else if (Number(num) < Number.MIN_SAFE_INTEGER) {
+          validateBigIntAndThrow(`Number ${num.toString()} is lesser than Number.MIN_SAFE_INTEGER.`);
+        }
+      }
+      return { N: num.toString() };
+    };
+    var isBinary = (data) => {
+      const binaryTypes = [
+        "ArrayBuffer",
+        "Blob",
+        "Buffer",
+        "DataView",
+        "File",
+        "Int8Array",
+        "Uint8Array",
+        "Uint8ClampedArray",
+        "Int16Array",
+        "Uint16Array",
+        "Int32Array",
+        "Uint32Array",
+        "Float32Array",
+        "Float64Array",
+        "BigInt64Array",
+        "BigUint64Array"
+      ];
+      if (data?.constructor) {
+        return binaryTypes.includes(data.constructor.name);
+      }
+      return false;
+    };
+    var convertToNative = (data, options) => {
+      for (const [key, value] of Object.entries(data)) {
+        if (value !== void 0) {
+          switch (key) {
+            case "NULL":
+              return null;
+            case "BOOL":
+              return Boolean(value);
+            case "N":
+              return convertNumber(value, options);
+            case "B":
+              return convertBinary(value);
+            case "S":
+              return convertString(value);
+            case "L":
+              return convertList(value, options);
+            case "M":
+              return convertMap2(value, options);
+            case "NS":
+              return new Set(value.map((item) => convertNumber(item, options)));
+            case "BS":
+              return new Set(value.map(convertBinary));
+            case "SS":
+              return new Set(value.map(convertString));
+            default:
+              throw new Error(`Unsupported type passed: ${key}`);
+          }
+        }
+      }
+      throw new Error(`No value defined: ${JSON.stringify(data)}`);
+    };
+    var convertNumber = (numString, options) => {
+      if (typeof options?.wrapNumbers === "function") {
+        return options?.wrapNumbers(numString);
+      }
+      if (options?.wrapNumbers) {
+        return NumberValue.from(numString);
+      }
+      const num = Number(numString);
+      const infinityValues = [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY];
+      const isLargeFiniteNumber = (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) && !infinityValues.includes(num);
+      if (isLargeFiniteNumber) {
+        if (typeof BigInt === "function") {
+          try {
+            return BigInt(numString);
+          } catch (error2) {
+            throw new Error(`${numString} can't be converted to BigInt. Set options.wrapNumbers to get string value.`);
+          }
+        } else {
+          throw new Error(`${numString} is outside SAFE_INTEGER bounds. Set options.wrapNumbers to get string value.`);
+        }
+      }
+      return num;
+    };
+    var convertString = (stringValue) => stringValue;
+    var convertBinary = (binaryValue) => binaryValue;
+    var convertList = (list2, options) => list2.map((item) => convertToNative(item, options));
+    var convertMap2 = (map3, options) => Object.entries(map3).reduce((acc, [key, value]) => (acc[key] = convertToNative(value, options), acc), {});
+    function marshall(data, options) {
+      const attributeValue = convertToAttr(data, options);
+      const [key, value] = Object.entries(attributeValue)[0];
+      switch (key) {
+        case "M":
+        case "L":
+          return options?.convertTopLevelContainer ? attributeValue : value;
+        case "SS":
+        case "NS":
+        case "BS":
+        case "S":
+        case "N":
+        case "B":
+        case "NULL":
+        case "BOOL":
+        case "$unknown":
+        default:
+          return attributeValue;
+      }
+    }
+    var unmarshall = (data, options) => {
+      if (options?.convertWithoutMapWrapper) {
+        return convertToNative(data, options);
+      }
+      return convertToNative({ M: data }, options);
+    };
+    exports2.NumberValueImpl = NumberValue;
+    exports2.convertToAttr = convertToAttr;
+    exports2.convertToNative = convertToNative;
+    exports2.marshall = marshall;
+    exports2.unmarshall = unmarshall;
+  }
+});
+
+// node_modules/@aws-sdk/lib-dynamodb/dist-cjs/index.js
+var require_dist_cjs23 = __commonJS({
+  "node_modules/@aws-sdk/lib-dynamodb/dist-cjs/index.js"(exports2) {
+    var { Command: Command2, Client: Client2 } = (init_client2(), __toCommonJS(client_exports));
+    exports2.$Command = Command2;
+    exports2.__Client = Client2;
+    var { setFeature: setFeature4 } = (init_client3(), __toCommonJS(client_exports2));
+    var { marshall, unmarshall } = require_dist_cjs22();
+    var { NumberValueImpl: NumberValue } = require_dist_cjs22();
+    exports2.NumberValue = NumberValue;
+    var { BatchExecuteStatementCommand: BatchExecuteStatementCommand$1, BatchGetItemCommand, BatchWriteItemCommand, DeleteItemCommand, ExecuteStatementCommand: ExecuteStatementCommand$1, ExecuteTransactionCommand: ExecuteTransactionCommand$1, GetItemCommand, PutItemCommand, QueryCommand: QueryCommand$1, ScanCommand: ScanCommand$1, SearchVectorsCommand: SearchVectorsCommand$1, TransactGetItemsCommand, TransactWriteItemsCommand, UpdateItemCommand, DynamoDBClient: DynamoDBClient2 } = require_dist_cjs21();
+    var { createPaginator: createPaginator2 } = (init_dist_es(), __toCommonJS(dist_es_exports));
+    var SELF = null;
+    var ALL_VALUES = {};
+    var ALL_MEMBERS = [];
+    var NEXT_LEVEL = "*";
+    var processObj = (obj, processFunc, keyNodes) => {
+      if (obj !== void 0) {
+        if (keyNodes == null) {
+          return processFunc(obj);
+        } else {
+          const keys = Object.keys(keyNodes);
+          const goToNextLevel = keys.length === 1 && keys[0] === NEXT_LEVEL;
+          const someChildren = keys.length >= 1 && !goToNextLevel;
+          const allChildren = keys.length === 0;
+          if (someChildren) {
+            return processKeysInObj(obj, processFunc, keyNodes);
+          } else if (allChildren) {
+            return processAllKeysInObj(obj, processFunc, SELF);
+          } else if (goToNextLevel) {
+            return Object.entries(obj ?? {}).reduce((acc, [k5, v]) => {
+              if (typeof v !== "function") {
+                acc[k5] = processObj(v, processFunc, keyNodes[NEXT_LEVEL]);
+              }
+              return acc;
+            }, Array.isArray(obj) ? [] : {});
+          }
+        }
+      }
+      return void 0;
+    };
+    var processKeysInObj = (obj, processFunc, keyNodes) => {
+      let accumulator;
+      if (Array.isArray(obj)) {
+        accumulator = obj.filter((item) => typeof item !== "function");
+      } else {
+        accumulator = {};
+        for (const [k5, v] of Object.entries(obj)) {
+          if (typeof v !== "function") {
+            accumulator[k5] = v;
+          }
+        }
+      }
+      for (const [nodeKey, nodes5] of Object.entries(keyNodes)) {
+        if (typeof obj[nodeKey] === "function") {
+          continue;
+        }
+        const processedValue = processObj(obj[nodeKey], processFunc, nodes5);
+        if (processedValue !== void 0 && typeof processedValue !== "function") {
+          accumulator[nodeKey] = processedValue;
+        }
+      }
+      return accumulator;
+    };
+    var processAllKeysInObj = (obj, processFunc, keyNodes) => {
+      if (Array.isArray(obj)) {
+        return obj.filter((item) => typeof item !== "function").map((item) => processObj(item, processFunc, keyNodes));
+      }
+      return Object.entries(obj).reduce((acc, [key, value]) => {
+        if (typeof value === "function") {
+          return acc;
+        }
+        const processedValue = processObj(value, processFunc, keyNodes);
+        if (processedValue !== void 0 && typeof processedValue !== "function") {
+          acc[key] = processedValue;
+        }
+        return acc;
+      }, {});
+    };
+    var marshallInput = (obj, keyNodes, options) => {
+      const marshallFunc = (toMarshall) => marshall(toMarshall, options);
+      return processKeysInObj(obj, marshallFunc, keyNodes);
+    };
+    var unmarshallOutput = (obj, keyNodes, options) => {
+      const unmarshallFunc = (toMarshall) => unmarshall(toMarshall, options);
+      return processKeysInObj(obj, unmarshallFunc, keyNodes);
+    };
+    var DynamoDBDocumentClientCommand = class extends Command2 {
+      addMarshallingMiddleware(configuration) {
+        const { marshallOptions = {}, unmarshallOptions = {} } = configuration.translateConfig || {};
+        marshallOptions.convertTopLevelContainer = marshallOptions.convertTopLevelContainer ?? true;
+        unmarshallOptions.convertWithoutMapWrapper = unmarshallOptions.convertWithoutMapWrapper ?? true;
+        this.clientCommand.middlewareStack.addRelativeTo((next, context) => async (args) => {
+          setFeature4(context, "DDB_MAPPER", "d");
+          return next({
+            ...args,
+            input: marshallInput(args.input, this.inputKeyNodes, marshallOptions)
+          });
+        }, {
+          name: "DocumentMarshall",
+          relation: "before",
+          toMiddleware: "serializerMiddleware",
+          override: true
+        });
+        this.clientCommand.middlewareStack.addRelativeTo((next, context) => async (args) => {
+          const deserialized = await next(args);
+          deserialized.output = unmarshallOutput(deserialized.output, this.outputKeyNodes, unmarshallOptions);
+          return deserialized;
+        }, {
+          name: "DocumentUnmarshall",
+          relation: "before",
+          toMiddleware: "deserializerMiddleware",
+          override: true
+        });
+      }
+    };
+    var BatchExecuteStatementCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        Statements: {
+          "*": {
+            Parameters: ALL_MEMBERS
+          }
+        }
+      };
+      outputKeyNodes = {
+        Responses: {
+          "*": {
+            Error: {
+              Item: ALL_VALUES
+            },
+            Item: ALL_VALUES
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new BatchExecuteStatementCommand$1(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var BatchGetCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        RequestItems: {
+          "*": {
+            Keys: {
+              "*": ALL_VALUES
+            }
+          }
+        }
+      };
+      outputKeyNodes = {
+        Responses: {
+          "*": {
+            "*": ALL_VALUES
+          }
+        },
+        UnprocessedKeys: {
+          "*": {
+            Keys: {
+              "*": ALL_VALUES
+            }
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new BatchGetItemCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var BatchWriteCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        RequestItems: {
+          "*": {
+            "*": {
+              PutRequest: {
+                Item: ALL_VALUES
+              },
+              DeleteRequest: {
+                Key: ALL_VALUES
+              }
+            }
+          }
+        }
+      };
+      outputKeyNodes = {
+        UnprocessedItems: {
+          "*": {
+            "*": {
+              PutRequest: {
+                Item: ALL_VALUES
+              },
+              DeleteRequest: {
+                Key: ALL_VALUES
+              }
+            }
+          }
+        },
+        ItemCollectionMetrics: {
+          "*": {
+            "*": {
+              ItemCollectionKey: ALL_VALUES
+            }
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new BatchWriteItemCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var DeleteCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        Key: ALL_VALUES,
+        Expected: {
+          "*": {
+            Value: SELF,
+            AttributeValueList: ALL_MEMBERS
+          }
+        },
+        ExpressionAttributeValues: ALL_VALUES
+      };
+      outputKeyNodes = {
+        Attributes: ALL_VALUES,
+        ItemCollectionMetrics: {
+          ItemCollectionKey: ALL_VALUES
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new DeleteItemCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var ExecuteStatementCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        Parameters: ALL_MEMBERS
+      };
+      outputKeyNodes = {
+        Items: {
+          "*": ALL_VALUES
+        },
+        LastEvaluatedKey: ALL_VALUES
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new ExecuteStatementCommand$1(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var ExecuteTransactionCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        TransactStatements: {
+          "*": {
+            Parameters: ALL_MEMBERS
+          }
+        }
+      };
+      outputKeyNodes = {
+        Responses: {
+          "*": {
+            Item: ALL_VALUES
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new ExecuteTransactionCommand$1(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var GetCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        Key: ALL_VALUES
+      };
+      outputKeyNodes = {
+        Item: ALL_VALUES
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new GetItemCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var PutCommand2 = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        Item: ALL_VALUES,
+        Expected: {
+          "*": {
+            Value: SELF,
+            AttributeValueList: ALL_MEMBERS
+          }
+        },
+        ExpressionAttributeValues: ALL_VALUES
+      };
+      outputKeyNodes = {
+        Attributes: ALL_VALUES,
+        ItemCollectionMetrics: {
+          ItemCollectionKey: ALL_VALUES
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new PutItemCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var QueryCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        KeyConditions: {
+          "*": {
+            AttributeValueList: ALL_MEMBERS
+          }
+        },
+        QueryFilter: {
+          "*": {
+            AttributeValueList: ALL_MEMBERS
+          }
+        },
+        ExclusiveStartKey: ALL_VALUES,
+        ExpressionAttributeValues: ALL_VALUES
+      };
+      outputKeyNodes = {
+        Items: {
+          "*": ALL_VALUES
+        },
+        LastEvaluatedKey: ALL_VALUES
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new QueryCommand$1(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var ScanCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        ScanFilter: {
+          "*": {
+            AttributeValueList: ALL_MEMBERS
+          }
+        },
+        ExclusiveStartKey: ALL_VALUES,
+        ExpressionAttributeValues: ALL_VALUES
+      };
+      outputKeyNodes = {
+        Items: {
+          "*": ALL_VALUES
+        },
+        LastEvaluatedKey: ALL_VALUES
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new ScanCommand$1(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var SearchVectorsCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        ExpressionAttributeValues: ALL_VALUES,
+        SearchVector: ALL_MEMBERS
+      };
+      outputKeyNodes = {
+        SearchResults: {
+          "*": {
+            Item: ALL_VALUES
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new SearchVectorsCommand$1(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var TransactGetCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        TransactItems: {
+          "*": {
+            Get: {
+              Key: ALL_VALUES
+            }
+          }
+        }
+      };
+      outputKeyNodes = {
+        Responses: {
+          "*": {
+            Item: ALL_VALUES
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new TransactGetItemsCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var TransactWriteCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        TransactItems: {
+          "*": {
+            ConditionCheck: {
+              Key: ALL_VALUES,
+              ExpressionAttributeValues: ALL_VALUES
+            },
+            Put: {
+              Item: ALL_VALUES,
+              ExpressionAttributeValues: ALL_VALUES
+            },
+            Delete: {
+              Key: ALL_VALUES,
+              ExpressionAttributeValues: ALL_VALUES
+            },
+            Update: {
+              Key: ALL_VALUES,
+              ExpressionAttributeValues: ALL_VALUES
+            }
+          }
+        }
+      };
+      outputKeyNodes = {
+        ItemCollectionMetrics: {
+          "*": {
+            "*": {
+              ItemCollectionKey: ALL_VALUES
+            }
+          }
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new TransactWriteItemsCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var UpdateCommand = class extends DynamoDBDocumentClientCommand {
+      input;
+      inputKeyNodes = {
+        Key: ALL_VALUES,
+        AttributeUpdates: {
+          "*": {
+            Value: SELF
+          }
+        },
+        Expected: {
+          "*": {
+            Value: SELF,
+            AttributeValueList: ALL_MEMBERS
+          }
+        },
+        ExpressionAttributeValues: ALL_VALUES
+      };
+      outputKeyNodes = {
+        Attributes: ALL_VALUES,
+        ItemCollectionMetrics: {
+          ItemCollectionKey: ALL_VALUES
+        }
+      };
+      clientCommand;
+      middlewareStack;
+      constructor(input) {
+        super();
+        this.input = input;
+        this.clientCommand = new UpdateItemCommand(this.input);
+        this.middlewareStack = this.clientCommand.middlewareStack;
+      }
+      resolveMiddleware(clientStack, configuration, options) {
+        this.addMarshallingMiddleware(configuration);
+        const stack = clientStack.concat(this.middlewareStack);
+        const handler2 = this.clientCommand.resolveMiddleware(stack, configuration, options);
+        return async () => handler2(this.clientCommand);
+      }
+    };
+    var DynamoDBDocumentClient2 = class _DynamoDBDocumentClient extends Client2 {
+      config;
+      constructor(client2, translateConfig) {
+        super(client2.config);
+        this.config = client2.config;
+        this.config.translateConfig = translateConfig;
+        this.middlewareStack = client2.middlewareStack;
+        if (this.config?.cacheMiddleware) {
+          throw new Error("@aws-sdk/lib-dynamodb - cacheMiddleware=true is not compatible with the DynamoDBDocumentClient. This option must be set to false.");
+        }
+        const middlewares = client2.middlewareStack.identify?.() ?? [];
+        const hasSerializer = middlewares.some((m3) => m3.includes?.("serializerMiddleware"));
+        if (!hasSerializer) {
+          const configuredLogger = this.config.logger;
+          const logger2 = configuredLogger && !configuredLogger.constructor?.name.includes("NoOp") ? configuredLogger : console;
+          const substituteClient = new DynamoDBClient2(Object.assign({}, this.config, {
+            defaultUserAgentProvider: void 0,
+            retryStrategy: void 0,
+            extensions: void 0
+          }));
+          const substituteClientHasSerializer = substituteClient.middlewareStack.identify?.().some((m3) => m3.includes?.("serializerMiddleware"));
+          if (!substituteClientHasSerializer) {
+            throw new Error("@aws-sdk/lib-dynamodb - ERROR: incompatible version of DynamoDBClient given to DynamoDBDocumentClient. Check @aws-sdk/lib-dynamodb package.json requirements.");
+          } else {
+            this.middlewareStack = substituteClient.middlewareStack;
+            this.config = substituteClient.config;
+            this.config.translateConfig = translateConfig;
+            logger2.warn("@aws-sdk/lib-dynamodb - WARN: incompatible version of DynamoDBClient given to DynamoDBDocumentClient. We have forwarded your client's configuration to a newer version of DynamoDBClient in the dependency closure to instantiate DynamoDBDocumentClient.");
+          }
+        }
+      }
+      static from(client2, translateConfig) {
+        return new _DynamoDBDocumentClient(client2, translateConfig);
+      }
+      destroy() {
+      }
+    };
+    var paginateQuery = createPaginator2(DynamoDBDocumentClient2, QueryCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
+    var paginateScan = createPaginator2(DynamoDBDocumentClient2, ScanCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
+    var DynamoDBDocument = class _DynamoDBDocument extends DynamoDBDocumentClient2 {
+      static from(client2, translateConfig) {
+        return new _DynamoDBDocument(client2, translateConfig);
+      }
+      batchExecuteStatement(args, optionsOrCb, cb) {
+        const command5 = new BatchExecuteStatementCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      batchGet(args, optionsOrCb, cb) {
+        const command5 = new BatchGetCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      batchWrite(args, optionsOrCb, cb) {
+        const command5 = new BatchWriteCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      delete(args, optionsOrCb, cb) {
+        const command5 = new DeleteCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      executeStatement(args, optionsOrCb, cb) {
+        const command5 = new ExecuteStatementCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      executeTransaction(args, optionsOrCb, cb) {
+        const command5 = new ExecuteTransactionCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      get(args, optionsOrCb, cb) {
+        const command5 = new GetCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      put(args, optionsOrCb, cb) {
+        const command5 = new PutCommand2(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      query(args, optionsOrCb, cb) {
+        const command5 = new QueryCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      scan(args, optionsOrCb, cb) {
+        const command5 = new ScanCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      searchVectors(args, optionsOrCb, cb) {
+        const command5 = new SearchVectorsCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      transactGet(args, optionsOrCb, cb) {
+        const command5 = new TransactGetCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      transactWrite(args, optionsOrCb, cb) {
+        const command5 = new TransactWriteCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+      update(args, optionsOrCb, cb) {
+        const command5 = new UpdateCommand(args);
+        if (typeof optionsOrCb === "function") {
+          this.send(command5, optionsOrCb);
+        } else if (typeof cb === "function") {
+          if (typeof optionsOrCb !== "object") {
+            throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+          }
+          this.send(command5, optionsOrCb || {}, cb);
+        } else {
+          return this.send(command5, optionsOrCb);
+        }
+      }
+    };
+    exports2.BatchExecuteStatementCommand = BatchExecuteStatementCommand;
+    exports2.BatchGetCommand = BatchGetCommand;
+    exports2.BatchWriteCommand = BatchWriteCommand;
+    exports2.DeleteCommand = DeleteCommand;
+    exports2.DynamoDBDocument = DynamoDBDocument;
+    exports2.DynamoDBDocumentClient = DynamoDBDocumentClient2;
+    exports2.DynamoDBDocumentClientCommand = DynamoDBDocumentClientCommand;
+    exports2.ExecuteStatementCommand = ExecuteStatementCommand;
+    exports2.ExecuteTransactionCommand = ExecuteTransactionCommand;
+    exports2.GetCommand = GetCommand;
+    exports2.PutCommand = PutCommand2;
+    exports2.QueryCommand = QueryCommand;
+    exports2.ScanCommand = ScanCommand;
+    exports2.SearchVectorsCommand = SearchVectorsCommand;
+    exports2.TransactGetCommand = TransactGetCommand;
+    exports2.TransactWriteCommand = TransactWriteCommand;
+    exports2.UpdateCommand = UpdateCommand;
+    exports2.paginateQuery = paginateQuery;
+    exports2.paginateScan = paginateScan;
+  }
+});
+
 // lambda/index.ts
 var index_exports = {};
 __export(index_exports, {
@@ -28314,7 +36796,11 @@ __export(index_exports, {
 });
 module.exports = __toCommonJS(index_exports);
 var import_client_sqs = __toESM(require_dist_cjs17());
+var import_client_dynamodb = __toESM(require_dist_cjs21());
+var import_lib_dynamodb = __toESM(require_dist_cjs23());
 var sqs = new import_client_sqs.SQSClient();
+var client = new import_client_dynamodb.DynamoDBClient({});
+var dynamo = import_lib_dynamodb.DynamoDBDocumentClient.from(client);
 function returnInvalidEventResponse() {
   return {
     statusCode: 400,
@@ -28348,6 +36834,12 @@ var handler = async (event) => {
 var SQSToLambdaHandler = async (event) => {
   for (const record of event.Records) {
     const messageBody = JSON.parse(record.body);
+    await dynamo.send(
+      new import_lib_dynamodb.PutCommand({
+        TableName: process.env.DYNAMODB_TABLE_ARN,
+        Item: messageBody
+      })
+    );
     console.log("Received SQS message:", messageBody);
   }
 };
