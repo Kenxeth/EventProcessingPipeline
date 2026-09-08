@@ -1,6 +1,29 @@
 #   *** Policies and roles for Lambda functions ***
 # ----------------------------------------------------
 
+# Policy for Lambda role to insert objects into s3 bucket
+resource "aws_iam_role_policy" "lambda_s3_policy" {
+  name = "lambda-s3-policy"
+  role = aws_iam_role.lambda_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+
+    Statement = [
+      {
+        Effect = "Allow"
+
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject"
+        ]
+
+        Resource = "${aws_s3_bucket.store_userResponse_bucket.arn}/*"
+      }
+    ]
+  })
+}
+
 # Policy for Lambda execution
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -93,6 +116,7 @@ resource "aws_lambda_function" "sqs_to_lambda_worker" {
       LOG_LEVEL   = "info"
       QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
       DYNAMODB_TABLE_ARN = aws_dynamodb_table.userid-eventid-table.arn
+      S3_BUCKET_NAME = aws_s3_bucket.store_userResponse_bucket.bucket
     }
   }
 
@@ -119,6 +143,7 @@ resource "aws_lambda_function" "example" {
       LOG_LEVEL   = "info"
       QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
       DYNAMODB_TABLE_ARN = aws_dynamodb_table.userid-eventid-table.arn
+      S3_BUCKET_NAME = aws_s3_bucket.store_userResponse_bucket.bucket
     }
   }
 

@@ -1,6 +1,7 @@
 import type { APIGatewayProxyHandlerV2, SQSEvent, APIGatewayProxyEventV2 } from 'aws-lambda'
 import {SQSClient, SendMessageCommand} from "@aws-sdk/client-sqs";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 import {
   DynamoDBDocumentClient,
   PutCommand,
@@ -10,6 +11,7 @@ import {
 const sqs = new SQSClient();
 const client = new DynamoDBClient({});
 const dynamo = DynamoDBDocumentClient.from(client);
+const s3 = new S3Client({});
 
 function returnInvalidEventResponse() {
   return {
@@ -61,6 +63,15 @@ export const SQSToLambdaHandler = async (event: SQSEvent) => {
     const messageBody = JSON.parse(record.body);
     console.log('Received SQS message:', messageBody);
 
+    // Store the event in S3
+    await s3.send(new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: `events/${messageBody.user_id}/${messageBody.event_id}.json`,
+      Body: JSON.stringify(messageBody),
+      ContentType: "application/json"
+    }));
+
+    // Store the event in DynamoDB
     const checkIfItemExists = await dynamo.send(new GetCommand({
       TableName: process.env.DYNAMODB_TABLE_ARN,
       Key: {

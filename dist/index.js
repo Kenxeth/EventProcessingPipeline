@@ -3280,8 +3280,8 @@ var init_schema_date_utils = __esm({
       const date2 = new Date(Date.UTC(Number(yearStr), Number(monthStr) - 1, Number(dayStr), Number(hours), Number(minutes), Number(seconds), Number(ms) ? Math.round(parseFloat(`0.${ms}`) * 1e3) : 0));
       date2.setUTCFullYear(Number(yearStr));
       if (offsetStr.toUpperCase() != "Z") {
-        const [, sign2, offsetH, offsetM] = /([+-])(\d\d):(\d\d)/.exec(offsetStr) || [void 0, "+", 0, 0];
-        const scalar = sign2 === "-" ? 1 : -1;
+        const [, sign3, offsetH, offsetM] = /([+-])(\d\d):(\d\d)/.exec(offsetStr) || [void 0, "+", 0, 0];
+        const scalar = sign3 === "-" ? 1 : -1;
         date2.setTime(date2.getTime() + scalar * (Number(offsetH) * 60 * 60 * 1e3 + Number(offsetM) * 60 * 1e3));
       }
       return date2;
@@ -3783,9 +3783,9 @@ var init_numberSelector = __esm({
 var SelectorType;
 var init_types = __esm({
   "node_modules/@smithy/core/dist-es/submodules/config/util-config-provider/types.js"() {
-    (function(SelectorType2) {
-      SelectorType2["ENV"] = "env";
-      SelectorType2["CONFIG"] = "shared config entry";
+    (function(SelectorType3) {
+      SelectorType3["ENV"] = "env";
+      SelectorType3["CONFIG"] = "shared config entry";
     })(SelectorType || (SelectorType = {}));
   }
 });
@@ -6121,8 +6121,8 @@ var init_ChecksumStream = __esm({
           return;
         }
         try {
-          const digest2 = await this.checksum.digest();
-          const received = this.base64Encoder(digest2);
+          const digest3 = await this.checksum.digest();
+          const received = this.base64Encoder(digest3);
           if (this.expectedChecksum !== received) {
             this.destroy(new Error(`Checksum mismatch: expected "${this.expectedChecksum}" but received "${received}" in response header "${this.checksumSourceLocation}".`));
             return;
@@ -6263,8 +6263,8 @@ var init_createChecksumStream_browser = __esm({
           controller.enqueue(chunk);
         },
         async flush(controller) {
-          const digest2 = await checksum.digest();
-          const received = encoder2(digest2);
+          const digest3 = await checksum.digest();
+          const received = encoder2(digest3);
           if (expectedChecksum !== received) {
             const error2 = new Error(`Checksum mismatch: expected "${expectedChecksum}" but received "${received}" in response header "${checksumSourceLocation}".`);
             controller.error(error2);
@@ -6503,7 +6503,7 @@ var init_getAwsChunkedEncodingStream_browser = __esm({
     getAwsChunkedEncodingStream = (readableStream, options) => {
       const { base64Encoder, bodyLengthChecker, checksumAlgorithmFn, checksumLocationName, streamHasher } = options;
       const checksumRequired = base64Encoder !== void 0 && bodyLengthChecker !== void 0 && checksumAlgorithmFn !== void 0 && checksumLocationName !== void 0 && streamHasher !== void 0;
-      const digest2 = checksumRequired ? streamHasher(checksumAlgorithmFn, readableStream) : void 0;
+      const digest3 = checksumRequired ? streamHasher(checksumAlgorithmFn, readableStream) : void 0;
       const reader = readableStream.getReader();
       return new ReadableStream({
         async pull(controller) {
@@ -6512,7 +6512,7 @@ var init_getAwsChunkedEncodingStream_browser = __esm({
             controller.enqueue(`0\r
 `);
             if (checksumRequired) {
-              const checksum = base64Encoder(await digest2);
+              const checksum = base64Encoder(await digest3);
               controller.enqueue(`${checksumLocationName}:${checksum}\r
 `);
               controller.enqueue(`\r
@@ -6539,7 +6539,7 @@ function getAwsChunkedEncodingStream2(stream, options) {
   }
   const { base64Encoder, bodyLengthChecker, checksumAlgorithmFn, checksumLocationName, streamHasher } = options;
   const checksumRequired = base64Encoder !== void 0 && checksumAlgorithmFn !== void 0 && checksumLocationName !== void 0 && streamHasher !== void 0;
-  const digest2 = checksumRequired ? streamHasher(checksumAlgorithmFn, readable) : void 0;
+  const digest3 = checksumRequired ? streamHasher(checksumAlgorithmFn, readable) : void 0;
   const awsChunkedEncodingStream = new import_node_stream4.Readable({
     read: () => {
     }
@@ -6558,7 +6558,7 @@ function getAwsChunkedEncodingStream2(stream, options) {
     awsChunkedEncodingStream.push(`0\r
 `);
     if (checksumRequired) {
-      const checksum = base64Encoder(await digest2);
+      const checksum = base64Encoder(await digest3);
       awsChunkedEncodingStream.push(`${checksumLocationName}:${checksum}\r
 `);
       awsChunkedEncodingStream.push(`\r
@@ -7504,32 +7504,32 @@ var init_Sha256Js = __esm({
       }
       hashBufferWith(state2, buffer) {
         const w = this.w ??= new Int32Array(64);
-        let s0 = state2[0], s1 = state2[1], s2 = state2[2], s3 = state2[3], s4 = state2[4], s5 = state2[5], s6 = state2[6], s7 = state2[7];
+        let s0 = state2[0], s1 = state2[1], s2 = state2[2], s32 = state2[3], s4 = state2[4], s5 = state2[5], s6 = state2[6], s7 = state2[7];
         for (let i5 = 0; i5 < BLOCK; ++i5) {
           if (i5 < 16) {
             w[i5] = (buffer[i5 * 4] & 255) << 24 | (buffer[i5 * 4 + 1] & 255) << 16 | (buffer[i5 * 4 + 2] & 255) << 8 | buffer[i5 * 4 + 3] & 255;
           } else {
             let u = w[i5 - 2];
-            const t12 = (u >>> 17 | u << 15) ^ (u >>> 19 | u << 13) ^ u >>> 10;
+            const t13 = (u >>> 17 | u << 15) ^ (u >>> 19 | u << 13) ^ u >>> 10;
             u = w[i5 - 15];
-            const t22 = (u >>> 7 | u << 25) ^ (u >>> 18 | u << 14) ^ u >>> 3;
-            w[i5] = (t12 + w[i5 - 7] | 0) + (t22 + w[i5 - 16] | 0);
+            const t23 = (u >>> 7 | u << 25) ^ (u >>> 18 | u << 14) ^ u >>> 3;
+            w[i5] = (t13 + w[i5 - 7] | 0) + (t23 + w[i5 - 16] | 0);
           }
-          const t1 = (((s4 >>> 6 | s4 << 26) ^ (s4 >>> 11 | s4 << 21) ^ (s4 >>> 25 | s4 << 7)) + (s4 & s5 ^ ~s4 & s6) | 0) + (s7 + (K[i5] + w[i5] | 0) | 0) | 0;
-          const t2 = ((s0 >>> 2 | s0 << 30) ^ (s0 >>> 13 | s0 << 19) ^ (s0 >>> 22 | s0 << 10)) + (s0 & s1 ^ s0 & s2 ^ s1 & s2) | 0;
+          const t12 = (((s4 >>> 6 | s4 << 26) ^ (s4 >>> 11 | s4 << 21) ^ (s4 >>> 25 | s4 << 7)) + (s4 & s5 ^ ~s4 & s6) | 0) + (s7 + (K[i5] + w[i5] | 0) | 0) | 0;
+          const t22 = ((s0 >>> 2 | s0 << 30) ^ (s0 >>> 13 | s0 << 19) ^ (s0 >>> 22 | s0 << 10)) + (s0 & s1 ^ s0 & s2 ^ s1 & s2) | 0;
           s7 = s6;
           s6 = s5;
           s5 = s4;
-          s4 = s3 + t1 | 0;
-          s3 = s2;
+          s4 = s32 + t12 | 0;
+          s32 = s2;
           s2 = s1;
           s1 = s0;
-          s0 = t1 + t2 | 0;
+          s0 = t12 + t22 | 0;
         }
         state2[0] += s0;
         state2[1] += s1;
         state2[2] += s2;
-        state2[3] += s3;
+        state2[3] += s32;
         state2[4] += s4;
         state2[5] += s5;
         state2[6] += s6;
@@ -9036,8 +9036,8 @@ var init_HttpBindingProtocol = __esm({
             continue;
           }
           if (memberTraits.httpPayload) {
-            const isStreaming = memberNs.isStreaming();
-            if (isStreaming) {
+            const isStreaming2 = memberNs.isStreaming();
+            if (isStreaming2) {
               const isEventStream = memberNs.isStructSchema();
               if (isEventStream) {
                 if (input[memberName]) {
@@ -9193,8 +9193,8 @@ var init_HttpBindingProtocol = __esm({
           const memberTraits = memberSchema.getMemberTraits();
           if (memberTraits.httpPayload) {
             discardResponseBody = false;
-            const isStreaming = memberSchema.isStreaming();
-            if (isStreaming) {
+            const isStreaming2 = memberSchema.isStreaming();
+            if (isStreaming2) {
               const isEventStream = memberSchema.isStructSchema();
               if (isEventStream) {
                 dataObject[memberName] = await this.deserializeEventStream({
@@ -12426,27 +12426,27 @@ var require_es5 = __commonJS({
           var n3 = t[i5] = { i: i5, l: false, exports: {} };
           return e5[i5].call(n3.exports, n3, n3.exports, r5), n3.l = true, n3.exports;
         }
-        return r5.m = e5, r5.c = t, r5.d = function(e6, t2, i5) {
-          r5.o(e6, t2) || Object.defineProperty(e6, t2, { enumerable: true, get: i5 });
+        return r5.m = e5, r5.c = t, r5.d = function(e6, t8, i5) {
+          r5.o(e6, t8) || Object.defineProperty(e6, t8, { enumerable: true, get: i5 });
         }, r5.r = function(e6) {
           "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e6, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(e6, "__esModule", { value: true });
-        }, r5.t = function(e6, t2) {
-          if (1 & t2 && (e6 = r5(e6)), 8 & t2) return e6;
-          if (4 & t2 && "object" == typeof e6 && e6 && e6.__esModule) return e6;
+        }, r5.t = function(e6, t8) {
+          if (1 & t8 && (e6 = r5(e6)), 8 & t8) return e6;
+          if (4 & t8 && "object" == typeof e6 && e6 && e6.__esModule) return e6;
           var i5 = /* @__PURE__ */ Object.create(null);
-          if (r5.r(i5), Object.defineProperty(i5, "default", { enumerable: true, value: e6 }), 2 & t2 && "string" != typeof e6) for (var n3 in e6) r5.d(i5, n3, function(t3) {
-            return e6[t3];
+          if (r5.r(i5), Object.defineProperty(i5, "default", { enumerable: true, value: e6 }), 2 & t8 && "string" != typeof e6) for (var n3 in e6) r5.d(i5, n3, function(t9) {
+            return e6[t9];
           }.bind(null, n3));
           return i5;
         }, r5.n = function(e6) {
-          var t2 = e6 && e6.__esModule ? function() {
+          var t8 = e6 && e6.__esModule ? function() {
             return e6.default;
           } : function() {
             return e6;
           };
-          return r5.d(t2, "a", t2), t2;
-        }, r5.o = function(e6, t2) {
-          return Object.prototype.hasOwnProperty.call(e6, t2);
+          return r5.d(t8, "a", t8), t8;
+        }, r5.o = function(e6, t8) {
+          return Object.prototype.hasOwnProperty.call(e6, t8);
         }, r5.p = "", r5(r5.s = 90);
       })({ 17: function(e5, t, r5) {
         "use strict";
@@ -12454,14 +12454,14 @@ var require_es5 = __commonJS({
         var i5 = r5(18), n3 = (function() {
           function e6() {
           }
-          return e6.getFirstMatch = function(e7, t2) {
-            var r6 = t2.match(e7);
+          return e6.getFirstMatch = function(e7, t8) {
+            var r6 = t8.match(e7);
             return r6 && r6.length > 0 && r6[1] || "";
-          }, e6.getSecondMatch = function(e7, t2) {
-            var r6 = t2.match(e7);
+          }, e6.getSecondMatch = function(e7, t8) {
+            var r6 = t8.match(e7);
             return r6 && r6.length > 1 && r6[2] || "";
-          }, e6.matchAndReturnConst = function(e7, t2, r6) {
-            if (e7.test(t2)) return r6;
+          }, e6.matchAndReturnConst = function(e7, t8, r6) {
+            if (e7.test(t8)) return r6;
           }, e6.getWindowsVersionName = function(e7) {
             switch (e7) {
               case "NT":
@@ -12488,11 +12488,11 @@ var require_es5 = __commonJS({
                 return;
             }
           }, e6.getMacOSVersionName = function(e7) {
-            var t2 = e7.split(".").splice(0, 2).map((function(e8) {
+            var t8 = e7.split(".").splice(0, 2).map((function(e8) {
               return parseInt(e8, 10) || 0;
             }));
-            t2.push(0);
-            var r6 = t2[0], i6 = t2[1];
+            t8.push(0);
+            var r6 = t8[0], i6 = t8[1];
             if (10 === r6) switch (i6) {
               case 5:
                 return "Leopard";
@@ -12534,16 +12534,16 @@ var require_es5 = __commonJS({
                 return;
             }
           }, e6.getAndroidVersionName = function(e7) {
-            var t2 = e7.split(".").splice(0, 2).map((function(e8) {
+            var t8 = e7.split(".").splice(0, 2).map((function(e8) {
               return parseInt(e8, 10) || 0;
             }));
-            if (t2.push(0), !(1 === t2[0] && t2[1] < 5)) return 1 === t2[0] && t2[1] < 6 ? "Cupcake" : 1 === t2[0] && t2[1] >= 6 ? "Donut" : 2 === t2[0] && t2[1] < 2 ? "Eclair" : 2 === t2[0] && 2 === t2[1] ? "Froyo" : 2 === t2[0] && t2[1] > 2 ? "Gingerbread" : 3 === t2[0] ? "Honeycomb" : 4 === t2[0] && t2[1] < 1 ? "Ice Cream Sandwich" : 4 === t2[0] && t2[1] < 4 ? "Jelly Bean" : 4 === t2[0] && t2[1] >= 4 ? "KitKat" : 5 === t2[0] ? "Lollipop" : 6 === t2[0] ? "Marshmallow" : 7 === t2[0] ? "Nougat" : 8 === t2[0] ? "Oreo" : 9 === t2[0] ? "Pie" : void 0;
+            if (t8.push(0), !(1 === t8[0] && t8[1] < 5)) return 1 === t8[0] && t8[1] < 6 ? "Cupcake" : 1 === t8[0] && t8[1] >= 6 ? "Donut" : 2 === t8[0] && t8[1] < 2 ? "Eclair" : 2 === t8[0] && 2 === t8[1] ? "Froyo" : 2 === t8[0] && t8[1] > 2 ? "Gingerbread" : 3 === t8[0] ? "Honeycomb" : 4 === t8[0] && t8[1] < 1 ? "Ice Cream Sandwich" : 4 === t8[0] && t8[1] < 4 ? "Jelly Bean" : 4 === t8[0] && t8[1] >= 4 ? "KitKat" : 5 === t8[0] ? "Lollipop" : 6 === t8[0] ? "Marshmallow" : 7 === t8[0] ? "Nougat" : 8 === t8[0] ? "Oreo" : 9 === t8[0] ? "Pie" : void 0;
           }, e6.getVersionPrecision = function(e7) {
             return e7.split(".").length;
-          }, e6.compareVersions = function(t2, r6, i6) {
+          }, e6.compareVersions = function(t8, r6, i6) {
             void 0 === i6 && (i6 = false);
-            var n4 = e6.getVersionPrecision(t2), a5 = e6.getVersionPrecision(r6), o3 = Math.max(n4, a5), s2 = 0, u = e6.map([t2, r6], (function(t3) {
-              var r7 = o3 - e6.getVersionPrecision(t3), i7 = t3 + new Array(r7 + 1).join(".0");
+            var n4 = e6.getVersionPrecision(t8), a5 = e6.getVersionPrecision(r6), o3 = Math.max(n4, a5), s2 = 0, u = e6.map([t8, r6], (function(t9) {
+              var r7 = o3 - e6.getVersionPrecision(t9), i7 = t9 + new Array(r7 + 1).join(".0");
               return e6.map(i7.split("."), (function(e7) {
                 return new Array(20 - e7.length).join("0") + e7;
               })).reverse();
@@ -12555,28 +12555,28 @@ var require_es5 = __commonJS({
                 o3 -= 1;
               } else if (u[0][o3] < u[1][o3]) return -1;
             }
-          }, e6.map = function(e7, t2) {
+          }, e6.map = function(e7, t8) {
             var r6, i6 = [];
-            if (Array.prototype.map) return Array.prototype.map.call(e7, t2);
-            for (r6 = 0; r6 < e7.length; r6 += 1) i6.push(t2(e7[r6]));
+            if (Array.prototype.map) return Array.prototype.map.call(e7, t8);
+            for (r6 = 0; r6 < e7.length; r6 += 1) i6.push(t8(e7[r6]));
             return i6;
-          }, e6.find = function(e7, t2) {
+          }, e6.find = function(e7, t8) {
             var r6, i6;
-            if (Array.prototype.find) return Array.prototype.find.call(e7, t2);
+            if (Array.prototype.find) return Array.prototype.find.call(e7, t8);
             for (r6 = 0, i6 = e7.length; r6 < i6; r6 += 1) {
               var n4 = e7[r6];
-              if (t2(n4, r6)) return n4;
+              if (t8(n4, r6)) return n4;
             }
           }, e6.assign = function(e7) {
-            for (var t2, r6, i6 = e7, n4 = arguments.length, a5 = new Array(n4 > 1 ? n4 - 1 : 0), o3 = 1; o3 < n4; o3++) a5[o3 - 1] = arguments[o3];
+            for (var t8, r6, i6 = e7, n4 = arguments.length, a5 = new Array(n4 > 1 ? n4 - 1 : 0), o3 = 1; o3 < n4; o3++) a5[o3 - 1] = arguments[o3];
             if (Object.assign) return Object.assign.apply(Object, [e7].concat(a5));
             var s2 = function() {
-              var e8 = a5[t2];
-              "object" == typeof e8 && null !== e8 && Object.keys(e8).forEach((function(t3) {
-                i6[t3] = e8[t3];
+              var e8 = a5[t8];
+              "object" == typeof e8 && null !== e8 && Object.keys(e8).forEach((function(t9) {
+                i6[t9] = e8[t9];
               }));
             };
-            for (t2 = 0, r6 = a5.length; t2 < r6; t2 += 1) s2();
+            for (t8 = 0, r6 = a5.length; t8 < r6; t8 += 1) s2();
             return e7;
           }, e6.getBrowserAlias = function(e7) {
             return i5.BROWSER_ALIASES_MAP[e7];
@@ -12597,22 +12597,22 @@ var require_es5 = __commonJS({
         "use strict";
         t.__esModule = true, t.default = void 0;
         var i5, n3 = (i5 = r5(91)) && i5.__esModule ? i5 : { default: i5 }, a5 = r5(18);
-        function o3(e6, t2) {
-          for (var r6 = 0; r6 < t2.length; r6++) {
-            var i6 = t2[r6];
+        function o3(e6, t8) {
+          for (var r6 = 0; r6 < t8.length; r6++) {
+            var i6 = t8[r6];
             i6.enumerable = i6.enumerable || false, i6.configurable = true, "value" in i6 && (i6.writable = true), Object.defineProperty(e6, i6.key, i6);
           }
         }
         var s2 = (function() {
           function e6() {
           }
-          var t2, r6, i6;
-          return e6.getParser = function(e7, t3, r7) {
-            if (void 0 === t3 && (t3 = false), void 0 === r7 && (r7 = null), "string" != typeof e7) throw new Error("UserAgent should be a string");
-            return new n3.default(e7, t3, r7);
-          }, e6.parse = function(e7, t3) {
-            return void 0 === t3 && (t3 = null), new n3.default(e7, t3).getResult();
-          }, t2 = e6, i6 = [{ key: "BROWSER_MAP", get: function() {
+          var t8, r6, i6;
+          return e6.getParser = function(e7, t9, r7) {
+            if (void 0 === t9 && (t9 = false), void 0 === r7 && (r7 = null), "string" != typeof e7) throw new Error("UserAgent should be a string");
+            return new n3.default(e7, t9, r7);
+          }, e6.parse = function(e7, t9) {
+            return void 0 === t9 && (t9 = null), new n3.default(e7, t9).getResult();
+          }, t8 = e6, i6 = [{ key: "BROWSER_MAP", get: function() {
             return a5.BROWSER_MAP;
           } }, { key: "ENGINE_MAP", get: function() {
             return a5.ENGINE_MAP;
@@ -12620,7 +12620,7 @@ var require_es5 = __commonJS({
             return a5.OS_MAP;
           } }, { key: "PLATFORMS_MAP", get: function() {
             return a5.PLATFORMS_MAP;
-          } }], (r6 = null) && o3(t2.prototype, r6), i6 && o3(t2, i6), e6;
+          } }], (r6 = null) && o3(t8.prototype, r6), i6 && o3(t8, i6), e6;
         })();
         t.default = s2, e5.exports = t.default;
       }, 91: function(e5, t, r5) {
@@ -12631,118 +12631,118 @@ var require_es5 = __commonJS({
           return e6 && e6.__esModule ? e6 : { default: e6 };
         }
         var d5 = (function() {
-          function e6(e7, t3, r6) {
-            if (void 0 === t3 && (t3 = false), void 0 === r6 && (r6 = null), null == e7 || "" === e7) throw new Error("UserAgent parameter can't be empty");
+          function e6(e7, t9, r6) {
+            if (void 0 === t9 && (t9 = false), void 0 === r6 && (r6 = null), null == e7 || "" === e7) throw new Error("UserAgent parameter can't be empty");
             this._ua = e7;
             var i6 = false;
-            "boolean" == typeof t3 ? (i6 = t3, this._hints = r6) : this._hints = null != t3 && "object" == typeof t3 ? t3 : null, this.parsedResult = {}, true !== i6 && this.parse();
+            "boolean" == typeof t9 ? (i6 = t9, this._hints = r6) : this._hints = null != t9 && "object" == typeof t9 ? t9 : null, this.parsedResult = {}, true !== i6 && this.parse();
           }
-          var t2 = e6.prototype;
-          return t2.getHints = function() {
+          var t8 = e6.prototype;
+          return t8.getHints = function() {
             return this._hints;
-          }, t2.hasBrand = function(e7) {
+          }, t8.hasBrand = function(e7) {
             if (!this._hints || !Array.isArray(this._hints.brands)) return false;
-            var t3 = e7.toLowerCase();
+            var t9 = e7.toLowerCase();
             return this._hints.brands.some((function(e8) {
-              return e8.brand && e8.brand.toLowerCase() === t3;
+              return e8.brand && e8.brand.toLowerCase() === t9;
             }));
-          }, t2.getBrandVersion = function(e7) {
+          }, t8.getBrandVersion = function(e7) {
             if (this._hints && Array.isArray(this._hints.brands)) {
-              var t3 = e7.toLowerCase(), r6 = this._hints.brands.find((function(e8) {
-                return e8.brand && e8.brand.toLowerCase() === t3;
+              var t9 = e7.toLowerCase(), r6 = this._hints.brands.find((function(e8) {
+                return e8.brand && e8.brand.toLowerCase() === t9;
               }));
               return r6 ? r6.version : void 0;
             }
-          }, t2.getUA = function() {
+          }, t8.getUA = function() {
             return this._ua;
-          }, t2.test = function(e7) {
+          }, t8.test = function(e7) {
             return e7.test(this._ua);
-          }, t2.parseBrowser = function() {
+          }, t8.parseBrowser = function() {
             var e7 = this;
             this.parsedResult.browser = {};
-            var t3 = s2.default.find(i5.default, (function(t4) {
-              if ("function" == typeof t4.test) return t4.test(e7);
-              if (Array.isArray(t4.test)) return t4.test.some((function(t5) {
-                return e7.test(t5);
+            var t9 = s2.default.find(i5.default, (function(t10) {
+              if ("function" == typeof t10.test) return t10.test(e7);
+              if (Array.isArray(t10.test)) return t10.test.some((function(t11) {
+                return e7.test(t11);
               }));
               throw new Error("Browser's test function is not valid");
             }));
-            return t3 && (this.parsedResult.browser = t3.describe(this.getUA(), this)), this.parsedResult.browser;
-          }, t2.getBrowser = function() {
+            return t9 && (this.parsedResult.browser = t9.describe(this.getUA(), this)), this.parsedResult.browser;
+          }, t8.getBrowser = function() {
             return this.parsedResult.browser ? this.parsedResult.browser : this.parseBrowser();
-          }, t2.getBrowserName = function(e7) {
+          }, t8.getBrowserName = function(e7) {
             return e7 ? String(this.getBrowser().name).toLowerCase() || "" : this.getBrowser().name || "";
-          }, t2.getBrowserVersion = function() {
+          }, t8.getBrowserVersion = function() {
             return this.getBrowser().version;
-          }, t2.getOS = function() {
+          }, t8.getOS = function() {
             return this.parsedResult.os ? this.parsedResult.os : this.parseOS();
-          }, t2.parseOS = function() {
+          }, t8.parseOS = function() {
             var e7 = this;
             this.parsedResult.os = {};
-            var t3 = s2.default.find(n3.default, (function(t4) {
-              if ("function" == typeof t4.test) return t4.test(e7);
-              if (Array.isArray(t4.test)) return t4.test.some((function(t5) {
-                return e7.test(t5);
+            var t9 = s2.default.find(n3.default, (function(t10) {
+              if ("function" == typeof t10.test) return t10.test(e7);
+              if (Array.isArray(t10.test)) return t10.test.some((function(t11) {
+                return e7.test(t11);
               }));
               throw new Error("Browser's test function is not valid");
             }));
-            return t3 && (this.parsedResult.os = t3.describe(this.getUA())), this.parsedResult.os;
-          }, t2.getOSName = function(e7) {
-            var t3 = this.getOS().name;
-            return e7 ? String(t3).toLowerCase() || "" : t3 || "";
-          }, t2.getOSVersion = function() {
+            return t9 && (this.parsedResult.os = t9.describe(this.getUA())), this.parsedResult.os;
+          }, t8.getOSName = function(e7) {
+            var t9 = this.getOS().name;
+            return e7 ? String(t9).toLowerCase() || "" : t9 || "";
+          }, t8.getOSVersion = function() {
             return this.getOS().version;
-          }, t2.getPlatform = function() {
+          }, t8.getPlatform = function() {
             return this.parsedResult.platform ? this.parsedResult.platform : this.parsePlatform();
-          }, t2.getPlatformType = function(e7) {
+          }, t8.getPlatformType = function(e7) {
             void 0 === e7 && (e7 = false);
-            var t3 = this.getPlatform().type;
-            return e7 ? String(t3).toLowerCase() || "" : t3 || "";
-          }, t2.parsePlatform = function() {
+            var t9 = this.getPlatform().type;
+            return e7 ? String(t9).toLowerCase() || "" : t9 || "";
+          }, t8.parsePlatform = function() {
             var e7 = this;
             this.parsedResult.platform = {};
-            var t3 = s2.default.find(a5.default, (function(t4) {
-              if ("function" == typeof t4.test) return t4.test(e7);
-              if (Array.isArray(t4.test)) return t4.test.some((function(t5) {
-                return e7.test(t5);
+            var t9 = s2.default.find(a5.default, (function(t10) {
+              if ("function" == typeof t10.test) return t10.test(e7);
+              if (Array.isArray(t10.test)) return t10.test.some((function(t11) {
+                return e7.test(t11);
               }));
               throw new Error("Browser's test function is not valid");
             }));
-            return t3 && (this.parsedResult.platform = t3.describe(this.getUA())), this.parsedResult.platform;
-          }, t2.getEngine = function() {
+            return t9 && (this.parsedResult.platform = t9.describe(this.getUA())), this.parsedResult.platform;
+          }, t8.getEngine = function() {
             return this.parsedResult.engine ? this.parsedResult.engine : this.parseEngine();
-          }, t2.getEngineName = function(e7) {
+          }, t8.getEngineName = function(e7) {
             return e7 ? String(this.getEngine().name).toLowerCase() || "" : this.getEngine().name || "";
-          }, t2.parseEngine = function() {
+          }, t8.parseEngine = function() {
             var e7 = this;
             this.parsedResult.engine = {};
-            var t3 = s2.default.find(o3.default, (function(t4) {
-              if ("function" == typeof t4.test) return t4.test(e7);
-              if (Array.isArray(t4.test)) return t4.test.some((function(t5) {
-                return e7.test(t5);
+            var t9 = s2.default.find(o3.default, (function(t10) {
+              if ("function" == typeof t10.test) return t10.test(e7);
+              if (Array.isArray(t10.test)) return t10.test.some((function(t11) {
+                return e7.test(t11);
               }));
               throw new Error("Browser's test function is not valid");
             }));
-            return t3 && (this.parsedResult.engine = t3.describe(this.getUA())), this.parsedResult.engine;
-          }, t2.parse = function() {
+            return t9 && (this.parsedResult.engine = t9.describe(this.getUA())), this.parsedResult.engine;
+          }, t8.parse = function() {
             return this.parseBrowser(), this.parseOS(), this.parsePlatform(), this.parseEngine(), this;
-          }, t2.getResult = function() {
+          }, t8.getResult = function() {
             return s2.default.assign({}, this.parsedResult);
-          }, t2.satisfies = function(e7) {
-            var t3 = this, r6 = {}, i6 = 0, n4 = {}, a6 = 0;
-            if (Object.keys(e7).forEach((function(t4) {
-              var o5 = e7[t4];
-              "string" == typeof o5 ? (n4[t4] = o5, a6 += 1) : "object" == typeof o5 && (r6[t4] = o5, i6 += 1);
+          }, t8.satisfies = function(e7) {
+            var t9 = this, r6 = {}, i6 = 0, n4 = {}, a6 = 0;
+            if (Object.keys(e7).forEach((function(t10) {
+              var o5 = e7[t10];
+              "string" == typeof o5 ? (n4[t10] = o5, a6 += 1) : "object" == typeof o5 && (r6[t10] = o5, i6 += 1);
             })), i6 > 0) {
               var o4 = Object.keys(r6), u2 = s2.default.find(o4, (function(e8) {
-                return t3.isOS(e8);
+                return t9.isOS(e8);
               }));
               if (u2) {
                 var d6 = this.satisfies(r6[u2]);
                 if (void 0 !== d6) return d6;
               }
               var c5 = s2.default.find(o4, (function(e8) {
-                return t3.isPlatform(e8);
+                return t9.isPlatform(e8);
               }));
               if (c5) {
                 var f5 = this.satisfies(r6[c5]);
@@ -12751,29 +12751,29 @@ var require_es5 = __commonJS({
             }
             if (a6 > 0) {
               var l3 = Object.keys(n4), b5 = s2.default.find(l3, (function(e8) {
-                return t3.isBrowser(e8, true);
+                return t9.isBrowser(e8, true);
               }));
               if (void 0 !== b5) return this.compareVersion(n4[b5]);
             }
-          }, t2.isBrowser = function(e7, t3) {
-            void 0 === t3 && (t3 = false);
+          }, t8.isBrowser = function(e7, t9) {
+            void 0 === t9 && (t9 = false);
             var r6 = this.getBrowserName().toLowerCase(), i6 = e7.toLowerCase(), n4 = s2.default.getBrowserTypeByAlias(i6);
-            return t3 && n4 && (i6 = n4.toLowerCase()), i6 === r6;
-          }, t2.compareVersion = function(e7) {
-            var t3 = [0], r6 = e7, i6 = false, n4 = this.getBrowserVersion();
-            if ("string" == typeof n4) return ">" === e7[0] || "<" === e7[0] ? (r6 = e7.substr(1), "=" === e7[1] ? (i6 = true, r6 = e7.substr(2)) : t3 = [], ">" === e7[0] ? t3.push(1) : t3.push(-1)) : "=" === e7[0] ? r6 = e7.substr(1) : "~" === e7[0] && (i6 = true, r6 = e7.substr(1)), t3.indexOf(s2.default.compareVersions(n4, r6, i6)) > -1;
-          }, t2.isOS = function(e7) {
+            return t9 && n4 && (i6 = n4.toLowerCase()), i6 === r6;
+          }, t8.compareVersion = function(e7) {
+            var t9 = [0], r6 = e7, i6 = false, n4 = this.getBrowserVersion();
+            if ("string" == typeof n4) return ">" === e7[0] || "<" === e7[0] ? (r6 = e7.substr(1), "=" === e7[1] ? (i6 = true, r6 = e7.substr(2)) : t9 = [], ">" === e7[0] ? t9.push(1) : t9.push(-1)) : "=" === e7[0] ? r6 = e7.substr(1) : "~" === e7[0] && (i6 = true, r6 = e7.substr(1)), t9.indexOf(s2.default.compareVersions(n4, r6, i6)) > -1;
+          }, t8.isOS = function(e7) {
             return this.getOSName(true) === String(e7).toLowerCase();
-          }, t2.isPlatform = function(e7) {
+          }, t8.isPlatform = function(e7) {
             return this.getPlatformType(true) === String(e7).toLowerCase();
-          }, t2.isEngine = function(e7) {
+          }, t8.isEngine = function(e7) {
             return this.getEngineName(true) === String(e7).toLowerCase();
-          }, t2.is = function(e7, t3) {
-            return void 0 === t3 && (t3 = false), this.isBrowser(e7, t3) || this.isOS(e7) || this.isPlatform(e7);
-          }, t2.some = function(e7) {
-            var t3 = this;
+          }, t8.is = function(e7, t9) {
+            return void 0 === t9 && (t9 = false), this.isBrowser(e7, t9) || this.isOS(e7) || this.isPlatform(e7);
+          }, t8.some = function(e7) {
+            var t9 = this;
             return void 0 === e7 && (e7 = []), e7.some((function(e8) {
-              return t3.is(e8);
+              return t9.is(e8);
             }));
           }, e6;
         })();
@@ -12783,70 +12783,70 @@ var require_es5 = __commonJS({
         t.__esModule = true, t.default = void 0;
         var i5, n3 = (i5 = r5(17)) && i5.__esModule ? i5 : { default: i5 };
         var a5 = /version\/(\d+(\.?_?\d+)+)/i, o3 = [{ test: [/gptbot/i], describe: function(e6) {
-          var t2 = { name: "GPTBot" }, r6 = n3.default.getFirstMatch(/gptbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "GPTBot" }, r6 = n3.default.getFirstMatch(/gptbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/chatgpt-user/i], describe: function(e6) {
-          var t2 = { name: "ChatGPT-User" }, r6 = n3.default.getFirstMatch(/chatgpt-user\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "ChatGPT-User" }, r6 = n3.default.getFirstMatch(/chatgpt-user\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/oai-searchbot/i], describe: function(e6) {
-          var t2 = { name: "OAI-SearchBot" }, r6 = n3.default.getFirstMatch(/oai-searchbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "OAI-SearchBot" }, r6 = n3.default.getFirstMatch(/oai-searchbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/claudebot/i, /claude-web/i, /claude-user/i, /claude-searchbot/i], describe: function(e6) {
-          var t2 = { name: "ClaudeBot" }, r6 = n3.default.getFirstMatch(/(?:claudebot|claude-web|claude-user|claude-searchbot)\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "ClaudeBot" }, r6 = n3.default.getFirstMatch(/(?:claudebot|claude-web|claude-user|claude-searchbot)\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/omgilibot/i, /webzio-extended/i], describe: function(e6) {
-          var t2 = { name: "Omgilibot" }, r6 = n3.default.getFirstMatch(/(?:omgilibot|webzio-extended)\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Omgilibot" }, r6 = n3.default.getFirstMatch(/(?:omgilibot|webzio-extended)\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/diffbot/i], describe: function(e6) {
-          var t2 = { name: "Diffbot" }, r6 = n3.default.getFirstMatch(/diffbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Diffbot" }, r6 = n3.default.getFirstMatch(/diffbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/perplexitybot/i], describe: function(e6) {
-          var t2 = { name: "PerplexityBot" }, r6 = n3.default.getFirstMatch(/perplexitybot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "PerplexityBot" }, r6 = n3.default.getFirstMatch(/perplexitybot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/perplexity-user/i], describe: function(e6) {
-          var t2 = { name: "Perplexity-User" }, r6 = n3.default.getFirstMatch(/perplexity-user\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Perplexity-User" }, r6 = n3.default.getFirstMatch(/perplexity-user\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/youbot/i], describe: function(e6) {
-          var t2 = { name: "YouBot" }, r6 = n3.default.getFirstMatch(/youbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "YouBot" }, r6 = n3.default.getFirstMatch(/youbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/meta-webindexer/i], describe: function(e6) {
-          var t2 = { name: "Meta-WebIndexer" }, r6 = n3.default.getFirstMatch(/meta-webindexer\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Meta-WebIndexer" }, r6 = n3.default.getFirstMatch(/meta-webindexer\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/meta-externalads/i], describe: function(e6) {
-          var t2 = { name: "Meta-ExternalAds" }, r6 = n3.default.getFirstMatch(/meta-externalads\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Meta-ExternalAds" }, r6 = n3.default.getFirstMatch(/meta-externalads\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/meta-externalagent/i], describe: function(e6) {
-          var t2 = { name: "Meta-ExternalAgent" }, r6 = n3.default.getFirstMatch(/meta-externalagent\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Meta-ExternalAgent" }, r6 = n3.default.getFirstMatch(/meta-externalagent\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/meta-externalfetcher/i], describe: function(e6) {
-          var t2 = { name: "Meta-ExternalFetcher" }, r6 = n3.default.getFirstMatch(/meta-externalfetcher\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Meta-ExternalFetcher" }, r6 = n3.default.getFirstMatch(/meta-externalfetcher\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/googlebot/i], describe: function(e6) {
-          var t2 = { name: "Googlebot" }, r6 = n3.default.getFirstMatch(/googlebot\/(\d+(\.\d+))/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Googlebot" }, r6 = n3.default.getFirstMatch(/googlebot\/(\d+(\.\d+))/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/linespider/i], describe: function(e6) {
-          var t2 = { name: "Linespider" }, r6 = n3.default.getFirstMatch(/(?:linespider)(?:-[-\w]+)?[\s/](\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Linespider" }, r6 = n3.default.getFirstMatch(/(?:linespider)(?:-[-\w]+)?[\s/](\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/amazonbot/i], describe: function(e6) {
-          var t2 = { name: "AmazonBot" }, r6 = n3.default.getFirstMatch(/amazonbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "AmazonBot" }, r6 = n3.default.getFirstMatch(/amazonbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/bingbot/i], describe: function(e6) {
-          var t2 = { name: "BingCrawler" }, r6 = n3.default.getFirstMatch(/bingbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "BingCrawler" }, r6 = n3.default.getFirstMatch(/bingbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/baiduspider/i], describe: function(e6) {
-          var t2 = { name: "BaiduSpider" }, r6 = n3.default.getFirstMatch(/baiduspider\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "BaiduSpider" }, r6 = n3.default.getFirstMatch(/baiduspider\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/duckduckbot/i], describe: function(e6) {
-          var t2 = { name: "DuckDuckBot" }, r6 = n3.default.getFirstMatch(/duckduckbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "DuckDuckBot" }, r6 = n3.default.getFirstMatch(/duckduckbot\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/ia_archiver/i], describe: function(e6) {
-          var t2 = { name: "InternetArchiveCrawler" }, r6 = n3.default.getFirstMatch(/ia_archiver\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "InternetArchiveCrawler" }, r6 = n3.default.getFirstMatch(/ia_archiver\/(\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/facebookexternalhit/i, /facebookcatalog/i], describe: function() {
           return { name: "FacebookExternalHit" };
         } }, { test: [/slackbot/i, /slack-imgProxy/i], describe: function(e6) {
-          var t2 = { name: "SlackBot" }, r6 = n3.default.getFirstMatch(/(?:slackbot|slack-imgproxy)(?:-[-\w]+)?[\s/](\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "SlackBot" }, r6 = n3.default.getFirstMatch(/(?:slackbot|slack-imgproxy)(?:-[-\w]+)?[\s/](\d+(\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/yahoo!?[\s/]*slurp/i], describe: function() {
           return { name: "YahooSlurp" };
         } }, { test: [/yandexbot/i, /yandexmobilebot/i], describe: function() {
@@ -12854,162 +12854,162 @@ var require_es5 = __commonJS({
         } }, { test: [/pingdom/i], describe: function() {
           return { name: "PingdomBot" };
         } }, { test: [/opera/i], describe: function(e6) {
-          var t2 = { name: "Opera" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:opera)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Opera" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:opera)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/opr\/|opios/i], describe: function(e6) {
-          var t2 = { name: "Opera" }, r6 = n3.default.getFirstMatch(/(?:opr|opios)[\s/](\S+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Opera" }, r6 = n3.default.getFirstMatch(/(?:opr|opios)[\s/](\S+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/SamsungBrowser/i], describe: function(e6) {
-          var t2 = { name: "Samsung Internet for Android" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:SamsungBrowser)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Samsung Internet for Android" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:SamsungBrowser)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/Whale/i], describe: function(e6) {
-          var t2 = { name: "NAVER Whale Browser" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:whale)[\s/](\d+(?:\.\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "NAVER Whale Browser" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:whale)[\s/](\d+(?:\.\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/PaleMoon/i], describe: function(e6) {
-          var t2 = { name: "Pale Moon" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:PaleMoon)[\s/](\d+(?:\.\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Pale Moon" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:PaleMoon)[\s/](\d+(?:\.\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/MZBrowser/i], describe: function(e6) {
-          var t2 = { name: "MZ Browser" }, r6 = n3.default.getFirstMatch(/(?:MZBrowser)[\s/](\d+(?:\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "MZ Browser" }, r6 = n3.default.getFirstMatch(/(?:MZBrowser)[\s/](\d+(?:\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/focus/i], describe: function(e6) {
-          var t2 = { name: "Focus" }, r6 = n3.default.getFirstMatch(/(?:focus)[\s/](\d+(?:\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Focus" }, r6 = n3.default.getFirstMatch(/(?:focus)[\s/](\d+(?:\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/swing/i], describe: function(e6) {
-          var t2 = { name: "Swing" }, r6 = n3.default.getFirstMatch(/(?:swing)[\s/](\d+(?:\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Swing" }, r6 = n3.default.getFirstMatch(/(?:swing)[\s/](\d+(?:\.\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/coast/i], describe: function(e6) {
-          var t2 = { name: "Opera Coast" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:coast)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Opera Coast" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:coast)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/opt\/\d+(?:.?_?\d+)+/i], describe: function(e6) {
-          var t2 = { name: "Opera Touch" }, r6 = n3.default.getFirstMatch(/(?:opt)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Opera Touch" }, r6 = n3.default.getFirstMatch(/(?:opt)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/yabrowser/i], describe: function(e6) {
-          var t2 = { name: "Yandex Browser" }, r6 = n3.default.getFirstMatch(/(?:yabrowser)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Yandex Browser" }, r6 = n3.default.getFirstMatch(/(?:yabrowser)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/ucbrowser/i], describe: function(e6) {
-          var t2 = { name: "UC Browser" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:ucbrowser)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "UC Browser" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:ucbrowser)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/Maxthon|mxios/i], describe: function(e6) {
-          var t2 = { name: "Maxthon" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:Maxthon|mxios)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Maxthon" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:Maxthon|mxios)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/epiphany/i], describe: function(e6) {
-          var t2 = { name: "Epiphany" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:epiphany)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Epiphany" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:epiphany)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/puffin/i], describe: function(e6) {
-          var t2 = { name: "Puffin" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:puffin)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Puffin" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:puffin)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/sleipnir/i], describe: function(e6) {
-          var t2 = { name: "Sleipnir" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:sleipnir)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Sleipnir" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:sleipnir)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/k-meleon/i], describe: function(e6) {
-          var t2 = { name: "K-Meleon" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:k-meleon)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "K-Meleon" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/(?:k-meleon)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/micromessenger/i], describe: function(e6) {
-          var t2 = { name: "WeChat" }, r6 = n3.default.getFirstMatch(/(?:micromessenger)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "WeChat" }, r6 = n3.default.getFirstMatch(/(?:micromessenger)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/qqbrowser/i], describe: function(e6) {
-          var t2 = { name: /qqbrowserlite/i.test(e6) ? "QQ Browser Lite" : "QQ Browser" }, r6 = n3.default.getFirstMatch(/(?:qqbrowserlite|qqbrowser)[/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: /qqbrowserlite/i.test(e6) ? "QQ Browser Lite" : "QQ Browser" }, r6 = n3.default.getFirstMatch(/(?:qqbrowserlite|qqbrowser)[/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/msie|trident/i], describe: function(e6) {
-          var t2 = { name: "Internet Explorer" }, r6 = n3.default.getFirstMatch(/(?:msie |rv:)(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Internet Explorer" }, r6 = n3.default.getFirstMatch(/(?:msie |rv:)(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/\sedg\//i], describe: function(e6) {
-          var t2 = { name: "Microsoft Edge" }, r6 = n3.default.getFirstMatch(/\sedg\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Microsoft Edge" }, r6 = n3.default.getFirstMatch(/\sedg\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/edg([ea]|ios)/i], describe: function(e6) {
-          var t2 = { name: "Microsoft Edge" }, r6 = n3.default.getSecondMatch(/edg([ea]|ios)\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Microsoft Edge" }, r6 = n3.default.getSecondMatch(/edg([ea]|ios)\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/vivaldi/i], describe: function(e6) {
-          var t2 = { name: "Vivaldi" }, r6 = n3.default.getFirstMatch(/vivaldi\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Vivaldi" }, r6 = n3.default.getFirstMatch(/vivaldi\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/seamonkey/i], describe: function(e6) {
-          var t2 = { name: "SeaMonkey" }, r6 = n3.default.getFirstMatch(/seamonkey\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "SeaMonkey" }, r6 = n3.default.getFirstMatch(/seamonkey\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/sailfish/i], describe: function(e6) {
-          var t2 = { name: "Sailfish" }, r6 = n3.default.getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Sailfish" }, r6 = n3.default.getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/silk/i], describe: function(e6) {
-          var t2 = { name: "Amazon Silk" }, r6 = n3.default.getFirstMatch(/silk\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Amazon Silk" }, r6 = n3.default.getFirstMatch(/silk\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/phantom/i], describe: function(e6) {
-          var t2 = { name: "PhantomJS" }, r6 = n3.default.getFirstMatch(/phantomjs\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "PhantomJS" }, r6 = n3.default.getFirstMatch(/phantomjs\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/slimerjs/i], describe: function(e6) {
-          var t2 = { name: "SlimerJS" }, r6 = n3.default.getFirstMatch(/slimerjs\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "SlimerJS" }, r6 = n3.default.getFirstMatch(/slimerjs\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/blackberry|\bbb\d+/i, /rim\stablet/i], describe: function(e6) {
-          var t2 = { name: "BlackBerry" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/blackberry[\d]+\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "BlackBerry" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/blackberry[\d]+\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/(web|hpw)[o0]s/i], describe: function(e6) {
-          var t2 = { name: "WebOS Browser" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/w(?:eb)?[o0]sbrowser\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "WebOS Browser" }, r6 = n3.default.getFirstMatch(a5, e6) || n3.default.getFirstMatch(/w(?:eb)?[o0]sbrowser\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/bada/i], describe: function(e6) {
-          var t2 = { name: "Bada" }, r6 = n3.default.getFirstMatch(/dolfin\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Bada" }, r6 = n3.default.getFirstMatch(/dolfin\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/tizen/i], describe: function(e6) {
-          var t2 = { name: "Tizen" }, r6 = n3.default.getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Tizen" }, r6 = n3.default.getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/qupzilla/i], describe: function(e6) {
-          var t2 = { name: "QupZilla" }, r6 = n3.default.getFirstMatch(/(?:qupzilla)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "QupZilla" }, r6 = n3.default.getFirstMatch(/(?:qupzilla)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/librewolf/i], describe: function(e6) {
-          var t2 = { name: "LibreWolf" }, r6 = n3.default.getFirstMatch(/(?:librewolf)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "LibreWolf" }, r6 = n3.default.getFirstMatch(/(?:librewolf)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/firefox|iceweasel|fxios/i], describe: function(e6) {
-          var t2 = { name: "Firefox" }, r6 = n3.default.getFirstMatch(/(?:firefox|iceweasel|fxios)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Firefox" }, r6 = n3.default.getFirstMatch(/(?:firefox|iceweasel|fxios)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/electron/i], describe: function(e6) {
-          var t2 = { name: "Electron" }, r6 = n3.default.getFirstMatch(/(?:electron)\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Electron" }, r6 = n3.default.getFirstMatch(/(?:electron)\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/sogoumobilebrowser/i, /metasr/i, /se 2\.[x]/i], describe: function(e6) {
-          var t2 = { name: "Sogou Browser" }, r6 = n3.default.getFirstMatch(/(?:sogoumobilebrowser)[\s/](\d+(\.?_?\d+)+)/i, e6), i6 = n3.default.getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i, e6), a6 = n3.default.getFirstMatch(/se ([\d.]+)x/i, e6), o4 = r6 || i6 || a6;
-          return o4 && (t2.version = o4), t2;
+          var t8 = { name: "Sogou Browser" }, r6 = n3.default.getFirstMatch(/(?:sogoumobilebrowser)[\s/](\d+(\.?_?\d+)+)/i, e6), i6 = n3.default.getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i, e6), a6 = n3.default.getFirstMatch(/se ([\d.]+)x/i, e6), o4 = r6 || i6 || a6;
+          return o4 && (t8.version = o4), t8;
         } }, { test: [/MiuiBrowser/i], describe: function(e6) {
-          var t2 = { name: "Miui" }, r6 = n3.default.getFirstMatch(/(?:MiuiBrowser)[\s/](\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Miui" }, r6 = n3.default.getFirstMatch(/(?:MiuiBrowser)[\s/](\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: function(e6) {
           return !!e6.hasBrand("DuckDuckGo") || e6.test(/\sDdg\/[\d.]+$/i);
-        }, describe: function(e6, t2) {
+        }, describe: function(e6, t8) {
           var r6 = { name: "DuckDuckGo" };
-          if (t2) {
-            var i6 = t2.getBrandVersion("DuckDuckGo");
+          if (t8) {
+            var i6 = t8.getBrandVersion("DuckDuckGo");
             if (i6) return r6.version = i6, r6;
           }
           var a6 = n3.default.getFirstMatch(/\sDdg\/([\d.]+)$/i, e6);
           return a6 && (r6.version = a6), r6;
         } }, { test: function(e6) {
           return e6.hasBrand("Brave");
-        }, describe: function(e6, t2) {
+        }, describe: function(e6, t8) {
           var r6 = { name: "Brave" };
-          if (t2) {
-            var i6 = t2.getBrandVersion("Brave");
+          if (t8) {
+            var i6 = t8.getBrandVersion("Brave");
             if (i6) return r6.version = i6, r6;
           }
           return r6;
         } }, { test: [/chromium/i], describe: function(e6) {
-          var t2 = { name: "Chromium" }, r6 = n3.default.getFirstMatch(/(?:chromium)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Chromium" }, r6 = n3.default.getFirstMatch(/(?:chromium)[\s/](\d+(\.?_?\d+)+)/i, e6) || n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/chrome|crios|crmo/i], describe: function(e6) {
-          var t2 = { name: "Chrome" }, r6 = n3.default.getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Chrome" }, r6 = n3.default.getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/GSA/i], describe: function(e6) {
-          var t2 = { name: "Google Search" }, r6 = n3.default.getFirstMatch(/(?:GSA)\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Google Search" }, r6 = n3.default.getFirstMatch(/(?:GSA)\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: function(e6) {
-          var t2 = !e6.test(/like android/i), r6 = e6.test(/android/i);
-          return t2 && r6;
+          var t8 = !e6.test(/like android/i), r6 = e6.test(/android/i);
+          return t8 && r6;
         }, describe: function(e6) {
-          var t2 = { name: "Android Browser" }, r6 = n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Android Browser" }, r6 = n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/playstation 4/i], describe: function(e6) {
-          var t2 = { name: "PlayStation 4" }, r6 = n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "PlayStation 4" }, r6 = n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/safari|applewebkit/i], describe: function(e6) {
-          var t2 = { name: "Safari" }, r6 = n3.default.getFirstMatch(a5, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: "Safari" }, r6 = n3.default.getFirstMatch(a5, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/.*/i], describe: function(e6) {
-          var t2 = -1 !== e6.search("\\(") ? /^(.*)\/(.*)[ \t]\((.*)/ : /^(.*)\/(.*) /;
-          return { name: n3.default.getFirstMatch(t2, e6), version: n3.default.getSecondMatch(t2, e6) };
+          var t8 = -1 !== e6.search("\\(") ? /^(.*)\/(.*)[ \t]\((.*)/ : /^(.*)\/(.*) /;
+          return { name: n3.default.getFirstMatch(t8, e6), version: n3.default.getSecondMatch(t8, e6) };
         } }];
         t.default = o3, e5.exports = t.default;
       }, 93: function(e5, t, r5) {
@@ -13017,51 +13017,51 @@ var require_es5 = __commonJS({
         t.__esModule = true, t.default = void 0;
         var i5, n3 = (i5 = r5(17)) && i5.__esModule ? i5 : { default: i5 }, a5 = r5(18);
         var o3 = [{ test: [/Roku\/DVP/], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/Roku\/DVP-(\d+\.\d+)/i, e6);
-          return { name: a5.OS_MAP.Roku, version: t2 };
+          var t8 = n3.default.getFirstMatch(/Roku\/DVP-(\d+\.\d+)/i, e6);
+          return { name: a5.OS_MAP.Roku, version: t8 };
         } }, { test: [/windows phone/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i, e6);
-          return { name: a5.OS_MAP.WindowsPhone, version: t2 };
+          var t8 = n3.default.getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i, e6);
+          return { name: a5.OS_MAP.WindowsPhone, version: t8 };
         } }, { test: [/windows /i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/Windows ((NT|XP)( \d\d?.\d)?)/i, e6), r6 = n3.default.getWindowsVersionName(t2);
-          return { name: a5.OS_MAP.Windows, version: t2, versionName: r6 };
+          var t8 = n3.default.getFirstMatch(/Windows ((NT|XP)( \d\d?.\d)?)/i, e6), r6 = n3.default.getWindowsVersionName(t8);
+          return { name: a5.OS_MAP.Windows, version: t8, versionName: r6 };
         } }, { test: [/Macintosh(.*?) FxiOS(.*?)\//], describe: function(e6) {
-          var t2 = { name: a5.OS_MAP.iOS }, r6 = n3.default.getSecondMatch(/(Version\/)(\d[\d.]+)/, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: a5.OS_MAP.iOS }, r6 = n3.default.getSecondMatch(/(Version\/)(\d[\d.]+)/, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/macintosh/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/mac os x (\d+(\.?_?\d+)+)/i, e6).replace(/[_\s]/g, "."), r6 = n3.default.getMacOSVersionName(t2), i6 = { name: a5.OS_MAP.MacOS, version: t2 };
+          var t8 = n3.default.getFirstMatch(/mac os x (\d+(\.?_?\d+)+)/i, e6).replace(/[_\s]/g, "."), r6 = n3.default.getMacOSVersionName(t8), i6 = { name: a5.OS_MAP.MacOS, version: t8 };
           return r6 && (i6.versionName = r6), i6;
         } }, { test: [/(ipod|iphone|ipad)/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i, e6).replace(/[_\s]/g, ".");
-          return { name: a5.OS_MAP.iOS, version: t2 };
+          var t8 = n3.default.getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i, e6).replace(/[_\s]/g, ".");
+          return { name: a5.OS_MAP.iOS, version: t8 };
         } }, { test: [/OpenHarmony/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/OpenHarmony\s+(\d+(\.\d+)*)/i, e6);
-          return { name: a5.OS_MAP.HarmonyOS, version: t2 };
+          var t8 = n3.default.getFirstMatch(/OpenHarmony\s+(\d+(\.\d+)*)/i, e6);
+          return { name: a5.OS_MAP.HarmonyOS, version: t8 };
         } }, { test: function(e6) {
-          var t2 = !e6.test(/like android/i), r6 = e6.test(/android/i);
-          return t2 && r6;
+          var t8 = !e6.test(/like android/i), r6 = e6.test(/android/i);
+          return t8 && r6;
         }, describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/android[\s/-](\d+(\.\d+)*)/i, e6), r6 = n3.default.getAndroidVersionName(t2), i6 = { name: a5.OS_MAP.Android, version: t2 };
+          var t8 = n3.default.getFirstMatch(/android[\s/-](\d+(\.\d+)*)/i, e6), r6 = n3.default.getAndroidVersionName(t8), i6 = { name: a5.OS_MAP.Android, version: t8 };
           return r6 && (i6.versionName = r6), i6;
         } }, { test: [/(web|hpw)[o0]s/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/(?:web|hpw)[o0]s\/(\d+(\.\d+)*)/i, e6), r6 = { name: a5.OS_MAP.WebOS };
-          return t2 && t2.length && (r6.version = t2), r6;
+          var t8 = n3.default.getFirstMatch(/(?:web|hpw)[o0]s\/(\d+(\.\d+)*)/i, e6), r6 = { name: a5.OS_MAP.WebOS };
+          return t8 && t8.length && (r6.version = t8), r6;
         } }, { test: [/blackberry|\bbb\d+/i, /rim\stablet/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i, e6) || n3.default.getFirstMatch(/blackberry\d+\/(\d+([_\s]\d+)*)/i, e6) || n3.default.getFirstMatch(/\bbb(\d+)/i, e6);
-          return { name: a5.OS_MAP.BlackBerry, version: t2 };
+          var t8 = n3.default.getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i, e6) || n3.default.getFirstMatch(/blackberry\d+\/(\d+([_\s]\d+)*)/i, e6) || n3.default.getFirstMatch(/\bbb(\d+)/i, e6);
+          return { name: a5.OS_MAP.BlackBerry, version: t8 };
         } }, { test: [/bada/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/bada\/(\d+(\.\d+)*)/i, e6);
-          return { name: a5.OS_MAP.Bada, version: t2 };
+          var t8 = n3.default.getFirstMatch(/bada\/(\d+(\.\d+)*)/i, e6);
+          return { name: a5.OS_MAP.Bada, version: t8 };
         } }, { test: [/tizen/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/tizen[/\s](\d+(\.\d+)*)/i, e6);
-          return { name: a5.OS_MAP.Tizen, version: t2 };
+          var t8 = n3.default.getFirstMatch(/tizen[/\s](\d+(\.\d+)*)/i, e6);
+          return { name: a5.OS_MAP.Tizen, version: t8 };
         } }, { test: [/linux/i], describe: function() {
           return { name: a5.OS_MAP.Linux };
         } }, { test: [/CrOS/], describe: function() {
           return { name: a5.OS_MAP.ChromeOS };
         } }, { test: [/PlayStation 4/], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/PlayStation 4[/\s](\d+(\.\d+)*)/i, e6);
-          return { name: a5.OS_MAP.PlayStation4, version: t2 };
+          var t8 = n3.default.getFirstMatch(/PlayStation 4[/\s](\d+(\.\d+)*)/i, e6);
+          return { name: a5.OS_MAP.PlayStation4, version: t8 };
         } }];
         t.default = o3, e5.exports = t.default;
       }, 94: function(e5, t, r5) {
@@ -13119,8 +13119,8 @@ var require_es5 = __commonJS({
         } }, { test: [/pingdom/i], describe: function() {
           return { type: a5.PLATFORMS_MAP.bot, vendor: "Pingdom" };
         } }, { test: [/huawei/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/(can-l01)/i, e6) && "Nova", r6 = { type: a5.PLATFORMS_MAP.mobile, vendor: "Huawei" };
-          return t2 && (r6.model = t2), r6;
+          var t8 = n3.default.getFirstMatch(/(can-l01)/i, e6) && "Nova", r6 = { type: a5.PLATFORMS_MAP.mobile, vendor: "Huawei" };
+          return t8 && (r6.model = t8), r6;
         } }, { test: [/nexus\s*(?:7|8|9|10).*/i], describe: function() {
           return { type: a5.PLATFORMS_MAP.tablet, vendor: "Nexus" };
         } }, { test: [/ipad/i], describe: function() {
@@ -13134,16 +13134,16 @@ var require_es5 = __commonJS({
         } }, { test: [/tablet(?! pc)/i], describe: function() {
           return { type: a5.PLATFORMS_MAP.tablet };
         } }, { test: function(e6) {
-          var t2 = e6.test(/ipod|iphone/i), r6 = e6.test(/like (ipod|iphone)/i);
-          return t2 && !r6;
+          var t8 = e6.test(/ipod|iphone/i), r6 = e6.test(/like (ipod|iphone)/i);
+          return t8 && !r6;
         }, describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/(ipod|iphone)/i, e6);
-          return { type: a5.PLATFORMS_MAP.mobile, vendor: "Apple", model: t2 };
+          var t8 = n3.default.getFirstMatch(/(ipod|iphone)/i, e6);
+          return { type: a5.PLATFORMS_MAP.mobile, vendor: "Apple", model: t8 };
         } }, { test: [/nexus\s*[0-6].*/i, /galaxy nexus/i], describe: function() {
           return { type: a5.PLATFORMS_MAP.mobile, vendor: "Nexus" };
         } }, { test: [/Nokia/i], describe: function(e6) {
-          var t2 = n3.default.getFirstMatch(/Nokia\s+([0-9]+(\.[0-9]+)?)/i, e6), r6 = { type: a5.PLATFORMS_MAP.mobile, vendor: "Nokia" };
-          return t2 && (r6.model = t2), r6;
+          var t8 = n3.default.getFirstMatch(/Nokia\s+([0-9]+(\.[0-9]+)?)/i, e6), r6 = { type: a5.PLATFORMS_MAP.mobile, vendor: "Nokia" };
+          return t8 && (r6.model = t8), r6;
         } }, { test: [/[^-]mobi/i], describe: function() {
           return { type: a5.PLATFORMS_MAP.mobile };
         } }, { test: function(e6) {
@@ -13159,8 +13159,8 @@ var require_es5 = __commonJS({
         }, describe: function() {
           return { type: a5.PLATFORMS_MAP.mobile, vendor: "Microsoft" };
         } }, { test: function(e6) {
-          var t2 = Number(String(e6.getOSVersion()).split(".")[0]);
-          return "android" === e6.getOSName(true) && t2 >= 3;
+          var t8 = Number(String(e6.getOSVersion()).split(".")[0]);
+          return "android" === e6.getOSName(true) && t8 >= 3;
         }, describe: function() {
           return { type: a5.PLATFORMS_MAP.tablet };
         } }, { test: function(e6) {
@@ -13201,27 +13201,27 @@ var require_es5 = __commonJS({
           return "microsoft edge" === e6.getBrowserName(true);
         }, describe: function(e6) {
           if (/\sedg\//i.test(e6)) return { name: a5.ENGINE_MAP.Blink };
-          var t2 = n3.default.getFirstMatch(/edge\/(\d+(\.?_?\d+)+)/i, e6);
-          return { name: a5.ENGINE_MAP.EdgeHTML, version: t2 };
+          var t8 = n3.default.getFirstMatch(/edge\/(\d+(\.?_?\d+)+)/i, e6);
+          return { name: a5.ENGINE_MAP.EdgeHTML, version: t8 };
         } }, { test: [/trident/i], describe: function(e6) {
-          var t2 = { name: a5.ENGINE_MAP.Trident }, r6 = n3.default.getFirstMatch(/trident\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: a5.ENGINE_MAP.Trident }, r6 = n3.default.getFirstMatch(/trident\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: function(e6) {
           return e6.test(/presto/i);
         }, describe: function(e6) {
-          var t2 = { name: a5.ENGINE_MAP.Presto }, r6 = n3.default.getFirstMatch(/presto\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: a5.ENGINE_MAP.Presto }, r6 = n3.default.getFirstMatch(/presto\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: function(e6) {
-          var t2 = e6.test(/gecko/i), r6 = e6.test(/like gecko/i);
-          return t2 && !r6;
+          var t8 = e6.test(/gecko/i), r6 = e6.test(/like gecko/i);
+          return t8 && !r6;
         }, describe: function(e6) {
-          var t2 = { name: a5.ENGINE_MAP.Gecko }, r6 = n3.default.getFirstMatch(/gecko\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: a5.ENGINE_MAP.Gecko }, r6 = n3.default.getFirstMatch(/gecko\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }, { test: [/(apple)?webkit\/537\.36/i], describe: function() {
           return { name: a5.ENGINE_MAP.Blink };
         } }, { test: [/(apple)?webkit/i], describe: function(e6) {
-          var t2 = { name: a5.ENGINE_MAP.WebKit }, r6 = n3.default.getFirstMatch(/webkit\/(\d+(\.?_?\d+)+)/i, e6);
-          return r6 && (t2.version = r6), t2;
+          var t8 = { name: a5.ENGINE_MAP.WebKit }, r6 = n3.default.getFirstMatch(/webkit\/(\d+(\.?_?\d+)+)/i, e6);
+          return r6 && (t8.version = r6), t8;
         } }];
         t.default = o3, e5.exports = t.default;
       } });
@@ -13235,8 +13235,8 @@ var init_createUserAgentStringParsingProvider = __esm({
   "node_modules/@aws-sdk/core/dist-es/submodules/client/util-user-agent-browser/createUserAgentStringParsingProvider.js"() {
     createUserAgentStringParsingProvider = ({ serviceId, clientVersion }) => async (config) => {
       const module2 = await Promise.resolve().then(() => __toESM(require_es5()));
-      const parse = module2.parse ?? module2.default.parse ?? (() => "");
-      const parsedUA = typeof window !== "undefined" && window?.navigator?.userAgent ? parse(window.navigator.userAgent) : void 0;
+      const parse2 = module2.parse ?? module2.default.parse ?? (() => "");
+      const parsedUA = typeof window !== "undefined" && window?.navigator?.userAgent ? parse2(window.navigator.userAgent) : void 0;
       const sections = [
         ["aws-sdk-js", clientVersion],
         ["ua", "2.1"],
@@ -14305,7 +14305,7 @@ ${toHex2(hashedRequest)}`;
       }
       return UNSIGNED_PAYLOAD;
     };
-    var hasHeader = (soughtHeader, headers) => {
+    var hasHeader2 = (soughtHeader, headers) => {
       soughtHeader = soughtHeader.toLowerCase();
       for (const headerName in headers) {
         if (!hasOwn2(headers, headerName))
@@ -14449,7 +14449,7 @@ ${toHex2(hashedRequest)}`;
           request.headers[TOKEN_HEADER] = credentials.sessionToken;
         }
         const payloadHash = await getPayloadHash(request, this.sha256);
-        if (!hasHeader(SHA256_HEADER, request.headers) && this.applyChecksum) {
+        if (!hasHeader2(SHA256_HEADER, request.headers) && this.applyChecksum) {
           request.headers[SHA256_HEADER] = payloadHash;
         }
         const canonicalHeaders = getCanonicalHeaders(request, unsignableHeaders, signableHeaders);
@@ -14505,7 +14505,7 @@ ${toHex2(hashedRequest)}`;
     exports2.getCanonicalQuery = getCanonicalQuery;
     exports2.getPayloadHash = getPayloadHash;
     exports2.getSigningKey = getSigningKey;
-    exports2.hasHeader = hasHeader;
+    exports2.hasHeader = hasHeader2;
     exports2.moveHeadersToQuery = moveHeadersToQuery;
     exports2.prepareRequest = prepareRequest;
     exports2.signatureV4aContainer = signatureV4aContainer;
@@ -15107,7 +15107,7 @@ var require_dist_cjs6 = __commonJS({
     exports2.streamCollector = streamCollector7;
     var { buildQueryString: buildQueryString2, HttpResponse: HttpResponse2 } = (init_protocols(), __toCommonJS(protocols_exports));
     var node_https = require("node:https");
-    var { Readable: Readable7 } = require("node:stream");
+    var { Readable: Readable8 } = require("node:stream");
     var http2 = require("node:http2");
     function buildAbortError(abortSignal) {
       const reason = abortSignal && typeof abortSignal === "object" && "reason" in abortSignal ? abortSignal.reason : void 0;
@@ -15266,7 +15266,7 @@ var require_dist_cjs6 = __commonJS({
       }
     }
     function writeBody(httpRequest, body) {
-      if (body instanceof Readable7) {
+      if (body instanceof Readable8) {
         body.pipe(httpRequest);
         return;
       }
@@ -17083,7 +17083,7 @@ function readTag(ns) {
     const normalizer = mantissa < 0 ? -1 : 1;
     const absMantissa = BigInt(normalizer) * BigInt(mantissa);
     const mantissaDigits = String(absMantissa);
-    const sign2 = mantissa < 0 ? "-" : "";
+    const sign3 = mantissa < 0 ? "-" : "";
     let numericString;
     const isSmallExponent = typeof rawExponent === "number" && Math.abs(rawExponent) <= 2 ** 28;
     if (isSmallExponent) {
@@ -17097,14 +17097,14 @@ function readTag(ns) {
       if (numericString[0] === ".") {
         numericString = "0" + numericString;
       }
-      numericString = sign2 + numericString;
+      numericString = sign3 + numericString;
     } else {
       const bigExponent = BigInt(rawExponent);
       if (mantissaDigits.length === 1) {
-        numericString = sign2 + mantissaDigits + "e" + String(bigExponent);
+        numericString = sign3 + mantissaDigits + "e" + String(bigExponent);
       } else {
         const adjustedExp = bigExponent + BigInt(mantissaDigits.length - 1);
-        numericString = sign2 + mantissaDigits[0] + "." + mantissaDigits.slice(1) + "e" + String(adjustedExp);
+        numericString = sign3 + mantissaDigits[0] + "." + mantissaDigits.slice(1) + "e" + String(adjustedExp);
       }
     }
     return nv(numericString);
@@ -17426,10 +17426,10 @@ function readSpecial() {
   }
 }
 function bytesToFloat16(a5, b5) {
-  const sign2 = a5 >> 7;
+  const sign3 = a5 >> 7;
   const exponent = (a5 & 124) >> 2;
   const fraction = (a5 & 3) << 8 | b5;
-  const scalar = sign2 === 0 ? 1 : -1;
+  const scalar = sign3 === 0 ? 1 : -1;
   if (exponent === 0) {
     if (fraction === 0) {
       return 0;
@@ -23114,22 +23114,22 @@ var require_dist_cjs11 = __commonJS({
     var signatureV4CrtContainer = {
       CrtSignerV4: null
     };
-    var SESSION_TOKEN_QUERY_PARAM = "X-Amz-S3session-Token";
-    var SESSION_TOKEN_HEADER = SESSION_TOKEN_QUERY_PARAM.toLowerCase();
-    var SignatureV4SignWithCredentials = class extends SignatureV42 {
+    var SESSION_TOKEN_QUERY_PARAM2 = "X-Amz-S3session-Token";
+    var SESSION_TOKEN_HEADER2 = SESSION_TOKEN_QUERY_PARAM2.toLowerCase();
+    var SignatureV4SignWithCredentials2 = class extends SignatureV42 {
       async signWithCredentials(requestToSign, credentials, options) {
         const credentialsWithoutSessionToken = getCredentialsWithoutSessionToken(credentials);
-        requestToSign.headers[SESSION_TOKEN_HEADER] = credentials.sessionToken;
+        requestToSign.headers[SESSION_TOKEN_HEADER2] = credentials.sessionToken;
         const privateAccess = this;
         setSingleOverride(privateAccess, credentialsWithoutSessionToken);
         return privateAccess.signRequest(requestToSign, options ?? {});
       }
       async presignWithCredentials(requestToSign, credentials, options) {
         const credentialsWithoutSessionToken = getCredentialsWithoutSessionToken(credentials);
-        delete requestToSign.headers[SESSION_TOKEN_HEADER];
-        requestToSign.headers[SESSION_TOKEN_QUERY_PARAM] = credentials.sessionToken;
+        delete requestToSign.headers[SESSION_TOKEN_HEADER2];
+        requestToSign.headers[SESSION_TOKEN_QUERY_PARAM2] = credentials.sessionToken;
         requestToSign.query = requestToSign.query ?? {};
-        requestToSign.query[SESSION_TOKEN_QUERY_PARAM] = credentials.sessionToken;
+        requestToSign.query[SESSION_TOKEN_QUERY_PARAM2] = credentials.sessionToken;
         const privateAccess = this;
         setSingleOverride(privateAccess, credentialsWithoutSessionToken);
         return this.presign(requestToSign, options);
@@ -23162,7 +23162,7 @@ var require_dist_cjs11 = __commonJS({
         return "none";
       }
       constructor(options) {
-        this.sigv4Signer = new SignatureV4SignWithCredentials(options);
+        this.sigv4Signer = new SignatureV4SignWithCredentials2(options);
         this.signerOptions = options;
       }
       async sign(requestToSign, options = {}) {
@@ -23234,7 +23234,7 @@ var require_dist_cjs11 = __commonJS({
       }
     };
     exports2.SignatureV4MultiRegion = SignatureV4MultiRegion3;
-    exports2.SignatureV4SignWithCredentials = SignatureV4SignWithCredentials;
+    exports2.SignatureV4SignWithCredentials = SignatureV4SignWithCredentials2;
     exports2.signatureV4CrtContainer = signatureV4CrtContainer;
   }
 });
@@ -25369,7 +25369,7 @@ var require_dist_cjs12 = __commonJS({
     var { setCredentialFeature: setCredentialFeature2 } = (init_client3(), __toCommonJS(client_exports2));
     var { CredentialsProviderError: CredentialsProviderError2, parseKnownFiles: parseKnownFiles2, getProfileName: getProfileName2 } = (init_config2(), __toCommonJS(config_exports));
     var { HttpRequest: HttpRequest2 } = (init_protocols(), __toCommonJS(protocols_exports));
-    var { createHash: createHash5, createPrivateKey, createPublicKey, sign: sign2 } = require("node:crypto");
+    var { createHash: createHash6, createPrivateKey, createPublicKey, sign: sign3 } = require("node:crypto");
     var { promises } = require("node:fs");
     var { homedir: homedir2 } = require("node:os");
     var { dirname, join: join5 } = require("node:path");
@@ -25538,7 +25538,7 @@ var require_dist_cjs12 = __commonJS({
       getTokenFilePath() {
         const directory = process.env.AWS_LOGIN_CACHE_DIRECTORY ?? join5(homedir2(), ".aws", "login", "cache");
         const loginSessionBytes = Buffer.from(this.loginSession, "utf8");
-        const loginSessionSha256 = createHash5("sha256").update(loginSessionBytes).digest("hex");
+        const loginSessionSha256 = createHash6("sha256").update(loginSessionBytes).digest("hex");
         return join5(directory, `${loginSessionSha256}.json`);
       }
       derToRawSignature(derSignature) {
@@ -25618,7 +25618,7 @@ var require_dist_cjs12 = __commonJS({
           const headerB64 = Buffer.from(JSON.stringify(header)).toString("base64url");
           const payloadB64 = Buffer.from(JSON.stringify(payload2)).toString("base64url");
           const message = `${headerB64}.${payloadB64}`;
-          const asn1Signature = sign2("sha256", Buffer.from(message), privateKey);
+          const asn1Signature = sign3("sha256", Buffer.from(message), privateKey);
           const rawSignature = this.derToRawSignature(asn1Signature);
           const signatureB64 = rawSignature.toString("base64url");
           return `${message}.${signatureB64}`;
@@ -34010,7 +34010,7 @@ var require_dist_cjs21 = __commonJS({
     var H = { "metricValues": ["O"] };
     var I = [v];
     var J = [{ [L]: "Endpoint" }];
-    var K2 = [{ [L]: "ResourceArn" }];
+    var K3 = [{ [L]: "ResourceArn" }];
     var _data5 = {
       conditions: [
         [d5, I],
@@ -34027,8 +34027,8 @@ var require_dist_cjs21 = __commonJS({
         [d5, [y]],
         [g5, [z, "aws"]],
         [g5, [y, "disabled"]],
-        [d5, K2],
-        [j5, K2, k5(2)],
+        [d5, K3],
+        [j5, K3, k5(2)],
         [g5, [A, v]],
         [g5, [{ fn: h5, [M2]: [B, l3] }, m3]],
         [n3, [A, c5]],
@@ -35667,8 +35667,12078 @@ var require_dist_cjs21 = __commonJS({
   }
 });
 
-// node_modules/@aws-sdk/util-dynamodb/dist-cjs/index.js
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/constants.js
+var RequestChecksumCalculation, DEFAULT_REQUEST_CHECKSUM_CALCULATION, ResponseChecksumValidation, DEFAULT_RESPONSE_CHECKSUM_VALIDATION, ChecksumAlgorithm, ChecksumLocation, DEFAULT_CHECKSUM_ALGORITHM;
+var init_constants7 = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/constants.js"() {
+    RequestChecksumCalculation = {
+      WHEN_SUPPORTED: "WHEN_SUPPORTED",
+      WHEN_REQUIRED: "WHEN_REQUIRED"
+    };
+    DEFAULT_REQUEST_CHECKSUM_CALCULATION = RequestChecksumCalculation.WHEN_SUPPORTED;
+    ResponseChecksumValidation = {
+      WHEN_SUPPORTED: "WHEN_SUPPORTED",
+      WHEN_REQUIRED: "WHEN_REQUIRED"
+    };
+    DEFAULT_RESPONSE_CHECKSUM_VALIDATION = RequestChecksumCalculation.WHEN_SUPPORTED;
+    (function(ChecksumAlgorithm2) {
+      ChecksumAlgorithm2["MD5"] = "MD5";
+      ChecksumAlgorithm2["CRC32"] = "CRC32";
+      ChecksumAlgorithm2["CRC32C"] = "CRC32C";
+      ChecksumAlgorithm2["CRC64NVME"] = "CRC64NVME";
+      ChecksumAlgorithm2["SHA1"] = "SHA1";
+      ChecksumAlgorithm2["SHA256"] = "SHA256";
+    })(ChecksumAlgorithm || (ChecksumAlgorithm = {}));
+    (function(ChecksumLocation2) {
+      ChecksumLocation2["HEADER"] = "header";
+      ChecksumLocation2["TRAILER"] = "trailer";
+    })(ChecksumLocation || (ChecksumLocation = {}));
+    DEFAULT_CHECKSUM_ALGORITHM = ChecksumAlgorithm.CRC32;
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/stringUnionSelector.js
+var SelectorType2, stringUnionSelector;
+var init_stringUnionSelector = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/stringUnionSelector.js"() {
+    (function(SelectorType3) {
+      SelectorType3["ENV"] = "env";
+      SelectorType3["CONFIG"] = "shared config entry";
+    })(SelectorType2 || (SelectorType2 = {}));
+    stringUnionSelector = (obj, key, union, type) => {
+      if (!(key in obj))
+        return void 0;
+      const value = obj[key].toUpperCase();
+      if (!Object.values(union).includes(value)) {
+        throw new TypeError(`Cannot load ${type} '${key}'. Expected one of ${Object.values(union)}, got '${obj[key]}'.`);
+      }
+      return value;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS.js
+var ENV_REQUEST_CHECKSUM_CALCULATION, CONFIG_REQUEST_CHECKSUM_CALCULATION, NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS;
+var init_NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS.js"() {
+    init_constants7();
+    init_stringUnionSelector();
+    ENV_REQUEST_CHECKSUM_CALCULATION = "AWS_REQUEST_CHECKSUM_CALCULATION";
+    CONFIG_REQUEST_CHECKSUM_CALCULATION = "request_checksum_calculation";
+    NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS = {
+      environmentVariableSelector: (env2) => stringUnionSelector(env2, ENV_REQUEST_CHECKSUM_CALCULATION, RequestChecksumCalculation, SelectorType2.ENV),
+      configFileSelector: (profile) => stringUnionSelector(profile, CONFIG_REQUEST_CHECKSUM_CALCULATION, RequestChecksumCalculation, SelectorType2.CONFIG),
+      default: DEFAULT_REQUEST_CHECKSUM_CALCULATION
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS.js
+var ENV_RESPONSE_CHECKSUM_VALIDATION, CONFIG_RESPONSE_CHECKSUM_VALIDATION, NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS;
+var init_NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS.js"() {
+    init_constants7();
+    init_stringUnionSelector();
+    ENV_RESPONSE_CHECKSUM_VALIDATION = "AWS_RESPONSE_CHECKSUM_VALIDATION";
+    CONFIG_RESPONSE_CHECKSUM_VALIDATION = "response_checksum_validation";
+    NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS = {
+      environmentVariableSelector: (env2) => stringUnionSelector(env2, ENV_RESPONSE_CHECKSUM_VALIDATION, ResponseChecksumValidation, SelectorType2.ENV),
+      configFileSelector: (profile) => stringUnionSelector(profile, CONFIG_RESPONSE_CHECKSUM_VALIDATION, ResponseChecksumValidation, SelectorType2.CONFIG),
+      default: DEFAULT_RESPONSE_CHECKSUM_VALIDATION
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksumAlgorithmForRequest.js
+var getChecksumAlgorithmForRequest;
+var init_getChecksumAlgorithmForRequest = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksumAlgorithmForRequest.js"() {
+    init_constants7();
+    getChecksumAlgorithmForRequest = (input, { requestChecksumRequired, requestAlgorithmMember, requestChecksumCalculation }) => {
+      if (!requestAlgorithmMember) {
+        return requestChecksumCalculation === RequestChecksumCalculation.WHEN_SUPPORTED || requestChecksumRequired ? DEFAULT_CHECKSUM_ALGORITHM : void 0;
+      }
+      if (!input[requestAlgorithmMember]) {
+        return void 0;
+      }
+      const checksumAlgorithm = input[requestAlgorithmMember];
+      return checksumAlgorithm;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksumLocationName.js
+var getChecksumLocationName;
+var init_getChecksumLocationName = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksumLocationName.js"() {
+    init_constants7();
+    getChecksumLocationName = (algorithm) => algorithm === ChecksumAlgorithm.MD5 ? "content-md5" : `x-amz-checksum-${algorithm.toLowerCase()}`;
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/hasHeader.js
+var hasHeader;
+var init_hasHeader = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/hasHeader.js"() {
+    hasHeader = (header, headers) => {
+      const soughtHeader = header.toLowerCase();
+      for (const headerName of Object.keys(headers)) {
+        if (soughtHeader === headerName.toLowerCase()) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/hasHeaderWithPrefix.js
+var hasHeaderWithPrefix;
+var init_hasHeaderWithPrefix = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/hasHeaderWithPrefix.js"() {
+    hasHeaderWithPrefix = (headerPrefix, headers) => {
+      const soughtHeaderPrefix = headerPrefix.toLowerCase();
+      for (const headerName of Object.keys(headers)) {
+        if (headerName.toLowerCase().startsWith(soughtHeaderPrefix)) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/isStreaming.js
+var isStreaming;
+var init_isStreaming = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/isStreaming.js"() {
+    init_serde();
+    isStreaming = (body) => body !== void 0 && typeof body !== "string" && !ArrayBuffer.isView(body) && !isArrayBuffer(body);
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc32c/Crc32cJs.js
+var T2, Crc32cJs;
+var init_Crc32cJs = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc32c/Crc32cJs.js"() {
+    T2 = new Uint32Array(256);
+    for (let i5 = 0; i5 < 256; ++i5) {
+      let c5 = i5;
+      for (let j5 = 0; j5 < 8; ++j5) {
+        c5 = c5 & 1 ? 2197175160 ^ c5 >>> 1 : c5 >>> 1;
+      }
+      T2[i5] = c5 >>> 0;
+    }
+    Crc32cJs = class {
+      digestLength = 4;
+      crc = 4294967295;
+      update(data) {
+        let crc = this.crc;
+        for (let i5 = 0; i5 < data.length; ++i5) {
+          crc = crc >>> 8 ^ T2[(crc ^ data[i5]) & 255];
+        }
+        this.crc = crc;
+      }
+      async digest() {
+        const value = (this.crc ^ 4294967295) >>> 0;
+        const out = new Uint8Array(4);
+        out[0] = value >>> 24;
+        out[1] = value >>> 16 & 255;
+        out[2] = value >>> 8 & 255;
+        out[3] = value & 255;
+        return out;
+      }
+      reset() {
+        this.crc = 4294967295;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc32c/Crc32cNode.js
+var Crc32cNode;
+var init_Crc32cNode = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc32c/Crc32cNode.js"() {
+    init_Crc32cJs();
+    Crc32cNode = Crc32cJs;
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc64-nvme/crc64-nvme-crt-container.js
+var crc64NvmeCrtContainer;
+var init_crc64_nvme_crt_container = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc64-nvme/crc64-nvme-crt-container.js"() {
+    crc64NvmeCrtContainer = {
+      CrtCrc64Nvme: null
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc64-nvme/Crc64NvmeJs.js
+var generateCRC64NVMETable, CRC64_NVME_REVERSED_TABLE, t0, t1, t2, t3, t4, t5, t6, t7, ensureTablesInitialized, Crc64NvmeJs;
+var init_Crc64NvmeJs = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc64-nvme/Crc64NvmeJs.js"() {
+    generateCRC64NVMETable = () => {
+      const sliceLength = 8;
+      const tables = new Array(sliceLength);
+      for (let slice = 0; slice < sliceLength; slice++) {
+        const table = new Array(512);
+        for (let i5 = 0; i5 < 256; i5++) {
+          let crc = BigInt(i5);
+          for (let j5 = 0; j5 < 8 * (slice + 1); j5++) {
+            if (crc & 1n) {
+              crc = crc >> 1n ^ 0x9a6c9329ac4bc9b5n;
+            } else {
+              crc = crc >> 1n;
+            }
+          }
+          table[i5 * 2] = Number(crc >> 32n & 0xffffffffn);
+          table[i5 * 2 + 1] = Number(crc & 0xffffffffn);
+        }
+        tables[slice] = new Uint32Array(table);
+      }
+      return tables;
+    };
+    ensureTablesInitialized = () => {
+      if (!CRC64_NVME_REVERSED_TABLE) {
+        CRC64_NVME_REVERSED_TABLE = generateCRC64NVMETable();
+        [t0, t1, t2, t3, t4, t5, t6, t7] = CRC64_NVME_REVERSED_TABLE;
+      }
+    };
+    Crc64NvmeJs = class {
+      c1 = 0;
+      c2 = 0;
+      constructor() {
+        ensureTablesInitialized();
+        this.reset();
+      }
+      update(data) {
+        const len = data.length;
+        let i5 = 0;
+        let crc1 = this.c1;
+        let crc2 = this.c2;
+        while (i5 + 8 <= len) {
+          const idx0 = ((crc2 ^ data[i5++]) & 255) << 1;
+          const idx1 = ((crc2 >>> 8 ^ data[i5++]) & 255) << 1;
+          const idx2 = ((crc2 >>> 16 ^ data[i5++]) & 255) << 1;
+          const idx3 = ((crc2 >>> 24 ^ data[i5++]) & 255) << 1;
+          const idx4 = ((crc1 ^ data[i5++]) & 255) << 1;
+          const idx5 = ((crc1 >>> 8 ^ data[i5++]) & 255) << 1;
+          const idx6 = ((crc1 >>> 16 ^ data[i5++]) & 255) << 1;
+          const idx7 = ((crc1 >>> 24 ^ data[i5++]) & 255) << 1;
+          crc1 = t7[idx0] ^ t6[idx1] ^ t5[idx2] ^ t4[idx3] ^ t3[idx4] ^ t2[idx5] ^ t1[idx6] ^ t0[idx7];
+          crc2 = t7[idx0 + 1] ^ t6[idx1 + 1] ^ t5[idx2 + 1] ^ t4[idx3 + 1] ^ t3[idx4 + 1] ^ t2[idx5 + 1] ^ t1[idx6 + 1] ^ t0[idx7 + 1];
+        }
+        while (i5 < len) {
+          const idx = ((crc2 ^ data[i5]) & 255) << 1;
+          crc2 = (crc2 >>> 8 | (crc1 & 255) << 24) >>> 0;
+          crc1 = crc1 >>> 8 ^ t0[idx];
+          crc2 ^= t0[idx + 1];
+          ++i5;
+        }
+        this.c1 = crc1;
+        this.c2 = crc2;
+      }
+      async digest() {
+        const c1 = this.c1 ^ 4294967295;
+        const c22 = this.c2 ^ 4294967295;
+        return new Uint8Array([
+          c1 >>> 24,
+          c1 >>> 16 & 255,
+          c1 >>> 8 & 255,
+          c1 & 255,
+          c22 >>> 24,
+          c22 >>> 16 & 255,
+          c22 >>> 8 & 255,
+          c22 & 255
+        ]);
+      }
+      reset() {
+        this.c1 = 4294967295;
+        this.c2 = 4294967295;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc64-nvme/Crc64Nvme.js
+var Crc64Nvme;
+var init_Crc64Nvme = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/crc/crc64-nvme/Crc64Nvme.js"() {
+    init_crc64_nvme_crt_container();
+    init_Crc64NvmeJs();
+    Crc64Nvme = class {
+      impl;
+      constructor() {
+        const Crt = crc64NvmeCrtContainer.CrtCrc64Nvme;
+        this.impl = Crt ? new Crt() : new Crc64NvmeJs();
+      }
+      update(data) {
+        this.impl.update(data);
+      }
+      async digest() {
+        return this.impl.digest();
+      }
+      reset() {
+        this.impl.reset();
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/crc/index.js
+var init_crc = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/crc/index.js"() {
+    init_Crc32cNode();
+    init_Crc64Nvme();
+    init_checksum2();
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/types.js
+var CLIENT_SUPPORTED_ALGORITHMS, PRIORITY_ORDER_ALGORITHMS;
+var init_types3 = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/types.js"() {
+    init_constants7();
+    CLIENT_SUPPORTED_ALGORITHMS = [
+      ChecksumAlgorithm.CRC32,
+      ChecksumAlgorithm.CRC32C,
+      ChecksumAlgorithm.CRC64NVME,
+      ChecksumAlgorithm.SHA1,
+      ChecksumAlgorithm.SHA256
+    ];
+    PRIORITY_ORDER_ALGORITHMS = [
+      ChecksumAlgorithm.SHA256,
+      ChecksumAlgorithm.SHA1,
+      ChecksumAlgorithm.CRC32,
+      ChecksumAlgorithm.CRC32C,
+      ChecksumAlgorithm.CRC64NVME
+    ];
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/selectChecksumAlgorithmFunction.js
+var selectChecksumAlgorithmFunction;
+var init_selectChecksumAlgorithmFunction = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/selectChecksumAlgorithmFunction.js"() {
+    init_crc();
+    init_constants7();
+    init_types3();
+    selectChecksumAlgorithmFunction = (checksumAlgorithm, config) => {
+      const { checksumAlgorithms = {} } = config;
+      switch (checksumAlgorithm) {
+        case ChecksumAlgorithm.MD5:
+          return checksumAlgorithms?.MD5 ?? config.md5;
+        case ChecksumAlgorithm.CRC32:
+          return checksumAlgorithms?.CRC32 ?? Crc32Node;
+        case ChecksumAlgorithm.CRC32C:
+          return checksumAlgorithms?.CRC32C ?? Crc32cNode;
+        case ChecksumAlgorithm.CRC64NVME:
+          return checksumAlgorithms?.CRC64NVME ?? Crc64Nvme;
+        case ChecksumAlgorithm.SHA1:
+          return checksumAlgorithms?.SHA1 ?? config.sha1;
+        case ChecksumAlgorithm.SHA256:
+          return checksumAlgorithms?.SHA256 ?? config.sha256;
+        default:
+          if (checksumAlgorithms?.[checksumAlgorithm]) {
+            return checksumAlgorithms[checksumAlgorithm];
+          }
+          throw new Error(`The checksum algorithm "${checksumAlgorithm}" is not supported by the client. Select one of ${CLIENT_SUPPORTED_ALGORITHMS}, or provide an implementation to  the client constructor checksums field.`);
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/stringHasher.js
+var stringHasher;
+var init_stringHasher = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/stringHasher.js"() {
+    init_serde();
+    stringHasher = (checksumAlgorithmFn, body) => {
+      const hash = new checksumAlgorithmFn();
+      hash.update(toUint8Array(body || ""));
+      return hash.digest();
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/flexibleChecksumsMiddleware.js
+var flexibleChecksumsMiddlewareOptions, flexibleChecksumsMiddleware;
+var init_flexibleChecksumsMiddleware = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/flexibleChecksumsMiddleware.js"() {
+    init_client3();
+    init_protocols();
+    init_serde();
+    init_constants7();
+    init_getChecksumAlgorithmForRequest();
+    init_getChecksumLocationName();
+    init_hasHeader();
+    init_hasHeaderWithPrefix();
+    init_isStreaming();
+    init_selectChecksumAlgorithmFunction();
+    init_stringHasher();
+    flexibleChecksumsMiddlewareOptions = {
+      name: "flexibleChecksumsMiddleware",
+      step: "build",
+      tags: ["BODY_CHECKSUM"],
+      override: true
+    };
+    flexibleChecksumsMiddleware = (config, middlewareConfig) => (next, context) => async (args) => {
+      if (!HttpRequest.isInstance(args.request)) {
+        return next(args);
+      }
+      if (hasHeaderWithPrefix("x-amz-checksum-", args.request.headers)) {
+        return next(args);
+      }
+      const { request, input } = args;
+      const { body: requestBody, headers } = request;
+      const { base64Encoder, streamHasher } = config;
+      const { requestChecksumRequired, requestAlgorithmMember } = middlewareConfig;
+      const requestChecksumCalculation = await config.requestChecksumCalculation();
+      const requestAlgorithmMemberName = requestAlgorithmMember?.name;
+      const requestAlgorithmMemberHttpHeader = requestAlgorithmMember?.httpHeader;
+      if (requestAlgorithmMemberName && !input[requestAlgorithmMemberName]) {
+        if (requestChecksumCalculation === RequestChecksumCalculation.WHEN_SUPPORTED || requestChecksumRequired) {
+          input[requestAlgorithmMemberName] = DEFAULT_CHECKSUM_ALGORITHM;
+          if (requestAlgorithmMemberHttpHeader) {
+            headers[requestAlgorithmMemberHttpHeader] = DEFAULT_CHECKSUM_ALGORITHM;
+          }
+        }
+      }
+      const checksumAlgorithm = getChecksumAlgorithmForRequest(input, {
+        requestChecksumRequired,
+        requestAlgorithmMember: requestAlgorithmMember?.name,
+        requestChecksumCalculation
+      });
+      let updatedBody = requestBody;
+      let updatedHeaders = headers;
+      if (checksumAlgorithm) {
+        switch (checksumAlgorithm) {
+          case ChecksumAlgorithm.CRC32:
+            setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_CRC32", "U");
+            break;
+          case ChecksumAlgorithm.CRC32C:
+            setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_CRC32C", "V");
+            break;
+          case ChecksumAlgorithm.CRC64NVME:
+            setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_CRC64", "W");
+            break;
+          case ChecksumAlgorithm.SHA1:
+            setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_SHA1", "X");
+            break;
+          case ChecksumAlgorithm.SHA256:
+            setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_SHA256", "Y");
+            break;
+        }
+        const checksumLocationName = getChecksumLocationName(checksumAlgorithm);
+        const checksumAlgorithmFn = selectChecksumAlgorithmFunction(checksumAlgorithm, config);
+        if (isStreaming(requestBody)) {
+          const { getAwsChunkedEncodingStream: getAwsChunkedEncodingStream3, bodyLengthChecker } = config;
+          updatedBody = getAwsChunkedEncodingStream3(typeof config.requestStreamBufferSize === "number" && config.requestStreamBufferSize >= 8 * 1024 ? createBufferedReadable(requestBody, config.requestStreamBufferSize, context.logger) : requestBody, {
+            base64Encoder,
+            bodyLengthChecker,
+            checksumLocationName,
+            checksumAlgorithmFn,
+            streamHasher
+          });
+          updatedHeaders = {
+            ...headers,
+            "content-encoding": headers["content-encoding"] ? `${headers["content-encoding"]},aws-chunked` : "aws-chunked",
+            "transfer-encoding": "chunked",
+            "x-amz-decoded-content-length": headers["content-length"],
+            "x-amz-content-sha256": "STREAMING-UNSIGNED-PAYLOAD-TRAILER",
+            "x-amz-trailer": checksumLocationName
+          };
+          delete updatedHeaders["content-length"];
+        } else if (!hasHeader(checksumLocationName, headers)) {
+          const rawChecksum = await stringHasher(checksumAlgorithmFn, requestBody);
+          updatedHeaders = {
+            ...headers,
+            [checksumLocationName]: base64Encoder(rawChecksum)
+          };
+        }
+      }
+      try {
+        const result = await next({
+          ...args,
+          request: {
+            ...request,
+            headers: updatedHeaders,
+            body: updatedBody
+          }
+        });
+        return result;
+      } catch (e5) {
+        if (e5 instanceof Error && e5.name === "InvalidChunkSizeError") {
+          try {
+            if (!e5.message.endsWith(".")) {
+              e5.message += ".";
+            }
+            e5.message += " Set [requestStreamBufferSize=number e.g. 65_536] in client constructor to instruct AWS SDK to buffer your input stream.";
+          } catch (ignored) {
+          }
+        }
+        throw e5;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/flexibleChecksumsInputMiddleware.js
+var flexibleChecksumsInputMiddlewareOptions, flexibleChecksumsInputMiddleware;
+var init_flexibleChecksumsInputMiddleware = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/flexibleChecksumsInputMiddleware.js"() {
+    init_client3();
+    init_constants7();
+    flexibleChecksumsInputMiddlewareOptions = {
+      name: "flexibleChecksumsInputMiddleware",
+      toMiddleware: "serializerMiddleware",
+      relation: "before",
+      tags: ["BODY_CHECKSUM"],
+      override: true
+    };
+    flexibleChecksumsInputMiddleware = (config, middlewareConfig) => (next, context) => async (args) => {
+      const input = args.input;
+      const { requestValidationModeMember } = middlewareConfig;
+      const requestChecksumCalculation = await config.requestChecksumCalculation();
+      const responseChecksumValidation = await config.responseChecksumValidation();
+      switch (requestChecksumCalculation) {
+        case RequestChecksumCalculation.WHEN_REQUIRED:
+          setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_WHEN_REQUIRED", "a");
+          break;
+        case RequestChecksumCalculation.WHEN_SUPPORTED:
+          setFeature2(context, "FLEXIBLE_CHECKSUMS_REQ_WHEN_SUPPORTED", "Z");
+          break;
+      }
+      switch (responseChecksumValidation) {
+        case ResponseChecksumValidation.WHEN_REQUIRED:
+          setFeature2(context, "FLEXIBLE_CHECKSUMS_RES_WHEN_REQUIRED", "c");
+          break;
+        case ResponseChecksumValidation.WHEN_SUPPORTED:
+          setFeature2(context, "FLEXIBLE_CHECKSUMS_RES_WHEN_SUPPORTED", "b");
+          break;
+      }
+      if (requestValidationModeMember && !input[requestValidationModeMember]) {
+        if (responseChecksumValidation === ResponseChecksumValidation.WHEN_SUPPORTED) {
+          input[requestValidationModeMember] = "ENABLED";
+        }
+      }
+      return next(args);
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksumAlgorithmListForResponse.js
+var getChecksumAlgorithmListForResponse;
+var init_getChecksumAlgorithmListForResponse = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksumAlgorithmListForResponse.js"() {
+    init_types3();
+    getChecksumAlgorithmListForResponse = (responseAlgorithms = []) => {
+      const validChecksumAlgorithms = [];
+      let i5 = PRIORITY_ORDER_ALGORITHMS.length;
+      for (const algorithm of responseAlgorithms) {
+        const priority = PRIORITY_ORDER_ALGORITHMS.indexOf(algorithm);
+        if (priority !== -1) {
+          validChecksumAlgorithms[priority] = algorithm;
+        } else {
+          validChecksumAlgorithms[i5++] = algorithm;
+        }
+      }
+      return validChecksumAlgorithms.filter(Boolean);
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/isChecksumWithPartNumber.js
+var isChecksumWithPartNumber;
+var init_isChecksumWithPartNumber = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/isChecksumWithPartNumber.js"() {
+    isChecksumWithPartNumber = (checksum) => {
+      const lastHyphenIndex = checksum.lastIndexOf("-");
+      if (lastHyphenIndex !== -1) {
+        const numberPart = checksum.slice(lastHyphenIndex + 1);
+        if (!numberPart.startsWith("0")) {
+          const number = parseInt(numberPart, 10);
+          if (!isNaN(number) && number >= 1 && number <= 1e4) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksum.js
+var getChecksum;
+var init_getChecksum = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getChecksum.js"() {
+    init_stringHasher();
+    getChecksum = async (body, { checksumAlgorithmFn, base64Encoder }) => base64Encoder(await stringHasher(checksumAlgorithmFn, body));
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/validateChecksumFromResponse.js
+var validateChecksumFromResponse;
+var init_validateChecksumFromResponse = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/validateChecksumFromResponse.js"() {
+    init_serde();
+    init_constants7();
+    init_getChecksum();
+    init_getChecksumAlgorithmListForResponse();
+    init_getChecksumLocationName();
+    init_isStreaming();
+    init_selectChecksumAlgorithmFunction();
+    validateChecksumFromResponse = async (response, { config, responseAlgorithms, logger: logger2 }) => {
+      const checksumAlgorithms = getChecksumAlgorithmListForResponse(responseAlgorithms);
+      const { body: responseBody, headers: responseHeaders } = response;
+      for (const algorithm of checksumAlgorithms) {
+        const responseHeader = getChecksumLocationName(algorithm);
+        const checksumFromResponse = responseHeaders[responseHeader];
+        if (checksumFromResponse) {
+          let checksumAlgorithmFn;
+          try {
+            checksumAlgorithmFn = selectChecksumAlgorithmFunction(algorithm, config);
+          } catch (error2) {
+            if (algorithm === ChecksumAlgorithm.CRC64NVME) {
+              logger2?.warn(`Skipping ${ChecksumAlgorithm.CRC64NVME} checksum validation: ${error2.message}`);
+              continue;
+            }
+            throw error2;
+          }
+          const { base64Encoder } = config;
+          if (isStreaming(responseBody)) {
+            response.body = createChecksumStream2({
+              expectedChecksum: checksumFromResponse,
+              checksumSourceLocation: responseHeader,
+              checksum: new checksumAlgorithmFn(),
+              source: responseBody,
+              base64Encoder
+            });
+            return;
+          }
+          const checksum = await getChecksum(responseBody, { checksumAlgorithmFn, base64Encoder });
+          if (checksum === checksumFromResponse) {
+            break;
+          }
+          throw new Error(`Checksum mismatch: expected "${checksum}" but received "${checksumFromResponse}" in response header "${responseHeader}".`);
+        }
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/flexibleChecksumsResponseMiddleware.js
+var flexibleChecksumsResponseMiddlewareOptions, flexibleChecksumsResponseMiddleware;
+var init_flexibleChecksumsResponseMiddleware = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/flexibleChecksumsResponseMiddleware.js"() {
+    init_protocols();
+    init_getChecksumAlgorithmListForResponse();
+    init_getChecksumLocationName();
+    init_isChecksumWithPartNumber();
+    init_validateChecksumFromResponse();
+    flexibleChecksumsResponseMiddlewareOptions = {
+      name: "flexibleChecksumsResponseMiddleware",
+      toMiddleware: "deserializerMiddleware",
+      relation: "after",
+      tags: ["BODY_CHECKSUM"],
+      override: true
+    };
+    flexibleChecksumsResponseMiddleware = (config, middlewareConfig) => (next, context) => async (args) => {
+      if (!HttpRequest.isInstance(args.request)) {
+        return next(args);
+      }
+      const input = args.input;
+      const result = await next(args);
+      const response = result.response;
+      const { requestValidationModeMember, responseAlgorithms } = middlewareConfig;
+      if (requestValidationModeMember && input[requestValidationModeMember] === "ENABLED") {
+        const { clientName, commandName } = context;
+        const customChecksumAlgorithms = Object.keys(config.checksumAlgorithms ?? {}).filter((algorithm) => {
+          const responseHeader = getChecksumLocationName(algorithm);
+          return response.headers[responseHeader] !== void 0;
+        });
+        const algoList = getChecksumAlgorithmListForResponse([
+          ...responseAlgorithms ?? [],
+          ...customChecksumAlgorithms
+        ]);
+        const isS3WholeObjectMultipartGetResponseChecksum = clientName === "S3Client" && commandName === "GetObjectCommand" && algoList.every((algorithm) => {
+          const responseHeader = getChecksumLocationName(algorithm);
+          const checksumFromResponse = response.headers[responseHeader];
+          return !checksumFromResponse || isChecksumWithPartNumber(checksumFromResponse);
+        });
+        if (isS3WholeObjectMultipartGetResponseChecksum) {
+          return result;
+        }
+        await validateChecksumFromResponse(response, {
+          config,
+          responseAlgorithms: algoList,
+          logger: context.logger
+        });
+      }
+      return result;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getFlexibleChecksumsPlugin.js
+var getFlexibleChecksumsPlugin;
+var init_getFlexibleChecksumsPlugin = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/getFlexibleChecksumsPlugin.js"() {
+    init_flexibleChecksumsInputMiddleware();
+    init_flexibleChecksumsMiddleware();
+    init_flexibleChecksumsResponseMiddleware();
+    getFlexibleChecksumsPlugin = (config, middlewareConfig) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(flexibleChecksumsMiddleware(config, middlewareConfig), flexibleChecksumsMiddlewareOptions);
+        clientStack.addRelativeTo(flexibleChecksumsInputMiddleware(config, middlewareConfig), flexibleChecksumsInputMiddlewareOptions);
+        clientStack.addRelativeTo(flexibleChecksumsResponseMiddleware(config, middlewareConfig), flexibleChecksumsResponseMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/resolveFlexibleChecksumsConfig.js
+var resolveFlexibleChecksumsConfig;
+var init_resolveFlexibleChecksumsConfig = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/resolveFlexibleChecksumsConfig.js"() {
+    init_client2();
+    init_constants7();
+    resolveFlexibleChecksumsConfig = (input) => {
+      const { requestChecksumCalculation, responseChecksumValidation, requestStreamBufferSize } = input;
+      return Object.assign(input, {
+        requestChecksumCalculation: normalizeProvider(requestChecksumCalculation ?? DEFAULT_REQUEST_CHECKSUM_CALCULATION),
+        responseChecksumValidation: normalizeProvider(responseChecksumValidation ?? DEFAULT_RESPONSE_CHECKSUM_VALIDATION),
+        requestStreamBufferSize: Number(requestStreamBufferSize ?? 0),
+        checksumAlgorithms: input.checksumAlgorithms ?? {}
+      });
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/index.js
+var flexible_checksums_exports = {};
+__export(flexible_checksums_exports, {
+  CONFIG_REQUEST_CHECKSUM_CALCULATION: () => CONFIG_REQUEST_CHECKSUM_CALCULATION,
+  CONFIG_RESPONSE_CHECKSUM_VALIDATION: () => CONFIG_RESPONSE_CHECKSUM_VALIDATION,
+  ChecksumAlgorithm: () => ChecksumAlgorithm,
+  ChecksumLocation: () => ChecksumLocation,
+  DEFAULT_CHECKSUM_ALGORITHM: () => DEFAULT_CHECKSUM_ALGORITHM,
+  DEFAULT_REQUEST_CHECKSUM_CALCULATION: () => DEFAULT_REQUEST_CHECKSUM_CALCULATION,
+  DEFAULT_RESPONSE_CHECKSUM_VALIDATION: () => DEFAULT_RESPONSE_CHECKSUM_VALIDATION,
+  ENV_REQUEST_CHECKSUM_CALCULATION: () => ENV_REQUEST_CHECKSUM_CALCULATION,
+  ENV_RESPONSE_CHECKSUM_VALIDATION: () => ENV_RESPONSE_CHECKSUM_VALIDATION,
+  NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS: () => NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS,
+  NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS: () => NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS,
+  RequestChecksumCalculation: () => RequestChecksumCalculation,
+  ResponseChecksumValidation: () => ResponseChecksumValidation,
+  flexibleChecksumsMiddleware: () => flexibleChecksumsMiddleware,
+  flexibleChecksumsMiddlewareOptions: () => flexibleChecksumsMiddlewareOptions,
+  getFlexibleChecksumsPlugin: () => getFlexibleChecksumsPlugin,
+  resolveFlexibleChecksumsConfig: () => resolveFlexibleChecksumsConfig
+});
+var init_flexible_checksums = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/flexible-checksums/index.js"() {
+    init_NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS();
+    init_NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS();
+    init_constants7();
+    init_flexibleChecksumsMiddleware();
+    init_getFlexibleChecksumsPlugin();
+    init_resolveFlexibleChecksumsConfig();
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-check-content-length-header/check-content-length-header.js
+function checkContentLengthHeader() {
+  return (next, context) => async (args) => {
+    const { request } = args;
+    if (HttpRequest.isInstance(request)) {
+      if (!(CONTENT_LENGTH_HEADER2 in request.headers) && !(DECODED_CONTENT_LENGTH_HEADER in request.headers)) {
+        const message = `Are you using a Stream of unknown length as the Body of a PutObject request? Consider using Upload instead from @aws-sdk/lib-storage.`;
+        if (typeof context?.logger?.warn === "function" && !(context.logger instanceof NoOpLogger)) {
+          context.logger.warn(message);
+        } else {
+          console.warn(message);
+        }
+      }
+    }
+    return next({ ...args });
+  };
+}
+var CONTENT_LENGTH_HEADER2, DECODED_CONTENT_LENGTH_HEADER, checkContentLengthHeaderMiddlewareOptions, getCheckContentLengthHeaderPlugin;
+var init_check_content_length_header = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-check-content-length-header/check-content-length-header.js"() {
+    init_client2();
+    init_protocols();
+    CONTENT_LENGTH_HEADER2 = "content-length";
+    DECODED_CONTENT_LENGTH_HEADER = "x-amz-decoded-content-length";
+    checkContentLengthHeaderMiddlewareOptions = {
+      step: "finalizeRequest",
+      tags: ["CHECK_CONTENT_LENGTH_HEADER"],
+      name: "getCheckContentLengthHeaderPlugin",
+      override: true
+    };
+    getCheckContentLengthHeaderPlugin = (unused) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(checkContentLengthHeader(), checkContentLengthHeaderMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-region-redirect/region-redirect-endpoint-middleware.js
+var regionRedirectEndpointMiddleware, regionRedirectEndpointMiddlewareOptions;
+var init_region_redirect_endpoint_middleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-region-redirect/region-redirect-endpoint-middleware.js"() {
+    regionRedirectEndpointMiddleware = (config) => {
+      return (next, context) => async (args) => {
+        const originalRegion = await config.region();
+        const regionProviderRef = config.region;
+        let unlock = () => {
+        };
+        if (context.__s3RegionRedirect) {
+          Object.defineProperty(config, "region", {
+            writable: false,
+            value: async () => {
+              return context.__s3RegionRedirect;
+            }
+          });
+          unlock = () => Object.defineProperty(config, "region", {
+            writable: true,
+            value: regionProviderRef
+          });
+        }
+        try {
+          const result = await next(args);
+          if (context.__s3RegionRedirect) {
+            unlock();
+            const region = await config.region();
+            if (originalRegion !== region) {
+              throw new Error("Region was not restored following S3 region redirect.");
+            }
+          }
+          return result;
+        } catch (e5) {
+          unlock();
+          throw e5;
+        }
+      };
+    };
+    regionRedirectEndpointMiddlewareOptions = {
+      tags: ["REGION_REDIRECT", "S3"],
+      name: "regionRedirectEndpointMiddleware",
+      override: true,
+      relation: "before",
+      toMiddleware: "endpointV2Middleware"
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-region-redirect/region-redirect-middleware.js
+function regionRedirectMiddleware(clientConfig) {
+  return (next, context) => async (args) => {
+    try {
+      return await next(args);
+    } catch (err2) {
+      if (clientConfig.followRegionRedirects) {
+        const statusCode = err2?.$metadata?.httpStatusCode;
+        const isHeadBucket = context.commandName === "HeadBucketCommand";
+        const bucketRegionHeader = err2?.$response?.headers?.["x-amz-bucket-region"];
+        if (bucketRegionHeader) {
+          if (statusCode === 301 || statusCode === 400 && (err2?.name === "IllegalLocationConstraintException" || isHeadBucket)) {
+            try {
+              const actualRegion = bucketRegionHeader;
+              context.logger?.debug(`Redirecting from ${await clientConfig.region()} to ${actualRegion}`);
+              context.__s3RegionRedirect = actualRegion;
+            } catch (e5) {
+              throw new Error("Region redirect failed: " + e5);
+            }
+            return next(args);
+          }
+        }
+      }
+      throw err2;
+    }
+  };
+}
+var regionRedirectMiddlewareOptions, getRegionRedirectMiddlewarePlugin;
+var init_region_redirect_middleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-region-redirect/region-redirect-middleware.js"() {
+    init_region_redirect_endpoint_middleware();
+    regionRedirectMiddlewareOptions = {
+      step: "initialize",
+      tags: ["REGION_REDIRECT", "S3"],
+      name: "regionRedirectMiddleware",
+      override: true
+    };
+    getRegionRedirectMiddlewarePlugin = (clientConfig) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(regionRedirectMiddleware(clientConfig), regionRedirectMiddlewareOptions);
+        clientStack.addRelativeTo(regionRedirectEndpointMiddleware(clientConfig), regionRedirectEndpointMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/S3ExpressIdentityCache.js
+var S3ExpressIdentityCache;
+var init_S3ExpressIdentityCache = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/S3ExpressIdentityCache.js"() {
+    S3ExpressIdentityCache = class _S3ExpressIdentityCache {
+      data;
+      lastPurgeTime = Date.now();
+      static EXPIRED_CREDENTIAL_PURGE_INTERVAL_MS = 3e4;
+      constructor(data = {}) {
+        this.data = data;
+      }
+      get(key) {
+        const entry = this.data[key];
+        if (!entry) {
+          return;
+        }
+        return entry;
+      }
+      set(key, entry) {
+        this.data[key] = entry;
+        return entry;
+      }
+      delete(key) {
+        delete this.data[key];
+      }
+      async purgeExpired() {
+        const now = Date.now();
+        if (this.lastPurgeTime + _S3ExpressIdentityCache.EXPIRED_CREDENTIAL_PURGE_INTERVAL_MS > now) {
+          return;
+        }
+        for (const key in this.data) {
+          const entry = this.data[key];
+          if (!entry.isRefreshing) {
+            const credential = await entry.identity;
+            if (credential.expiration) {
+              if (credential.expiration.getTime() < now) {
+                delete this.data[key];
+              }
+            }
+          }
+        }
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/S3ExpressIdentityCacheEntry.js
+var S3ExpressIdentityCacheEntry;
+var init_S3ExpressIdentityCacheEntry = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/S3ExpressIdentityCacheEntry.js"() {
+    S3ExpressIdentityCacheEntry = class {
+      _identity;
+      isRefreshing;
+      accessed;
+      constructor(_identity, isRefreshing = false, accessed = Date.now()) {
+        this._identity = _identity;
+        this.isRefreshing = isRefreshing;
+        this.accessed = accessed;
+      }
+      get identity() {
+        this.accessed = Date.now();
+        return this._identity;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/S3ExpressIdentityProviderImpl.js
+var S3ExpressIdentityProviderImpl;
+var init_S3ExpressIdentityProviderImpl = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/S3ExpressIdentityProviderImpl.js"() {
+    init_S3ExpressIdentityCache();
+    init_S3ExpressIdentityCacheEntry();
+    S3ExpressIdentityProviderImpl = class _S3ExpressIdentityProviderImpl {
+      createSessionFn;
+      cache;
+      static REFRESH_WINDOW_MS = 6e4;
+      constructor(createSessionFn, cache5 = new S3ExpressIdentityCache()) {
+        this.createSessionFn = createSessionFn;
+        this.cache = cache5;
+      }
+      async getS3ExpressIdentity(awsIdentity, identityProperties) {
+        const key = identityProperties.Bucket;
+        const { cache: cache5 } = this;
+        const entry = cache5.get(key);
+        if (entry) {
+          return entry.identity.then((identity) => {
+            const isExpired = (identity.expiration?.getTime() ?? 0) < Date.now();
+            if (isExpired) {
+              return cache5.set(key, new S3ExpressIdentityCacheEntry(this.getIdentity(key))).identity;
+            }
+            const isExpiringSoon = (identity.expiration?.getTime() ?? 0) < Date.now() + _S3ExpressIdentityProviderImpl.REFRESH_WINDOW_MS;
+            if (isExpiringSoon && !entry.isRefreshing) {
+              entry.isRefreshing = true;
+              this.getIdentity(key).then((id) => {
+                cache5.set(key, new S3ExpressIdentityCacheEntry(Promise.resolve(id)));
+              });
+            }
+            return identity;
+          });
+        }
+        return cache5.set(key, new S3ExpressIdentityCacheEntry(this.getIdentity(key))).identity;
+      }
+      async getIdentity(key) {
+        await this.cache.purgeExpired().catch((error2) => {
+          console.warn("Error while clearing expired entries in S3ExpressIdentityCache: \n" + error2);
+        });
+        const session = await this.createSessionFn(key);
+        if (!session.Credentials?.AccessKeyId || !session.Credentials?.SecretAccessKey) {
+          throw new Error("s3#createSession response credential missing AccessKeyId or SecretAccessKey.");
+        }
+        const identity = {
+          accessKeyId: session.Credentials.AccessKeyId,
+          secretAccessKey: session.Credentials.SecretAccessKey,
+          sessionToken: session.Credentials.SessionToken,
+          expiration: session.Credentials.Expiration ? new Date(session.Credentials.Expiration) : void 0
+        };
+        return identity;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-configuration/s3Configuration.js
+var resolveS3Config;
+var init_s3Configuration = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-configuration/s3Configuration.js"() {
+    init_S3ExpressIdentityProviderImpl();
+    resolveS3Config = (input, { session }) => {
+      const [s3ClientProvider, CreateSessionCommandCtor] = session;
+      const { forcePathStyle, useAccelerateEndpoint, disableMultiregionAccessPoints, followRegionRedirects, s3ExpressIdentityProvider, bucketEndpoint, expectContinueHeader } = input;
+      return Object.assign(input, {
+        forcePathStyle: forcePathStyle ?? false,
+        useAccelerateEndpoint: useAccelerateEndpoint ?? false,
+        disableMultiregionAccessPoints: disableMultiregionAccessPoints ?? false,
+        followRegionRedirects: followRegionRedirects ?? false,
+        s3ExpressIdentityProvider: s3ExpressIdentityProvider ?? new S3ExpressIdentityProviderImpl(async (key) => s3ClientProvider().send(new CreateSessionCommandCtor({
+          Bucket: key
+        }))),
+        bucketEndpoint: bucketEndpoint ?? false,
+        expectContinueHeader: expectContinueHeader ?? 2097152
+      });
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-expires/s3-expires-middleware.js
+var s3ExpiresMiddleware, s3ExpiresMiddlewareOptions, getS3ExpiresMiddlewarePlugin;
+var init_s3_expires_middleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-expires/s3-expires-middleware.js"() {
+    init_protocols();
+    init_serde();
+    s3ExpiresMiddleware = (config) => {
+      return (next, context) => async (args) => {
+        const result = await next(args);
+        const { response } = result;
+        if (HttpResponse.isInstance(response)) {
+          if (response.headers.expires) {
+            response.headers.expiresstring = response.headers.expires;
+            try {
+              parseRfc7231DateTime(response.headers.expires);
+            } catch (e5) {
+              context.logger?.warn(`AWS SDK Warning for ${context.clientName}::${context.commandName} response parsing (${response.headers.expires}): ${e5}`);
+              delete response.headers.expires;
+            }
+          }
+        }
+        return result;
+      };
+    };
+    s3ExpiresMiddlewareOptions = {
+      tags: ["S3"],
+      name: "s3ExpiresMiddleware",
+      override: true,
+      relation: "after",
+      toMiddleware: "deserializerMiddleware"
+    };
+    getS3ExpiresMiddlewarePlugin = (clientConfig) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(s3ExpiresMiddleware(clientConfig), s3ExpiresMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/SignatureV4S3Express.js
+var import_signature_v4_multi_region3, SignatureV4S3Express;
+var init_SignatureV4S3Express = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/classes/SignatureV4S3Express.js"() {
+    import_signature_v4_multi_region3 = __toESM(require_dist_cjs11());
+    SignatureV4S3Express = class extends import_signature_v4_multi_region3.SignatureV4SignWithCredentials {
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/constants.js
+var S3_EXPRESS_BUCKET_TYPE, S3_EXPRESS_BACKEND, S3_EXPRESS_AUTH_SCHEME, SESSION_TOKEN_QUERY_PARAM, SESSION_TOKEN_HEADER, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_ENV_NAME, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_INI_NAME, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS;
+var init_constants8 = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/constants.js"() {
+    init_config2();
+    S3_EXPRESS_BUCKET_TYPE = "Directory";
+    S3_EXPRESS_BACKEND = "S3Express";
+    S3_EXPRESS_AUTH_SCHEME = "sigv4-s3express";
+    SESSION_TOKEN_QUERY_PARAM = "X-Amz-S3session-Token";
+    SESSION_TOKEN_HEADER = SESSION_TOKEN_QUERY_PARAM.toLowerCase();
+    NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_ENV_NAME = "AWS_S3_DISABLE_EXPRESS_SESSION_AUTH";
+    NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_INI_NAME = "s3_disable_express_session_auth";
+    NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS = {
+      environmentVariableSelector: (env2) => booleanSelector(env2, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_ENV_NAME, SelectorType.ENV),
+      configFileSelector: (profile) => booleanSelector(profile, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_INI_NAME, SelectorType.CONFIG),
+      default: false
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/functions/s3ExpressMiddleware.js
+var s3ExpressMiddleware, s3ExpressMiddlewareOptions, getS3ExpressPlugin;
+var init_s3ExpressMiddleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/functions/s3ExpressMiddleware.js"() {
+    init_client3();
+    init_protocols();
+    init_constants8();
+    s3ExpressMiddleware = (options) => {
+      return (next, context) => async (args) => {
+        if (context.endpointV2) {
+          const endpoint = context.endpointV2;
+          const isS3ExpressAuth = endpoint.properties?.authSchemes?.[0]?.name === S3_EXPRESS_AUTH_SCHEME;
+          const isS3ExpressBucket = endpoint.properties?.backend === S3_EXPRESS_BACKEND || endpoint.properties?.bucketType === S3_EXPRESS_BUCKET_TYPE;
+          if (isS3ExpressBucket) {
+            setFeature2(context, "S3_EXPRESS_BUCKET", "J");
+            context.isS3ExpressBucket = true;
+          }
+          if (isS3ExpressAuth) {
+            const requestBucket = args.input.Bucket;
+            if (requestBucket) {
+              const s3ExpressIdentity = await options.s3ExpressIdentityProvider.getS3ExpressIdentity(await options.credentials(), {
+                Bucket: requestBucket
+              });
+              context.s3ExpressIdentity = s3ExpressIdentity;
+              if (HttpRequest.isInstance(args.request) && s3ExpressIdentity.sessionToken) {
+                args.request.headers[SESSION_TOKEN_HEADER] = s3ExpressIdentity.sessionToken;
+              }
+            }
+          }
+        }
+        return next(args);
+      };
+    };
+    s3ExpressMiddlewareOptions = {
+      name: "s3ExpressMiddleware",
+      step: "build",
+      tags: ["S3", "S3_EXPRESS"],
+      override: true
+    };
+    getS3ExpressPlugin = (options) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(s3ExpressMiddleware(options), s3ExpressMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/functions/signS3Express.js
+var signS3Express;
+var init_signS3Express = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/functions/signS3Express.js"() {
+    signS3Express = async (s3ExpressIdentity, signingOptions, request, sigV4MultiRegionSigner) => {
+      const signedRequest = await sigV4MultiRegionSigner.signWithCredentials(request, s3ExpressIdentity, {});
+      if (signedRequest.headers["X-Amz-Security-Token"] || signedRequest.headers["x-amz-security-token"]) {
+        throw new Error("X-Amz-Security-Token must not be set for s3-express requests.");
+      }
+      return signedRequest;
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/functions/s3ExpressHttpSigningMiddleware.js
+var defaultErrorHandler2, defaultSuccessHandler2, s3ExpressHttpSigningMiddlewareOptions, s3ExpressHttpSigningMiddleware, getS3ExpressHttpSigningPlugin;
+var init_s3ExpressHttpSigningMiddleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-s3-express/functions/s3ExpressHttpSigningMiddleware.js"() {
+    init_dist_es();
+    init_client2();
+    init_protocols();
+    init_signS3Express();
+    defaultErrorHandler2 = (signingProperties) => (error2) => {
+      throw error2;
+    };
+    defaultSuccessHandler2 = (httpResponse, signingProperties) => {
+    };
+    s3ExpressHttpSigningMiddlewareOptions = httpSigningMiddlewareOptions;
+    s3ExpressHttpSigningMiddleware = (config) => (next, context) => async (args) => {
+      if (!HttpRequest.isInstance(args.request)) {
+        return next(args);
+      }
+      const smithyContext = getSmithyContext(context);
+      const scheme = smithyContext.selectedHttpAuthScheme;
+      if (!scheme) {
+        throw new Error(`No HttpAuthScheme was selected: unable to sign request`);
+      }
+      const { httpAuthOption: { signingProperties = {} }, identity, signer } = scheme;
+      let request;
+      if (context.s3ExpressIdentity) {
+        request = await signS3Express(context.s3ExpressIdentity, signingProperties, args.request, await config.signer());
+      } else {
+        request = await signer.sign(args.request, identity, signingProperties);
+      }
+      const output = await next({
+        ...args,
+        request
+      }).catch((signer.errorHandler || defaultErrorHandler2)(signingProperties));
+      (signer.successHandler || defaultSuccessHandler2)(output.response, signingProperties);
+      return output;
+    };
+    getS3ExpressHttpSigningPlugin = (config) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(s3ExpressHttpSigningMiddleware(config), httpSigningMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/to-stream/toStream.js
+function toStream(bytes) {
+  return import_node_stream11.Readable.from(Buffer.from(bytes));
+}
+var import_node_stream11;
+var init_toStream = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/to-stream/toStream.js"() {
+    import_node_stream11 = require("node:stream");
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-throw-200-exceptions/throw-200-exceptions.js
+var THROW_IF_EMPTY_BODY, throw200ExceptionsMiddleware, collectBody2, throw200ExceptionsMiddlewareOptions, getThrow200ExceptionsPlugin;
+var init_throw_200_exceptions = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-throw-200-exceptions/throw-200-exceptions.js"() {
+    init_protocols();
+    init_toStream();
+    THROW_IF_EMPTY_BODY = {
+      CopyObjectCommand: true,
+      UploadPartCopyCommand: true,
+      CompleteMultipartUploadCommand: true
+    };
+    throw200ExceptionsMiddleware = (config) => (next, context) => async (args) => {
+      const result = await next(args);
+      const { response } = result;
+      if (!HttpResponse.isInstance(response)) {
+        return result;
+      }
+      const { statusCode, body } = response;
+      if (statusCode < 200 || statusCode >= 300) {
+        return result;
+      }
+      const bodyBytes = await collectBody2(body, config);
+      response.body = toStream(bodyBytes);
+      if (bodyBytes.length === 0 && THROW_IF_EMPTY_BODY[context.commandName]) {
+        const err2 = new Error("S3 aborted request");
+        err2.$metadata = {
+          httpStatusCode: 503
+        };
+        err2.name = "InternalError";
+        throw err2;
+      }
+      const bodyStringTail = config.utf8Encoder(bodyBytes.subarray(bodyBytes.length - 16));
+      if (bodyStringTail && bodyStringTail.endsWith("</Error>")) {
+        response.statusCode = 503;
+      }
+      return result;
+    };
+    collectBody2 = (streamBody = new Uint8Array(), context) => {
+      if (streamBody instanceof Uint8Array) {
+        return Promise.resolve(streamBody);
+      }
+      return context.streamCollector(streamBody) || Promise.resolve(new Uint8Array());
+    };
+    throw200ExceptionsMiddlewareOptions = {
+      relation: "after",
+      toMiddleware: "deserializerMiddleware",
+      tags: ["THROW_200_EXCEPTIONS", "S3"],
+      name: "throw200ExceptionsMiddleware",
+      override: true
+    };
+    getThrow200ExceptionsPlugin = (config) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(throw200ExceptionsMiddleware(config), throw200ExceptionsMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/core/dist-es/submodules/util/util-arn-parser/arn.js
+var validate, parse;
+var init_arn = __esm({
+  "node_modules/@aws-sdk/core/dist-es/submodules/util/util-arn-parser/arn.js"() {
+    validate = (str) => typeof str === "string" && str.indexOf("arn:") === 0 && str.split(":").length >= 6;
+    parse = (arn) => {
+      const segments = arn.split(":");
+      if (segments.length < 6 || segments[0] !== "arn")
+        throw new Error("Malformed ARN");
+      const [, partition2, service, region, accountId, ...resource] = segments;
+      return {
+        partition: partition2,
+        service,
+        region,
+        accountId,
+        resource: resource.join(":")
+      };
+    };
+  }
+});
+
+// node_modules/@aws-sdk/core/dist-es/submodules/util/index.js
+var init_util2 = __esm({
+  "node_modules/@aws-sdk/core/dist-es/submodules/util/index.js"() {
+    init_arn();
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-region-redirect/bucket-endpoint-middleware.js
+function bucketEndpointMiddleware(options) {
+  return (next, context) => async (args) => {
+    if (options.bucketEndpoint) {
+      const endpoint = context.endpointV2;
+      if (endpoint) {
+        const bucket = args.input.Bucket;
+        if (typeof bucket === "string") {
+          try {
+            const bucketEndpointUrl = new URL(bucket);
+            context.endpointV2 = {
+              ...endpoint,
+              url: bucketEndpointUrl
+            };
+          } catch (e5) {
+            const warning2 = `@aws-sdk/middleware-sdk-s3: bucketEndpoint=true was set but Bucket=${bucket} could not be parsed as URL.`;
+            if (context.logger?.constructor?.name === "NoOpLogger") {
+              console.warn(warning2);
+            } else {
+              context.logger?.warn?.(warning2);
+            }
+            throw e5;
+          }
+        }
+      }
+    }
+    return next(args);
+  };
+}
+var bucketEndpointMiddlewareOptions;
+var init_bucket_endpoint_middleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-region-redirect/bucket-endpoint-middleware.js"() {
+    bucketEndpointMiddlewareOptions = {
+      name: "bucketEndpointMiddleware",
+      override: true,
+      relation: "after",
+      toMiddleware: "endpointV2Middleware"
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-validate-bucket-name/validate-bucket-name.js
+function validateBucketNameMiddleware({ bucketEndpoint }) {
+  return (next) => async (args) => {
+    const { input: { Bucket } } = args;
+    if (!bucketEndpoint && typeof Bucket === "string" && !validate(Bucket) && Bucket.indexOf("/") >= 0) {
+      const err2 = new Error(`Bucket name shouldn't contain '/', received '${Bucket}'`);
+      err2.name = "InvalidBucketName";
+      throw err2;
+    }
+    return next({ ...args });
+  };
+}
+var validateBucketNameMiddlewareOptions, getValidateBucketNamePlugin;
+var init_validate_bucket_name = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-validate-bucket-name/validate-bucket-name.js"() {
+    init_util2();
+    init_bucket_endpoint_middleware();
+    validateBucketNameMiddlewareOptions = {
+      step: "initialize",
+      tags: ["VALIDATE_BUCKET_NAME"],
+      name: "validateBucketNameMiddleware",
+      override: true
+    };
+    getValidateBucketNamePlugin = (options) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(validateBucketNameMiddleware(options), validateBucketNameMiddlewareOptions);
+        clientStack.addRelativeTo(bucketEndpointMiddleware(options), bucketEndpointMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/protocol/S3RestXmlProtocol.js
+var S3RestXmlProtocol;
+var init_S3RestXmlProtocol = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/protocol/S3RestXmlProtocol.js"() {
+    init_protocols2();
+    init_schema();
+    S3RestXmlProtocol = class extends AwsRestXmlProtocol {
+      async serializeRequest(operationSchema, input, context) {
+        const request = await super.serializeRequest(operationSchema, input, context);
+        const ns = NormalizedSchema.of(operationSchema.input);
+        const staticStructureSchema = ns.getSchema();
+        let bucketMemberIndex = 0;
+        const requiredMemberCount = staticStructureSchema[6] ?? 0;
+        if (input && typeof input === "object") {
+          for (const [memberName, memberNs] of ns.structIterator()) {
+            if (++bucketMemberIndex > requiredMemberCount) {
+              break;
+            }
+            if (memberName === "Bucket") {
+              if (!input.Bucket && memberNs.getMergedTraits().httpLabel) {
+                throw new Error(`No value provided for input HTTP label: Bucket.`);
+              }
+              break;
+            }
+          }
+        }
+        return request;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/NodeDisableMultiregionAccessPointConfigOptions.js
+var NODE_DISABLE_MULTIREGION_ACCESS_POINT_ENV_NAME, NODE_DISABLE_MULTIREGION_ACCESS_POINT_INI_NAME, NODE_DISABLE_MULTIREGION_ACCESS_POINT_CONFIG_OPTIONS;
+var init_NodeDisableMultiregionAccessPointConfigOptions = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/NodeDisableMultiregionAccessPointConfigOptions.js"() {
+    init_config2();
+    NODE_DISABLE_MULTIREGION_ACCESS_POINT_ENV_NAME = "AWS_S3_DISABLE_MULTIREGION_ACCESS_POINTS";
+    NODE_DISABLE_MULTIREGION_ACCESS_POINT_INI_NAME = "s3_disable_multiregion_access_points";
+    NODE_DISABLE_MULTIREGION_ACCESS_POINT_CONFIG_OPTIONS = {
+      environmentVariableSelector: (env2) => booleanSelector(env2, NODE_DISABLE_MULTIREGION_ACCESS_POINT_ENV_NAME, SelectorType.ENV),
+      configFileSelector: (profile) => booleanSelector(profile, NODE_DISABLE_MULTIREGION_ACCESS_POINT_INI_NAME, SelectorType.CONFIG),
+      default: false
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/NodeUseArnRegionConfigOptions.js
+var NODE_USE_ARN_REGION_ENV_NAME, NODE_USE_ARN_REGION_INI_NAME, NODE_USE_ARN_REGION_CONFIG_OPTIONS;
+var init_NodeUseArnRegionConfigOptions = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/NodeUseArnRegionConfigOptions.js"() {
+    init_config2();
+    NODE_USE_ARN_REGION_ENV_NAME = "AWS_S3_USE_ARN_REGION";
+    NODE_USE_ARN_REGION_INI_NAME = "s3_use_arn_region";
+    NODE_USE_ARN_REGION_CONFIG_OPTIONS = {
+      environmentVariableSelector: (env2) => booleanSelector(env2, NODE_USE_ARN_REGION_ENV_NAME, SelectorType.ENV),
+      configFileSelector: (profile) => booleanSelector(profile, NODE_USE_ARN_REGION_INI_NAME, SelectorType.CONFIG),
+      default: void 0
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/bucketHostnameUtils.js
+var DOMAIN_PATTERN2, IP_ADDRESS_PATTERN2, DOTS_PATTERN2, DOT_PATTERN2, S3_HOSTNAME_PATTERN2, S3_US_EAST_1_ALTNAME_PATTERN, AWS_PARTITION_SUFFIX, isBucketNameOptions, isDnsCompatibleBucketName2, getRegionalSuffix, getSuffix, getSuffixForArnEndpoint, validateArnEndpointOptions, validateService, validateS3Service, validateOutpostService, validatePartition, validateRegion, validateRegionalClient, validateAccountId, validateDNSHostLabel, validateCustomEndpoint, getArnResources, validateNoDualstack, validateNoFIPS, validateMrapAlias;
+var init_bucketHostnameUtils = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/bucketHostnameUtils.js"() {
+    DOMAIN_PATTERN2 = /^[a-z0-9][a-z0-9\.\-]{1,61}[a-z0-9]$/;
+    IP_ADDRESS_PATTERN2 = /(\d+\.){3}\d+/;
+    DOTS_PATTERN2 = /\.\./;
+    DOT_PATTERN2 = /\./;
+    S3_HOSTNAME_PATTERN2 = /^(.+\.)?s3(-fips)?(\.dualstack)?[.-]([a-z0-9-]+)\./;
+    S3_US_EAST_1_ALTNAME_PATTERN = /^s3(-external-1)?\.amazonaws\.com$/;
+    AWS_PARTITION_SUFFIX = "amazonaws.com";
+    isBucketNameOptions = (options) => typeof options.bucketName === "string";
+    isDnsCompatibleBucketName2 = (bucketName) => DOMAIN_PATTERN2.test(bucketName) && !IP_ADDRESS_PATTERN2.test(bucketName) && !DOTS_PATTERN2.test(bucketName);
+    getRegionalSuffix = (hostname) => {
+      const parts = hostname.match(S3_HOSTNAME_PATTERN2);
+      return [parts[4], hostname.replace(new RegExp(`^${parts[0]}`), "")];
+    };
+    getSuffix = (hostname) => S3_US_EAST_1_ALTNAME_PATTERN.test(hostname) ? ["us-east-1", AWS_PARTITION_SUFFIX] : getRegionalSuffix(hostname);
+    getSuffixForArnEndpoint = (hostname) => S3_US_EAST_1_ALTNAME_PATTERN.test(hostname) ? [hostname.replace(`.${AWS_PARTITION_SUFFIX}`, ""), AWS_PARTITION_SUFFIX] : getRegionalSuffix(hostname);
+    validateArnEndpointOptions = (options) => {
+      if (options.pathStyleEndpoint) {
+        throw new Error("Path-style S3 endpoint is not supported when bucket is an ARN");
+      }
+      if (options.accelerateEndpoint) {
+        throw new Error("Accelerate endpoint is not supported when bucket is an ARN");
+      }
+      if (!options.tlsCompatible) {
+        throw new Error("HTTPS is required when bucket is an ARN");
+      }
+    };
+    validateService = (service) => {
+      if (service !== "s3" && service !== "s3-outposts" && service !== "s3-object-lambda") {
+        throw new Error("Expect 's3' or 's3-outposts' or 's3-object-lambda' in ARN service component");
+      }
+    };
+    validateS3Service = (service) => {
+      if (service !== "s3") {
+        throw new Error("Expect 's3' in Accesspoint ARN service component");
+      }
+    };
+    validateOutpostService = (service) => {
+      if (service !== "s3-outposts") {
+        throw new Error("Expect 's3-posts' in Outpost ARN service component");
+      }
+    };
+    validatePartition = (partition2, options) => {
+      if (partition2 !== options.clientPartition) {
+        throw new Error(`Partition in ARN is incompatible, got "${partition2}" but expected "${options.clientPartition}"`);
+      }
+    };
+    validateRegion = (region, options) => {
+    };
+    validateRegionalClient = (region) => {
+      if (["s3-external-1", "aws-global"].includes(region)) {
+        throw new Error(`Client region ${region} is not regional`);
+      }
+    };
+    validateAccountId = (accountId) => {
+      if (!/[0-9]{12}/.exec(accountId)) {
+        throw new Error("Access point ARN accountID does not match regex '[0-9]{12}'");
+      }
+    };
+    validateDNSHostLabel = (label, options = { tlsCompatible: true }) => {
+      if (label.length >= 64 || !/^[a-z0-9][a-z0-9.-]*[a-z0-9]$/.test(label) || /(\d+\.){3}\d+/.test(label) || /[.-]{2}/.test(label) || options?.tlsCompatible && DOT_PATTERN2.test(label)) {
+        throw new Error(`Invalid DNS label ${label}`);
+      }
+    };
+    validateCustomEndpoint = (options) => {
+      if (options.isCustomEndpoint) {
+        if (options.dualstackEndpoint)
+          throw new Error("Dualstack endpoint is not supported with custom endpoint");
+        if (options.accelerateEndpoint)
+          throw new Error("Accelerate endpoint is not supported with custom endpoint");
+      }
+    };
+    getArnResources = (resource) => {
+      const delimiter = resource.includes(":") ? ":" : "/";
+      const [resourceType, ...rest] = resource.split(delimiter);
+      if (resourceType === "accesspoint") {
+        if (rest.length !== 1 || rest[0] === "") {
+          throw new Error(`Access Point ARN should have one resource accesspoint${delimiter}{accesspointname}`);
+        }
+        return { accesspointName: rest[0] };
+      } else if (resourceType === "outpost") {
+        if (!rest[0] || rest[1] !== "accesspoint" || !rest[2] || rest.length !== 3) {
+          throw new Error(`Outpost ARN should have resource outpost${delimiter}{outpostId}${delimiter}accesspoint${delimiter}{accesspointName}`);
+        }
+        const [outpostId, _, accesspointName] = rest;
+        return { outpostId, accesspointName };
+      } else {
+        throw new Error(`ARN resource should begin with 'accesspoint${delimiter}' or 'outpost${delimiter}'`);
+      }
+    };
+    validateNoDualstack = (dualstackEndpoint) => {
+    };
+    validateNoFIPS = (useFipsEndpoint) => {
+      if (useFipsEndpoint)
+        throw new Error(`FIPS region is not supported with Outpost.`);
+    };
+    validateMrapAlias = (name) => {
+      try {
+        name.split(".").forEach((label) => {
+          validateDNSHostLabel(label);
+        });
+      } catch (e5) {
+        throw new Error(`"${name}" is not a DNS compatible name.`);
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/bucketHostname.js
+var bucketHostname, getEndpointFromBucketName, getEndpointFromArn, getEndpointFromObjectLambdaArn, getEndpointFromMRAPArn, getEndpointFromOutpostArn, getEndpointFromAccessPointArn;
+var init_bucketHostname = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/bucketHostname.js"() {
+    init_bucketHostnameUtils();
+    bucketHostname = (options) => {
+      validateCustomEndpoint(options);
+      return isBucketNameOptions(options) ? getEndpointFromBucketName(options) : getEndpointFromArn(options);
+    };
+    getEndpointFromBucketName = ({ accelerateEndpoint = false, clientRegion: region, baseHostname, bucketName, dualstackEndpoint = false, fipsEndpoint = false, pathStyleEndpoint = false, tlsCompatible = true, isCustomEndpoint = false }) => {
+      const [clientRegion, hostnameSuffix] = isCustomEndpoint ? [region, baseHostname] : getSuffix(baseHostname);
+      if (pathStyleEndpoint || !isDnsCompatibleBucketName2(bucketName) || tlsCompatible && DOT_PATTERN2.test(bucketName)) {
+        return {
+          bucketEndpoint: false,
+          hostname: dualstackEndpoint ? `s3.dualstack.${clientRegion}.${hostnameSuffix}` : baseHostname
+        };
+      }
+      if (accelerateEndpoint) {
+        baseHostname = `s3-accelerate${dualstackEndpoint ? ".dualstack" : ""}.${hostnameSuffix}`;
+      } else if (dualstackEndpoint) {
+        baseHostname = `s3.dualstack.${clientRegion}.${hostnameSuffix}`;
+      }
+      return {
+        bucketEndpoint: true,
+        hostname: `${bucketName}.${baseHostname}`
+      };
+    };
+    getEndpointFromArn = (options) => {
+      const { isCustomEndpoint, baseHostname, clientRegion } = options;
+      const hostnameSuffix = isCustomEndpoint ? baseHostname : getSuffixForArnEndpoint(baseHostname)[1];
+      const { pathStyleEndpoint, accelerateEndpoint = false, fipsEndpoint = false, tlsCompatible = true, bucketName, clientPartition = "aws" } = options;
+      validateArnEndpointOptions({ pathStyleEndpoint, accelerateEndpoint, tlsCompatible });
+      const { service, partition: partition2, accountId, region, resource } = bucketName;
+      validateService(service);
+      validatePartition(partition2, { clientPartition });
+      validateAccountId(accountId);
+      const { accesspointName, outpostId } = getArnResources(resource);
+      if (service === "s3-object-lambda") {
+        return getEndpointFromObjectLambdaArn({ ...options, tlsCompatible, bucketName, accesspointName, hostnameSuffix });
+      }
+      if (region === "") {
+        return getEndpointFromMRAPArn({ ...options, clientRegion, mrapAlias: accesspointName, hostnameSuffix });
+      }
+      if (outpostId) {
+        return getEndpointFromOutpostArn({ ...options, clientRegion, outpostId, accesspointName, hostnameSuffix });
+      }
+      return getEndpointFromAccessPointArn({ ...options, clientRegion, accesspointName, hostnameSuffix });
+    };
+    getEndpointFromObjectLambdaArn = ({ dualstackEndpoint = false, fipsEndpoint = false, tlsCompatible = true, useArnRegion, clientRegion, clientSigningRegion = clientRegion, accesspointName, bucketName, hostnameSuffix }) => {
+      const { accountId, region, service } = bucketName;
+      validateRegionalClient(clientRegion);
+      const DNSHostLabel = `${accesspointName}-${accountId}`;
+      validateDNSHostLabel(DNSHostLabel, { tlsCompatible });
+      const endpointRegion = useArnRegion ? region : clientRegion;
+      const signingRegion = useArnRegion ? region : clientSigningRegion;
+      return {
+        bucketEndpoint: true,
+        hostname: `${DNSHostLabel}.${service}${fipsEndpoint ? "-fips" : ""}.${endpointRegion}.${hostnameSuffix}`,
+        signingRegion,
+        signingService: service
+      };
+    };
+    getEndpointFromMRAPArn = ({ disableMultiregionAccessPoints, dualstackEndpoint = false, isCustomEndpoint, mrapAlias, hostnameSuffix }) => {
+      if (disableMultiregionAccessPoints === true) {
+        throw new Error("SDK is attempting to use a MRAP ARN. Please enable to feature.");
+      }
+      validateMrapAlias(mrapAlias);
+      return {
+        bucketEndpoint: true,
+        hostname: `${mrapAlias}${isCustomEndpoint ? "" : `.accesspoint.s3-global`}.${hostnameSuffix}`,
+        signingRegion: "*"
+      };
+    };
+    getEndpointFromOutpostArn = ({ useArnRegion, clientRegion, clientSigningRegion = clientRegion, bucketName, outpostId, dualstackEndpoint = false, fipsEndpoint = false, tlsCompatible = true, accesspointName, isCustomEndpoint, hostnameSuffix }) => {
+      validateRegionalClient(clientRegion);
+      const DNSHostLabel = `${accesspointName}-${bucketName.accountId}`;
+      validateDNSHostLabel(DNSHostLabel, { tlsCompatible });
+      const endpointRegion = useArnRegion ? bucketName.region : clientRegion;
+      const signingRegion = useArnRegion ? bucketName.region : clientSigningRegion;
+      validateOutpostService(bucketName.service);
+      validateDNSHostLabel(outpostId, { tlsCompatible });
+      validateNoFIPS(fipsEndpoint);
+      const hostnamePrefix = `${DNSHostLabel}.${outpostId}`;
+      return {
+        bucketEndpoint: true,
+        hostname: `${hostnamePrefix}${isCustomEndpoint ? "" : `.s3-outposts.${endpointRegion}`}.${hostnameSuffix}`,
+        signingRegion,
+        signingService: "s3-outposts"
+      };
+    };
+    getEndpointFromAccessPointArn = ({ useArnRegion, clientRegion, clientSigningRegion = clientRegion, bucketName, dualstackEndpoint = false, fipsEndpoint = false, tlsCompatible = true, accesspointName, isCustomEndpoint, hostnameSuffix }) => {
+      validateRegionalClient(clientRegion);
+      const hostnamePrefix = `${accesspointName}-${bucketName.accountId}`;
+      validateDNSHostLabel(hostnamePrefix, { tlsCompatible });
+      const endpointRegion = useArnRegion ? bucketName.region : clientRegion;
+      const signingRegion = useArnRegion ? bucketName.region : clientSigningRegion;
+      validateS3Service(bucketName.service);
+      return {
+        bucketEndpoint: true,
+        hostname: `${hostnamePrefix}${isCustomEndpoint ? "" : `.s3-accesspoint${fipsEndpoint ? "-fips" : ""}${dualstackEndpoint ? ".dualstack" : ""}.${endpointRegion}`}.${hostnameSuffix}`,
+        signingRegion
+      };
+    };
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/bucketEndpointMiddleware.js
+var bucketEndpointMiddleware2, bucketEndpointMiddlewareOptions2, getBucketEndpointPlugin;
+var init_bucketEndpointMiddleware = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/bucketEndpointMiddleware.js"() {
+    init_util2();
+    init_protocols();
+    init_bucketHostname();
+    bucketEndpointMiddleware2 = (options) => (next, context) => async (args) => {
+      const { Bucket: bucketName } = args.input;
+      let replaceBucketInPath = options.bucketEndpoint;
+      const request = args.request;
+      if (HttpRequest.isInstance(request)) {
+        if (options.bucketEndpoint) {
+          request.hostname = bucketName;
+        } else if (validate(bucketName)) {
+          const bucketArn = parse(bucketName);
+          const clientRegion = await options.region();
+          const useDualstackEndpoint = await options.useDualstackEndpoint();
+          const useFipsEndpoint = await options.useFipsEndpoint();
+          const { partition: partition2, signingRegion = clientRegion } = await options.regionInfoProvider(clientRegion, { useDualstackEndpoint, useFipsEndpoint }) || {};
+          const useArnRegion = await options.useArnRegion();
+          const { hostname, bucketEndpoint, signingRegion: modifiedSigningRegion, signingService } = bucketHostname({
+            bucketName: bucketArn,
+            baseHostname: request.hostname,
+            accelerateEndpoint: options.useAccelerateEndpoint,
+            dualstackEndpoint: useDualstackEndpoint,
+            fipsEndpoint: useFipsEndpoint,
+            pathStyleEndpoint: options.forcePathStyle,
+            tlsCompatible: request.protocol === "https:",
+            useArnRegion,
+            clientPartition: partition2,
+            clientSigningRegion: signingRegion,
+            clientRegion,
+            isCustomEndpoint: options.isCustomEndpoint,
+            disableMultiregionAccessPoints: await options.disableMultiregionAccessPoints()
+          });
+          if (modifiedSigningRegion && modifiedSigningRegion !== signingRegion) {
+            context["signing_region"] = modifiedSigningRegion;
+          }
+          if (signingService && signingService !== "s3") {
+            context["signing_service"] = signingService;
+          }
+          request.hostname = hostname;
+          replaceBucketInPath = bucketEndpoint;
+        } else {
+          const clientRegion = await options.region();
+          const dualstackEndpoint = await options.useDualstackEndpoint();
+          const fipsEndpoint = await options.useFipsEndpoint();
+          const { hostname, bucketEndpoint } = bucketHostname({
+            bucketName,
+            clientRegion,
+            baseHostname: request.hostname,
+            accelerateEndpoint: options.useAccelerateEndpoint,
+            dualstackEndpoint,
+            fipsEndpoint,
+            pathStyleEndpoint: options.forcePathStyle,
+            tlsCompatible: request.protocol === "https:",
+            isCustomEndpoint: options.isCustomEndpoint
+          });
+          request.hostname = hostname;
+          replaceBucketInPath = bucketEndpoint;
+        }
+        if (replaceBucketInPath) {
+          request.path = request.path.replace(/^(\/)?[^\/]+/, "");
+          if (request.path === "") {
+            request.path = "/";
+          }
+        }
+      }
+      return next({ ...args, request });
+    };
+    bucketEndpointMiddlewareOptions2 = {
+      tags: ["BUCKET_ENDPOINT"],
+      name: "bucketEndpointMiddleware",
+      relation: "before",
+      toMiddleware: "hostHeaderMiddleware",
+      override: true
+    };
+    getBucketEndpointPlugin = (options) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(bucketEndpointMiddleware2(options), bucketEndpointMiddlewareOptions2);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/configurations.js
+function resolveBucketEndpointConfig(input) {
+  const { bucketEndpoint = false, forcePathStyle = false, useAccelerateEndpoint = false, useArnRegion, disableMultiregionAccessPoints = false } = input;
+  return Object.assign(input, {
+    bucketEndpoint,
+    forcePathStyle,
+    useAccelerateEndpoint,
+    useArnRegion: typeof useArnRegion === "function" ? useArnRegion : () => Promise.resolve(useArnRegion),
+    disableMultiregionAccessPoints: typeof disableMultiregionAccessPoints === "function" ? disableMultiregionAccessPoints : () => Promise.resolve(disableMultiregionAccessPoints)
+  });
+}
+var init_configurations3 = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-bucket-endpoint/configurations.js"() {
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-expect-continue/middleware-expect-continue.js
+function addExpectContinueMiddleware(options) {
+  return (next) => async (args) => {
+    const { request } = args;
+    if (options.expectContinueHeader !== false && HttpRequest.isInstance(request) && request.body && options.runtime === "node" && options.requestHandler?.constructor?.name !== "FetchHttpHandler") {
+      let sendHeader = true;
+      if (typeof options.expectContinueHeader === "number") {
+        try {
+          const bodyLength = Number(request.headers?.["content-length"]) ?? options.bodyLengthChecker?.(request.body) ?? Infinity;
+          sendHeader = bodyLength >= options.expectContinueHeader;
+        } catch (e5) {
+        }
+      } else {
+        sendHeader = !!options.expectContinueHeader;
+      }
+      if (sendHeader) {
+        request.headers.Expect = "100-continue";
+      }
+    }
+    return next({
+      ...args,
+      request
+    });
+  };
+}
+var addExpectContinueMiddlewareOptions, getAddExpectContinuePlugin;
+var init_middleware_expect_continue = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-expect-continue/middleware-expect-continue.js"() {
+    init_protocols();
+    addExpectContinueMiddlewareOptions = {
+      step: "build",
+      tags: ["SET_EXPECT_HEADER", "EXPECT_HEADER"],
+      name: "addExpectContinueMiddleware",
+      override: true
+    };
+    getAddExpectContinuePlugin = (options) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(addExpectContinueMiddleware(options), addExpectContinueMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-location-constraint/middleware-location-constraint.js
+function locationConstraintMiddleware(options) {
+  return (next) => async (args) => {
+    const { CreateBucketConfiguration } = args.input;
+    const region = await options.region();
+    if (!CreateBucketConfiguration?.LocationConstraint && !CreateBucketConfiguration?.Location) {
+      if (region !== "us-east-1") {
+        args.input.CreateBucketConfiguration = args.input.CreateBucketConfiguration ?? {};
+        args.input.CreateBucketConfiguration.LocationConstraint = region;
+      }
+    }
+    return next(args);
+  };
+}
+var locationConstraintMiddlewareOptions, getLocationConstraintPlugin;
+var init_middleware_location_constraint = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-location-constraint/middleware-location-constraint.js"() {
+    locationConstraintMiddlewareOptions = {
+      step: "initialize",
+      tags: ["LOCATION_CONSTRAINT", "CREATE_BUCKET_CONFIGURATION"],
+      name: "locationConstraintMiddleware",
+      override: true
+    };
+    getLocationConstraintPlugin = (config) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(locationConstraintMiddleware(config), locationConstraintMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-location-constraint/configuration.js
+function resolveLocationConstraintConfig(input) {
+  return input;
+}
+var init_configuration2 = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-location-constraint/configuration.js"() {
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-ssec/middleware-ssec.js
+function ssecMiddleware(options) {
+  return (next) => async (args) => {
+    const input = { ...args.input };
+    const properties = [
+      {
+        target: "SSECustomerKey",
+        hash: "SSECustomerKeyMD5"
+      },
+      {
+        target: "CopySourceSSECustomerKey",
+        hash: "CopySourceSSECustomerKeyMD5"
+      }
+    ];
+    for (const prop of properties) {
+      const value = input[prop.target];
+      if (value) {
+        let valueForHash;
+        if (typeof value === "string") {
+          if (isValidBase64EncodedSSECustomerKey(value, options)) {
+            valueForHash = options.base64Decoder(value);
+          } else {
+            valueForHash = options.utf8Decoder(value);
+            input[prop.target] = options.base64Encoder(valueForHash);
+          }
+        } else {
+          valueForHash = ArrayBuffer.isView(value) ? new Uint8Array(value.buffer, value.byteOffset, value.byteLength) : new Uint8Array(value);
+          input[prop.target] = options.base64Encoder(valueForHash);
+        }
+        const hash = new options.md5();
+        hash.update(valueForHash);
+        input[prop.hash] = options.base64Encoder(await hash.digest());
+      }
+    }
+    return next({
+      ...args,
+      input
+    });
+  };
+}
+function isValidBase64EncodedSSECustomerKey(str, options) {
+  const base64Regex = /^(?:[A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+  if (!base64Regex.test(str))
+    return false;
+  try {
+    const decodedBytes = options.base64Decoder(str);
+    return decodedBytes.length === 32;
+  } catch {
+    return false;
+  }
+}
+var ssecMiddlewareOptions, getSsecPlugin;
+var init_middleware_ssec = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/middleware-ssec/middleware-ssec.js"() {
+    ssecMiddlewareOptions = {
+      name: "ssecMiddleware",
+      step: "initialize",
+      tags: ["SSE"],
+      override: true
+    };
+    getSsecPlugin = (config) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(ssecMiddleware(config), ssecMiddlewareOptions);
+      }
+    });
+  }
+});
+
+// node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/index.js
+var s3_exports = {};
+__export(s3_exports, {
+  NODE_DISABLE_MULTIREGION_ACCESS_POINT_CONFIG_OPTIONS: () => NODE_DISABLE_MULTIREGION_ACCESS_POINT_CONFIG_OPTIONS,
+  NODE_DISABLE_MULTIREGION_ACCESS_POINT_ENV_NAME: () => NODE_DISABLE_MULTIREGION_ACCESS_POINT_ENV_NAME,
+  NODE_DISABLE_MULTIREGION_ACCESS_POINT_INI_NAME: () => NODE_DISABLE_MULTIREGION_ACCESS_POINT_INI_NAME,
+  NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS: () => NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS,
+  NODE_USE_ARN_REGION_CONFIG_OPTIONS: () => NODE_USE_ARN_REGION_CONFIG_OPTIONS,
+  NODE_USE_ARN_REGION_ENV_NAME: () => NODE_USE_ARN_REGION_ENV_NAME,
+  NODE_USE_ARN_REGION_INI_NAME: () => NODE_USE_ARN_REGION_INI_NAME,
+  S3ExpressIdentityCache: () => S3ExpressIdentityCache,
+  S3ExpressIdentityCacheEntry: () => S3ExpressIdentityCacheEntry,
+  S3ExpressIdentityProviderImpl: () => S3ExpressIdentityProviderImpl,
+  S3RestXmlProtocol: () => S3RestXmlProtocol,
+  SignatureV4S3Express: () => SignatureV4S3Express,
+  addExpectContinueMiddleware: () => addExpectContinueMiddleware,
+  addExpectContinueMiddlewareOptions: () => addExpectContinueMiddlewareOptions,
+  bucketEndpointMiddleware: () => bucketEndpointMiddleware2,
+  bucketEndpointMiddlewareOptions: () => bucketEndpointMiddlewareOptions2,
+  bucketHostname: () => bucketHostname,
+  checkContentLengthHeader: () => checkContentLengthHeader,
+  checkContentLengthHeaderMiddlewareOptions: () => checkContentLengthHeaderMiddlewareOptions,
+  getAddExpectContinuePlugin: () => getAddExpectContinuePlugin,
+  getArnResources: () => getArnResources,
+  getBucketEndpointPlugin: () => getBucketEndpointPlugin,
+  getCheckContentLengthHeaderPlugin: () => getCheckContentLengthHeaderPlugin,
+  getLocationConstraintPlugin: () => getLocationConstraintPlugin,
+  getRegionRedirectMiddlewarePlugin: () => getRegionRedirectMiddlewarePlugin,
+  getS3ExpiresMiddlewarePlugin: () => getS3ExpiresMiddlewarePlugin,
+  getS3ExpressHttpSigningPlugin: () => getS3ExpressHttpSigningPlugin,
+  getS3ExpressPlugin: () => getS3ExpressPlugin,
+  getSsecPlugin: () => getSsecPlugin,
+  getSuffixForArnEndpoint: () => getSuffixForArnEndpoint,
+  getThrow200ExceptionsPlugin: () => getThrow200ExceptionsPlugin,
+  getValidateBucketNamePlugin: () => getValidateBucketNamePlugin,
+  isValidBase64EncodedSSECustomerKey: () => isValidBase64EncodedSSECustomerKey,
+  locationConstraintMiddleware: () => locationConstraintMiddleware,
+  locationConstraintMiddlewareOptions: () => locationConstraintMiddlewareOptions,
+  regionRedirectEndpointMiddleware: () => regionRedirectEndpointMiddleware,
+  regionRedirectEndpointMiddlewareOptions: () => regionRedirectEndpointMiddlewareOptions,
+  regionRedirectMiddleware: () => regionRedirectMiddleware,
+  regionRedirectMiddlewareOptions: () => regionRedirectMiddlewareOptions,
+  resolveBucketEndpointConfig: () => resolveBucketEndpointConfig,
+  resolveLocationConstraintConfig: () => resolveLocationConstraintConfig,
+  resolveS3Config: () => resolveS3Config,
+  s3ExpiresMiddleware: () => s3ExpiresMiddleware,
+  s3ExpiresMiddlewareOptions: () => s3ExpiresMiddlewareOptions,
+  s3ExpressHttpSigningMiddleware: () => s3ExpressHttpSigningMiddleware,
+  s3ExpressHttpSigningMiddlewareOptions: () => s3ExpressHttpSigningMiddlewareOptions,
+  s3ExpressMiddleware: () => s3ExpressMiddleware,
+  s3ExpressMiddlewareOptions: () => s3ExpressMiddlewareOptions,
+  ssecMiddleware: () => ssecMiddleware,
+  ssecMiddlewareOptions: () => ssecMiddlewareOptions,
+  throw200ExceptionsMiddleware: () => throw200ExceptionsMiddleware,
+  throw200ExceptionsMiddlewareOptions: () => throw200ExceptionsMiddlewareOptions,
+  validateAccountId: () => validateAccountId,
+  validateBucketNameMiddleware: () => validateBucketNameMiddleware,
+  validateBucketNameMiddlewareOptions: () => validateBucketNameMiddlewareOptions,
+  validateDNSHostLabel: () => validateDNSHostLabel,
+  validateNoDualstack: () => validateNoDualstack,
+  validateNoFIPS: () => validateNoFIPS,
+  validateOutpostService: () => validateOutpostService,
+  validatePartition: () => validatePartition,
+  validateRegion: () => validateRegion
+});
+var init_s32 = __esm({
+  "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/submodules/s3/index.js"() {
+    init_check_content_length_header();
+    init_region_redirect_endpoint_middleware();
+    init_region_redirect_middleware();
+    init_s3Configuration();
+    init_s3_expires_middleware();
+    init_S3ExpressIdentityCache();
+    init_S3ExpressIdentityCacheEntry();
+    init_S3ExpressIdentityProviderImpl();
+    init_SignatureV4S3Express();
+    init_constants8();
+    init_s3ExpressMiddleware();
+    init_s3ExpressHttpSigningMiddleware();
+    init_throw_200_exceptions();
+    init_validate_bucket_name();
+    init_S3RestXmlProtocol();
+    init_NodeDisableMultiregionAccessPointConfigOptions();
+    init_NodeUseArnRegionConfigOptions();
+    init_bucketEndpointMiddleware();
+    init_bucketHostname();
+    init_configurations3();
+    init_bucketHostnameUtils();
+    init_middleware_expect_continue();
+    init_middleware_location_constraint();
+    init_configuration2();
+    init_middleware_ssec();
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/sha/sha1/Sha1Js.js
+var BLOCK2, DIGEST_LENGTH2, INIT3, K2, Sha1Js;
+var init_Sha1Js = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/sha/sha1/Sha1Js.js"() {
+    init_serde();
+    BLOCK2 = 64;
+    DIGEST_LENGTH2 = 20;
+    INIT3 = new Int32Array([1732584193, 4023233417, 2562383102, 271733878, 3285377520]);
+    K2 = new Int32Array([1518500249, 1859775393, 2400959708, 3395469782]);
+    Sha1Js = class _Sha1Js {
+      digestLength = DIGEST_LENGTH2;
+      state = Int32Array.from(INIT3);
+      w;
+      buffer = new Uint8Array(BLOCK2);
+      bufferLength = 0;
+      bytesHashed = 0;
+      finished = false;
+      inner;
+      outer;
+      constructor(secret) {
+        if (secret) {
+          const key = _Sha1Js.normalizeKey(secret);
+          this.inner = new _Sha1Js();
+          this.outer = new _Sha1Js();
+          const pad = new Uint8Array(BLOCK2 * 2);
+          for (let i5 = 0; i5 < BLOCK2; ++i5) {
+            pad[i5] = 54 ^ key[i5];
+            pad[i5 + BLOCK2] = 92 ^ key[i5];
+          }
+          this.inner.update(pad.subarray(0, BLOCK2));
+          this.outer.update(pad.subarray(BLOCK2));
+        }
+      }
+      update(data) {
+        if (this.finished) {
+          throw new Error("Attempted to update an already finished HMAC.");
+        }
+        if (this.inner) {
+          this.inner.update(data);
+          return;
+        }
+        let pos2 = 0;
+        let { length } = data;
+        this.bytesHashed += length;
+        if (this.bufferLength > 0) {
+          while (length > 0 && this.bufferLength < BLOCK2) {
+            this.buffer[this.bufferLength++] = data[pos2++];
+            --length;
+          }
+          if (this.bufferLength === BLOCK2) {
+            this.hashBuffer(this.buffer, 0);
+            this.bufferLength = 0;
+          }
+        }
+        while (length >= BLOCK2) {
+          this.hashBuffer(data, pos2);
+          pos2 += BLOCK2;
+          length -= BLOCK2;
+        }
+        while (length > 0) {
+          this.buffer[this.bufferLength++] = data[pos2++];
+          --length;
+        }
+      }
+      async digest() {
+        if (this.inner && this.outer) {
+          if (this.finished) {
+            throw new Error("Attempted to digest an already finished HMAC.");
+          }
+          this.finished = true;
+          const innerDigest = this.inner.digestSync();
+          this.outer.update(innerDigest);
+          return this.outer.digestSync();
+        }
+        return this.digestSync();
+      }
+      reset() {
+        this.state = Int32Array.from(INIT3);
+        this.buffer = new Uint8Array(BLOCK2);
+        this.bufferLength = 0;
+        this.bytesHashed = 0;
+      }
+      digestSync() {
+        const state2 = this.state.slice();
+        const buffer = this.buffer.slice();
+        let bufferLength = this.bufferLength;
+        const bitsHi = this.bytesHashed / 536870912 | 0;
+        const bitsLo = this.bytesHashed << 3;
+        buffer[bufferLength++] = 128;
+        if (bufferLength > BLOCK2 - 8) {
+          for (let i5 = bufferLength; i5 < BLOCK2; ++i5) {
+            buffer[i5] = 0;
+          }
+          this.hashBufferWith(state2, buffer, 0);
+          bufferLength = 0;
+        }
+        for (let i5 = bufferLength; i5 < BLOCK2 - 8; ++i5) {
+          buffer[i5] = 0;
+        }
+        const v = new DataView(buffer.buffer, buffer.byteOffset, BLOCK2);
+        v.setUint32(BLOCK2 - 8, bitsHi, false);
+        v.setUint32(BLOCK2 - 4, bitsLo, false);
+        this.hashBufferWith(state2, buffer, 0);
+        const out = new Uint8Array(DIGEST_LENGTH2);
+        out[0] = state2[0] >>> 24 & 255;
+        out[1] = state2[0] >>> 16 & 255;
+        out[2] = state2[0] >>> 8 & 255;
+        out[3] = state2[0] & 255;
+        out[4] = state2[1] >>> 24 & 255;
+        out[5] = state2[1] >>> 16 & 255;
+        out[6] = state2[1] >>> 8 & 255;
+        out[7] = state2[1] & 255;
+        out[8] = state2[2] >>> 24 & 255;
+        out[9] = state2[2] >>> 16 & 255;
+        out[10] = state2[2] >>> 8 & 255;
+        out[11] = state2[2] & 255;
+        out[12] = state2[3] >>> 24 & 255;
+        out[13] = state2[3] >>> 16 & 255;
+        out[14] = state2[3] >>> 8 & 255;
+        out[15] = state2[3] & 255;
+        out[16] = state2[4] >>> 24 & 255;
+        out[17] = state2[4] >>> 16 & 255;
+        out[18] = state2[4] >>> 8 & 255;
+        out[19] = state2[4] & 255;
+        return out;
+      }
+      static normalizeKey(secret) {
+        const key = toUint8Array(secret);
+        if (key.byteLength > BLOCK2) {
+          const h5 = new _Sha1Js();
+          h5.update(key);
+          const digest3 = h5.digestSync();
+          const padded2 = new Uint8Array(BLOCK2);
+          padded2.set(digest3);
+          return padded2;
+        }
+        const padded = new Uint8Array(BLOCK2);
+        padded.set(key);
+        return padded;
+      }
+      hashBuffer(data, offset) {
+        this.hashBufferWith(this.state, data, offset);
+      }
+      hashBufferWith(state2, data, offset) {
+        const w = this.w ??= new Int32Array(80);
+        let s0 = state2[0], s1 = state2[1], s2 = state2[2], s32 = state2[3], s4 = state2[4];
+        for (let t = 0; t < 16; ++t) {
+          w[t] = (data[offset + t * 4] & 255) << 24 | (data[offset + t * 4 + 1] & 255) << 16 | (data[offset + t * 4 + 2] & 255) << 8 | data[offset + t * 4 + 3] & 255;
+        }
+        for (let t = 16; t < 80; ++t) {
+          const x = w[t - 3] ^ w[t - 8] ^ w[t - 14] ^ w[t - 16];
+          w[t] = x << 1 | x >>> 31;
+        }
+        for (let t = 0; t < 80; ++t) {
+          const r5 = t < 20 ? 0 : t < 40 ? 1 : t < 60 ? 2 : 3;
+          const temp = ((s0 << 5 | s0 >>> 27) + (r5 === 0 ? s1 & s2 ^ ~s1 & s32 : r5 === 2 ? s1 & s2 ^ s1 & s32 ^ s2 & s32 : s1 ^ s2 ^ s32) | 0) + (s4 + (K2[r5] + w[t] | 0) | 0) | 0;
+          s4 = s32;
+          s32 = s2;
+          s2 = s1 << 30 | s1 >>> 2;
+          s1 = s0;
+          s0 = temp;
+        }
+        state2[0] = state2[0] + s0 | 0;
+        state2[1] = state2[1] + s1 | 0;
+        state2[2] = state2[2] + s2 | 0;
+        state2[3] = state2[3] + s32 | 0;
+        state2[4] = state2[4] + s4 | 0;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/sha/sha1/Sha1Node.js
+function buildNativeClass4() {
+  return class Sha1Node {
+    digestLength = 20;
+    secret;
+    hash;
+    isHmac;
+    finished = false;
+    constructor(secret) {
+      this.secret = secret;
+      this.isHmac = !!secret;
+      this.hash = this.createHash();
+    }
+    update(data) {
+      if (this.finished) {
+        throw new Error("Attempted to update an already finished hash.");
+      }
+      this.hash.update(data);
+    }
+    async digest() {
+      let buf2;
+      if (this.isHmac) {
+        this.finished = true;
+        buf2 = this.hash.digest();
+      } else {
+        buf2 = this.hash.copy().digest();
+      }
+      return new Uint8Array(buf2.buffer, buf2.byteOffset, buf2.byteLength);
+    }
+    reset() {
+      this.hash = this.createHash();
+      this.finished = false;
+    }
+    createHash() {
+      return this.secret ? (0, import_node_crypto6.createHmac)("sha1", toBuffer2(this.secret)) : (0, import_node_crypto6.createHash)("sha1");
+    }
+  };
+}
+function toBuffer2(data) {
+  if (typeof data === "string") {
+    return data;
+  }
+  if (ArrayBuffer.isView(data)) {
+    return Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+  }
+  return Buffer.from(data);
+}
+var import_node_crypto6, hasNativeCrypto3, Sha1Node;
+var init_Sha1Node = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/sha/sha1/Sha1Node.js"() {
+    import_node_crypto6 = require("node:crypto");
+    init_Sha1Js();
+    hasNativeCrypto3 = (() => {
+      try {
+        (0, import_node_crypto6.createHash)("sha1");
+        return true;
+      } catch {
+        return false;
+      }
+    })();
+    Sha1Node = hasNativeCrypto3 ? buildNativeClass4() : Sha1Js;
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/sha/sha1/Sha1WebCrypto.js
+var digest2, sign2, importKey2, subtle2, MAX_PENDING_BYTES2, Sha1WebCrypto;
+var init_Sha1WebCrypto = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/sha/sha1/Sha1WebCrypto.js"() {
+    init_serde();
+    init_Sha1Js();
+    ({ digest: digest2, sign: sign2, importKey: importKey2 } = globalThis?.crypto?.subtle ?? {});
+    subtle2 = typeof digest2 === "function" && typeof sign2 === "function" && typeof importKey2 === "function" ? globalThis.crypto.subtle : void 0;
+    MAX_PENDING_BYTES2 = 8 * 1024 * 1024;
+    Sha1WebCrypto = class {
+      digestLength = 20;
+      secret;
+      pending = [];
+      pendingBytes = 0;
+      fallback;
+      finished = false;
+      constructor(secret) {
+        if (secret) {
+          this.secret = toUint8Array(secret);
+        }
+      }
+      update(data) {
+        if (this.finished) {
+          throw new Error("Attempted to update an already finished HMAC.");
+        }
+        if (this.fallback) {
+          this.fallback.update(data);
+          return;
+        }
+        this.pending.push(data.slice());
+        this.pendingBytes += data.byteLength;
+        if (this.pendingBytes >= MAX_PENDING_BYTES2) {
+          this.switchToFallback();
+        }
+      }
+      async digest() {
+        if (this.fallback) {
+          return this.fallback.digest();
+        }
+        if (this.secret && this.finished) {
+          throw new Error("Attempted to digest an already finished HMAC.");
+        }
+        const data = concatBytes(this.pending);
+        if (subtle2) {
+          if (this.secret) {
+            this.finished = true;
+            const key = await subtle2.importKey("raw", this.secret, { name: "HMAC", hash: "SHA-1" }, false, ["sign"]);
+            const sig = await subtle2.sign("HMAC", key, data);
+            return new Uint8Array(sig);
+          }
+          const hash = await subtle2.digest("SHA-1", data);
+          return new Uint8Array(hash);
+        }
+        const sha1 = new Sha1Js(this.secret);
+        sha1.update(data);
+        return sha1.digest();
+      }
+      reset() {
+        this.pending = [];
+        this.pendingBytes = 0;
+        this.fallback = void 0;
+        this.finished = false;
+      }
+      switchToFallback() {
+        const sha1Js = new Sha1Js(this.secret);
+        for (const chunk of this.pending) {
+          sha1Js.update(chunk);
+        }
+        this.fallback = sha1Js;
+        this.pending = [];
+        this.pendingBytes = 0;
+      }
+    };
+  }
+});
+
+// node_modules/@aws-sdk/checksums/dist-es/submodules/sha/index.js
+var sha_exports = {};
+__export(sha_exports, {
+  Sha1: () => Sha1Node,
+  Sha1Js: () => Sha1Js,
+  Sha1Node: () => Sha1Node,
+  Sha1WebCrypto: () => Sha1WebCrypto,
+  Sha256: () => Sha256Node,
+  Sha256Js: () => Sha256Js,
+  Sha256Node: () => Sha256Node
+});
+var init_sha = __esm({
+  "node_modules/@aws-sdk/checksums/dist-es/submodules/sha/index.js"() {
+    init_Sha1Js();
+    init_Sha1Node();
+    init_Sha1WebCrypto();
+    init_checksum2();
+  }
+});
+
+// node_modules/@aws-sdk/client-s3/dist-cjs/index.js
 var require_dist_cjs22 = __commonJS({
+  "node_modules/@aws-sdk/client-s3/dist-cjs/index.js"(exports2) {
+    var { getFlexibleChecksumsPlugin: getFlexibleChecksumsPlugin2, NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS: NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS2, NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS: NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS2, resolveFlexibleChecksumsConfig: resolveFlexibleChecksumsConfig2 } = (init_flexible_checksums(), __toCommonJS(flexible_checksums_exports));
+    var { awsEndpointFunctions: awsEndpointFunctions2, emitWarningIfUnsupportedVersion: emitWarningIfUnsupportedVersion$1, createDefaultUserAgentProvider: createDefaultUserAgentProvider2, NODE_APP_ID_CONFIG_OPTIONS: NODE_APP_ID_CONFIG_OPTIONS2, getAwsRegionExtensionConfiguration: getAwsRegionExtensionConfiguration2, resolveAwsRegionExtensionConfiguration: resolveAwsRegionExtensionConfiguration2, resolveUserAgentConfig: resolveUserAgentConfig2, resolveHostHeaderConfig: resolveHostHeaderConfig2, getUserAgentPlugin: getUserAgentPlugin2, getHostHeaderPlugin: getHostHeaderPlugin2, getLoggerPlugin: getLoggerPlugin2, getRecursionDetectionPlugin: getRecursionDetectionPlugin2 } = (init_client3(), __toCommonJS(client_exports2));
+    var { getThrow200ExceptionsPlugin: getThrow200ExceptionsPlugin2, getSsecPlugin: getSsecPlugin2, getLocationConstraintPlugin: getLocationConstraintPlugin2, getS3ExpiresMiddlewarePlugin: getS3ExpiresMiddlewarePlugin2, getCheckContentLengthHeaderPlugin: getCheckContentLengthHeaderPlugin2, S3RestXmlProtocol: S3RestXmlProtocol2, NODE_USE_ARN_REGION_CONFIG_OPTIONS: NODE_USE_ARN_REGION_CONFIG_OPTIONS2, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS: NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS2, resolveS3Config: resolveS3Config2, getValidateBucketNamePlugin: getValidateBucketNamePlugin2, getAddExpectContinuePlugin: getAddExpectContinuePlugin2, getRegionRedirectMiddlewarePlugin: getRegionRedirectMiddlewarePlugin2, getS3ExpressPlugin: getS3ExpressPlugin2, getS3ExpressHttpSigningPlugin: getS3ExpressHttpSigningPlugin2 } = (init_s32(), __toCommonJS(s3_exports));
+    var { getHttpAuthSchemeEndpointRuleSetPlugin: getHttpAuthSchemeEndpointRuleSetPlugin2, DefaultIdentityProviderConfig: DefaultIdentityProviderConfig2, getHttpSigningPlugin: getHttpSigningPlugin2, createPaginator: createPaginator2 } = (init_dist_es(), __toCommonJS(dist_es_exports));
+    var { normalizeProvider: normalizeProvider3, getSmithyContext: getSmithyContext2, makeBuilder: makeBuilder2, ServiceException: ServiceException2, NoOpLogger: NoOpLogger2, emitWarningIfUnsupportedVersion: emitWarningIfUnsupportedVersion3, loadConfigsForDefaultMode: loadConfigsForDefaultMode2, getDefaultExtensionConfiguration: getDefaultExtensionConfiguration2, resolveDefaultRuntimeConfig: resolveDefaultRuntimeConfig2, Client: Client2, createWaiter: createWaiter2, checkExceptions: checkExceptions2, WaiterState: WaiterState2, createAggregatedClient: createAggregatedClient2 } = (init_client2(), __toCommonJS(client_exports));
+    var { Command: $Command } = (init_client2(), __toCommonJS(client_exports));
+    exports2.$Command = $Command;
+    exports2.__Client = Client2;
+    var { resolveDefaultsModeConfig: resolveDefaultsModeConfig2, loadConfig: loadConfig2, NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS: NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS2, NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS: NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS2, NODE_REGION_CONFIG_OPTIONS: NODE_REGION_CONFIG_OPTIONS2, NODE_REGION_CONFIG_FILE_OPTIONS: NODE_REGION_CONFIG_FILE_OPTIONS2, resolveRegionConfig: resolveRegionConfig2 } = (init_config2(), __toCommonJS(config_exports));
+    var { BinaryDecisionDiagram: BinaryDecisionDiagram2, EndpointCache: EndpointCache2, decideEndpoint: decideEndpoint2, customEndpointFunctions: customEndpointFunctions2, resolveParams: resolveParams2, getEndpointPlugin: getEndpointPlugin2, resolveEndpointConfig: resolveEndpointConfig2 } = (init_endpoints(), __toCommonJS(endpoints_exports));
+    var { eventStreamSerdeProvider: eventStreamSerdeProvider3, resolveEventStreamSerdeConfig: resolveEventStreamSerdeConfig2 } = (init_event_streams(), __toCommonJS(event_streams_exports));
+    var { parseUrl: parseUrl2, getHttpHandlerExtensionConfiguration: getHttpHandlerExtensionConfiguration2, resolveHttpHandlerRuntimeConfig: resolveHttpHandlerRuntimeConfig2, getContentLengthPlugin: getContentLengthPlugin2 } = (init_protocols(), __toCommonJS(protocols_exports));
+    var { DEFAULT_RETRY_MODE: DEFAULT_RETRY_MODE2, NODE_RETRY_MODE_CONFIG_OPTIONS: NODE_RETRY_MODE_CONFIG_OPTIONS2, NODE_MAX_ATTEMPT_CONFIG_OPTIONS: NODE_MAX_ATTEMPT_CONFIG_OPTIONS2, resolveRetryConfig: resolveRetryConfig2, getRetryPlugin: getRetryPlugin2 } = (init_retry2(), __toCommonJS(retry_exports));
+    var { TypeRegistry: TypeRegistry2, getSchemaSerdePlugin: getSchemaSerdePlugin2 } = (init_schema(), __toCommonJS(schema_exports));
+    var { resolveAwsSdkSigV4Config: resolveAwsSdkSigV4Config2, resolveAwsSdkSigV4AConfig: resolveAwsSdkSigV4AConfig2, AwsSdkSigV4Signer: AwsSdkSigV4Signer2, AwsSdkSigV4ASigner: AwsSdkSigV4ASigner2, NODE_SIGV4A_CONFIG_OPTIONS: NODE_SIGV4A_CONFIG_OPTIONS2, NODE_AUTH_SCHEME_PREFERENCE_OPTIONS: NODE_AUTH_SCHEME_PREFERENCE_OPTIONS2 } = (init_httpAuthSchemes2(), __toCommonJS(httpAuthSchemes_exports));
+    var { SignatureV4MultiRegion: SignatureV4MultiRegion3 } = require_dist_cjs11();
+    var { defaultProvider } = require_dist_cjs16();
+    var { Sha256, Md5, readableStreamHasher: readableStreamHasher2 } = (init_checksum2(), __toCommonJS(checksum_exports));
+    var { toUtf8: toUtf83, fromUtf8: fromUtf83, sdkStreamMixin: sdkStreamMixin3, getAwsChunkedEncodingStream: getAwsChunkedEncodingStream3, toBase64: toBase643, fromBase64: fromBase642, calculateBodyLength: calculateBodyLength2 } = (init_serde(), __toCommonJS(serde_exports));
+    var { streamCollector: streamCollector7, NodeHttpHandler } = require_dist_cjs6();
+    var { Sha1 } = (init_sha(), __toCommonJS(sha_exports));
+    var aw = "ref";
+    var ax = "argv";
+    var ay = "backend";
+    var az = "authSchemes";
+    var aA = "disableDoubleEncoding";
+    var aB = "signingName";
+    var aC = "signingRegion";
+    var aD = "signingRegionSet";
+    var a5 = -1;
+    var b5 = true;
+    var c5 = false;
+    var d5 = "isSet";
+    var e5 = "booleanEquals";
+    var f5 = "stringEquals";
+    var g5 = "coalesce";
+    var h5 = "substring";
+    var i5 = "";
+    var j5 = "aws.partition";
+    var k5 = "partitionResult";
+    var l3 = "accessPointSuffix";
+    var m3 = "regionPrefix";
+    var n3 = (n4) => "outpostId_ssa_" + n4 + i5;
+    var o3 = "hardwareType";
+    var p3 = "ite";
+    var q3 = "isValidHostLabel";
+    var s2 = "sigv4";
+    var t = "aws.isVirtualHostableS3Bucket";
+    var u = "url";
+    var v = "getAttr";
+    var w = "bucketArn";
+    var x = "--";
+    var y = "arnType";
+    var z = "accesspoint";
+    var A = (n4) => "accessPointName_ssa_" + n4 + i5;
+    var B = "s3-object-lambda";
+    var C = "s3-outposts";
+    var D = "bucketPartition";
+    var E = "us-east-1";
+    var F = "outpostType";
+    var G = "name";
+    var H = "s3";
+    var I = "{url#scheme}://{Bucket}.{url#authority}{url#path}";
+    var J = "{url#scheme}://{url#authority}{url#path}";
+    var K3 = "{url#scheme}://{url#authority}{url#normalizedPath}{Bucket}";
+    var L = "https://{Bucket}.s3-accelerate.{partitionResult#dnsSuffix}";
+    var M2 = "https://{Bucket}.s3.{partitionResult#dnsSuffix}";
+    var N = (n4) => "{url#scheme}://{accessPointName_ssa_" + n4 + "}-{bucketArn#accountId}.{url#authority}{url#path}";
+    var O = (n4) => "Invalid ARN: The access point name may only contain a-z, A-Z, 0-9 and `-`. Found: `{accessPointName_ssa_" + n4 + "}`";
+    var P = "sigv4a";
+    var Q = "{url#scheme}://{url#authority}{url#normalizedPath}{uri_encoded_bucket}";
+    var R = "https://s3.{partitionResult#dnsSuffix}/{uri_encoded_bucket}";
+    var S2 = "https://s3.{partitionResult#dnsSuffix}";
+    var T3 = { [aw]: "UseFIPS" };
+    var U = { [aw]: "UseDualStack" };
+    var V = { [aw]: "Bucket" };
+    var W = { "fn": v, [ax]: [{ [aw]: k5 }, G] };
+    var X = { [aw]: u };
+    var Y = { [aw]: "Region" };
+    var Z = { [aw]: w };
+    var aa = { [aw]: y };
+    var ab = { [aw]: "accessPointName_ssa_1" };
+    var ac = { "fn": v, [ax]: [Z, "region"] };
+    var ad = { [aw]: o3 };
+    var ae = { "fn": v, [ax]: [Z, "service"] };
+    var af = { "fn": v, [ax]: [Z, "accountId"] };
+    var ag = { [ay]: "S3Express", [az]: [{ [aA]: true, [G]: "{_s3e_auth}", [aB]: "s3express", [aC]: "{Region}" }] };
+    var ah = { [ay]: "S3Express", [az]: [{ [aA]: true, [G]: s2, [aB]: "s3express", [aC]: "{Region}" }] };
+    var ai = { [az]: [{ [aA]: true, [G]: P, [aB]: C, [aD]: ["*"] }, { [aA]: true, [G]: s2, [aB]: C, [aC]: "{Region}" }] };
+    var aj = { [az]: [{ [aA]: true, [G]: s2, [aB]: H, [aC]: E }] };
+    var ak = { [az]: [{ [aA]: true, [G]: s2, [aB]: H, [aC]: "{Region}" }] };
+    var al = { [az]: [{ [aA]: true, [G]: s2, [aB]: B, [aC]: "{bucketArn#region}" }] };
+    var am = { [az]: [{ [aA]: true, [G]: s2, [aB]: H, [aC]: "{bucketArn#region}" }] };
+    var an = { [az]: [{ [aA]: true, [G]: P, [aB]: C, [aD]: ["*"] }, { [aA]: true, [G]: s2, [aB]: C, [aC]: "{bucketArn#region}" }] };
+    var ao = { [az]: [{ [aA]: true, [G]: s2, [aB]: B, [aC]: "{Region}" }] };
+    var ap = [Y];
+    var aq = [{ [aw]: "Endpoint" }];
+    var as = [V];
+    var at = [V, 0, 7, true];
+    var au = [Z, "resourceId[1]"];
+    var av = ["*"];
+    var _data5 = {
+      conditions: [
+        [d5, ap],
+        [e5, [{ [aw]: "Accelerate" }, b5]],
+        [e5, [T3, b5]],
+        [e5, [U, b5]],
+        [d5, aq],
+        [d5, as],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 0, 6, b5] }, i5] }, "--x-s3"]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: at }, i5] }, "--xa-s3"]],
+        [j5, ap, k5],
+        [h5, at, l3],
+        [f5, [{ [aw]: l3 }, "--op-s3"]],
+        [h5, [V, 8, 12, b5], m3],
+        [h5, [V, 32, 49, b5], n3(2)],
+        [h5, [V, 49, 50, b5], o3],
+        [e5, [{ [aw]: "ForcePathStyle" }, b5]],
+        [f5, [W, "aws-cn"]],
+        [p3, [U, ".dualstack", i5], "_s3e_ds"],
+        [q3, [{ [aw]: n3(2) }, c5]],
+        [p3, [T3, "-fips", i5], "_s3e_fips"],
+        [p3, [{ fn: g5, [ax]: [{ [aw]: "DisableS3ExpressSessionAuth" }, c5] }, s2, "sigv4-s3express"], "_s3e_auth"],
+        [t, [V, c5]],
+        ["parseURL", aq, u],
+        [e5, [{ fn: g5, [ax]: [{ [aw]: "UseS3ExpressControlEndpoint" }, c5] }, b5]],
+        [t, [V, b5]],
+        [f5, [{ fn: v, [ax]: [X, "scheme"] }, "http"]],
+        [q3, [Y, c5]],
+        ["aws.parseArn", as, w],
+        [v, [{ fn: "split", [ax]: [V, x, 0] }, "[-2]"], "s3expressAvailabilityZoneId"],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 0, 4, c5] }, i5] }, "arn:"]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 16, 18, b5] }, i5] }, x]],
+        [e5, [{ fn: v, [ax]: [X, "isIp"] }, b5]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 21, 23, b5] }, i5] }, x]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 27, 29, b5] }, i5] }, x]],
+        [f5, [{ [aw]: m3 }, "beta"]],
+        ["uriEncode", as, "uri_encoded_bucket"],
+        [q3, [Y, b5]],
+        [e5, [{ fn: g5, [ax]: [{ [aw]: "UseObjectLambdaEndpoint" }, c5] }, b5]],
+        [v, [Z, "resourceId[0]"], y],
+        [f5, [aa, i5]],
+        [f5, [aa, z]],
+        [v, au, A(1)],
+        [f5, [ab, i5]],
+        [f5, [ac, i5]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 14, 16, b5] }, i5] }, x]],
+        [f5, [ad, "e"]],
+        [f5, [ad, "o"]],
+        [f5, [Y, "aws-global"]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 19, 21, b5] }, i5] }, x]],
+        [f5, [ae, B]],
+        [e5, [{ fn: g5, [ax]: [{ [aw]: "DisableAccessPoints" }, c5] }, b5]],
+        [f5, [ae, C]],
+        [j5, [ac], D],
+        [q3, [ab, b5]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 26, 28, b5] }, i5] }, x]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 15, 17, b5] }, i5] }, x]],
+        [v, [Z, "resourceId[4]"]],
+        [f5, [{ fn: g5, [ax]: [{ fn: h5, [ax]: [V, 20, 22, b5] }, i5] }, x]],
+        [e5, [{ [aw]: "UseGlobalEndpoint" }, b5]],
+        [f5, [Y, E]],
+        [v, au, n3(1)],
+        [e5, [{ fn: g5, [ax]: [{ [aw]: "UseArnRegion" }, b5] }, b5]],
+        [q3, [{ [aw]: n3(1) }, c5]],
+        [v, [Z, "resourceId[2]"], F],
+        [f5, [Y, ac]],
+        [f5, [{ fn: v, [ax]: [{ [aw]: D }, G] }, W]],
+        [e5, [{ [aw]: "DisableMultiRegionAccessPoints" }, b5]],
+        [q3, [ac, b5]],
+        [f5, [{ fn: v, [ax]: [Z, "partition"] }, W]],
+        [f5, [af, i5]],
+        [f5, [ae, H]],
+        [q3, [af, c5]],
+        [v, [Z, "resourceId[3]"], A(2)],
+        [q3, [ab, c5]],
+        [f5, [{ [aw]: F }, z]],
+        [q3, [{ [aw]: A(2) }, c5]]
+      ],
+      results: [
+        [a5],
+        [a5, "Accelerate cannot be used with FIPS"],
+        [a5, "Cannot set dual-stack in combination with a custom endpoint."],
+        [a5, "A custom endpoint cannot be combined with FIPS"],
+        [a5, "A custom endpoint cannot be combined with S3 Accelerate"],
+        [a5, "Partition does not support FIPS"],
+        [a5, "S3Express does not support S3 Accelerate."],
+        ["{url#scheme}://{url#authority}/{uri_encoded_bucket}{url#path}", ag],
+        [I, ag],
+        [a5, "S3Express bucket name is not a valid virtual hostable name."],
+        ["https://s3express-control{_s3e_fips}{_s3e_ds}.{Region}.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", ah],
+        ["https://{Bucket}.s3express{_s3e_fips}-{s3expressAvailabilityZoneId}{_s3e_ds}.{Region}.{partitionResult#dnsSuffix}", ag],
+        [a5, "Unrecognized S3Express bucket name format."],
+        [J, ag],
+        ["https://s3express-control{_s3e_fips}{_s3e_ds}.{Region}.{partitionResult#dnsSuffix}", ah],
+        [a5, "Expected a endpoint to be specified but no endpoint was found"],
+        ["https://{Bucket}.ec2.{url#authority}", ai],
+        ["https://{Bucket}.ec2.s3-outposts.{Region}.{partitionResult#dnsSuffix}", ai],
+        ["https://{Bucket}.op-{outpostId_ssa_2}.{url#authority}", ai],
+        ["https://{Bucket}.op-{outpostId_ssa_2}.s3-outposts.{Region}.{partitionResult#dnsSuffix}", ai],
+        [a5, 'Unrecognized hardware type: "Expected hardware type o or e but got {hardwareType}"'],
+        [a5, "Invalid Outposts Bucket alias - it must be a valid bucket name."],
+        [a5, "Invalid ARN: The outpost Id must only contain a-z, A-Z, 0-9 and `-`."],
+        [a5, "Custom endpoint `{Endpoint}` was not a valid URI"],
+        [a5, "S3 Accelerate cannot be used in this region"],
+        ["https://{Bucket}.s3-fips.dualstack.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://{Bucket}.s3-fips.dualstack.{Region}.{partitionResult#dnsSuffix}", ak],
+        ["https://{Bucket}.s3-fips.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://{Bucket}.s3-fips.{Region}.{partitionResult#dnsSuffix}", ak],
+        ["https://{Bucket}.s3-accelerate.dualstack.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://{Bucket}.s3-accelerate.dualstack.{partitionResult#dnsSuffix}", ak],
+        ["https://{Bucket}.s3.dualstack.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://{Bucket}.s3.dualstack.{Region}.{partitionResult#dnsSuffix}", ak],
+        [K3, aj],
+        [I, aj],
+        [K3, ak],
+        [I, ak],
+        [L, aj],
+        [L, ak],
+        [M2, aj],
+        [M2, ak],
+        ["https://{Bucket}.s3.{Region}.{partitionResult#dnsSuffix}", ak],
+        [a5, "Invalid region: region was not a valid DNS name."],
+        [a5, "S3 Object Lambda does not support Dual-stack"],
+        [a5, "S3 Object Lambda does not support S3 Accelerate"],
+        [a5, "Access points are not supported for this operation"],
+        [a5, "Invalid configuration: region from ARN `{bucketArn#region}` does not match client region `{Region}` and UseArnRegion is `false`"],
+        [a5, "Invalid ARN: Missing account id"],
+        [N(1), al],
+        ["https://{accessPointName_ssa_1}-{bucketArn#accountId}.s3-object-lambda-fips.{bucketArn#region}.{bucketPartition#dnsSuffix}", al],
+        ["https://{accessPointName_ssa_1}-{bucketArn#accountId}.s3-object-lambda.{bucketArn#region}.{bucketPartition#dnsSuffix}", al],
+        [a5, O(1)],
+        [a5, "Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and `-`. Found: `{bucketArn#accountId}`"],
+        [a5, "Invalid region in ARN: `{bucketArn#region}` (invalid DNS name)"],
+        [a5, "Client was configured for partition `{partitionResult#name}` but ARN (`{Bucket}`) has `{bucketPartition#name}`"],
+        [a5, "Invalid ARN: The ARN may only contain a single resource component after `accesspoint`."],
+        [a5, "Invalid ARN: bucket ARN is missing a region"],
+        [a5, "Invalid ARN: Expected a resource of the format `accesspoint:<accesspoint name>` but no name was provided"],
+        [a5, "Invalid ARN: Object Lambda ARNs only support `accesspoint` arn types, but found: `{arnType}`"],
+        [a5, "Access Points do not support S3 Accelerate"],
+        ["https://{accessPointName_ssa_1}-{bucketArn#accountId}.s3-accesspoint-fips.dualstack.{bucketArn#region}.{bucketPartition#dnsSuffix}", am],
+        ["https://{accessPointName_ssa_1}-{bucketArn#accountId}.s3-accesspoint-fips.{bucketArn#region}.{bucketPartition#dnsSuffix}", am],
+        ["https://{accessPointName_ssa_1}-{bucketArn#accountId}.s3-accesspoint.dualstack.{bucketArn#region}.{bucketPartition#dnsSuffix}", am],
+        [N(1), am],
+        ["https://{accessPointName_ssa_1}-{bucketArn#accountId}.s3-accesspoint.{bucketArn#region}.{bucketPartition#dnsSuffix}", am],
+        [a5, "Invalid ARN: The ARN was not for the S3 service, found: {bucketArn#service}"],
+        [a5, "S3 MRAP does not support dual-stack"],
+        [a5, "S3 MRAP does not support FIPS"],
+        [a5, "S3 MRAP does not support S3 Accelerate"],
+        [a5, "Invalid configuration: Multi-Region Access Point ARNs are disabled."],
+        ["https://{accessPointName_ssa_1}.accesspoint.s3-global.{partitionResult#dnsSuffix}", { [az]: [{ [aA]: b5, name: P, [aB]: H, [aD]: av }] }],
+        [a5, "Client was configured for partition `{partitionResult#name}` but bucket referred to partition `{bucketArn#partition}`"],
+        [a5, "Invalid Access Point Name"],
+        [a5, "S3 Outposts does not support Dual-stack"],
+        [a5, "S3 Outposts does not support FIPS"],
+        [a5, "S3 Outposts does not support S3 Accelerate"],
+        [a5, "Invalid Arn: Outpost Access Point ARN contains sub resources"],
+        ["https://{accessPointName_ssa_2}-{bucketArn#accountId}.{outpostId_ssa_1}.{url#authority}", an],
+        ["https://{accessPointName_ssa_2}-{bucketArn#accountId}.{outpostId_ssa_1}.s3-outposts.{bucketArn#region}.{bucketPartition#dnsSuffix}", an],
+        [a5, O(2)],
+        [a5, "Expected an outpost type `accesspoint`, found {outpostType}"],
+        [a5, "Invalid ARN: expected an access point name"],
+        [a5, "Invalid ARN: Expected a 4-component resource"],
+        [a5, "Invalid ARN: The outpost Id may only contain a-z, A-Z, 0-9 and `-`. Found: `{outpostId_ssa_1}`"],
+        [a5, "Invalid ARN: The Outpost Id was not set"],
+        [a5, "Invalid ARN: Unrecognized format: {Bucket} (type: {arnType})"],
+        [a5, "Invalid ARN: No ARN type specified"],
+        [a5, "Invalid ARN: `{Bucket}` was not a valid ARN"],
+        [a5, "Path-style addressing cannot be used with ARN buckets"],
+        ["https://s3-fips.dualstack.us-east-1.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", aj],
+        ["https://s3-fips.dualstack.{Region}.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", ak],
+        ["https://s3-fips.us-east-1.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", aj],
+        ["https://s3-fips.{Region}.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", ak],
+        ["https://s3.dualstack.us-east-1.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", aj],
+        ["https://s3.dualstack.{Region}.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", ak],
+        [Q, aj],
+        [Q, ak],
+        [R, aj],
+        [R, ak],
+        ["https://s3.{Region}.{partitionResult#dnsSuffix}/{uri_encoded_bucket}", ak],
+        [a5, "Path-style addressing cannot be used with S3 Accelerate"],
+        [J, ao],
+        ["https://s3-object-lambda-fips.{Region}.{partitionResult#dnsSuffix}", ao],
+        ["https://s3-object-lambda.{Region}.{partitionResult#dnsSuffix}", ao],
+        ["https://s3-fips.dualstack.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://s3-fips.dualstack.{Region}.{partitionResult#dnsSuffix}", ak],
+        ["https://s3-fips.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://s3-fips.{Region}.{partitionResult#dnsSuffix}", ak],
+        ["https://s3.dualstack.us-east-1.{partitionResult#dnsSuffix}", aj],
+        ["https://s3.dualstack.{Region}.{partitionResult#dnsSuffix}", ak],
+        [J, aj],
+        [J, ak],
+        [S2, aj],
+        [S2, ak],
+        ["https://s3.{Region}.{partitionResult#dnsSuffix}", ak],
+        [a5, "A region must be set when sending requests to S3."]
+      ]
+    };
+    var root5 = 2;
+    var r5 = 1e8;
+    var nodes5 = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      3,
+      r5 + 115,
+      1,
+      424,
+      4,
+      2,
+      272,
+      5,
+      3,
+      233,
+      6,
+      4,
+      85,
+      7,
+      5,
+      15,
+      8,
+      8,
+      9,
+      r5 + 115,
+      16,
+      10,
+      13,
+      18,
+      11,
+      13,
+      19,
+      12,
+      13,
+      22,
+      r5 + 14,
+      13,
+      35,
+      14,
+      r5 + 42,
+      36,
+      r5 + 103,
+      435,
+      6,
+      271,
+      16,
+      7,
+      270,
+      17,
+      8,
+      19,
+      18,
+      14,
+      501,
+      106,
+      9,
+      20,
+      24,
+      10,
+      21,
+      24,
+      11,
+      22,
+      24,
+      12,
+      23,
+      24,
+      13,
+      547,
+      24,
+      14,
+      77,
+      25,
+      20,
+      73,
+      26,
+      26,
+      27,
+      78,
+      37,
+      28,
+      r5 + 86,
+      38,
+      r5 + 86,
+      29,
+      39,
+      47,
+      30,
+      48,
+      r5 + 58,
+      31,
+      50,
+      32,
+      r5 + 85,
+      51,
+      33,
+      136,
+      55,
+      r5 + 76,
+      34,
+      59,
+      35,
+      r5 + 84,
+      60,
+      39,
+      36,
+      61,
+      37,
+      r5 + 83,
+      62,
+      38,
+      146,
+      63,
+      41,
+      r5 + 46,
+      61,
+      40,
+      r5 + 83,
+      62,
+      41,
+      150,
+      64,
+      42,
+      r5 + 54,
+      66,
+      43,
+      r5 + 53,
+      70,
+      44,
+      r5 + 52,
+      71,
+      45,
+      r5 + 81,
+      73,
+      46,
+      r5 + 80,
+      74,
+      r5 + 78,
+      r5 + 79,
+      40,
+      48,
+      r5 + 57,
+      41,
+      r5 + 57,
+      49,
+      42,
+      185,
+      50,
+      48,
+      62,
+      51,
+      49,
+      r5 + 45,
+      52,
+      51,
+      53,
+      526,
+      60,
+      56,
+      54,
+      62,
+      r5 + 55,
+      55,
+      63,
+      57,
+      r5 + 46,
+      62,
+      r5 + 55,
+      57,
+      64,
+      58,
+      r5 + 54,
+      66,
+      59,
+      r5 + 53,
+      69,
+      60,
+      r5 + 65,
+      70,
+      61,
+      r5 + 52,
+      72,
+      r5 + 64,
+      r5 + 51,
+      49,
+      r5 + 45,
+      63,
+      51,
+      64,
+      526,
+      60,
+      67,
+      65,
+      62,
+      r5 + 55,
+      66,
+      63,
+      68,
+      r5 + 46,
+      62,
+      r5 + 55,
+      68,
+      64,
+      69,
+      r5 + 54,
+      66,
+      70,
+      r5 + 53,
+      68,
+      r5 + 47,
+      71,
+      70,
+      72,
+      r5 + 52,
+      72,
+      r5 + 50,
+      r5 + 51,
+      25,
+      74,
+      r5 + 42,
+      46,
+      r5 + 39,
+      75,
+      57,
+      76,
+      r5 + 41,
+      58,
+      r5 + 40,
+      r5 + 41,
+      26,
+      r5 + 88,
+      78,
+      28,
+      r5 + 87,
+      79,
+      34,
+      82,
+      80,
+      35,
+      81,
+      545,
+      36,
+      r5 + 103,
+      r5 + 115,
+      46,
+      r5 + 97,
+      83,
+      57,
+      84,
+      r5 + 99,
+      58,
+      r5 + 98,
+      r5 + 99,
+      5,
+      101,
+      86,
+      8,
+      87,
+      r5 + 115,
+      16,
+      88,
+      89,
+      18,
+      91,
+      89,
+      19,
+      90,
+      92,
+      21,
+      97,
+      95,
+      19,
+      93,
+      92,
+      21,
+      98,
+      95,
+      21,
+      97,
+      94,
+      22,
+      r5 + 14,
+      95,
+      35,
+      96,
+      r5 + 42,
+      36,
+      r5 + 103,
+      r5 + 42,
+      22,
+      r5 + 13,
+      98,
+      35,
+      99,
+      r5 + 42,
+      36,
+      r5 + 101,
+      100,
+      46,
+      r5 + 110,
+      r5 + 111,
+      6,
+      214,
+      102,
+      7,
+      208,
+      103,
+      8,
+      119,
+      104,
+      14,
+      118,
+      105,
+      21,
+      106,
+      r5 + 23,
+      26,
+      107,
+      502,
+      37,
+      108,
+      r5 + 86,
+      38,
+      r5 + 86,
+      109,
+      39,
+      112,
+      110,
+      48,
+      r5 + 58,
+      111,
+      50,
+      136,
+      r5 + 85,
+      40,
+      113,
+      r5 + 57,
+      41,
+      r5 + 57,
+      114,
+      42,
+      115,
+      500,
+      48,
+      r5 + 56,
+      116,
+      52,
+      117,
+      r5 + 72,
+      65,
+      r5 + 69,
+      r5 + 72,
+      21,
+      501,
+      r5 + 23,
+      9,
+      120,
+      124,
+      10,
+      121,
+      124,
+      11,
+      122,
+      124,
+      12,
+      123,
+      124,
+      13,
+      202,
+      124,
+      14,
+      195,
+      125,
+      20,
+      190,
+      126,
+      21,
+      127,
+      r5 + 23,
+      23,
+      128,
+      129,
+      24,
+      189,
+      129,
+      26,
+      130,
+      197,
+      37,
+      131,
+      r5 + 86,
+      38,
+      r5 + 86,
+      132,
+      39,
+      159,
+      133,
+      48,
+      r5 + 58,
+      134,
+      50,
+      135,
+      r5 + 85,
+      51,
+      141,
+      136,
+      55,
+      r5 + 76,
+      137,
+      59,
+      138,
+      r5 + 84,
+      60,
+      r5 + 83,
+      139,
+      61,
+      140,
+      r5 + 83,
+      63,
+      r5 + 83,
+      r5 + 46,
+      55,
+      r5 + 76,
+      142,
+      59,
+      143,
+      r5 + 84,
+      60,
+      148,
+      144,
+      61,
+      145,
+      r5 + 83,
+      62,
+      147,
+      146,
+      63,
+      150,
+      r5 + 46,
+      63,
+      153,
+      r5 + 46,
+      61,
+      149,
+      r5 + 83,
+      62,
+      153,
+      150,
+      64,
+      151,
+      r5 + 54,
+      66,
+      152,
+      r5 + 53,
+      70,
+      r5 + 82,
+      r5 + 52,
+      64,
+      154,
+      r5 + 54,
+      66,
+      155,
+      r5 + 53,
+      70,
+      156,
+      r5 + 52,
+      71,
+      157,
+      r5 + 81,
+      73,
+      158,
+      r5 + 80,
+      74,
+      r5 + 77,
+      r5 + 79,
+      40,
+      160,
+      r5 + 57,
+      41,
+      r5 + 57,
+      161,
+      42,
+      185,
+      162,
+      48,
+      174,
+      163,
+      49,
+      r5 + 45,
+      164,
+      51,
+      165,
+      526,
+      60,
+      168,
+      166,
+      62,
+      r5 + 55,
+      167,
+      63,
+      169,
+      r5 + 46,
+      62,
+      r5 + 55,
+      169,
+      64,
+      170,
+      r5 + 54,
+      66,
+      171,
+      r5 + 53,
+      69,
+      172,
+      r5 + 65,
+      70,
+      173,
+      r5 + 52,
+      72,
+      r5 + 63,
+      r5 + 51,
+      49,
+      r5 + 45,
+      175,
+      51,
+      176,
+      526,
+      60,
+      179,
+      177,
+      62,
+      r5 + 55,
+      178,
+      63,
+      180,
+      r5 + 46,
+      62,
+      r5 + 55,
+      180,
+      64,
+      181,
+      r5 + 54,
+      66,
+      182,
+      r5 + 53,
+      68,
+      r5 + 47,
+      183,
+      70,
+      184,
+      r5 + 52,
+      72,
+      r5 + 48,
+      r5 + 51,
+      48,
+      r5 + 56,
+      186,
+      52,
+      187,
+      r5 + 72,
+      65,
+      r5 + 69,
+      188,
+      67,
+      r5 + 70,
+      r5 + 71,
+      25,
+      r5 + 36,
+      r5 + 42,
+      21,
+      191,
+      r5 + 23,
+      25,
+      192,
+      r5 + 42,
+      30,
+      194,
+      193,
+      46,
+      r5 + 34,
+      r5 + 36,
+      46,
+      r5 + 33,
+      r5 + 35,
+      21,
+      196,
+      r5 + 23,
+      26,
+      r5 + 88,
+      197,
+      28,
+      r5 + 87,
+      198,
+      34,
+      201,
+      199,
+      35,
+      200,
+      545,
+      36,
+      r5 + 101,
+      r5 + 115,
+      46,
+      r5 + 95,
+      r5 + 96,
+      17,
+      203,
+      r5 + 22,
+      20,
+      204,
+      r5 + 21,
+      21,
+      205,
+      550,
+      33,
+      206,
+      550,
+      44,
+      r5 + 16,
+      207,
+      45,
+      r5 + 18,
+      r5 + 20,
+      8,
+      209,
+      215,
+      16,
+      210,
+      220,
+      18,
+      211,
+      220,
+      19,
+      212,
+      224,
+      20,
+      213,
+      227,
+      21,
+      231,
+      401,
+      8,
+      218,
+      215,
+      19,
+      216,
+      r5 + 9,
+      20,
+      217,
+      227,
+      21,
+      231,
+      r5 + 9,
+      16,
+      219,
+      220,
+      18,
+      223,
+      220,
+      19,
+      221,
+      224,
+      20,
+      222,
+      227,
+      21,
+      231,
+      r5 + 12,
+      19,
+      226,
+      224,
+      20,
+      225,
+      r5 + 9,
+      21,
+      r5 + 9,
+      r5 + 12,
+      20,
+      230,
+      227,
+      21,
+      228,
+      r5 + 9,
+      30,
+      229,
+      r5 + 9,
+      34,
+      r5 + 7,
+      r5 + 9,
+      21,
+      231,
+      415,
+      30,
+      232,
+      r5 + 8,
+      34,
+      r5 + 7,
+      r5 + 8,
+      4,
+      r5 + 2,
+      234,
+      5,
+      235,
+      480,
+      6,
+      271,
+      236,
+      7,
+      270,
+      237,
+      8,
+      238,
+      491,
+      9,
+      239,
+      243,
+      10,
+      240,
+      243,
+      11,
+      241,
+      243,
+      12,
+      242,
+      243,
+      13,
+      547,
+      243,
+      14,
+      266,
+      244,
+      20,
+      264,
+      245,
+      26,
+      246,
+      267,
+      37,
+      247,
+      r5 + 86,
+      38,
+      r5 + 86,
+      248,
+      39,
+      249,
+      518,
+      40,
+      250,
+      r5 + 57,
+      41,
+      r5 + 57,
+      251,
+      42,
+      538,
+      252,
+      48,
+      r5 + 43,
+      253,
+      49,
+      r5 + 45,
+      254,
+      51,
+      255,
+      526,
+      60,
+      258,
+      256,
+      62,
+      r5 + 55,
+      257,
+      63,
+      259,
+      r5 + 46,
+      62,
+      r5 + 55,
+      259,
+      64,
+      260,
+      r5 + 54,
+      66,
+      261,
+      r5 + 53,
+      69,
+      262,
+      r5 + 65,
+      70,
+      263,
+      r5 + 52,
+      72,
+      r5 + 62,
+      r5 + 51,
+      25,
+      265,
+      r5 + 42,
+      46,
+      r5 + 31,
+      r5 + 32,
+      26,
+      r5 + 88,
+      267,
+      28,
+      r5 + 87,
+      268,
+      34,
+      269,
+      544,
+      46,
+      r5 + 93,
+      r5 + 94,
+      8,
+      397,
+      r5 + 9,
+      8,
+      407,
+      r5 + 9,
+      3,
+      346,
+      273,
+      4,
+      r5 + 3,
+      274,
+      5,
+      284,
+      275,
+      8,
+      276,
+      r5 + 115,
+      15,
+      r5 + 5,
+      277,
+      16,
+      278,
+      281,
+      18,
+      279,
+      281,
+      19,
+      280,
+      281,
+      22,
+      r5 + 14,
+      281,
+      35,
+      282,
+      r5 + 42,
+      36,
+      r5 + 102,
+      283,
+      46,
+      r5 + 106,
+      r5 + 107,
+      6,
+      405,
+      285,
+      7,
+      395,
+      286,
+      8,
+      295,
+      287,
+      14,
+      501,
+      288,
+      26,
+      289,
+      502,
+      37,
+      290,
+      r5 + 86,
+      38,
+      r5 + 86,
+      291,
+      39,
+      292,
+      307,
+      40,
+      293,
+      r5 + 57,
+      41,
+      r5 + 57,
+      294,
+      42,
+      335,
+      500,
+      9,
+      296,
+      300,
+      10,
+      297,
+      300,
+      11,
+      298,
+      300,
+      12,
+      299,
+      300,
+      13,
+      394,
+      300,
+      14,
+      339,
+      301,
+      15,
+      r5 + 5,
+      302,
+      20,
+      337,
+      303,
+      26,
+      304,
+      341,
+      37,
+      305,
+      r5 + 86,
+      38,
+      r5 + 86,
+      306,
+      39,
+      309,
+      307,
+      48,
+      r5 + 58,
+      308,
+      50,
+      r5 + 74,
+      r5 + 85,
+      40,
+      310,
+      r5 + 57,
+      41,
+      r5 + 57,
+      311,
+      42,
+      335,
+      312,
+      48,
+      324,
+      313,
+      49,
+      r5 + 45,
+      314,
+      51,
+      315,
+      526,
+      60,
+      318,
+      316,
+      62,
+      r5 + 55,
+      317,
+      63,
+      319,
+      r5 + 46,
+      62,
+      r5 + 55,
+      319,
+      64,
+      320,
+      r5 + 54,
+      66,
+      321,
+      r5 + 53,
+      69,
+      322,
+      r5 + 65,
+      70,
+      323,
+      r5 + 52,
+      72,
+      r5 + 61,
+      r5 + 51,
+      49,
+      r5 + 45,
+      325,
+      51,
+      326,
+      526,
+      60,
+      329,
+      327,
+      62,
+      r5 + 55,
+      328,
+      63,
+      330,
+      r5 + 46,
+      62,
+      r5 + 55,
+      330,
+      64,
+      331,
+      r5 + 54,
+      66,
+      332,
+      r5 + 53,
+      68,
+      r5 + 47,
+      333,
+      70,
+      334,
+      r5 + 52,
+      72,
+      r5 + 49,
+      r5 + 51,
+      48,
+      r5 + 56,
+      336,
+      52,
+      r5 + 67,
+      r5 + 72,
+      25,
+      338,
+      r5 + 42,
+      46,
+      r5 + 27,
+      r5 + 28,
+      15,
+      r5 + 5,
+      340,
+      26,
+      r5 + 88,
+      341,
+      28,
+      r5 + 87,
+      342,
+      34,
+      345,
+      343,
+      35,
+      344,
+      545,
+      36,
+      r5 + 102,
+      r5 + 115,
+      46,
+      r5 + 91,
+      r5 + 92,
+      4,
+      r5 + 2,
+      347,
+      5,
+      357,
+      348,
+      8,
+      349,
+      r5 + 115,
+      15,
+      r5 + 5,
+      350,
+      16,
+      351,
+      354,
+      18,
+      352,
+      354,
+      19,
+      353,
+      354,
+      22,
+      r5 + 14,
+      354,
+      35,
+      355,
+      r5 + 42,
+      36,
+      r5 + 43,
+      356,
+      46,
+      r5 + 104,
+      r5 + 105,
+      6,
+      405,
+      358,
+      7,
+      395,
+      359,
+      8,
+      360,
+      491,
+      9,
+      361,
+      365,
+      10,
+      362,
+      365,
+      11,
+      363,
+      365,
+      12,
+      364,
+      365,
+      13,
+      394,
+      365,
+      14,
+      389,
+      366,
+      15,
+      r5 + 5,
+      367,
+      20,
+      387,
+      368,
+      26,
+      369,
+      391,
+      37,
+      370,
+      r5 + 86,
+      38,
+      r5 + 86,
+      371,
+      39,
+      372,
+      518,
+      40,
+      373,
+      r5 + 57,
+      41,
+      r5 + 57,
+      374,
+      42,
+      538,
+      375,
+      48,
+      r5 + 43,
+      376,
+      49,
+      r5 + 45,
+      377,
+      51,
+      378,
+      526,
+      60,
+      381,
+      379,
+      62,
+      r5 + 55,
+      380,
+      63,
+      382,
+      r5 + 46,
+      62,
+      r5 + 55,
+      382,
+      64,
+      383,
+      r5 + 54,
+      66,
+      384,
+      r5 + 53,
+      69,
+      385,
+      r5 + 65,
+      70,
+      386,
+      r5 + 52,
+      72,
+      r5 + 60,
+      r5 + 51,
+      25,
+      388,
+      r5 + 42,
+      46,
+      r5 + 25,
+      r5 + 26,
+      15,
+      r5 + 5,
+      390,
+      26,
+      r5 + 88,
+      391,
+      28,
+      r5 + 87,
+      392,
+      34,
+      393,
+      544,
+      46,
+      r5 + 89,
+      r5 + 90,
+      15,
+      r5 + 5,
+      547,
+      8,
+      396,
+      r5 + 9,
+      15,
+      r5 + 5,
+      397,
+      16,
+      398,
+      410,
+      18,
+      399,
+      410,
+      19,
+      400,
+      410,
+      20,
+      401,
+      r5 + 9,
+      27,
+      402,
+      r5 + 12,
+      29,
+      r5 + 11,
+      403,
+      31,
+      r5 + 11,
+      404,
+      32,
+      r5 + 11,
+      422,
+      8,
+      406,
+      r5 + 9,
+      15,
+      r5 + 5,
+      407,
+      16,
+      408,
+      410,
+      18,
+      409,
+      410,
+      19,
+      411,
+      410,
+      20,
+      r5 + 12,
+      r5 + 9,
+      20,
+      414,
+      412,
+      22,
+      413,
+      r5 + 9,
+      34,
+      r5 + 10,
+      r5 + 9,
+      22,
+      416,
+      415,
+      27,
+      419,
+      r5 + 12,
+      27,
+      418,
+      417,
+      34,
+      r5 + 10,
+      r5 + 12,
+      34,
+      r5 + 10,
+      419,
+      43,
+      r5 + 11,
+      420,
+      47,
+      r5 + 11,
+      421,
+      53,
+      r5 + 11,
+      422,
+      54,
+      r5 + 11,
+      423,
+      56,
+      r5 + 11,
+      r5 + 12,
+      2,
+      r5 + 1,
+      425,
+      3,
+      478,
+      426,
+      4,
+      r5 + 4,
+      427,
+      5,
+      438,
+      428,
+      8,
+      429,
+      r5 + 115,
+      16,
+      430,
+      433,
+      18,
+      431,
+      433,
+      19,
+      432,
+      433,
+      22,
+      r5 + 14,
+      433,
+      35,
+      434,
+      r5 + 42,
+      36,
+      r5 + 44,
+      435,
+      46,
+      r5 + 112,
+      436,
+      57,
+      437,
+      r5 + 114,
+      58,
+      r5 + 113,
+      r5 + 114,
+      6,
+      r5 + 6,
+      439,
+      7,
+      r5 + 6,
+      440,
+      8,
+      450,
+      441,
+      14,
+      501,
+      442,
+      26,
+      443,
+      502,
+      37,
+      444,
+      r5 + 86,
+      38,
+      r5 + 86,
+      445,
+      39,
+      446,
+      465,
+      40,
+      447,
+      r5 + 57,
+      41,
+      r5 + 57,
+      448,
+      42,
+      471,
+      449,
+      48,
+      r5 + 44,
+      500,
+      9,
+      451,
+      455,
+      10,
+      452,
+      455,
+      11,
+      453,
+      455,
+      12,
+      454,
+      455,
+      13,
+      547,
+      455,
+      14,
+      473,
+      456,
+      15,
+      460,
+      457,
+      20,
+      458,
+      461,
+      25,
+      459,
+      r5 + 42,
+      46,
+      r5 + 37,
+      r5 + 38,
+      20,
+      540,
+      461,
+      26,
+      462,
+      474,
+      37,
+      463,
+      r5 + 86,
+      38,
+      r5 + 86,
+      464,
+      39,
+      467,
+      465,
+      48,
+      r5 + 58,
+      466,
+      50,
+      r5 + 75,
+      r5 + 85,
+      40,
+      468,
+      r5 + 57,
+      41,
+      r5 + 57,
+      469,
+      42,
+      471,
+      470,
+      48,
+      r5 + 44,
+      524,
+      48,
+      r5 + 44,
+      472,
+      52,
+      r5 + 68,
+      r5 + 72,
+      26,
+      r5 + 88,
+      474,
+      28,
+      r5 + 87,
+      475,
+      34,
+      r5 + 100,
+      476,
+      35,
+      477,
+      545,
+      36,
+      r5 + 44,
+      r5 + 115,
+      4,
+      r5 + 2,
+      479,
+      5,
+      488,
+      480,
+      8,
+      481,
+      r5 + 115,
+      16,
+      482,
+      485,
+      18,
+      483,
+      485,
+      19,
+      484,
+      485,
+      22,
+      r5 + 14,
+      485,
+      35,
+      486,
+      r5 + 42,
+      36,
+      r5 + 43,
+      487,
+      46,
+      r5 + 108,
+      r5 + 109,
+      6,
+      r5 + 6,
+      489,
+      7,
+      r5 + 6,
+      490,
+      8,
+      503,
+      491,
+      14,
+      501,
+      492,
+      26,
+      493,
+      502,
+      37,
+      494,
+      r5 + 86,
+      38,
+      r5 + 86,
+      495,
+      39,
+      496,
+      518,
+      40,
+      497,
+      r5 + 57,
+      41,
+      r5 + 57,
+      498,
+      42,
+      538,
+      499,
+      48,
+      r5 + 43,
+      500,
+      49,
+      r5 + 45,
+      526,
+      26,
+      r5 + 88,
+      502,
+      28,
+      r5 + 87,
+      r5 + 115,
+      9,
+      504,
+      508,
+      10,
+      505,
+      508,
+      11,
+      506,
+      508,
+      12,
+      507,
+      508,
+      13,
+      547,
+      508,
+      14,
+      541,
+      509,
+      15,
+      513,
+      510,
+      20,
+      511,
+      514,
+      25,
+      512,
+      r5 + 42,
+      46,
+      r5 + 29,
+      r5 + 30,
+      20,
+      540,
+      514,
+      26,
+      515,
+      542,
+      37,
+      516,
+      r5 + 86,
+      38,
+      r5 + 86,
+      517,
+      39,
+      520,
+      518,
+      48,
+      r5 + 58,
+      519,
+      50,
+      r5 + 73,
+      r5 + 85,
+      40,
+      521,
+      r5 + 57,
+      41,
+      r5 + 57,
+      522,
+      42,
+      538,
+      523,
+      48,
+      r5 + 43,
+      524,
+      49,
+      r5 + 45,
+      525,
+      51,
+      529,
+      526,
+      60,
+      r5 + 55,
+      527,
+      62,
+      r5 + 55,
+      528,
+      63,
+      r5 + 55,
+      r5 + 46,
+      60,
+      532,
+      530,
+      62,
+      r5 + 55,
+      531,
+      63,
+      533,
+      r5 + 46,
+      62,
+      r5 + 55,
+      533,
+      64,
+      534,
+      r5 + 54,
+      66,
+      535,
+      r5 + 53,
+      69,
+      536,
+      r5 + 65,
+      70,
+      537,
+      r5 + 52,
+      72,
+      r5 + 59,
+      r5 + 51,
+      48,
+      r5 + 43,
+      539,
+      52,
+      r5 + 66,
+      r5 + 72,
+      25,
+      r5 + 24,
+      r5 + 42,
+      26,
+      r5 + 88,
+      542,
+      28,
+      r5 + 87,
+      543,
+      34,
+      r5 + 100,
+      544,
+      35,
+      546,
+      545,
+      36,
+      r5 + 42,
+      r5 + 115,
+      36,
+      r5 + 43,
+      r5 + 115,
+      17,
+      548,
+      r5 + 22,
+      20,
+      549,
+      r5 + 21,
+      33,
+      552,
+      550,
+      44,
+      r5 + 17,
+      551,
+      45,
+      r5 + 19,
+      r5 + 20,
+      44,
+      r5 + 15,
+      553,
+      45,
+      r5 + 15,
+      r5 + 20
+    ]);
+    var bdd5 = BinaryDecisionDiagram2.from(nodes5, root5, _data5.conditions, _data5.results);
+    var cache5 = new EndpointCache2({
+      size: 50,
+      params: [
+        "Accelerate",
+        "Bucket",
+        "DisableAccessPoints",
+        "DisableMultiRegionAccessPoints",
+        "DisableS3ExpressSessionAuth",
+        "Endpoint",
+        "ForcePathStyle",
+        "Region",
+        "UseArnRegion",
+        "UseDualStack",
+        "UseFIPS",
+        "UseGlobalEndpoint",
+        "UseObjectLambdaEndpoint",
+        "UseS3ExpressControlEndpoint"
+      ]
+    });
+    var defaultEndpointResolver5 = (endpointParams, context = {}) => {
+      return cache5.get(endpointParams, () => decideEndpoint2(bdd5, {
+        endpointParams,
+        logger: context.logger
+      }));
+    };
+    customEndpointFunctions2.aws = awsEndpointFunctions2;
+    var createEndpointRuleSetHttpAuthSchemeParametersProvider2 = (defaultHttpAuthSchemeParametersProvider) => async (config, context, input) => {
+      if (!input) {
+        throw new Error("Could not find `input` for `defaultEndpointRuleSetHttpAuthSchemeParametersProvider`");
+      }
+      const defaultParameters = await defaultHttpAuthSchemeParametersProvider(config, context, input);
+      const instructionsFn = getSmithyContext2(context)?.commandInstance?.constructor?.getEndpointParameterInstructions;
+      if (!instructionsFn) {
+        throw new Error(`getEndpointParameterInstructions() is not defined on '${context.commandName}'`);
+      }
+      const endpointParameters = await resolveParams2(input, { getEndpointParameterInstructions: instructionsFn }, config);
+      return Object.assign(defaultParameters, endpointParameters);
+    };
+    var _defaultS3HttpAuthSchemeParametersProvider = async (config, context, input) => {
+      return {
+        operation: getSmithyContext2(context).operation,
+        region: await normalizeProvider3(config.region)() || (() => {
+          throw new Error("expected `region` to be configured for `aws.auth#sigv4`");
+        })()
+      };
+    };
+    var defaultS3HttpAuthSchemeParametersProvider = createEndpointRuleSetHttpAuthSchemeParametersProvider2(_defaultS3HttpAuthSchemeParametersProvider);
+    function createAwsAuthSigv4HttpAuthOption5(authParameters) {
+      return {
+        schemeId: "aws.auth#sigv4",
+        signingProperties: {
+          name: "s3",
+          region: authParameters.region
+        },
+        propertiesExtractor: (config, context) => ({
+          signingProperties: {
+            config,
+            context
+          }
+        })
+      };
+    }
+    function createAwsAuthSigv4aHttpAuthOption2(authParameters) {
+      return {
+        schemeId: "aws.auth#sigv4a",
+        signingProperties: {
+          name: "s3",
+          region: authParameters.region
+        },
+        propertiesExtractor: (config, context) => ({
+          signingProperties: {
+            config,
+            context
+          }
+        })
+      };
+    }
+    var createEndpointRuleSetHttpAuthSchemeProvider2 = (defaultEndpointResolver6, defaultHttpAuthSchemeResolver, createHttpAuthOptionFunctions) => {
+      const endpointRuleSetHttpAuthSchemeProvider = (authParameters) => {
+        const endpoint = defaultEndpointResolver6(authParameters);
+        const authSchemes = endpoint.properties?.authSchemes;
+        if (!authSchemes) {
+          return defaultHttpAuthSchemeResolver(authParameters);
+        }
+        const options = [];
+        for (const scheme of authSchemes) {
+          const { name: resolvedName, properties = {}, ...rest } = scheme;
+          const name = resolvedName.toLowerCase();
+          if (resolvedName !== name) {
+            console.warn(`HttpAuthScheme has been normalized with lowercasing: '${resolvedName}' to '${name}'`);
+          }
+          let schemeId;
+          if (name === "sigv4a") {
+            schemeId = "aws.auth#sigv4a";
+            const sigv4Present = authSchemes.find((s4) => {
+              const name2 = s4.name.toLowerCase();
+              return name2 !== "sigv4a" && name2.startsWith("sigv4");
+            });
+            if (SignatureV4MultiRegion3.sigv4aDependency() === "none" && sigv4Present) {
+              continue;
+            }
+          } else if (name.startsWith("sigv4")) {
+            schemeId = "aws.auth#sigv4";
+          } else {
+            throw new Error(`Unknown HttpAuthScheme found in '@smithy.rules#endpointRuleSet': '${name}'`);
+          }
+          const createOption = createHttpAuthOptionFunctions[schemeId];
+          if (!createOption) {
+            throw new Error(`Could not find HttpAuthOption create function for '${schemeId}'`);
+          }
+          const option = createOption(authParameters);
+          option.schemeId = schemeId;
+          option.signingProperties = { ...option.signingProperties || {}, ...rest, ...properties };
+          options.push(option);
+        }
+        return options;
+      };
+      return endpointRuleSetHttpAuthSchemeProvider;
+    };
+    var _defaultS3HttpAuthSchemeProvider = (authParameters) => {
+      const options = [];
+      switch (authParameters.operation) {
+        default: {
+          options.push(createAwsAuthSigv4HttpAuthOption5(authParameters));
+          options.push(createAwsAuthSigv4aHttpAuthOption2(authParameters));
+        }
+      }
+      return options;
+    };
+    var defaultS3HttpAuthSchemeProvider = createEndpointRuleSetHttpAuthSchemeProvider2(defaultEndpointResolver5, _defaultS3HttpAuthSchemeProvider, {
+      "aws.auth#sigv4": createAwsAuthSigv4HttpAuthOption5,
+      "aws.auth#sigv4a": createAwsAuthSigv4aHttpAuthOption2
+    });
+    var resolveHttpAuthSchemeConfig5 = (config) => {
+      const config_0 = resolveAwsSdkSigV4Config2(config);
+      const config_1 = resolveAwsSdkSigV4AConfig2(config_0);
+      return Object.assign(config_1, {
+        authSchemePreference: normalizeProvider3(config.authSchemePreference ?? [])
+      });
+    };
+    var resolveClientEndpointParameters5 = (options) => {
+      return Object.assign(options, {
+        useFipsEndpoint: options.useFipsEndpoint ?? false,
+        useDualstackEndpoint: options.useDualstackEndpoint ?? false,
+        forcePathStyle: options.forcePathStyle ?? false,
+        useAccelerateEndpoint: options.useAccelerateEndpoint ?? false,
+        useGlobalEndpoint: options.useGlobalEndpoint ?? false,
+        disableMultiregionAccessPoints: options.disableMultiregionAccessPoints ?? false,
+        defaultSigningName: "s3",
+        clientContextParams: options.clientContextParams ?? {}
+      });
+    };
+    var commonParams5 = {
+      ForcePathStyle: { type: "clientContextParams", name: "forcePathStyle" },
+      UseArnRegion: { type: "clientContextParams", name: "useArnRegion" },
+      DisableMultiRegionAccessPoints: { type: "clientContextParams", name: "disableMultiregionAccessPoints" },
+      Accelerate: { type: "clientContextParams", name: "useAccelerateEndpoint" },
+      DisableS3ExpressSessionAuth: { type: "clientContextParams", name: "disableS3ExpressSessionAuth" },
+      UseGlobalEndpoint: { type: "builtInParams", name: "useGlobalEndpoint" },
+      UseFIPS: { type: "builtInParams", name: "useFipsEndpoint" },
+      Endpoint: { type: "builtInParams", name: "endpoint" },
+      Region: { type: "builtInParams", name: "region" },
+      UseDualStack: { type: "builtInParams", name: "useDualstackEndpoint" }
+    };
+    var command5 = makeBuilder2(commonParams5, "AmazonS3", "S3Client", getEndpointPlugin2);
+    var _ep05 = {
+      Bucket: { type: "contextParams", name: "Bucket" },
+      Key: { type: "contextParams", name: "Key" }
+    };
+    var _ep12 = {
+      DisableS3ExpressSessionAuth: { type: "staticContextParams", value: true },
+      Bucket: { type: "contextParams", name: "Bucket" },
+      Key: { type: "contextParams", name: "Key" },
+      CopySource: { type: "contextParams", name: "CopySource" }
+    };
+    var _ep2 = {
+      UseS3ExpressControlEndpoint: { type: "staticContextParams", value: true },
+      DisableAccessPoints: { type: "staticContextParams", value: true },
+      Bucket: { type: "contextParams", name: "Bucket" }
+    };
+    var _ep3 = {
+      UseS3ExpressControlEndpoint: { type: "staticContextParams", value: true },
+      Bucket: { type: "contextParams", name: "Bucket" }
+    };
+    var _ep4 = {
+      DisableS3ExpressSessionAuth: { type: "staticContextParams", value: true },
+      Bucket: { type: "contextParams", name: "Bucket" }
+    };
+    var _ep5 = {
+      Bucket: { type: "contextParams", name: "Bucket" }
+    };
+    var _ep6 = {};
+    var _ep7 = {
+      UseS3ExpressControlEndpoint: { type: "staticContextParams", value: true }
+    };
+    var _ep8 = {
+      Bucket: { type: "contextParams", name: "Bucket" },
+      Prefix: { type: "contextParams", name: "Prefix" }
+    };
+    var _ep9 = {
+      UseObjectLambdaEndpoint: { type: "staticContextParams", value: true }
+    };
+    var _mw05 = (Command2, cs, config, o4) => [
+      getThrow200ExceptionsPlugin2(config)
+    ];
+    var _mw1 = (Command2, cs, config, o4) => [
+      getThrow200ExceptionsPlugin2(config),
+      getSsecPlugin2(config)
+    ];
+    var _mw2 = (Command2, cs, config, o4) => [
+      getThrow200ExceptionsPlugin2(config),
+      getLocationConstraintPlugin2(config)
+    ];
+    var _mw3 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestAlgorithmMember: { "httpHeader": "x-amz-sdk-checksum-algorithm", "name": "ChecksumAlgorithm" },
+        requestChecksumRequired: true
+      })
+    ];
+    var _mw4 = (Command2, cs, config, o4) => [];
+    var _mw5 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestAlgorithmMember: { "httpHeader": "x-amz-sdk-checksum-algorithm", "name": "ChecksumAlgorithm" },
+        requestChecksumRequired: true
+      }),
+      getThrow200ExceptionsPlugin2(config)
+    ];
+    var _mw6 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestChecksumRequired: false,
+        requestValidationModeMember: "ChecksumMode",
+        responseAlgorithms: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"]
+      })
+    ];
+    var _mw7 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestChecksumRequired: false,
+        requestValidationModeMember: "ChecksumMode",
+        responseAlgorithms: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"]
+      }),
+      getSsecPlugin2(config),
+      getS3ExpiresMiddlewarePlugin2(config)
+    ];
+    var _mw8 = (Command2, cs, config, o4) => [
+      getThrow200ExceptionsPlugin2(config),
+      getSsecPlugin2(config),
+      getS3ExpiresMiddlewarePlugin2(config)
+    ];
+    var _mw9 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestAlgorithmMember: { "httpHeader": "x-amz-sdk-checksum-algorithm", "name": "ChecksumAlgorithm" },
+        requestChecksumRequired: false
+      })
+    ];
+    var _mw10 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestAlgorithmMember: { "httpHeader": "x-amz-sdk-checksum-algorithm", "name": "ChecksumAlgorithm" },
+        requestChecksumRequired: false
+      }),
+      getThrow200ExceptionsPlugin2(config)
+    ];
+    var _mw11 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestAlgorithmMember: { "httpHeader": "x-amz-sdk-checksum-algorithm", "name": "ChecksumAlgorithm" },
+        requestChecksumRequired: false
+      }),
+      getCheckContentLengthHeaderPlugin2(config),
+      getThrow200ExceptionsPlugin2(config),
+      getSsecPlugin2(config)
+    ];
+    var _mw12 = (Command2, cs, config, o4) => [
+      getSsecPlugin2(config)
+    ];
+    var _mw13 = (Command2, cs, config, o4) => [
+      getFlexibleChecksumsPlugin2(config, {
+        requestAlgorithmMember: { "httpHeader": "x-amz-sdk-checksum-algorithm", "name": "ChecksumAlgorithm" },
+        requestChecksumRequired: false
+      }),
+      getThrow200ExceptionsPlugin2(config),
+      getSsecPlugin2(config)
+    ];
+    var S3ServiceException = class _S3ServiceException extends ServiceException2 {
+      constructor(options) {
+        super(options);
+        Object.setPrototypeOf(this, _S3ServiceException.prototype);
+      }
+    };
+    var NoSuchUpload = class _NoSuchUpload extends S3ServiceException {
+      name = "NoSuchUpload";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "NoSuchUpload",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _NoSuchUpload.prototype);
+      }
+    };
+    var AccessDenied = class _AccessDenied extends S3ServiceException {
+      name = "AccessDenied";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "AccessDenied",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _AccessDenied.prototype);
+      }
+    };
+    var ObjectNotInActiveTierError = class _ObjectNotInActiveTierError extends S3ServiceException {
+      name = "ObjectNotInActiveTierError";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ObjectNotInActiveTierError",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ObjectNotInActiveTierError.prototype);
+      }
+    };
+    var BucketAlreadyExists = class _BucketAlreadyExists extends S3ServiceException {
+      name = "BucketAlreadyExists";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "BucketAlreadyExists",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _BucketAlreadyExists.prototype);
+      }
+    };
+    var BucketAlreadyOwnedByYou = class _BucketAlreadyOwnedByYou extends S3ServiceException {
+      name = "BucketAlreadyOwnedByYou";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "BucketAlreadyOwnedByYou",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _BucketAlreadyOwnedByYou.prototype);
+      }
+    };
+    var NoSuchBucket = class _NoSuchBucket extends S3ServiceException {
+      name = "NoSuchBucket";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "NoSuchBucket",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _NoSuchBucket.prototype);
+      }
+    };
+    var NoSuchKey = class _NoSuchKey extends S3ServiceException {
+      name = "NoSuchKey";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "NoSuchKey",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _NoSuchKey.prototype);
+      }
+    };
+    var InvalidObjectState = class _InvalidObjectState extends S3ServiceException {
+      name = "InvalidObjectState";
+      $fault = "client";
+      StorageClass;
+      AccessTier;
+      constructor(opts) {
+        super({
+          name: "InvalidObjectState",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidObjectState.prototype);
+        this.StorageClass = opts.StorageClass;
+        this.AccessTier = opts.AccessTier;
+      }
+    };
+    var NoSuchAnnotation = class _NoSuchAnnotation extends S3ServiceException {
+      name = "NoSuchAnnotation";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "NoSuchAnnotation",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _NoSuchAnnotation.prototype);
+      }
+    };
+    var NotFound = class _NotFound extends S3ServiceException {
+      name = "NotFound";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "NotFound",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _NotFound.prototype);
+      }
+    };
+    var InvalidPrefix = class _InvalidPrefix extends S3ServiceException {
+      name = "InvalidPrefix";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "InvalidPrefix",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidPrefix.prototype);
+      }
+    };
+    var EncryptionTypeMismatch = class _EncryptionTypeMismatch extends S3ServiceException {
+      name = "EncryptionTypeMismatch";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "EncryptionTypeMismatch",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _EncryptionTypeMismatch.prototype);
+      }
+    };
+    var InvalidRequest = class _InvalidRequest extends S3ServiceException {
+      name = "InvalidRequest";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "InvalidRequest",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidRequest.prototype);
+      }
+    };
+    var InvalidWriteOffset = class _InvalidWriteOffset extends S3ServiceException {
+      name = "InvalidWriteOffset";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "InvalidWriteOffset",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidWriteOffset.prototype);
+      }
+    };
+    var TooManyParts = class _TooManyParts extends S3ServiceException {
+      name = "TooManyParts";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "TooManyParts",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _TooManyParts.prototype);
+      }
+    };
+    var AnnotationLimitExceeded = class _AnnotationLimitExceeded extends S3ServiceException {
+      name = "AnnotationLimitExceeded";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "AnnotationLimitExceeded",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _AnnotationLimitExceeded.prototype);
+      }
+    };
+    var AnnotationNameTooLong = class _AnnotationNameTooLong extends S3ServiceException {
+      name = "AnnotationNameTooLong";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "AnnotationNameTooLong",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _AnnotationNameTooLong.prototype);
+      }
+    };
+    var InvalidAnnotationName = class _InvalidAnnotationName extends S3ServiceException {
+      name = "InvalidAnnotationName";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "InvalidAnnotationName",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _InvalidAnnotationName.prototype);
+      }
+    };
+    var UnsupportedMediaType = class _UnsupportedMediaType extends S3ServiceException {
+      name = "UnsupportedMediaType";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "UnsupportedMediaType",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _UnsupportedMediaType.prototype);
+      }
+    };
+    var IdempotencyParameterMismatch = class _IdempotencyParameterMismatch extends S3ServiceException {
+      name = "IdempotencyParameterMismatch";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "IdempotencyParameterMismatch",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _IdempotencyParameterMismatch.prototype);
+      }
+    };
+    var ObjectAlreadyInActiveTierError = class _ObjectAlreadyInActiveTierError extends S3ServiceException {
+      name = "ObjectAlreadyInActiveTierError";
+      $fault = "client";
+      constructor(opts) {
+        super({
+          name: "ObjectAlreadyInActiveTierError",
+          $fault: "client",
+          ...opts
+        });
+        Object.setPrototypeOf(this, _ObjectAlreadyInActiveTierError.prototype);
+      }
+    };
+    var _A2 = "Account";
+    var _AAO = "AnalyticsAndOperator";
+    var _AC = "AccelerateConfiguration";
+    var _ACL = "AccessControlList";
+    var _ACL_ = "ACL";
+    var _ACLn = "AnalyticsConfigurationList";
+    var _ACP = "AccessControlPolicy";
+    var _ACT = "AccessControlTranslation";
+    var _ACn = "AnalyticsConfiguration";
+    var _ACnn = "AnnotationCount";
+    var _AD = "AccessDenied";
+    var _ADb = "AbortDate";
+    var _ADn = "AnnotationDirective";
+    var _AE = "AnnotationEntry";
+    var _AED = "AnalyticsExportDestination";
+    var _AF = "AnalyticsFilter";
+    var _AH = "AllowedHeaders";
+    var _AHl = "AllowedHeader";
+    var _AI = "AccountId";
+    var _AIMU = "AbortIncompleteMultipartUpload";
+    var _AKI2 = "AccessKeyId";
+    var _AL = "AnnotationList";
+    var _ALE = "AnnotationLimitExceeded";
+    var _AM = "AllowedMethods";
+    var _AMU = "AbortMultipartUpload";
+    var _AMUO = "AbortMultipartUploadOutput";
+    var _AMUR = "AbortMultipartUploadRequest";
+    var _AMl = "AllowedMethod";
+    var _AN = "AnnotationName";
+    var _ANTL = "AnnotationNameTooLong";
+    var _AO = "AllowedOrigins";
+    var _AOl = "AllowedOrigin";
+    var _AP = "AnnotationPayload";
+    var _APA = "AccessPointAlias";
+    var _APAc = "AccessPointArn";
+    var _APn = "AnnotationPrefix";
+    var _AQRD = "AllowQuotedRecordDelimiter";
+    var _AR2 = "AcceptRanges";
+    var _ARI2 = "AbortRuleId";
+    var _AS = "AbacStatus";
+    var _ASBD = "AnalyticsS3BucketDestination";
+    var _ASSEBD = "ApplyServerSideEncryptionByDefault";
+    var _ASr = "ArchiveStatus";
+    var _AT3 = "AccessTier";
+    var _ATC = "AnnotationTableConfiguration";
+    var _ATCR = "AnnotationTableConfigurationResult";
+    var _ATCU = "AnnotationTableConfigurationUpdates";
+    var _An = "And";
+    var _Ann = "Annotations";
+    var _B = "Bucket";
+    var _BA = "BucketArn";
+    var _BAE = "BucketAlreadyExists";
+    var _BAI = "BucketAccountId";
+    var _BAOBY = "BucketAlreadyOwnedByYou";
+    var _BET = "BlockedEncryptionTypes";
+    var _BGR = "BypassGovernanceRetention";
+    var _BI = "BucketInfo";
+    var _BKE = "BucketKeyEnabled";
+    var _BLC = "BucketLifecycleConfiguration";
+    var _BLN = "BucketLocationName";
+    var _BLS = "BucketLoggingStatus";
+    var _BLT = "BucketLocationType";
+    var _BN = "BucketNamespace";
+    var _BNu = "BucketName";
+    var _BP = "BytesProcessed";
+    var _BPA = "BlockPublicAcls";
+    var _BPP = "BlockPublicPolicy";
+    var _BR = "BucketRegion";
+    var _BRy = "BytesReturned";
+    var _BS = "BytesScanned";
+    var _Bo = "Body";
+    var _Bu = "Buckets";
+    var _C2 = "Checksum";
+    var _CA2 = "ChecksumAlgorithm";
+    var _CACL = "CannedACL";
+    var _CB = "CreateBucket";
+    var _CBC = "CreateBucketConfiguration";
+    var _CBMC = "CreateBucketMetadataConfiguration";
+    var _CBMCR = "CreateBucketMetadataConfigurationRequest";
+    var _CBMTC = "CreateBucketMetadataTableConfiguration";
+    var _CBMTCR = "CreateBucketMetadataTableConfigurationRequest";
+    var _CBO = "CreateBucketOutput";
+    var _CBR = "CreateBucketRequest";
+    var _CC = "CacheControl";
+    var _CCRC = "ChecksumCRC32";
+    var _CCRCC = "ChecksumCRC32C";
+    var _CCRCNVME = "ChecksumCRC64NVME";
+    var _CC_ = "Cache-Control";
+    var _CD = "CreationDate";
+    var _CD_ = "Content-Disposition";
+    var _CDo = "ContentDisposition";
+    var _CE = "ContinuationEvent";
+    var _CE_ = "Content-Encoding";
+    var _CEo = "ContentEncoding";
+    var _CF = "CloudFunction";
+    var _CFC = "CloudFunctionConfiguration";
+    var _CL = "ContentLanguage";
+    var _CL_ = "Content-Language";
+    var _CL__ = "Content-Length";
+    var _CLo = "ContentLength";
+    var _CM = "Content-MD5";
+    var _CMD = "ChecksumMD5";
+    var _CMDo = "ContentMD5";
+    var _CMU = "CompletedMultipartUpload";
+    var _CMUO = "CompleteMultipartUploadOutput";
+    var _CMUOr = "CreateMultipartUploadOutput";
+    var _CMUR = "CompleteMultipartUploadResult";
+    var _CMURo = "CompleteMultipartUploadRequest";
+    var _CMURr = "CreateMultipartUploadRequest";
+    var _CMUo = "CompleteMultipartUpload";
+    var _CMUr = "CreateMultipartUpload";
+    var _CMh = "ChecksumMode";
+    var _CO = "CopyObject";
+    var _COO = "CopyObjectOutput";
+    var _COR = "CopyObjectResult";
+    var _CORSC = "CORSConfiguration";
+    var _CORSR = "CORSRules";
+    var _CORSRu = "CORSRule";
+    var _CORo = "CopyObjectRequest";
+    var _CP = "CommonPrefix";
+    var _CPL = "CommonPrefixList";
+    var _CPLo = "CompletedPartList";
+    var _CPR = "CopyPartResult";
+    var _CPo = "CompletedPart";
+    var _CPom = "CommonPrefixes";
+    var _CR = "ContentRange";
+    var _CRSBA = "ConfirmRemoveSelfBucketAccess";
+    var _CR_ = "Content-Range";
+    var _CS2 = "ConfigurationState";
+    var _CSHA = "ChecksumSHA1";
+    var _CSHAh = "ChecksumSHA256";
+    var _CSHAhe = "ChecksumSHA512";
+    var _CSIM = "CopySourceIfMatch";
+    var _CSIMS = "CopySourceIfModifiedSince";
+    var _CSINM = "CopySourceIfNoneMatch";
+    var _CSIUS = "CopySourceIfUnmodifiedSince";
+    var _CSO = "CreateSessionOutput";
+    var _CSR = "CreateSessionResult";
+    var _CSRo = "CopySourceRange";
+    var _CSRr = "CreateSessionRequest";
+    var _CSSSECA = "CopySourceSSECustomerAlgorithm";
+    var _CSSSECK = "CopySourceSSECustomerKey";
+    var _CSSSECKMD = "CopySourceSSECustomerKeyMD5";
+    var _CSV = "CSV";
+    var _CSVI = "CopySourceVersionId";
+    var _CSVIn = "CSVInput";
+    var _CSVO = "CSVOutput";
+    var _CSo = "CopySource";
+    var _CSr = "CreateSession";
+    var _CT2 = "ChecksumType";
+    var _CT_ = "Content-Type";
+    var _CTl = "ClientToken";
+    var _CTo = "ContentType";
+    var _CTom = "CompressionType";
+    var _CTon = "ContinuationToken";
+    var _CXXHASH = "ChecksumXXHASH64";
+    var _CXXHASHh = "ChecksumXXHASH3";
+    var _CXXHASHhe = "ChecksumXXHASH128";
+    var _Co = "Condition";
+    var _Cod = "Code";
+    var _Com = "Comments";
+    var _Con = "Contents";
+    var _Cont = "Cont";
+    var _Cr = "Credentials";
+    var _D = "Days";
+    var _DAI = "DaysAfterInitiation";
+    var _DB = "DeleteBucket";
+    var _DBAC = "DeleteBucketAnalyticsConfiguration";
+    var _DBACR = "DeleteBucketAnalyticsConfigurationRequest";
+    var _DBC = "DeleteBucketCors";
+    var _DBCR = "DeleteBucketCorsRequest";
+    var _DBE = "DeleteBucketEncryption";
+    var _DBER = "DeleteBucketEncryptionRequest";
+    var _DBIC = "DeleteBucketInventoryConfiguration";
+    var _DBICR = "DeleteBucketInventoryConfigurationRequest";
+    var _DBITC = "DeleteBucketIntelligentTieringConfiguration";
+    var _DBITCR = "DeleteBucketIntelligentTieringConfigurationRequest";
+    var _DBL = "DeleteBucketLifecycle";
+    var _DBLR = "DeleteBucketLifecycleRequest";
+    var _DBMC = "DeleteBucketMetadataConfiguration";
+    var _DBMCR = "DeleteBucketMetadataConfigurationRequest";
+    var _DBMCRe = "DeleteBucketMetricsConfigurationRequest";
+    var _DBMCe = "DeleteBucketMetricsConfiguration";
+    var _DBMTC = "DeleteBucketMetadataTableConfiguration";
+    var _DBMTCR = "DeleteBucketMetadataTableConfigurationRequest";
+    var _DBOC = "DeleteBucketOwnershipControls";
+    var _DBOCR = "DeleteBucketOwnershipControlsRequest";
+    var _DBP = "DeleteBucketPolicy";
+    var _DBPR = "DeleteBucketPolicyRequest";
+    var _DBR = "DeleteBucketRequest";
+    var _DBRR = "DeleteBucketReplicationRequest";
+    var _DBRe = "DeleteBucketReplication";
+    var _DBT = "DeleteBucketTagging";
+    var _DBTR = "DeleteBucketTaggingRequest";
+    var _DBW = "DeleteBucketWebsite";
+    var _DBWR = "DeleteBucketWebsiteRequest";
+    var _DE = "DataExport";
+    var _DIM = "DestinationIfMatch";
+    var _DIMS = "DestinationIfModifiedSince";
+    var _DINM = "DestinationIfNoneMatch";
+    var _DIUS = "DestinationIfUnmodifiedSince";
+    var _DM = "DeleteMarker";
+    var _DME = "DeleteMarkerEntry";
+    var _DMR = "DeleteMarkerReplication";
+    var _DMVI = "DeleteMarkerVersionId";
+    var _DMe = "DeleteMarkers";
+    var _DN = "DisplayName";
+    var _DO = "DeletedObject";
+    var _DOA = "DeleteObjectAnnotation";
+    var _DOAO = "DeleteObjectAnnotationOutput";
+    var _DOAR = "DeleteObjectAnnotationRequest";
+    var _DOO = "DeleteObjectOutput";
+    var _DOOe = "DeleteObjectsOutput";
+    var _DOR = "DeleteObjectRequest";
+    var _DORe = "DeleteObjectsRequest";
+    var _DOT = "DeleteObjectTagging";
+    var _DOTO = "DeleteObjectTaggingOutput";
+    var _DOTR = "DeleteObjectTaggingRequest";
+    var _DOe = "DeletedObjects";
+    var _DOel = "DeleteObject";
+    var _DOele = "DeleteObjects";
+    var _DPAB = "DeletePublicAccessBlock";
+    var _DPABR = "DeletePublicAccessBlockRequest";
+    var _DR = "DataRedundancy";
+    var _DRe = "DefaultRetention";
+    var _DRel = "DeleteResult";
+    var _DRes = "DestinationResult";
+    var _Da = "Date";
+    var _De = "Delete";
+    var _Del = "Deleted";
+    var _Deli = "Delimiter";
+    var _Des = "Destination";
+    var _Desc = "Description";
+    var _Det = "Details";
+    var _E2 = "Error";
+    var _EA = "EmailAddress";
+    var _EBC = "EventBridgeConfiguration";
+    var _EBO = "ExpectedBucketOwner";
+    var _EC = "EncryptionConfiguration";
+    var _ECr = "ErrorCode";
+    var _ED = "ErrorDetails";
+    var _EDr = "ErrorDocument";
+    var _EE = "EndEvent";
+    var _EH = "ExposeHeaders";
+    var _EHx = "ExposeHeader";
+    var _EM = "ErrorMessage";
+    var _EODM = "ExpiredObjectDeleteMarker";
+    var _EOR = "ExistingObjectReplication";
+    var _ES = "ExpiresString";
+    var _ESBO = "ExpectedSourceBucketOwner";
+    var _ET = "ETag";
+    var _ETL = "EncryptionTypeList";
+    var _ETM = "EncryptionTypeMismatch";
+    var _ETn = "EncryptionType";
+    var _ETnc = "EncodingType";
+    var _ETv = "EventThreshold";
+    var _ETx = "ExpressionType";
+    var _En = "Encryption";
+    var _Ena = "Enabled";
+    var _End = "End";
+    var _Er = "Errors";
+    var _Ev = "Events";
+    var _Eve = "Event";
+    var _Ex = "Expiration";
+    var _Exp = "Expires";
+    var _Expr = "Expression";
+    var _F = "Filter";
+    var _FD = "FieldDelimiter";
+    var _FHI = "FileHeaderInfo";
+    var _FO = "FetchOwner";
+    var _FR = "FilterRule";
+    var _FRL = "FilterRuleList";
+    var _FRi = "FilterRules";
+    var _Fi = "Field";
+    var _Fo = "Format";
+    var _Fr = "Frequency";
+    var _G = "Grants";
+    var _GBA = "GetBucketAbac";
+    var _GBAC = "GetBucketAccelerateConfiguration";
+    var _GBACO = "GetBucketAccelerateConfigurationOutput";
+    var _GBACOe = "GetBucketAnalyticsConfigurationOutput";
+    var _GBACR = "GetBucketAccelerateConfigurationRequest";
+    var _GBACRe = "GetBucketAnalyticsConfigurationRequest";
+    var _GBACe = "GetBucketAnalyticsConfiguration";
+    var _GBAO = "GetBucketAbacOutput";
+    var _GBAOe = "GetBucketAclOutput";
+    var _GBAR = "GetBucketAbacRequest";
+    var _GBARe = "GetBucketAclRequest";
+    var _GBAe = "GetBucketAcl";
+    var _GBC = "GetBucketCors";
+    var _GBCO = "GetBucketCorsOutput";
+    var _GBCR = "GetBucketCorsRequest";
+    var _GBE = "GetBucketEncryption";
+    var _GBEO = "GetBucketEncryptionOutput";
+    var _GBER = "GetBucketEncryptionRequest";
+    var _GBIC = "GetBucketInventoryConfiguration";
+    var _GBICO = "GetBucketInventoryConfigurationOutput";
+    var _GBICR = "GetBucketInventoryConfigurationRequest";
+    var _GBITC = "GetBucketIntelligentTieringConfiguration";
+    var _GBITCO = "GetBucketIntelligentTieringConfigurationOutput";
+    var _GBITCR = "GetBucketIntelligentTieringConfigurationRequest";
+    var _GBL = "GetBucketLocation";
+    var _GBLC = "GetBucketLifecycleConfiguration";
+    var _GBLCO = "GetBucketLifecycleConfigurationOutput";
+    var _GBLCR = "GetBucketLifecycleConfigurationRequest";
+    var _GBLO = "GetBucketLocationOutput";
+    var _GBLOe = "GetBucketLoggingOutput";
+    var _GBLR = "GetBucketLocationRequest";
+    var _GBLRe = "GetBucketLoggingRequest";
+    var _GBLe = "GetBucketLogging";
+    var _GBMC = "GetBucketMetadataConfiguration";
+    var _GBMCO = "GetBucketMetadataConfigurationOutput";
+    var _GBMCOe = "GetBucketMetricsConfigurationOutput";
+    var _GBMCR = "GetBucketMetadataConfigurationResult";
+    var _GBMCRe = "GetBucketMetadataConfigurationRequest";
+    var _GBMCRet = "GetBucketMetricsConfigurationRequest";
+    var _GBMCe = "GetBucketMetricsConfiguration";
+    var _GBMTC = "GetBucketMetadataTableConfiguration";
+    var _GBMTCO = "GetBucketMetadataTableConfigurationOutput";
+    var _GBMTCR = "GetBucketMetadataTableConfigurationResult";
+    var _GBMTCRe = "GetBucketMetadataTableConfigurationRequest";
+    var _GBNC = "GetBucketNotificationConfiguration";
+    var _GBNCR = "GetBucketNotificationConfigurationRequest";
+    var _GBOC = "GetBucketOwnershipControls";
+    var _GBOCO = "GetBucketOwnershipControlsOutput";
+    var _GBOCR = "GetBucketOwnershipControlsRequest";
+    var _GBP = "GetBucketPolicy";
+    var _GBPO = "GetBucketPolicyOutput";
+    var _GBPR = "GetBucketPolicyRequest";
+    var _GBPS = "GetBucketPolicyStatus";
+    var _GBPSO = "GetBucketPolicyStatusOutput";
+    var _GBPSR = "GetBucketPolicyStatusRequest";
+    var _GBR = "GetBucketReplication";
+    var _GBRO = "GetBucketReplicationOutput";
+    var _GBRP = "GetBucketRequestPayment";
+    var _GBRPO = "GetBucketRequestPaymentOutput";
+    var _GBRPR = "GetBucketRequestPaymentRequest";
+    var _GBRR = "GetBucketReplicationRequest";
+    var _GBT = "GetBucketTagging";
+    var _GBTO = "GetBucketTaggingOutput";
+    var _GBTR = "GetBucketTaggingRequest";
+    var _GBV = "GetBucketVersioning";
+    var _GBVO = "GetBucketVersioningOutput";
+    var _GBVR = "GetBucketVersioningRequest";
+    var _GBW = "GetBucketWebsite";
+    var _GBWO = "GetBucketWebsiteOutput";
+    var _GBWR = "GetBucketWebsiteRequest";
+    var _GFC = "GrantFullControl";
+    var _GJP = "GlacierJobParameters";
+    var _GO = "GetObject";
+    var _GOA = "GetObjectAcl";
+    var _GOAO = "GetObjectAclOutput";
+    var _GOAOe = "GetObjectAnnotationOutput";
+    var _GOAOet = "GetObjectAttributesOutput";
+    var _GOAP = "GetObjectAttributesParts";
+    var _GOAR = "GetObjectAclRequest";
+    var _GOARe = "GetObjectAnnotationRequest";
+    var _GOARet = "GetObjectAttributesResponse";
+    var _GOARetb = "GetObjectAttributesRequest";
+    var _GOAe = "GetObjectAnnotation";
+    var _GOAet = "GetObjectAttributes";
+    var _GOLC = "GetObjectLockConfiguration";
+    var _GOLCO = "GetObjectLockConfigurationOutput";
+    var _GOLCR = "GetObjectLockConfigurationRequest";
+    var _GOLH = "GetObjectLegalHold";
+    var _GOLHO = "GetObjectLegalHoldOutput";
+    var _GOLHR = "GetObjectLegalHoldRequest";
+    var _GOO = "GetObjectOutput";
+    var _GOR = "GetObjectRequest";
+    var _GORO = "GetObjectRetentionOutput";
+    var _GORR = "GetObjectRetentionRequest";
+    var _GORe = "GetObjectRetention";
+    var _GOT = "GetObjectTagging";
+    var _GOTO = "GetObjectTaggingOutput";
+    var _GOTOe = "GetObjectTorrentOutput";
+    var _GOTR = "GetObjectTaggingRequest";
+    var _GOTRe = "GetObjectTorrentRequest";
+    var _GOTe = "GetObjectTorrent";
+    var _GPAB = "GetPublicAccessBlock";
+    var _GPABO = "GetPublicAccessBlockOutput";
+    var _GPABR = "GetPublicAccessBlockRequest";
+    var _GR = "GrantRead";
+    var _GRACP = "GrantReadACP";
+    var _GW = "GrantWrite";
+    var _GWACP = "GrantWriteACP";
+    var _Gr = "Grant";
+    var _Gra = "Grantee";
+    var _HB = "HeadBucket";
+    var _HBO = "HeadBucketOutput";
+    var _HBR = "HeadBucketRequest";
+    var _HECRE = "HttpErrorCodeReturnedEquals";
+    var _HN = "HostName";
+    var _HO = "HeadObject";
+    var _HOO = "HeadObjectOutput";
+    var _HOR = "HeadObjectRequest";
+    var _HRC = "HttpRedirectCode";
+    var _I = "Id";
+    var _IAN = "InvalidAnnotationName";
+    var _IC = "InventoryConfiguration";
+    var _ICL = "InventoryConfigurationList";
+    var _ID = "ID";
+    var _IDn = "IndexDocument";
+    var _IDnv = "InventoryDestination";
+    var _IE = "IsEnabled";
+    var _IEn = "InventoryEncryption";
+    var _IF = "InventoryFilter";
+    var _IL = "IsLatest";
+    var _IM = "IfMatch";
+    var _IMIT = "IfMatchInitiatedTime";
+    var _IMLMT = "IfMatchLastModifiedTime";
+    var _IMS = "IfMatchSize";
+    var _IMS_ = "If-Modified-Since";
+    var _IMSf = "IfModifiedSince";
+    var _IMUR = "InitiateMultipartUploadResult";
+    var _IM_ = "If-Match";
+    var _INM = "IfNoneMatch";
+    var _INM_ = "If-None-Match";
+    var _IOF = "InventoryOptionalFields";
+    var _IOS = "InvalidObjectState";
+    var _IOV = "IncludedObjectVersions";
+    var _IP = "InvalidPrefix";
+    var _IPA = "IgnorePublicAcls";
+    var _IPM = "IdempotencyParameterMismatch";
+    var _IPs = "IsPublic";
+    var _IR = "InvalidRequest";
+    var _IRIP = "IsRestoreInProgress";
+    var _IS = "InputSerialization";
+    var _ISBD = "InventoryS3BucketDestination";
+    var _ISn = "InventorySchedule";
+    var _IT2 = "IsTruncated";
+    var _ITAO = "IntelligentTieringAndOperator";
+    var _ITC = "IntelligentTieringConfiguration";
+    var _ITCL = "IntelligentTieringConfigurationList";
+    var _ITCR = "InventoryTableConfigurationResult";
+    var _ITCU = "InventoryTableConfigurationUpdates";
+    var _ITCn = "InventoryTableConfiguration";
+    var _ITF = "IntelligentTieringFilter";
+    var _IUS = "IfUnmodifiedSince";
+    var _IUS_ = "If-Unmodified-Since";
+    var _IWO = "InvalidWriteOffset";
+    var _In = "Initiator";
+    var _Ini = "Initiated";
+    var _JSON = "JSON";
+    var _JSONI = "JSONInput";
+    var _JSONO = "JSONOutput";
+    var _JTC = "JournalTableConfiguration";
+    var _JTCR = "JournalTableConfigurationResult";
+    var _JTCU = "JournalTableConfigurationUpdates";
+    var _K2 = "Key";
+    var _KC = "KeyCount";
+    var _KI = "KeyId";
+    var _KKA = "KmsKeyArn";
+    var _KM = "KeyMarker";
+    var _KMSC = "KMSContext";
+    var _KMSKA = "KMSKeyArn";
+    var _KMSKI = "KMSKeyId";
+    var _KMSMKID = "KMSMasterKeyID";
+    var _KPE = "KeyPrefixEquals";
+    var _L = "Location";
+    var _LAMBR = "ListAllMyBucketsResult";
+    var _LAMDBR = "ListAllMyDirectoryBucketsResult";
+    var _LB = "ListBuckets";
+    var _LBAC = "ListBucketAnalyticsConfigurations";
+    var _LBACO = "ListBucketAnalyticsConfigurationsOutput";
+    var _LBACR = "ListBucketAnalyticsConfigurationResult";
+    var _LBACRi = "ListBucketAnalyticsConfigurationsRequest";
+    var _LBIC = "ListBucketInventoryConfigurations";
+    var _LBICO = "ListBucketInventoryConfigurationsOutput";
+    var _LBICR = "ListBucketInventoryConfigurationsRequest";
+    var _LBITC = "ListBucketIntelligentTieringConfigurations";
+    var _LBITCO = "ListBucketIntelligentTieringConfigurationsOutput";
+    var _LBITCR = "ListBucketIntelligentTieringConfigurationsRequest";
+    var _LBMC = "ListBucketMetricsConfigurations";
+    var _LBMCO = "ListBucketMetricsConfigurationsOutput";
+    var _LBMCR = "ListBucketMetricsConfigurationsRequest";
+    var _LBO = "ListBucketsOutput";
+    var _LBR = "ListBucketsRequest";
+    var _LBRi = "ListBucketResult";
+    var _LC = "LocationConstraint";
+    var _LCi = "LifecycleConfiguration";
+    var _LDB = "ListDirectoryBuckets";
+    var _LDBO = "ListDirectoryBucketsOutput";
+    var _LDBR = "ListDirectoryBucketsRequest";
+    var _LE = "LoggingEnabled";
+    var _LEi = "LifecycleExpiration";
+    var _LFA = "LambdaFunctionArn";
+    var _LFC = "LambdaFunctionConfiguration";
+    var _LFCL = "LambdaFunctionConfigurationList";
+    var _LFCa = "LambdaFunctionConfigurations";
+    var _LH = "LegalHold";
+    var _LI = "LocationInfo";
+    var _LICR = "ListInventoryConfigurationsResult";
+    var _LM = "LastModified";
+    var _LMCR = "ListMetricsConfigurationsResult";
+    var _LMT = "LastModifiedTime";
+    var _LMU = "ListMultipartUploads";
+    var _LMUO = "ListMultipartUploadsOutput";
+    var _LMUR = "ListMultipartUploadsResult";
+    var _LMURi = "ListMultipartUploadsRequest";
+    var _LM_ = "Last-Modified";
+    var _LO = "ListObjects";
+    var _LOA = "ListObjectAnnotations";
+    var _LOAO = "ListObjectAnnotationsOutput";
+    var _LOAR = "ListObjectAnnotationsRequest";
+    var _LOO = "ListObjectsOutput";
+    var _LOR = "ListObjectsRequest";
+    var _LOV = "ListObjectsV2";
+    var _LOVO = "ListObjectsV2Output";
+    var _LOVOi = "ListObjectVersionsOutput";
+    var _LOVR = "ListObjectsV2Request";
+    var _LOVRi = "ListObjectVersionsRequest";
+    var _LOVi = "ListObjectVersions";
+    var _LP = "ListParts";
+    var _LPO = "ListPartsOutput";
+    var _LPR = "ListPartsResult";
+    var _LPRi = "ListPartsRequest";
+    var _LR = "LifecycleRule";
+    var _LRAO = "LifecycleRuleAndOperator";
+    var _LRF = "LifecycleRuleFilter";
+    var _LRi = "LifecycleRules";
+    var _LVR = "ListVersionsResult";
+    var _M = "Metadata";
+    var _MAO = "MetricsAndOperator";
+    var _MAR = "MaxAnnotationResults";
+    var _MAS = "MaxAgeSeconds";
+    var _MB = "MaxBuckets";
+    var _MC = "MetadataConfiguration";
+    var _MCL = "MetricsConfigurationList";
+    var _MCR = "MetadataConfigurationResult";
+    var _MCe = "MetricsConfiguration";
+    var _MD = "MetadataDirective";
+    var _MDB = "MaxDirectoryBuckets";
+    var _MDf = "MfaDelete";
+    var _ME = "MetadataEntry";
+    var _MF = "MetricsFilter";
+    var _MFA = "MFA";
+    var _MFAD = "MFADelete";
+    var _MK = "MaxKeys";
+    var _MM = "MissingMeta";
+    var _MOS = "MpuObjectSize";
+    var _MP = "MaxParts";
+    var _MTC = "MetadataTableConfiguration";
+    var _MTCR = "MetadataTableConfigurationResult";
+    var _MTEC = "MetadataTableEncryptionConfiguration";
+    var _MU = "MultipartUpload";
+    var _MUL = "MultipartUploadList";
+    var _MUa = "MaxUploads";
+    var _Ma = "Marker";
+    var _Me = "Metrics";
+    var _Mes = "Message";
+    var _Mi = "Minutes";
+    var _Mo = "Mode";
+    var _N = "Name";
+    var _NC = "NotificationConfiguration";
+    var _NCF = "NotificationConfigurationFilter";
+    var _NCT = "NextContinuationToken";
+    var _ND = "NoncurrentDays";
+    var _NEKKAS = "NonEmptyKmsKeyArnString";
+    var _NF = "NotFound";
+    var _NKM = "NextKeyMarker";
+    var _NM = "NextMarker";
+    var _NNV = "NewerNoncurrentVersions";
+    var _NPNM = "NextPartNumberMarker";
+    var _NSA = "NoSuchAnnotation";
+    var _NSB = "NoSuchBucket";
+    var _NSK = "NoSuchKey";
+    var _NSU = "NoSuchUpload";
+    var _NUIM = "NextUploadIdMarker";
+    var _NVE = "NoncurrentVersionExpiration";
+    var _NVIM = "NextVersionIdMarker";
+    var _NVT = "NoncurrentVersionTransitions";
+    var _NVTL = "NoncurrentVersionTransitionList";
+    var _NVTo = "NoncurrentVersionTransition";
+    var _O = "Owner";
+    var _OA = "ObjectAttributes";
+    var _OAIATE = "ObjectAlreadyInActiveTierError";
+    var _OC = "OwnershipControls";
+    var _OCR = "OwnershipControlsRule";
+    var _OCRw = "OwnershipControlsRules";
+    var _OE = "ObjectEncryption";
+    var _OF = "OptionalFields";
+    var _OI = "ObjectIdentifier";
+    var _OIL = "ObjectIdentifierList";
+    var _OIM = "ObjectIfMatch";
+    var _OL = "OutputLocation";
+    var _OLC = "ObjectLockConfiguration";
+    var _OLE = "ObjectLockEnabled";
+    var _OLEFB = "ObjectLockEnabledForBucket";
+    var _OLLH = "ObjectLockLegalHold";
+    var _OLLHS = "ObjectLockLegalHoldStatus";
+    var _OLM = "ObjectLockMode";
+    var _OLR = "ObjectLockRetention";
+    var _OLRUD = "ObjectLockRetainUntilDate";
+    var _OLRb = "ObjectLockRule";
+    var _OLb = "ObjectList";
+    var _ONIATE = "ObjectNotInActiveTierError";
+    var _OO = "ObjectOwnership";
+    var _OOA = "OptionalObjectAttributes";
+    var _OP = "ObjectParts";
+    var _OPb = "ObjectPart";
+    var _OS = "ObjectSize";
+    var _OSGT = "ObjectSizeGreaterThan";
+    var _OSLT = "ObjectSizeLessThan";
+    var _OSV = "OutputSchemaVersion";
+    var _OSu = "OutputSerialization";
+    var _OV = "ObjectVersion";
+    var _OVI = "ObjectVersionId";
+    var _OVL = "ObjectVersionList";
+    var _Ob = "Objects";
+    var _Obj = "Object";
+    var _P2 = "Prefix";
+    var _PABC = "PublicAccessBlockConfiguration";
+    var _PBA = "PutBucketAbac";
+    var _PBAC = "PutBucketAccelerateConfiguration";
+    var _PBACR = "PutBucketAccelerateConfigurationRequest";
+    var _PBACRu = "PutBucketAnalyticsConfigurationRequest";
+    var _PBACu = "PutBucketAnalyticsConfiguration";
+    var _PBAR = "PutBucketAbacRequest";
+    var _PBARu = "PutBucketAclRequest";
+    var _PBAu = "PutBucketAcl";
+    var _PBC = "PutBucketCors";
+    var _PBCR = "PutBucketCorsRequest";
+    var _PBE = "PutBucketEncryption";
+    var _PBER = "PutBucketEncryptionRequest";
+    var _PBIC = "PutBucketInventoryConfiguration";
+    var _PBICR = "PutBucketInventoryConfigurationRequest";
+    var _PBITC = "PutBucketIntelligentTieringConfiguration";
+    var _PBITCR = "PutBucketIntelligentTieringConfigurationRequest";
+    var _PBL = "PutBucketLogging";
+    var _PBLC = "PutBucketLifecycleConfiguration";
+    var _PBLCO = "PutBucketLifecycleConfigurationOutput";
+    var _PBLCR = "PutBucketLifecycleConfigurationRequest";
+    var _PBLR = "PutBucketLoggingRequest";
+    var _PBMC = "PutBucketMetricsConfiguration";
+    var _PBMCR = "PutBucketMetricsConfigurationRequest";
+    var _PBNC = "PutBucketNotificationConfiguration";
+    var _PBNCR = "PutBucketNotificationConfigurationRequest";
+    var _PBOC = "PutBucketOwnershipControls";
+    var _PBOCR = "PutBucketOwnershipControlsRequest";
+    var _PBP = "PutBucketPolicy";
+    var _PBPR = "PutBucketPolicyRequest";
+    var _PBR = "PutBucketReplication";
+    var _PBRP = "PutBucketRequestPayment";
+    var _PBRPR = "PutBucketRequestPaymentRequest";
+    var _PBRR = "PutBucketReplicationRequest";
+    var _PBT = "PutBucketTagging";
+    var _PBTR = "PutBucketTaggingRequest";
+    var _PBV = "PutBucketVersioning";
+    var _PBVR = "PutBucketVersioningRequest";
+    var _PBW = "PutBucketWebsite";
+    var _PBWR = "PutBucketWebsiteRequest";
+    var _PC2 = "PartsCount";
+    var _PDS = "PartitionDateSource";
+    var _PE = "ProgressEvent";
+    var _PI2 = "ParquetInput";
+    var _PL = "PartsList";
+    var _PN = "PartNumber";
+    var _PNM = "PartNumberMarker";
+    var _PO = "PutObject";
+    var _POA = "PutObjectAcl";
+    var _POAO = "PutObjectAclOutput";
+    var _POAOu = "PutObjectAnnotationOutput";
+    var _POAR = "PutObjectAclRequest";
+    var _POARu = "PutObjectAnnotationRequest";
+    var _POAu = "PutObjectAnnotation";
+    var _POLC = "PutObjectLockConfiguration";
+    var _POLCO = "PutObjectLockConfigurationOutput";
+    var _POLCR = "PutObjectLockConfigurationRequest";
+    var _POLH = "PutObjectLegalHold";
+    var _POLHO = "PutObjectLegalHoldOutput";
+    var _POLHR = "PutObjectLegalHoldRequest";
+    var _POO = "PutObjectOutput";
+    var _POR = "PutObjectRequest";
+    var _PORO = "PutObjectRetentionOutput";
+    var _PORR = "PutObjectRetentionRequest";
+    var _PORu = "PutObjectRetention";
+    var _POT = "PutObjectTagging";
+    var _POTO = "PutObjectTaggingOutput";
+    var _POTR = "PutObjectTaggingRequest";
+    var _PP = "PartitionedPrefix";
+    var _PPAB = "PutPublicAccessBlock";
+    var _PPABR = "PutPublicAccessBlockRequest";
+    var _PS = "PolicyStatus";
+    var _Pa = "Parts";
+    var _Par = "Part";
+    var _Parq = "Parquet";
+    var _Pay = "Payer";
+    var _Payl = "Payload";
+    var _Pe = "Permission";
+    var _Po = "Policy";
+    var _Pr2 = "Progress";
+    var _Pri = "Priority";
+    var _Pro = "Protocol";
+    var _Q = "Quiet";
+    var _QA = "QueueArn";
+    var _QC = "QuoteCharacter";
+    var _QCL = "QueueConfigurationList";
+    var _QCu = "QueueConfigurations";
+    var _QCue = "QueueConfiguration";
+    var _QEC = "QuoteEscapeCharacter";
+    var _QF = "QuoteFields";
+    var _Qu = "Queue";
+    var _R = "Role";
+    var _RART = "RedirectAllRequestsTo";
+    var _RC2 = "RequestCharged";
+    var _RCC = "ResponseCacheControl";
+    var _RCD = "ResponseContentDisposition";
+    var _RCE = "ResponseContentEncoding";
+    var _RCL = "ResponseContentLanguage";
+    var _RCT = "ResponseContentType";
+    var _RCe = "ReplicationConfiguration";
+    var _RD = "RecordDelimiter";
+    var _RE = "ResponseExpires";
+    var _RED = "RestoreExpiryDate";
+    var _REe = "RecordExpiration";
+    var _REec = "RecordsEvent";
+    var _RKKID = "ReplicaKmsKeyID";
+    var _RKPW = "ReplaceKeyPrefixWith";
+    var _RKW = "ReplaceKeyWith";
+    var _RM = "ReplicaModifications";
+    var _RO = "RenameObject";
+    var _ROO = "RenameObjectOutput";
+    var _ROOe = "RestoreObjectOutput";
+    var _ROP = "RestoreOutputPath";
+    var _ROR = "RenameObjectRequest";
+    var _RORe = "RestoreObjectRequest";
+    var _ROe = "RestoreObject";
+    var _RP = "RequestPayer";
+    var _RPB = "RestrictPublicBuckets";
+    var _RPC = "RequestPaymentConfiguration";
+    var _RPe = "RequestProgress";
+    var _RR = "RoutingRules";
+    var _RRAO = "ReplicationRuleAndOperator";
+    var _RRF = "ReplicationRuleFilter";
+    var _RRe = "ReplicationRule";
+    var _RRep = "ReplicationRules";
+    var _RReq = "RequestRoute";
+    var _RRes = "RestoreRequest";
+    var _RRo = "RoutingRule";
+    var _RS = "ReplicationStatus";
+    var _RSe = "RestoreStatus";
+    var _RSen = "RenameSource";
+    var _RT3 = "ReplicationTime";
+    var _RTV = "ReplicationTimeValue";
+    var _RTe = "RequestToken";
+    var _RUD = "RetainUntilDate";
+    var _Ra = "Range";
+    var _Re = "Restore";
+    var _Rec = "Records";
+    var _Red = "Redirect";
+    var _Ret = "Retention";
+    var _Ru = "Rules";
+    var _Rul = "Rule";
+    var _S = "Status";
+    var _SA = "StartAfter";
+    var _SAK2 = "SecretAccessKey";
+    var _SAs = "SseAlgorithm";
+    var _SB = "StreamingBlob";
+    var _SBD = "S3BucketDestination";
+    var _SC = "StorageClass";
+    var _SCA = "StorageClassAnalysis";
+    var _SCADE = "StorageClassAnalysisDataExport";
+    var _SCV = "SessionCredentialValue";
+    var _SCe = "SessionCredentials";
+    var _SCt = "StatusCode";
+    var _SDV = "SkipDestinationValidation";
+    var _SE = "StatsEvent";
+    var _SIM = "SourceIfMatch";
+    var _SIMS = "SourceIfModifiedSince";
+    var _SINM = "SourceIfNoneMatch";
+    var _SIUS = "SourceIfUnmodifiedSince";
+    var _SK = "SSE-KMS";
+    var _SKEO = "SseKmsEncryptedObjects";
+    var _SKF = "S3KeyFilter";
+    var _SKe = "S3Key";
+    var _SL = "S3Location";
+    var _SM = "SessionMode";
+    var _SOC = "SelectObjectContent";
+    var _SOCES = "SelectObjectContentEventStream";
+    var _SOCO = "SelectObjectContentOutput";
+    var _SOCR = "SelectObjectContentRequest";
+    var _SP = "SelectParameters";
+    var _SPi = "SimplePrefix";
+    var _SR = "ScanRange";
+    var _SS = "SSE-S3";
+    var _SSC = "SourceSelectionCriteria";
+    var _SSE = "ServerSideEncryption";
+    var _SSEA = "SSEAlgorithm";
+    var _SSEBD = "ServerSideEncryptionByDefault";
+    var _SSEC = "ServerSideEncryptionConfiguration";
+    var _SSECA = "SSECustomerAlgorithm";
+    var _SSECK = "SSECustomerKey";
+    var _SSECKMD = "SSECustomerKeyMD5";
+    var _SSEKMS = "SSEKMS";
+    var _SSEKMSE = "SSEKMSEncryption";
+    var _SSEKMSEC = "SSEKMSEncryptionContext";
+    var _SSEKMSKI = "SSEKMSKeyId";
+    var _SSER = "ServerSideEncryptionRule";
+    var _SSERe = "ServerSideEncryptionRules";
+    var _SSES = "SSES3";
+    var _ST2 = "SessionToken";
+    var _STD = "S3TablesDestination";
+    var _STDR = "S3TablesDestinationResult";
+    var _S_ = "S3";
+    var _Sc = "Schedule";
+    var _Si = "Size";
+    var _St = "Start";
+    var _Sta = "Stats";
+    var _Su = "Suffix";
+    var _T2 = "Tags";
+    var _TA = "TableArn";
+    var _TAo = "TopicArn";
+    var _TB = "TargetBucket";
+    var _TBA = "TableBucketArn";
+    var _TBT = "TableBucketType";
+    var _TC2 = "TagCount";
+    var _TCL = "TopicConfigurationList";
+    var _TCo = "TopicConfigurations";
+    var _TCop = "TopicConfiguration";
+    var _TD = "TaggingDirective";
+    var _TDMOS = "TransitionDefaultMinimumObjectSize";
+    var _TG = "TargetGrants";
+    var _TGa = "TargetGrant";
+    var _TL = "TieringList";
+    var _TLr = "TransitionList";
+    var _TMP = "TooManyParts";
+    var _TN = "TableName";
+    var _TNa = "TableNamespace";
+    var _TOKF = "TargetObjectKeyFormat";
+    var _TP = "TargetPrefix";
+    var _TPC = "TotalPartsCount";
+    var _TS = "TableStatus";
+    var _TSa = "TagSet";
+    var _Ta2 = "Tag";
+    var _Tag = "Tagging";
+    var _Ti = "Tier";
+    var _Tie = "Tierings";
+    var _Tier = "Tiering";
+    var _Tim = "Time";
+    var _To = "Token";
+    var _Top = "Topic";
+    var _Tr = "Transitions";
+    var _Tra = "Transition";
+    var _Ty = "Type";
+    var _U = "Uploads";
+    var _UBMATC = "UpdateBucketMetadataAnnotationTableConfiguration";
+    var _UBMATCR = "UpdateBucketMetadataAnnotationTableConfigurationRequest";
+    var _UBMITC = "UpdateBucketMetadataInventoryTableConfiguration";
+    var _UBMITCR = "UpdateBucketMetadataInventoryTableConfigurationRequest";
+    var _UBMJTC = "UpdateBucketMetadataJournalTableConfiguration";
+    var _UBMJTCR = "UpdateBucketMetadataJournalTableConfigurationRequest";
+    var _UI = "UploadId";
+    var _UIM = "UploadIdMarker";
+    var _UM = "UserMetadata";
+    var _UMT = "UnsupportedMediaType";
+    var _UOE = "UpdateObjectEncryption";
+    var _UOER = "UpdateObjectEncryptionRequest";
+    var _UOERp = "UpdateObjectEncryptionResponse";
+    var _UP = "UploadPart";
+    var _UPC = "UploadPartCopy";
+    var _UPCO = "UploadPartCopyOutput";
+    var _UPCR = "UploadPartCopyRequest";
+    var _UPO = "UploadPartOutput";
+    var _UPR = "UploadPartRequest";
+    var _URI = "URI";
+    var _Up = "Upload";
+    var _V2 = "Value";
+    var _VC = "VersioningConfiguration";
+    var _VI = "VersionId";
+    var _VIM = "VersionIdMarker";
+    var _Ve = "Versions";
+    var _Ver = "Version";
+    var _WC = "WebsiteConfiguration";
+    var _WGOR = "WriteGetObjectResponse";
+    var _WGORR = "WriteGetObjectResponseRequest";
+    var _WOB = "WriteOffsetBytes";
+    var _WRL = "WebsiteRedirectLocation";
+    var _Y = "Years";
+    var _aN = "annotationName";
+    var _ap = "annotation-prefix";
+    var _ar = "accept-ranges";
+    var _br = "bucket-region";
+    var _c5 = "client";
+    var _ct = "continuation-token";
+    var _d = "delimiter";
+    var _e5 = "error";
+    var _eP = "eventPayload";
+    var _en = "endpoint";
+    var _et = "encoding-type";
+    var _fo = "fetch-owner";
+    var _h4 = "http";
+    var _hC = "httpChecksum";
+    var _hE5 = "httpError";
+    var _hH2 = "httpHeader";
+    var _hL = "hostLabel";
+    var _hP = "httpPayload";
+    var _hPH = "httpPrefixHeaders";
+    var _hQ2 = "httpQuery";
+    var _hi = "http://www.w3.org/2001/XMLSchema-instance";
+    var _i = "id";
+    var _iT3 = "idempotencyToken";
+    var _km = "key-marker";
+    var _m4 = "marker";
+    var _mar = "max-annotation-results";
+    var _mb = "max-buckets";
+    var _mdb = "max-directory-buckets";
+    var _mk = "max-keys";
+    var _mp = "max-parts";
+    var _mu = "max-uploads";
+    var _p = "prefix";
+    var _pN = "partNumber";
+    var _pnm = "part-number-marker";
+    var _rcc = "response-cache-control";
+    var _rcd = "response-content-disposition";
+    var _rce = "response-content-encoding";
+    var _rcl = "response-content-language";
+    var _rct = "response-content-type";
+    var _re = "response-expires";
+    var _s5 = "smithy.ts.sdk.synthetic.com.amazonaws.s3";
+    var _sa = "start-after";
+    var _st = "streaming";
+    var _uI = "uploadId";
+    var _uim = "upload-id-marker";
+    var _vI = "versionId";
+    var _vim = "version-id-marker";
+    var _x = "xsi";
+    var _xA = "xmlAttribute";
+    var _xF = "xmlFlattened";
+    var _xN = "xmlName";
+    var _xNm = "xmlNamespace";
+    var _xaa = "x-amz-acl";
+    var _xaad = "x-amz-abort-date";
+    var _xaapa = "x-amz-access-point-alias";
+    var _xaari = "x-amz-abort-rule-id";
+    var _xaas = "x-amz-archive-status";
+    var _xaba = "x-amz-bucket-arn";
+    var _xabgr = "x-amz-bypass-governance-retention";
+    var _xabln = "x-amz-bucket-location-name";
+    var _xablt = "x-amz-bucket-location-type";
+    var _xabn = "x-amz-bucket-namespace";
+    var _xabole = "x-amz-bucket-object-lock-enabled";
+    var _xabolt = "x-amz-bucket-object-lock-token";
+    var _xabr = "x-amz-bucket-region";
+    var _xaca = "x-amz-checksum-algorithm";
+    var _xacc = "x-amz-checksum-crc32";
+    var _xacc_ = "x-amz-checksum-crc32c";
+    var _xacc__ = "x-amz-checksum-crc64nvme";
+    var _xacm = "x-amz-checksum-md5";
+    var _xacm_ = "x-amz-checksum-mode";
+    var _xacrsba = "x-amz-confirm-remove-self-bucket-access";
+    var _xacs = "x-amz-checksum-sha1";
+    var _xacs_ = "x-amz-checksum-sha256";
+    var _xacs__ = "x-amz-checksum-sha512";
+    var _xacs___ = "x-amz-copy-source";
+    var _xacsim = "x-amz-copy-source-if-match";
+    var _xacsims = "x-amz-copy-source-if-modified-since";
+    var _xacsinm = "x-amz-copy-source-if-none-match";
+    var _xacsius = "x-amz-copy-source-if-unmodified-since";
+    var _xacsm = "x-amz-create-session-mode";
+    var _xacsr = "x-amz-copy-source-range";
+    var _xacssseca = "x-amz-copy-source-server-side-encryption-customer-algorithm";
+    var _xacssseck = "x-amz-copy-source-server-side-encryption-customer-key";
+    var _xacssseckM = "x-amz-copy-source-server-side-encryption-customer-key-MD5";
+    var _xacsvi = "x-amz-copy-source-version-id";
+    var _xact = "x-amz-checksum-type";
+    var _xact_ = "x-amz-client-token";
+    var _xacx = "x-amz-checksum-xxhash64";
+    var _xacx_ = "x-amz-checksum-xxhash3";
+    var _xacx__ = "x-amz-checksum-xxhash128";
+    var _xadm = "x-amz-delete-marker";
+    var _xae = "x-amz-expiration";
+    var _xaebo = "x-amz-expected-bucket-owner";
+    var _xafec = "x-amz-fwd-error-code";
+    var _xafem = "x-amz-fwd-error-message";
+    var _xafhCC = "x-amz-fwd-header-Cache-Control";
+    var _xafhCD = "x-amz-fwd-header-Content-Disposition";
+    var _xafhCE = "x-amz-fwd-header-Content-Encoding";
+    var _xafhCL = "x-amz-fwd-header-Content-Language";
+    var _xafhCR = "x-amz-fwd-header-Content-Range";
+    var _xafhCT = "x-amz-fwd-header-Content-Type";
+    var _xafhE = "x-amz-fwd-header-ETag";
+    var _xafhE_ = "x-amz-fwd-header-Expires";
+    var _xafhLM = "x-amz-fwd-header-Last-Modified";
+    var _xafhar = "x-amz-fwd-header-accept-ranges";
+    var _xafhxacc = "x-amz-fwd-header-x-amz-checksum-crc32";
+    var _xafhxacc_ = "x-amz-fwd-header-x-amz-checksum-crc32c";
+    var _xafhxacc__ = "x-amz-fwd-header-x-amz-checksum-crc64nvme";
+    var _xafhxacm = "x-amz-fwd-header-x-amz-checksum-md5";
+    var _xafhxacs = "x-amz-fwd-header-x-amz-checksum-sha1";
+    var _xafhxacs_ = "x-amz-fwd-header-x-amz-checksum-sha256";
+    var _xafhxacs__ = "x-amz-fwd-header-x-amz-checksum-sha512";
+    var _xafhxacx = "x-amz-fwd-header-x-amz-checksum-xxhash64";
+    var _xafhxacx_ = "x-amz-fwd-header-x-amz-checksum-xxhash3";
+    var _xafhxacx__ = "x-amz-fwd-header-x-amz-checksum-xxhash128";
+    var _xafhxadm = "x-amz-fwd-header-x-amz-delete-marker";
+    var _xafhxae = "x-amz-fwd-header-x-amz-expiration";
+    var _xafhxamm = "x-amz-fwd-header-x-amz-missing-meta";
+    var _xafhxampc = "x-amz-fwd-header-x-amz-mp-parts-count";
+    var _xafhxaollh = "x-amz-fwd-header-x-amz-object-lock-legal-hold";
+    var _xafhxaolm = "x-amz-fwd-header-x-amz-object-lock-mode";
+    var _xafhxaolrud = "x-amz-fwd-header-x-amz-object-lock-retain-until-date";
+    var _xafhxar = "x-amz-fwd-header-x-amz-restore";
+    var _xafhxarc = "x-amz-fwd-header-x-amz-request-charged";
+    var _xafhxars = "x-amz-fwd-header-x-amz-replication-status";
+    var _xafhxasc = "x-amz-fwd-header-x-amz-storage-class";
+    var _xafhxasse = "x-amz-fwd-header-x-amz-server-side-encryption";
+    var _xafhxasseakki = "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id";
+    var _xafhxassebke = "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled";
+    var _xafhxasseca = "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm";
+    var _xafhxasseckM = "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5";
+    var _xafhxatc = "x-amz-fwd-header-x-amz-tagging-count";
+    var _xafhxavi = "x-amz-fwd-header-x-amz-version-id";
+    var _xafs = "x-amz-fwd-status";
+    var _xagfc = "x-amz-grant-full-control";
+    var _xagr = "x-amz-grant-read";
+    var _xagra = "x-amz-grant-read-acp";
+    var _xagw = "x-amz-grant-write";
+    var _xagwa = "x-amz-grant-write-acp";
+    var _xaimit = "x-amz-if-match-initiated-time";
+    var _xaimlmt = "x-amz-if-match-last-modified-time";
+    var _xaims = "x-amz-if-match-size";
+    var _xam = "x-amz-meta-";
+    var _xam_ = "x-amz-mfa";
+    var _xamd = "x-amz-metadata-directive";
+    var _xamm = "x-amz-missing-meta";
+    var _xamos = "x-amz-mp-object-size";
+    var _xamp = "x-amz-max-parts";
+    var _xampc = "x-amz-mp-parts-count";
+    var _xaoa = "x-amz-object-attributes";
+    var _xaoad = "x-amz-object-annotation-directive";
+    var _xaoim = "x-amz-object-if-match";
+    var _xaollh = "x-amz-object-lock-legal-hold";
+    var _xaolm = "x-amz-object-lock-mode";
+    var _xaolrud = "x-amz-object-lock-retain-until-date";
+    var _xaoo = "x-amz-object-ownership";
+    var _xaooa = "x-amz-optional-object-attributes";
+    var _xaos = "x-amz-object-size";
+    var _xaovi = "x-amz-object-version-id";
+    var _xapnm = "x-amz-part-number-marker";
+    var _xar = "x-amz-restore";
+    var _xarc = "x-amz-request-charged";
+    var _xarop = "x-amz-restore-output-path";
+    var _xarp = "x-amz-request-payer";
+    var _xarr = "x-amz-request-route";
+    var _xars = "x-amz-replication-status";
+    var _xars_ = "x-amz-rename-source";
+    var _xarsim = "x-amz-rename-source-if-match";
+    var _xarsims = "x-amz-rename-source-if-modified-since";
+    var _xarsinm = "x-amz-rename-source-if-none-match";
+    var _xarsius = "x-amz-rename-source-if-unmodified-since";
+    var _xart = "x-amz-request-token";
+    var _xasc = "x-amz-storage-class";
+    var _xasca = "x-amz-sdk-checksum-algorithm";
+    var _xasdv = "x-amz-skip-destination-validation";
+    var _xasebo = "x-amz-source-expected-bucket-owner";
+    var _xasse = "x-amz-server-side-encryption";
+    var _xasseakki = "x-amz-server-side-encryption-aws-kms-key-id";
+    var _xassebke = "x-amz-server-side-encryption-bucket-key-enabled";
+    var _xassec = "x-amz-server-side-encryption-context";
+    var _xasseca = "x-amz-server-side-encryption-customer-algorithm";
+    var _xasseck = "x-amz-server-side-encryption-customer-key";
+    var _xasseckM = "x-amz-server-side-encryption-customer-key-MD5";
+    var _xat = "x-amz-tagging";
+    var _xatc = "x-amz-tagging-count";
+    var _xatd = "x-amz-tagging-directive";
+    var _xatdmos = "x-amz-transition-default-minimum-object-size";
+    var _xavi = "x-amz-version-id";
+    var _xawob = "x-amz-write-offset-bytes";
+    var _xawrl = "x-amz-website-redirect-location";
+    var _xs = "xsi:type";
+    var n05 = "com.amazonaws.s3";
+    var _s_registry5 = TypeRegistry2.for(_s5);
+    var S3ServiceException$ = [-3, _s5, "S3ServiceException", 0, [], []];
+    _s_registry5.registerError(S3ServiceException$, S3ServiceException);
+    var n0_registry5 = TypeRegistry2.for(n05);
+    var AccessDenied$ = [
+      -3,
+      n05,
+      _AD,
+      { [_e5]: _c5, [_hE5]: 403 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(AccessDenied$, AccessDenied);
+    var AnnotationLimitExceeded$ = [
+      -3,
+      n05,
+      _ALE,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(AnnotationLimitExceeded$, AnnotationLimitExceeded);
+    var AnnotationNameTooLong$ = [
+      -3,
+      n05,
+      _ANTL,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(AnnotationNameTooLong$, AnnotationNameTooLong);
+    var BucketAlreadyExists$ = [
+      -3,
+      n05,
+      _BAE,
+      { [_e5]: _c5, [_hE5]: 409 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(BucketAlreadyExists$, BucketAlreadyExists);
+    var BucketAlreadyOwnedByYou$ = [
+      -3,
+      n05,
+      _BAOBY,
+      { [_e5]: _c5, [_hE5]: 409 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(BucketAlreadyOwnedByYou$, BucketAlreadyOwnedByYou);
+    var EncryptionTypeMismatch$ = [
+      -3,
+      n05,
+      _ETM,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(EncryptionTypeMismatch$, EncryptionTypeMismatch);
+    var IdempotencyParameterMismatch$ = [
+      -3,
+      n05,
+      _IPM,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(IdempotencyParameterMismatch$, IdempotencyParameterMismatch);
+    var InvalidAnnotationName$ = [
+      -3,
+      n05,
+      _IAN,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(InvalidAnnotationName$, InvalidAnnotationName);
+    var InvalidObjectState$ = [
+      -3,
+      n05,
+      _IOS,
+      { [_e5]: _c5, [_hE5]: 403 },
+      [_SC, _AT3],
+      [0, 0]
+    ];
+    n0_registry5.registerError(InvalidObjectState$, InvalidObjectState);
+    var InvalidPrefix$ = [
+      -3,
+      n05,
+      _IP,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(InvalidPrefix$, InvalidPrefix);
+    var InvalidRequest$ = [
+      -3,
+      n05,
+      _IR,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(InvalidRequest$, InvalidRequest);
+    var InvalidWriteOffset$ = [
+      -3,
+      n05,
+      _IWO,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(InvalidWriteOffset$, InvalidWriteOffset);
+    var NoSuchAnnotation$ = [
+      -3,
+      n05,
+      _NSA,
+      { [_e5]: _c5, [_hE5]: 404 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(NoSuchAnnotation$, NoSuchAnnotation);
+    var NoSuchBucket$ = [
+      -3,
+      n05,
+      _NSB,
+      { [_e5]: _c5, [_hE5]: 404 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(NoSuchBucket$, NoSuchBucket);
+    var NoSuchKey$ = [
+      -3,
+      n05,
+      _NSK,
+      { [_e5]: _c5, [_hE5]: 404 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(NoSuchKey$, NoSuchKey);
+    var NoSuchUpload$ = [
+      -3,
+      n05,
+      _NSU,
+      { [_e5]: _c5, [_hE5]: 404 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(NoSuchUpload$, NoSuchUpload);
+    var NotFound$ = [
+      -3,
+      n05,
+      _NF,
+      { [_e5]: _c5 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(NotFound$, NotFound);
+    var ObjectAlreadyInActiveTierError$ = [
+      -3,
+      n05,
+      _OAIATE,
+      { [_e5]: _c5, [_hE5]: 403 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(ObjectAlreadyInActiveTierError$, ObjectAlreadyInActiveTierError);
+    var ObjectNotInActiveTierError$ = [
+      -3,
+      n05,
+      _ONIATE,
+      { [_e5]: _c5, [_hE5]: 403 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(ObjectNotInActiveTierError$, ObjectNotInActiveTierError);
+    var TooManyParts$ = [
+      -3,
+      n05,
+      _TMP,
+      { [_e5]: _c5, [_hE5]: 400 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(TooManyParts$, TooManyParts);
+    var UnsupportedMediaType$ = [
+      -3,
+      n05,
+      _UMT,
+      { [_e5]: _c5, [_hE5]: 415 },
+      [],
+      []
+    ];
+    n0_registry5.registerError(UnsupportedMediaType$, UnsupportedMediaType);
+    var errorTypeRegistries5 = [
+      _s_registry5,
+      n0_registry5
+    ];
+    var CopySourceSSECustomerKey = [0, n05, _CSSSECK, 8, 0];
+    var NonEmptyKmsKeyArnString = [0, n05, _NEKKAS, 8, 0];
+    var SessionCredentialValue = [0, n05, _SCV, 8, 0];
+    var SSECustomerKey = [0, n05, _SSECK, 8, 0];
+    var SSEKMSEncryptionContext = [0, n05, _SSEKMSEC, 8, 0];
+    var SSEKMSKeyId = [0, n05, _SSEKMSKI, 8, 0];
+    var StreamingBlob = [0, n05, _SB, { [_st]: 1 }, 42];
+    var AbacStatus$ = [
+      3,
+      n05,
+      _AS,
+      0,
+      [_S],
+      [0]
+    ];
+    var AbortIncompleteMultipartUpload$ = [
+      3,
+      n05,
+      _AIMU,
+      0,
+      [_DAI],
+      [1]
+    ];
+    var AbortMultipartUploadOutput$ = [
+      3,
+      n05,
+      _AMUO,
+      0,
+      [_RC2],
+      [[0, { [_hH2]: _xarc }]]
+    ];
+    var AbortMultipartUploadRequest$ = [
+      3,
+      n05,
+      _AMUR,
+      0,
+      [_B, _K2, _UI, _RP, _EBO, _IMIT],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _uI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [6, { [_hH2]: _xaimit }]],
+      3
+    ];
+    var AccelerateConfiguration$ = [
+      3,
+      n05,
+      _AC,
+      0,
+      [_S],
+      [0]
+    ];
+    var AccessControlPolicy$ = [
+      3,
+      n05,
+      _ACP,
+      0,
+      [_G, _O],
+      [[() => Grants, { [_xN]: _ACL }], () => Owner$]
+    ];
+    var AccessControlTranslation$ = [
+      3,
+      n05,
+      _ACT,
+      0,
+      [_O],
+      [0],
+      1
+    ];
+    var AnalyticsAndOperator$ = [
+      3,
+      n05,
+      _AAO,
+      0,
+      [_P2, _T2],
+      [0, [() => TagSet, { [_xF]: 1, [_xN]: _Ta2 }]]
+    ];
+    var AnalyticsConfiguration$ = [
+      3,
+      n05,
+      _ACn,
+      0,
+      [_I, _SCA, _F],
+      [0, () => StorageClassAnalysis$, [() => AnalyticsFilter$, 0]],
+      2
+    ];
+    var AnalyticsExportDestination$ = [
+      3,
+      n05,
+      _AED,
+      0,
+      [_SBD],
+      [() => AnalyticsS3BucketDestination$],
+      1
+    ];
+    var AnalyticsS3BucketDestination$ = [
+      3,
+      n05,
+      _ASBD,
+      0,
+      [_Fo, _B, _BAI, _P2],
+      [0, 0, 0, 0],
+      2
+    ];
+    var AnnotationEntry$ = [
+      3,
+      n05,
+      _AE,
+      0,
+      [_AN, _LM, _Si, _ET, _CA2, _RS],
+      [0, 4, 1, 0, [64 | 0, { [_xF]: 1 }], 0],
+      3
+    ];
+    var AnnotationTableConfiguration$ = [
+      3,
+      n05,
+      _ATC,
+      0,
+      [_CS2, _EC, _R],
+      [0, () => MetadataTableEncryptionConfiguration$, 0],
+      1
+    ];
+    var AnnotationTableConfigurationResult$ = [
+      3,
+      n05,
+      _ATCR,
+      0,
+      [_CS2, _TS, _E2, _TN, _TA, _R],
+      [0, 0, () => ErrorDetails$, 0, 0, 0],
+      1
+    ];
+    var AnnotationTableConfigurationUpdates$ = [
+      3,
+      n05,
+      _ATCU,
+      0,
+      [_CS2, _EC, _R],
+      [0, () => MetadataTableEncryptionConfiguration$, 0],
+      1
+    ];
+    var BlockedEncryptionTypes$ = [
+      3,
+      n05,
+      _BET,
+      0,
+      [_ETn],
+      [[() => EncryptionTypeList, { [_xF]: 1 }]]
+    ];
+    var Bucket$ = [
+      3,
+      n05,
+      _B,
+      0,
+      [_N, _CD, _BR, _BA],
+      [0, 4, 0, 0]
+    ];
+    var BucketInfo$ = [
+      3,
+      n05,
+      _BI,
+      0,
+      [_DR, _Ty],
+      [0, 0]
+    ];
+    var BucketLifecycleConfiguration$ = [
+      3,
+      n05,
+      _BLC,
+      0,
+      [_Ru],
+      [[() => LifecycleRules, { [_xF]: 1, [_xN]: _Rul }]],
+      1
+    ];
+    var BucketLoggingStatus$ = [
+      3,
+      n05,
+      _BLS,
+      0,
+      [_LE],
+      [[() => LoggingEnabled$, 0]]
+    ];
+    var Checksum$ = [
+      3,
+      n05,
+      _C2,
+      0,
+      [_CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    var CommonPrefix$ = [
+      3,
+      n05,
+      _CP,
+      0,
+      [_P2],
+      [0]
+    ];
+    var CompletedMultipartUpload$ = [
+      3,
+      n05,
+      _CMU,
+      0,
+      [_Pa],
+      [[() => CompletedPartList, { [_xF]: 1, [_xN]: _Par }]]
+    ];
+    var CompletedPart$ = [
+      3,
+      n05,
+      _CPo,
+      0,
+      [_ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _PN],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    ];
+    var CompleteMultipartUploadOutput$ = [
+      3,
+      n05,
+      _CMUO,
+      { [_xN]: _CMUR },
+      [_L, _B, _K2, _Ex, _ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _SSE, _VI, _SSEKMSKI, _BKE, _RC2],
+      [0, 0, 0, [0, { [_hH2]: _xae }], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xavi }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarc }]]
+    ];
+    var CompleteMultipartUploadRequest$ = [
+      3,
+      n05,
+      _CMURo,
+      0,
+      [_B, _K2, _UI, _MU, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _MOS, _RP, _EBO, _IM, _INM, _SSECA, _SSECK, _SSECKMD],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _uI }], [() => CompletedMultipartUpload$, { [_hP]: 1, [_xN]: _CMUo }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xact }], [1, { [_hH2]: _xamos }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _IM_ }], [0, { [_hH2]: _INM_ }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }]],
+      3
+    ];
+    var Condition$ = [
+      3,
+      n05,
+      _Co,
+      0,
+      [_HECRE, _KPE],
+      [0, 0]
+    ];
+    var ContinuationEvent$ = [
+      3,
+      n05,
+      _CE,
+      0,
+      [],
+      []
+    ];
+    var CopyObjectOutput$ = [
+      3,
+      n05,
+      _COO,
+      0,
+      [_COR, _Ex, _CSVI, _VI, _SSE, _SSECA, _SSECKMD, _SSEKMSKI, _SSEKMSEC, _BKE, _RC2],
+      [[() => CopyObjectResult$, 16], [0, { [_hH2]: _xae }], [0, { [_hH2]: _xacsvi }], [0, { [_hH2]: _xavi }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarc }]]
+    ];
+    var CopyObjectRequest$ = [
+      3,
+      n05,
+      _CORo,
+      0,
+      [_B, _CSo, _K2, _ACL_, _CC, _CA2, _CDo, _CEo, _CL, _CTo, _CSIM, _CSIMS, _CSINM, _CSIUS, _Exp, _GFC, _GR, _GRACP, _GWACP, _IM, _INM, _M, _MD, _TD, _ADn, _SSE, _SC, _WRL, _SSECA, _SSECK, _SSECKMD, _SSEKMSKI, _SSEKMSEC, _BKE, _CSSSECA, _CSSSECK, _CSSSECKMD, _RP, _Tag, _OLM, _OLRUD, _OLLHS, _EBO, _ESBO],
+      [[0, 1], [0, { [_hH2]: _xacs___ }], [0, 1], [0, { [_hH2]: _xaa }], [0, { [_hH2]: _CC_ }], [0, { [_hH2]: _xaca }], [0, { [_hH2]: _CD_ }], [0, { [_hH2]: _CE_ }], [0, { [_hH2]: _CL_ }], [0, { [_hH2]: _CT_ }], [0, { [_hH2]: _xacsim }], [4, { [_hH2]: _xacsims }], [0, { [_hH2]: _xacsinm }], [4, { [_hH2]: _xacsius }], [4, { [_hH2]: _Exp }], [0, { [_hH2]: _xagfc }], [0, { [_hH2]: _xagr }], [0, { [_hH2]: _xagra }], [0, { [_hH2]: _xagwa }], [0, { [_hH2]: _IM_ }], [0, { [_hH2]: _INM_ }], [128 | 0, { [_hPH]: _xam }], [0, { [_hH2]: _xamd }], [0, { [_hH2]: _xatd }], [0, { [_hH2]: _xaoad }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xasc }], [0, { [_hH2]: _xawrl }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xacssseca }], [() => CopySourceSSECustomerKey, { [_hH2]: _xacssseck }], [0, { [_hH2]: _xacssseckM }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xat }], [0, { [_hH2]: _xaolm }], [5, { [_hH2]: _xaolrud }], [0, { [_hH2]: _xaollh }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xasebo }]],
+      3
+    ];
+    var CopyObjectResult$ = [
+      3,
+      n05,
+      _COR,
+      0,
+      [_ET, _LM, _CT2, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe],
+      [0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    var CopyPartResult$ = [
+      3,
+      n05,
+      _CPR,
+      0,
+      [_ET, _LM, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe],
+      [0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    var CORSConfiguration$ = [
+      3,
+      n05,
+      _CORSC,
+      0,
+      [_CORSR],
+      [[() => CORSRules, { [_xF]: 1, [_xN]: _CORSRu }]],
+      1
+    ];
+    var CORSRule$ = [
+      3,
+      n05,
+      _CORSRu,
+      0,
+      [_AM, _AO, _ID, _AH, _EH, _MAS],
+      [[64 | 0, { [_xF]: 1, [_xN]: _AMl }], [64 | 0, { [_xF]: 1, [_xN]: _AOl }], 0, [64 | 0, { [_xF]: 1, [_xN]: _AHl }], [64 | 0, { [_xF]: 1, [_xN]: _EHx }], 1],
+      2
+    ];
+    var CreateBucketConfiguration$ = [
+      3,
+      n05,
+      _CBC,
+      0,
+      [_LC, _L, _B, _T2],
+      [0, () => LocationInfo$, () => BucketInfo$, [() => TagSet, 0]]
+    ];
+    var CreateBucketMetadataConfigurationRequest$ = [
+      3,
+      n05,
+      _CBMCR,
+      0,
+      [_B, _MC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => MetadataConfiguration$, { [_hP]: 1, [_xN]: _MC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var CreateBucketMetadataTableConfigurationRequest$ = [
+      3,
+      n05,
+      _CBMTCR,
+      0,
+      [_B, _MTC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => MetadataTableConfiguration$, { [_hP]: 1, [_xN]: _MTC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var CreateBucketOutput$ = [
+      3,
+      n05,
+      _CBO,
+      0,
+      [_L, _BA],
+      [[0, { [_hH2]: _L }], [0, { [_hH2]: _xaba }]]
+    ];
+    var CreateBucketRequest$ = [
+      3,
+      n05,
+      _CBR,
+      0,
+      [_B, _ACL_, _CBC, _GFC, _GR, _GRACP, _GW, _GWACP, _OLEFB, _OO, _BN],
+      [[0, 1], [0, { [_hH2]: _xaa }], [() => CreateBucketConfiguration$, { [_hP]: 1, [_xN]: _CBC }], [0, { [_hH2]: _xagfc }], [0, { [_hH2]: _xagr }], [0, { [_hH2]: _xagra }], [0, { [_hH2]: _xagw }], [0, { [_hH2]: _xagwa }], [2, { [_hH2]: _xabole }], [0, { [_hH2]: _xaoo }], [0, { [_hH2]: _xabn }]],
+      1
+    ];
+    var CreateMultipartUploadOutput$ = [
+      3,
+      n05,
+      _CMUOr,
+      { [_xN]: _IMUR },
+      [_ADb, _ARI2, _B, _K2, _UI, _SSE, _SSECA, _SSECKMD, _SSEKMSKI, _SSEKMSEC, _BKE, _RC2, _CA2, _CT2],
+      [[4, { [_hH2]: _xaad }], [0, { [_hH2]: _xaari }], [0, { [_xN]: _B }], 0, 0, [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarc }], [0, { [_hH2]: _xaca }], [0, { [_hH2]: _xact }]]
+    ];
+    var CreateMultipartUploadRequest$ = [
+      3,
+      n05,
+      _CMURr,
+      0,
+      [_B, _K2, _ACL_, _CC, _CDo, _CEo, _CL, _CTo, _Exp, _GFC, _GR, _GRACP, _GWACP, _M, _SSE, _SC, _WRL, _SSECA, _SSECK, _SSECKMD, _SSEKMSKI, _SSEKMSEC, _BKE, _RP, _Tag, _OLM, _OLRUD, _OLLHS, _EBO, _CA2, _CT2],
+      [[0, 1], [0, 1], [0, { [_hH2]: _xaa }], [0, { [_hH2]: _CC_ }], [0, { [_hH2]: _CD_ }], [0, { [_hH2]: _CE_ }], [0, { [_hH2]: _CL_ }], [0, { [_hH2]: _CT_ }], [4, { [_hH2]: _Exp }], [0, { [_hH2]: _xagfc }], [0, { [_hH2]: _xagr }], [0, { [_hH2]: _xagra }], [0, { [_hH2]: _xagwa }], [128 | 0, { [_hPH]: _xam }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xasc }], [0, { [_hH2]: _xawrl }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xat }], [0, { [_hH2]: _xaolm }], [5, { [_hH2]: _xaolrud }], [0, { [_hH2]: _xaollh }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xaca }], [0, { [_hH2]: _xact }]],
+      2
+    ];
+    var CreateSessionOutput$ = [
+      3,
+      n05,
+      _CSO,
+      { [_xN]: _CSR },
+      [_Cr, _SSE, _SSEKMSKI, _SSEKMSEC, _BKE],
+      [[() => SessionCredentials$, { [_xN]: _Cr }], [0, { [_hH2]: _xasse }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }]],
+      1
+    ];
+    var CreateSessionRequest$ = [
+      3,
+      n05,
+      _CSRr,
+      0,
+      [_B, _SM, _SSE, _SSEKMSKI, _SSEKMSEC, _BKE],
+      [[0, 1], [0, { [_hH2]: _xacsm }], [0, { [_hH2]: _xasse }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }]],
+      1
+    ];
+    var CSVInput$ = [
+      3,
+      n05,
+      _CSVIn,
+      0,
+      [_FHI, _Com, _QEC, _RD, _FD, _QC, _AQRD],
+      [0, 0, 0, 0, 0, 0, 2]
+    ];
+    var CSVOutput$ = [
+      3,
+      n05,
+      _CSVO,
+      0,
+      [_QF, _QEC, _RD, _FD, _QC],
+      [0, 0, 0, 0, 0]
+    ];
+    var DefaultRetention$ = [
+      3,
+      n05,
+      _DRe,
+      0,
+      [_Mo, _D, _Y],
+      [0, 1, 1]
+    ];
+    var Delete$ = [
+      3,
+      n05,
+      _De,
+      0,
+      [_Ob, _Q],
+      [[() => ObjectIdentifierList, { [_xF]: 1, [_xN]: _Obj }], 2],
+      1
+    ];
+    var DeleteBucketAnalyticsConfigurationRequest$ = [
+      3,
+      n05,
+      _DBACR,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var DeleteBucketCorsRequest$ = [
+      3,
+      n05,
+      _DBCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketEncryptionRequest$ = [
+      3,
+      n05,
+      _DBER,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketIntelligentTieringConfigurationRequest$ = [
+      3,
+      n05,
+      _DBITCR,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var DeleteBucketInventoryConfigurationRequest$ = [
+      3,
+      n05,
+      _DBICR,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var DeleteBucketLifecycleRequest$ = [
+      3,
+      n05,
+      _DBLR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketMetadataConfigurationRequest$ = [
+      3,
+      n05,
+      _DBMCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketMetadataTableConfigurationRequest$ = [
+      3,
+      n05,
+      _DBMTCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketMetricsConfigurationRequest$ = [
+      3,
+      n05,
+      _DBMCRe,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var DeleteBucketOwnershipControlsRequest$ = [
+      3,
+      n05,
+      _DBOCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketPolicyRequest$ = [
+      3,
+      n05,
+      _DBPR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketReplicationRequest$ = [
+      3,
+      n05,
+      _DBRR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketRequest$ = [
+      3,
+      n05,
+      _DBR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketTaggingRequest$ = [
+      3,
+      n05,
+      _DBTR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeleteBucketWebsiteRequest$ = [
+      3,
+      n05,
+      _DBWR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var DeletedObject$ = [
+      3,
+      n05,
+      _DO,
+      0,
+      [_K2, _VI, _DM, _DMVI],
+      [0, 0, 2, 0]
+    ];
+    var DeleteMarkerEntry$ = [
+      3,
+      n05,
+      _DME,
+      0,
+      [_O, _K2, _VI, _IL, _LM],
+      [() => Owner$, 0, 0, 2, 4]
+    ];
+    var DeleteMarkerReplication$ = [
+      3,
+      n05,
+      _DMR,
+      0,
+      [_S],
+      [0]
+    ];
+    var DeleteObjectAnnotationOutput$ = [
+      3,
+      n05,
+      _DOAO,
+      0,
+      [_OVI, _RC2],
+      [[0, { [_hH2]: _xaovi }], [0, { [_hH2]: _xarc }]]
+    ];
+    var DeleteObjectAnnotationRequest$ = [
+      3,
+      n05,
+      _DOAR,
+      0,
+      [_B, _K2, _AN, _VI, _RP, _EBO, _OIM],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _aN }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xaoim }]],
+      3
+    ];
+    var DeleteObjectOutput$ = [
+      3,
+      n05,
+      _DOO,
+      0,
+      [_DM, _VI, _RC2],
+      [[2, { [_hH2]: _xadm }], [0, { [_hH2]: _xavi }], [0, { [_hH2]: _xarc }]]
+    ];
+    var DeleteObjectRequest$ = [
+      3,
+      n05,
+      _DOR,
+      0,
+      [_B, _K2, _MFA, _VI, _RP, _BGR, _EBO, _IM, _IMLMT, _IMS],
+      [[0, 1], [0, 1], [0, { [_hH2]: _xam_ }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [2, { [_hH2]: _xabgr }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _IM_ }], [6, { [_hH2]: _xaimlmt }], [1, { [_hH2]: _xaims }]],
+      2
+    ];
+    var DeleteObjectsOutput$ = [
+      3,
+      n05,
+      _DOOe,
+      { [_xN]: _DRel },
+      [_Del, _RC2, _Er],
+      [[() => DeletedObjects, { [_xF]: 1 }], [0, { [_hH2]: _xarc }], [() => Errors, { [_xF]: 1, [_xN]: _E2 }]]
+    ];
+    var DeleteObjectsRequest$ = [
+      3,
+      n05,
+      _DORe,
+      0,
+      [_B, _De, _MFA, _RP, _BGR, _EBO, _CA2],
+      [[0, 1], [() => Delete$, { [_hP]: 1, [_xN]: _De }], [0, { [_hH2]: _xam_ }], [0, { [_hH2]: _xarp }], [2, { [_hH2]: _xabgr }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xasca }]],
+      2
+    ];
+    var DeleteObjectTaggingOutput$ = [
+      3,
+      n05,
+      _DOTO,
+      0,
+      [_VI],
+      [[0, { [_hH2]: _xavi }]]
+    ];
+    var DeleteObjectTaggingRequest$ = [
+      3,
+      n05,
+      _DOTR,
+      0,
+      [_B, _K2, _VI, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var DeletePublicAccessBlockRequest$ = [
+      3,
+      n05,
+      _DPABR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var Destination$ = [
+      3,
+      n05,
+      _Des,
+      0,
+      [_B, _A2, _SC, _ACT, _EC, _RT3, _Me],
+      [0, 0, 0, () => AccessControlTranslation$, () => EncryptionConfiguration$, () => ReplicationTime$, () => Metrics$],
+      1
+    ];
+    var DestinationResult$ = [
+      3,
+      n05,
+      _DRes,
+      0,
+      [_TBT, _TBA, _TNa],
+      [0, 0, 0]
+    ];
+    var Encryption$ = [
+      3,
+      n05,
+      _En,
+      0,
+      [_ETn, _KMSKI, _KMSC],
+      [0, [() => SSEKMSKeyId, 0], 0],
+      1
+    ];
+    var EncryptionConfiguration$ = [
+      3,
+      n05,
+      _EC,
+      0,
+      [_RKKID],
+      [0]
+    ];
+    var EndEvent$ = [
+      3,
+      n05,
+      _EE,
+      0,
+      [],
+      []
+    ];
+    var _Error$ = [
+      3,
+      n05,
+      _E2,
+      0,
+      [_K2, _VI, _Cod, _Mes],
+      [0, 0, 0, 0]
+    ];
+    var ErrorDetails$ = [
+      3,
+      n05,
+      _ED,
+      0,
+      [_ECr, _EM],
+      [0, 0]
+    ];
+    var ErrorDocument$ = [
+      3,
+      n05,
+      _EDr,
+      0,
+      [_K2],
+      [0],
+      1
+    ];
+    var EventBridgeConfiguration$ = [
+      3,
+      n05,
+      _EBC,
+      0,
+      [],
+      []
+    ];
+    var ExistingObjectReplication$ = [
+      3,
+      n05,
+      _EOR,
+      0,
+      [_S],
+      [0],
+      1
+    ];
+    var FilterRule$ = [
+      3,
+      n05,
+      _FR,
+      0,
+      [_N, _V2],
+      [0, 0]
+    ];
+    var GetBucketAbacOutput$ = [
+      3,
+      n05,
+      _GBAO,
+      0,
+      [_AS],
+      [[() => AbacStatus$, 16]]
+    ];
+    var GetBucketAbacRequest$ = [
+      3,
+      n05,
+      _GBAR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketAccelerateConfigurationOutput$ = [
+      3,
+      n05,
+      _GBACO,
+      { [_xN]: _AC },
+      [_S, _RC2],
+      [0, [0, { [_hH2]: _xarc }]]
+    ];
+    var GetBucketAccelerateConfigurationRequest$ = [
+      3,
+      n05,
+      _GBACR,
+      0,
+      [_B, _EBO, _RP],
+      [[0, 1], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xarp }]],
+      1
+    ];
+    var GetBucketAclOutput$ = [
+      3,
+      n05,
+      _GBAOe,
+      { [_xN]: _ACP },
+      [_O, _G],
+      [() => Owner$, [() => Grants, { [_xN]: _ACL }]]
+    ];
+    var GetBucketAclRequest$ = [
+      3,
+      n05,
+      _GBARe,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketAnalyticsConfigurationOutput$ = [
+      3,
+      n05,
+      _GBACOe,
+      0,
+      [_ACn],
+      [[() => AnalyticsConfiguration$, 16]]
+    ];
+    var GetBucketAnalyticsConfigurationRequest$ = [
+      3,
+      n05,
+      _GBACRe,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetBucketCorsOutput$ = [
+      3,
+      n05,
+      _GBCO,
+      { [_xN]: _CORSC },
+      [_CORSR],
+      [[() => CORSRules, { [_xF]: 1, [_xN]: _CORSRu }]]
+    ];
+    var GetBucketCorsRequest$ = [
+      3,
+      n05,
+      _GBCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketEncryptionOutput$ = [
+      3,
+      n05,
+      _GBEO,
+      0,
+      [_SSEC],
+      [[() => ServerSideEncryptionConfiguration$, 16]]
+    ];
+    var GetBucketEncryptionRequest$ = [
+      3,
+      n05,
+      _GBER,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketIntelligentTieringConfigurationOutput$ = [
+      3,
+      n05,
+      _GBITCO,
+      0,
+      [_ITC],
+      [[() => IntelligentTieringConfiguration$, 16]]
+    ];
+    var GetBucketIntelligentTieringConfigurationRequest$ = [
+      3,
+      n05,
+      _GBITCR,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetBucketInventoryConfigurationOutput$ = [
+      3,
+      n05,
+      _GBICO,
+      0,
+      [_IC],
+      [[() => InventoryConfiguration$, 16]]
+    ];
+    var GetBucketInventoryConfigurationRequest$ = [
+      3,
+      n05,
+      _GBICR,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetBucketLifecycleConfigurationOutput$ = [
+      3,
+      n05,
+      _GBLCO,
+      { [_xN]: _LCi },
+      [_Ru, _TDMOS],
+      [[() => LifecycleRules, { [_xF]: 1, [_xN]: _Rul }], [0, { [_hH2]: _xatdmos }]]
+    ];
+    var GetBucketLifecycleConfigurationRequest$ = [
+      3,
+      n05,
+      _GBLCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketLocationOutput$ = [
+      3,
+      n05,
+      _GBLO,
+      { [_xN]: _LC },
+      [_LC],
+      [0]
+    ];
+    var GetBucketLocationRequest$ = [
+      3,
+      n05,
+      _GBLR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketLoggingOutput$ = [
+      3,
+      n05,
+      _GBLOe,
+      { [_xN]: _BLS },
+      [_LE],
+      [[() => LoggingEnabled$, 0]]
+    ];
+    var GetBucketLoggingRequest$ = [
+      3,
+      n05,
+      _GBLRe,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketMetadataConfigurationOutput$ = [
+      3,
+      n05,
+      _GBMCO,
+      0,
+      [_GBMCR],
+      [[() => GetBucketMetadataConfigurationResult$, 16]]
+    ];
+    var GetBucketMetadataConfigurationRequest$ = [
+      3,
+      n05,
+      _GBMCRe,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketMetadataConfigurationResult$ = [
+      3,
+      n05,
+      _GBMCR,
+      0,
+      [_MCR],
+      [() => MetadataConfigurationResult$],
+      1
+    ];
+    var GetBucketMetadataTableConfigurationOutput$ = [
+      3,
+      n05,
+      _GBMTCO,
+      0,
+      [_GBMTCR],
+      [[() => GetBucketMetadataTableConfigurationResult$, 16]]
+    ];
+    var GetBucketMetadataTableConfigurationRequest$ = [
+      3,
+      n05,
+      _GBMTCRe,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketMetadataTableConfigurationResult$ = [
+      3,
+      n05,
+      _GBMTCR,
+      0,
+      [_MTCR, _S, _E2],
+      [() => MetadataTableConfigurationResult$, 0, () => ErrorDetails$],
+      2
+    ];
+    var GetBucketMetricsConfigurationOutput$ = [
+      3,
+      n05,
+      _GBMCOe,
+      0,
+      [_MCe],
+      [[() => MetricsConfiguration$, 16]]
+    ];
+    var GetBucketMetricsConfigurationRequest$ = [
+      3,
+      n05,
+      _GBMCRet,
+      0,
+      [_B, _I, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetBucketNotificationConfigurationRequest$ = [
+      3,
+      n05,
+      _GBNCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketOwnershipControlsOutput$ = [
+      3,
+      n05,
+      _GBOCO,
+      0,
+      [_OC],
+      [[() => OwnershipControls$, 16]]
+    ];
+    var GetBucketOwnershipControlsRequest$ = [
+      3,
+      n05,
+      _GBOCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketPolicyOutput$ = [
+      3,
+      n05,
+      _GBPO,
+      0,
+      [_Po],
+      [[0, 16]]
+    ];
+    var GetBucketPolicyRequest$ = [
+      3,
+      n05,
+      _GBPR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketPolicyStatusOutput$ = [
+      3,
+      n05,
+      _GBPSO,
+      0,
+      [_PS],
+      [[() => PolicyStatus$, 16]]
+    ];
+    var GetBucketPolicyStatusRequest$ = [
+      3,
+      n05,
+      _GBPSR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketReplicationOutput$ = [
+      3,
+      n05,
+      _GBRO,
+      0,
+      [_RCe],
+      [[() => ReplicationConfiguration$, 16]]
+    ];
+    var GetBucketReplicationRequest$ = [
+      3,
+      n05,
+      _GBRR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketRequestPaymentOutput$ = [
+      3,
+      n05,
+      _GBRPO,
+      { [_xN]: _RPC },
+      [_Pay],
+      [0]
+    ];
+    var GetBucketRequestPaymentRequest$ = [
+      3,
+      n05,
+      _GBRPR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketTaggingOutput$ = [
+      3,
+      n05,
+      _GBTO,
+      { [_xN]: _Tag },
+      [_TSa],
+      [[() => TagSet, 0]],
+      1
+    ];
+    var GetBucketTaggingRequest$ = [
+      3,
+      n05,
+      _GBTR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketVersioningOutput$ = [
+      3,
+      n05,
+      _GBVO,
+      { [_xN]: _VC },
+      [_S, _MFAD],
+      [0, [0, { [_xN]: _MDf }]]
+    ];
+    var GetBucketVersioningRequest$ = [
+      3,
+      n05,
+      _GBVR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetBucketWebsiteOutput$ = [
+      3,
+      n05,
+      _GBWO,
+      { [_xN]: _WC },
+      [_RART, _IDn, _EDr, _RR],
+      [() => RedirectAllRequestsTo$, () => IndexDocument$, () => ErrorDocument$, [() => RoutingRules, 0]]
+    ];
+    var GetBucketWebsiteRequest$ = [
+      3,
+      n05,
+      _GBWR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetObjectAclOutput$ = [
+      3,
+      n05,
+      _GOAO,
+      { [_xN]: _ACP },
+      [_O, _G, _RC2],
+      [() => Owner$, [() => Grants, { [_xN]: _ACL }], [0, { [_hH2]: _xarc }]]
+    ];
+    var GetObjectAclRequest$ = [
+      3,
+      n05,
+      _GOAR,
+      0,
+      [_B, _K2, _VI, _RP, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetObjectAnnotationOutput$ = [
+      3,
+      n05,
+      _GOAOe,
+      0,
+      [_AP, _OVI, _LM, _CLo, _ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _SSE, _RC2, _RS],
+      [[() => StreamingBlob, 16], [0, { [_hH2]: _xaovi }], [4, { [_hH2]: _LM_ }], [1, { [_hH2]: _CL__ }], [0, { [_hH2]: _ET }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xact }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xarc }], [0, { [_hH2]: _xars }]]
+    ];
+    var GetObjectAnnotationRequest$ = [
+      3,
+      n05,
+      _GOARe,
+      0,
+      [_B, _K2, _AN, _VI, _RP, _EBO, _CMh],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _aN }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xacm_ }]],
+      3
+    ];
+    var GetObjectAttributesOutput$ = [
+      3,
+      n05,
+      _GOAOet,
+      { [_xN]: _GOARet },
+      [_DM, _LM, _VI, _RC2, _ET, _C2, _OP, _SC, _OS],
+      [[2, { [_hH2]: _xadm }], [4, { [_hH2]: _LM_ }], [0, { [_hH2]: _xavi }], [0, { [_hH2]: _xarc }], 0, () => Checksum$, [() => GetObjectAttributesParts$, 0], 0, 1]
+    ];
+    var GetObjectAttributesParts$ = [
+      3,
+      n05,
+      _GOAP,
+      0,
+      [_TPC, _PNM, _NPNM, _MP, _IT2, _Pa],
+      [[1, { [_xN]: _PC2 }], 0, 0, 1, 2, [() => PartsList, { [_xF]: 1, [_xN]: _Par }]]
+    ];
+    var GetObjectAttributesRequest$ = [
+      3,
+      n05,
+      _GOARetb,
+      0,
+      [_B, _K2, _OA, _VI, _MP, _PNM, _SSECA, _SSECK, _SSECKMD, _RP, _EBO],
+      [[0, 1], [0, 1], [64 | 0, { [_hH2]: _xaoa }], [0, { [_hQ2]: _vI }], [1, { [_hH2]: _xamp }], [0, { [_hH2]: _xapnm }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      3
+    ];
+    var GetObjectLegalHoldOutput$ = [
+      3,
+      n05,
+      _GOLHO,
+      0,
+      [_LH],
+      [[() => ObjectLockLegalHold$, { [_hP]: 1, [_xN]: _LH }]]
+    ];
+    var GetObjectLegalHoldRequest$ = [
+      3,
+      n05,
+      _GOLHR,
+      0,
+      [_B, _K2, _VI, _RP, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetObjectLockConfigurationOutput$ = [
+      3,
+      n05,
+      _GOLCO,
+      0,
+      [_OLC],
+      [[() => ObjectLockConfiguration$, 16]]
+    ];
+    var GetObjectLockConfigurationRequest$ = [
+      3,
+      n05,
+      _GOLCR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GetObjectOutput$ = [
+      3,
+      n05,
+      _GOO,
+      0,
+      [_Bo, _DM, _AR2, _Ex, _Re, _LM, _CLo, _ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _MM, _VI, _CC, _CDo, _CEo, _CL, _CR, _CTo, _Exp, _ES, _WRL, _SSE, _M, _SSECA, _SSECKMD, _SSEKMSKI, _BKE, _SC, _RC2, _RS, _PC2, _TC2, _OLM, _OLRUD, _OLLHS],
+      [[() => StreamingBlob, 16], [2, { [_hH2]: _xadm }], [0, { [_hH2]: _ar }], [0, { [_hH2]: _xae }], [0, { [_hH2]: _xar }], [4, { [_hH2]: _LM_ }], [1, { [_hH2]: _CL__ }], [0, { [_hH2]: _ET }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xact }], [1, { [_hH2]: _xamm }], [0, { [_hH2]: _xavi }], [0, { [_hH2]: _CC_ }], [0, { [_hH2]: _CD_ }], [0, { [_hH2]: _CE_ }], [0, { [_hH2]: _CL_ }], [0, { [_hH2]: _CR_ }], [0, { [_hH2]: _CT_ }], [4, { [_hH2]: _Exp }], [0, { [_hH2]: _ES }], [0, { [_hH2]: _xawrl }], [0, { [_hH2]: _xasse }], [128 | 0, { [_hPH]: _xam }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xasc }], [0, { [_hH2]: _xarc }], [0, { [_hH2]: _xars }], [1, { [_hH2]: _xampc }], [1, { [_hH2]: _xatc }], [0, { [_hH2]: _xaolm }], [5, { [_hH2]: _xaolrud }], [0, { [_hH2]: _xaollh }]]
+    ];
+    var GetObjectRequest$ = [
+      3,
+      n05,
+      _GOR,
+      0,
+      [_B, _K2, _IM, _IMSf, _INM, _IUS, _Ra, _RCC, _RCD, _RCE, _RCL, _RCT, _RE, _VI, _SSECA, _SSECK, _SSECKMD, _RP, _PN, _EBO, _CMh],
+      [[0, 1], [0, 1], [0, { [_hH2]: _IM_ }], [4, { [_hH2]: _IMS_ }], [0, { [_hH2]: _INM_ }], [4, { [_hH2]: _IUS_ }], [0, { [_hH2]: _Ra }], [0, { [_hQ2]: _rcc }], [0, { [_hQ2]: _rcd }], [0, { [_hQ2]: _rce }], [0, { [_hQ2]: _rcl }], [0, { [_hQ2]: _rct }], [6, { [_hQ2]: _re }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [0, { [_hH2]: _xarp }], [1, { [_hQ2]: _pN }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xacm_ }]],
+      2
+    ];
+    var GetObjectRetentionOutput$ = [
+      3,
+      n05,
+      _GORO,
+      0,
+      [_Ret],
+      [[() => ObjectLockRetention$, { [_hP]: 1, [_xN]: _Ret }]]
+    ];
+    var GetObjectRetentionRequest$ = [
+      3,
+      n05,
+      _GORR,
+      0,
+      [_B, _K2, _VI, _RP, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetObjectTaggingOutput$ = [
+      3,
+      n05,
+      _GOTO,
+      { [_xN]: _Tag },
+      [_TSa, _VI],
+      [[() => TagSet, 0], [0, { [_hH2]: _xavi }]],
+      1
+    ];
+    var GetObjectTaggingRequest$ = [
+      3,
+      n05,
+      _GOTR,
+      0,
+      [_B, _K2, _VI, _EBO, _RP],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xarp }]],
+      2
+    ];
+    var GetObjectTorrentOutput$ = [
+      3,
+      n05,
+      _GOTOe,
+      0,
+      [_Bo, _RC2],
+      [[() => StreamingBlob, 16], [0, { [_hH2]: _xarc }]]
+    ];
+    var GetObjectTorrentRequest$ = [
+      3,
+      n05,
+      _GOTRe,
+      0,
+      [_B, _K2, _RP, _EBO],
+      [[0, 1], [0, 1], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var GetPublicAccessBlockOutput$ = [
+      3,
+      n05,
+      _GPABO,
+      0,
+      [_PABC],
+      [[() => PublicAccessBlockConfiguration$, 16]]
+    ];
+    var GetPublicAccessBlockRequest$ = [
+      3,
+      n05,
+      _GPABR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var GlacierJobParameters$ = [
+      3,
+      n05,
+      _GJP,
+      0,
+      [_Ti],
+      [0],
+      1
+    ];
+    var Grant$ = [
+      3,
+      n05,
+      _Gr,
+      0,
+      [_Gra, _Pe],
+      [[() => Grantee$, { [_xNm]: [_x, _hi] }], 0]
+    ];
+    var Grantee$ = [
+      3,
+      n05,
+      _Gra,
+      0,
+      [_Ty, _DN, _EA, _ID, _URI],
+      [[0, { [_xA]: 1, [_xN]: _xs }], 0, 0, 0, 0],
+      1
+    ];
+    var HeadBucketOutput$ = [
+      3,
+      n05,
+      _HBO,
+      0,
+      [_BA, _BLT, _BLN, _BR, _APA],
+      [[0, { [_hH2]: _xaba }], [0, { [_hH2]: _xablt }], [0, { [_hH2]: _xabln }], [0, { [_hH2]: _xabr }], [2, { [_hH2]: _xaapa }]]
+    ];
+    var HeadBucketRequest$ = [
+      3,
+      n05,
+      _HBR,
+      0,
+      [_B, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var HeadObjectOutput$ = [
+      3,
+      n05,
+      _HOO,
+      0,
+      [_DM, _AR2, _Ex, _Re, _ASr, _LM, _CLo, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _ET, _MM, _VI, _CC, _CDo, _CEo, _CL, _CTo, _CR, _Exp, _ES, _WRL, _SSE, _M, _SSECA, _SSECKMD, _SSEKMSKI, _BKE, _SC, _RC2, _RS, _PC2, _TC2, _OLM, _OLRUD, _OLLHS],
+      [[2, { [_hH2]: _xadm }], [0, { [_hH2]: _ar }], [0, { [_hH2]: _xae }], [0, { [_hH2]: _xar }], [0, { [_hH2]: _xaas }], [4, { [_hH2]: _LM_ }], [1, { [_hH2]: _CL__ }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xact }], [0, { [_hH2]: _ET }], [1, { [_hH2]: _xamm }], [0, { [_hH2]: _xavi }], [0, { [_hH2]: _CC_ }], [0, { [_hH2]: _CD_ }], [0, { [_hH2]: _CE_ }], [0, { [_hH2]: _CL_ }], [0, { [_hH2]: _CT_ }], [0, { [_hH2]: _CR_ }], [4, { [_hH2]: _Exp }], [0, { [_hH2]: _ES }], [0, { [_hH2]: _xawrl }], [0, { [_hH2]: _xasse }], [128 | 0, { [_hPH]: _xam }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xasc }], [0, { [_hH2]: _xarc }], [0, { [_hH2]: _xars }], [1, { [_hH2]: _xampc }], [1, { [_hH2]: _xatc }], [0, { [_hH2]: _xaolm }], [5, { [_hH2]: _xaolrud }], [0, { [_hH2]: _xaollh }]]
+    ];
+    var HeadObjectRequest$ = [
+      3,
+      n05,
+      _HOR,
+      0,
+      [_B, _K2, _IM, _IMSf, _INM, _IUS, _Ra, _RCC, _RCD, _RCE, _RCL, _RCT, _RE, _VI, _SSECA, _SSECK, _SSECKMD, _RP, _PN, _EBO, _CMh],
+      [[0, 1], [0, 1], [0, { [_hH2]: _IM_ }], [4, { [_hH2]: _IMS_ }], [0, { [_hH2]: _INM_ }], [4, { [_hH2]: _IUS_ }], [0, { [_hH2]: _Ra }], [0, { [_hQ2]: _rcc }], [0, { [_hQ2]: _rcd }], [0, { [_hQ2]: _rce }], [0, { [_hQ2]: _rcl }], [0, { [_hQ2]: _rct }], [6, { [_hQ2]: _re }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [0, { [_hH2]: _xarp }], [1, { [_hQ2]: _pN }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xacm_ }]],
+      2
+    ];
+    var IndexDocument$ = [
+      3,
+      n05,
+      _IDn,
+      0,
+      [_Su],
+      [0],
+      1
+    ];
+    var Initiator$ = [
+      3,
+      n05,
+      _In,
+      0,
+      [_ID, _DN],
+      [0, 0]
+    ];
+    var InputSerialization$ = [
+      3,
+      n05,
+      _IS,
+      0,
+      [_CSV, _CTom, _JSON, _Parq],
+      [() => CSVInput$, 0, () => JSONInput$, () => ParquetInput$]
+    ];
+    var IntelligentTieringAndOperator$ = [
+      3,
+      n05,
+      _ITAO,
+      0,
+      [_P2, _T2],
+      [0, [() => TagSet, { [_xF]: 1, [_xN]: _Ta2 }]]
+    ];
+    var IntelligentTieringConfiguration$ = [
+      3,
+      n05,
+      _ITC,
+      0,
+      [_I, _S, _Tie, _F],
+      [0, 0, [() => TieringList, { [_xF]: 1, [_xN]: _Tier }], [() => IntelligentTieringFilter$, 0]],
+      3
+    ];
+    var IntelligentTieringFilter$ = [
+      3,
+      n05,
+      _ITF,
+      0,
+      [_P2, _Ta2, _An],
+      [0, () => Tag$2, [() => IntelligentTieringAndOperator$, 0]]
+    ];
+    var InventoryConfiguration$ = [
+      3,
+      n05,
+      _IC,
+      0,
+      [_Des, _IE, _I, _IOV, _Sc, _F, _OF],
+      [[() => InventoryDestination$, 0], 2, 0, 0, () => InventorySchedule$, () => InventoryFilter$, [() => InventoryOptionalFields, 0]],
+      5
+    ];
+    var InventoryDestination$ = [
+      3,
+      n05,
+      _IDnv,
+      0,
+      [_SBD],
+      [[() => InventoryS3BucketDestination$, 0]],
+      1
+    ];
+    var InventoryEncryption$ = [
+      3,
+      n05,
+      _IEn,
+      0,
+      [_SSES, _SSEKMS],
+      [[() => SSES3$, { [_xN]: _SS }], [() => SSEKMS$, { [_xN]: _SK }]]
+    ];
+    var InventoryFilter$ = [
+      3,
+      n05,
+      _IF,
+      0,
+      [_P2],
+      [0],
+      1
+    ];
+    var InventoryS3BucketDestination$ = [
+      3,
+      n05,
+      _ISBD,
+      0,
+      [_B, _Fo, _AI, _P2, _En],
+      [0, 0, 0, 0, [() => InventoryEncryption$, 0]],
+      2
+    ];
+    var InventorySchedule$ = [
+      3,
+      n05,
+      _ISn,
+      0,
+      [_Fr],
+      [0],
+      1
+    ];
+    var InventoryTableConfiguration$ = [
+      3,
+      n05,
+      _ITCn,
+      0,
+      [_CS2, _EC],
+      [0, () => MetadataTableEncryptionConfiguration$],
+      1
+    ];
+    var InventoryTableConfigurationResult$ = [
+      3,
+      n05,
+      _ITCR,
+      0,
+      [_CS2, _TS, _E2, _TN, _TA],
+      [0, 0, () => ErrorDetails$, 0, 0],
+      1
+    ];
+    var InventoryTableConfigurationUpdates$ = [
+      3,
+      n05,
+      _ITCU,
+      0,
+      [_CS2, _EC],
+      [0, () => MetadataTableEncryptionConfiguration$],
+      1
+    ];
+    var JournalTableConfiguration$ = [
+      3,
+      n05,
+      _JTC,
+      0,
+      [_REe, _EC],
+      [() => RecordExpiration$, () => MetadataTableEncryptionConfiguration$],
+      1
+    ];
+    var JournalTableConfigurationResult$ = [
+      3,
+      n05,
+      _JTCR,
+      0,
+      [_TS, _TN, _REe, _E2, _TA],
+      [0, 0, () => RecordExpiration$, () => ErrorDetails$, 0],
+      3
+    ];
+    var JournalTableConfigurationUpdates$ = [
+      3,
+      n05,
+      _JTCU,
+      0,
+      [_REe],
+      [() => RecordExpiration$],
+      1
+    ];
+    var JSONInput$ = [
+      3,
+      n05,
+      _JSONI,
+      0,
+      [_Ty],
+      [0]
+    ];
+    var JSONOutput$ = [
+      3,
+      n05,
+      _JSONO,
+      0,
+      [_RD],
+      [0]
+    ];
+    var LambdaFunctionConfiguration$ = [
+      3,
+      n05,
+      _LFC,
+      0,
+      [_LFA, _Ev, _I, _F],
+      [[0, { [_xN]: _CF }], [64 | 0, { [_xF]: 1, [_xN]: _Eve }], 0, [() => NotificationConfigurationFilter$, 0]],
+      2
+    ];
+    var LifecycleExpiration$ = [
+      3,
+      n05,
+      _LEi,
+      0,
+      [_Da, _D, _EODM],
+      [5, 1, 2]
+    ];
+    var LifecycleRule$ = [
+      3,
+      n05,
+      _LR,
+      0,
+      [_S, _Ex, _ID, _P2, _F, _Tr, _NVT, _NVE, _AIMU],
+      [0, () => LifecycleExpiration$, 0, 0, [() => LifecycleRuleFilter$, 0], [() => TransitionList, { [_xF]: 1, [_xN]: _Tra }], [() => NoncurrentVersionTransitionList, { [_xF]: 1, [_xN]: _NVTo }], () => NoncurrentVersionExpiration$, () => AbortIncompleteMultipartUpload$],
+      1
+    ];
+    var LifecycleRuleAndOperator$ = [
+      3,
+      n05,
+      _LRAO,
+      0,
+      [_P2, _T2, _OSGT, _OSLT],
+      [0, [() => TagSet, { [_xF]: 1, [_xN]: _Ta2 }], 1, 1]
+    ];
+    var LifecycleRuleFilter$ = [
+      3,
+      n05,
+      _LRF,
+      0,
+      [_P2, _Ta2, _OSGT, _OSLT, _An],
+      [0, () => Tag$2, 1, 1, [() => LifecycleRuleAndOperator$, 0]]
+    ];
+    var ListBucketAnalyticsConfigurationsOutput$ = [
+      3,
+      n05,
+      _LBACO,
+      { [_xN]: _LBACR },
+      [_IT2, _CTon, _NCT, _ACLn],
+      [2, 0, 0, [() => AnalyticsConfigurationList, { [_xF]: 1, [_xN]: _ACn }]]
+    ];
+    var ListBucketAnalyticsConfigurationsRequest$ = [
+      3,
+      n05,
+      _LBACRi,
+      0,
+      [_B, _CTon, _EBO],
+      [[0, 1], [0, { [_hQ2]: _ct }], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var ListBucketIntelligentTieringConfigurationsOutput$ = [
+      3,
+      n05,
+      _LBITCO,
+      0,
+      [_IT2, _CTon, _NCT, _ITCL],
+      [2, 0, 0, [() => IntelligentTieringConfigurationList, { [_xF]: 1, [_xN]: _ITC }]]
+    ];
+    var ListBucketIntelligentTieringConfigurationsRequest$ = [
+      3,
+      n05,
+      _LBITCR,
+      0,
+      [_B, _CTon, _EBO],
+      [[0, 1], [0, { [_hQ2]: _ct }], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var ListBucketInventoryConfigurationsOutput$ = [
+      3,
+      n05,
+      _LBICO,
+      { [_xN]: _LICR },
+      [_CTon, _ICL, _IT2, _NCT],
+      [0, [() => InventoryConfigurationList, { [_xF]: 1, [_xN]: _IC }], 2, 0]
+    ];
+    var ListBucketInventoryConfigurationsRequest$ = [
+      3,
+      n05,
+      _LBICR,
+      0,
+      [_B, _CTon, _EBO],
+      [[0, 1], [0, { [_hQ2]: _ct }], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var ListBucketMetricsConfigurationsOutput$ = [
+      3,
+      n05,
+      _LBMCO,
+      { [_xN]: _LMCR },
+      [_IT2, _CTon, _NCT, _MCL],
+      [2, 0, 0, [() => MetricsConfigurationList, { [_xF]: 1, [_xN]: _MCe }]]
+    ];
+    var ListBucketMetricsConfigurationsRequest$ = [
+      3,
+      n05,
+      _LBMCR,
+      0,
+      [_B, _CTon, _EBO],
+      [[0, 1], [0, { [_hQ2]: _ct }], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var ListBucketsOutput$ = [
+      3,
+      n05,
+      _LBO,
+      { [_xN]: _LAMBR },
+      [_Bu, _O, _CTon, _P2],
+      [[() => Buckets, 0], () => Owner$, 0, 0]
+    ];
+    var ListBucketsRequest$ = [
+      3,
+      n05,
+      _LBR,
+      0,
+      [_MB, _CTon, _P2, _BR],
+      [[1, { [_hQ2]: _mb }], [0, { [_hQ2]: _ct }], [0, { [_hQ2]: _p }], [0, { [_hQ2]: _br }]]
+    ];
+    var ListDirectoryBucketsOutput$ = [
+      3,
+      n05,
+      _LDBO,
+      { [_xN]: _LAMDBR },
+      [_Bu, _CTon],
+      [[() => Buckets, 0], 0]
+    ];
+    var ListDirectoryBucketsRequest$ = [
+      3,
+      n05,
+      _LDBR,
+      0,
+      [_CTon, _MDB],
+      [[0, { [_hQ2]: _ct }], [1, { [_hQ2]: _mdb }]]
+    ];
+    var ListMultipartUploadsOutput$ = [
+      3,
+      n05,
+      _LMUO,
+      { [_xN]: _LMUR },
+      [_B, _KM, _UIM, _NKM, _P2, _Deli, _NUIM, _MUa, _IT2, _U, _CPom, _ETnc, _RC2],
+      [0, 0, 0, 0, 0, 0, 0, 1, 2, [() => MultipartUploadList, { [_xF]: 1, [_xN]: _Up }], [() => CommonPrefixList, { [_xF]: 1 }], 0, [0, { [_hH2]: _xarc }]]
+    ];
+    var ListMultipartUploadsRequest$ = [
+      3,
+      n05,
+      _LMURi,
+      0,
+      [_B, _Deli, _ETnc, _KM, _MUa, _P2, _UIM, _EBO, _RP],
+      [[0, 1], [0, { [_hQ2]: _d }], [0, { [_hQ2]: _et }], [0, { [_hQ2]: _km }], [1, { [_hQ2]: _mu }], [0, { [_hQ2]: _p }], [0, { [_hQ2]: _uim }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xarp }]],
+      1
+    ];
+    var ListObjectAnnotationsOutput$ = [
+      3,
+      n05,
+      _LOAO,
+      0,
+      [_Ann, _B, _K2, _OVI, _APn, _MAR, _ACnn, _CTon, _NCT, _RC2],
+      [[() => AnnotationList, 0], 0, 0, [0, { [_hH2]: _xaovi }], 0, 1, 1, 0, 0, [0, { [_hH2]: _xarc }]]
+    ];
+    var ListObjectAnnotationsRequest$ = [
+      3,
+      n05,
+      _LOAR,
+      0,
+      [_B, _K2, _VI, _MAR, _APn, _CTon, _RP, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [1, { [_hQ2]: _mar }], [0, { [_hQ2]: _ap }], [0, { [_hQ2]: _ct }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var ListObjectsOutput$ = [
+      3,
+      n05,
+      _LOO,
+      { [_xN]: _LBRi },
+      [_IT2, _Ma, _NM, _Con, _N, _P2, _Deli, _MK, _CPom, _ETnc, _RC2],
+      [2, 0, 0, [() => ObjectList, { [_xF]: 1 }], 0, 0, 0, 1, [() => CommonPrefixList, { [_xF]: 1 }], 0, [0, { [_hH2]: _xarc }]]
+    ];
+    var ListObjectsRequest$ = [
+      3,
+      n05,
+      _LOR,
+      0,
+      [_B, _Deli, _ETnc, _Ma, _MK, _P2, _RP, _EBO, _OOA],
+      [[0, 1], [0, { [_hQ2]: _d }], [0, { [_hQ2]: _et }], [0, { [_hQ2]: _m4 }], [1, { [_hQ2]: _mk }], [0, { [_hQ2]: _p }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [64 | 0, { [_hH2]: _xaooa }]],
+      1
+    ];
+    var ListObjectsV2Output$ = [
+      3,
+      n05,
+      _LOVO,
+      { [_xN]: _LBRi },
+      [_IT2, _Con, _N, _P2, _Deli, _MK, _CPom, _ETnc, _KC, _CTon, _NCT, _SA, _RC2],
+      [2, [() => ObjectList, { [_xF]: 1 }], 0, 0, 0, 1, [() => CommonPrefixList, { [_xF]: 1 }], 0, 1, 0, 0, 0, [0, { [_hH2]: _xarc }]]
+    ];
+    var ListObjectsV2Request$ = [
+      3,
+      n05,
+      _LOVR,
+      0,
+      [_B, _Deli, _ETnc, _MK, _P2, _CTon, _FO, _SA, _RP, _EBO, _OOA],
+      [[0, 1], [0, { [_hQ2]: _d }], [0, { [_hQ2]: _et }], [1, { [_hQ2]: _mk }], [0, { [_hQ2]: _p }], [0, { [_hQ2]: _ct }], [2, { [_hQ2]: _fo }], [0, { [_hQ2]: _sa }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [64 | 0, { [_hH2]: _xaooa }]],
+      1
+    ];
+    var ListObjectVersionsOutput$ = [
+      3,
+      n05,
+      _LOVOi,
+      { [_xN]: _LVR },
+      [_IT2, _KM, _VIM, _NKM, _NVIM, _Ve, _DMe, _N, _P2, _Deli, _MK, _CPom, _ETnc, _RC2],
+      [2, 0, 0, 0, 0, [() => ObjectVersionList, { [_xF]: 1, [_xN]: _Ver }], [() => DeleteMarkers, { [_xF]: 1, [_xN]: _DM }], 0, 0, 0, 1, [() => CommonPrefixList, { [_xF]: 1 }], 0, [0, { [_hH2]: _xarc }]]
+    ];
+    var ListObjectVersionsRequest$ = [
+      3,
+      n05,
+      _LOVRi,
+      0,
+      [_B, _Deli, _ETnc, _KM, _MK, _P2, _VIM, _EBO, _RP, _OOA],
+      [[0, 1], [0, { [_hQ2]: _d }], [0, { [_hQ2]: _et }], [0, { [_hQ2]: _km }], [1, { [_hQ2]: _mk }], [0, { [_hQ2]: _p }], [0, { [_hQ2]: _vim }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xarp }], [64 | 0, { [_hH2]: _xaooa }]],
+      1
+    ];
+    var ListPartsOutput$ = [
+      3,
+      n05,
+      _LPO,
+      { [_xN]: _LPR },
+      [_ADb, _ARI2, _B, _K2, _UI, _PNM, _NPNM, _MP, _IT2, _Pa, _In, _O, _SC, _RC2, _CA2, _CT2],
+      [[4, { [_hH2]: _xaad }], [0, { [_hH2]: _xaari }], 0, 0, 0, 0, 0, 1, 2, [() => Parts, { [_xF]: 1, [_xN]: _Par }], () => Initiator$, () => Owner$, 0, [0, { [_hH2]: _xarc }], 0, 0]
+    ];
+    var ListPartsRequest$ = [
+      3,
+      n05,
+      _LPRi,
+      0,
+      [_B, _K2, _UI, _MP, _PNM, _RP, _EBO, _SSECA, _SSECK, _SSECKMD],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _uI }], [1, { [_hQ2]: _mp }], [0, { [_hQ2]: _pnm }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }]],
+      3
+    ];
+    var LocationInfo$ = [
+      3,
+      n05,
+      _LI,
+      0,
+      [_Ty, _N],
+      [0, 0]
+    ];
+    var LoggingEnabled$ = [
+      3,
+      n05,
+      _LE,
+      0,
+      [_TB, _TP, _TG, _TOKF],
+      [0, 0, [() => TargetGrants, 0], [() => TargetObjectKeyFormat$, 0]],
+      2
+    ];
+    var MetadataConfiguration$ = [
+      3,
+      n05,
+      _MC,
+      0,
+      [_JTC, _ITCn, _ATC],
+      [() => JournalTableConfiguration$, () => InventoryTableConfiguration$, () => AnnotationTableConfiguration$],
+      1
+    ];
+    var MetadataConfigurationResult$ = [
+      3,
+      n05,
+      _MCR,
+      0,
+      [_DRes, _JTCR, _ITCR, _ATCR],
+      [() => DestinationResult$, () => JournalTableConfigurationResult$, () => InventoryTableConfigurationResult$, () => AnnotationTableConfigurationResult$],
+      1
+    ];
+    var MetadataEntry$ = [
+      3,
+      n05,
+      _ME,
+      0,
+      [_N, _V2],
+      [0, 0]
+    ];
+    var MetadataTableConfiguration$ = [
+      3,
+      n05,
+      _MTC,
+      0,
+      [_STD],
+      [() => S3TablesDestination$],
+      1
+    ];
+    var MetadataTableConfigurationResult$ = [
+      3,
+      n05,
+      _MTCR,
+      0,
+      [_STDR],
+      [() => S3TablesDestinationResult$],
+      1
+    ];
+    var MetadataTableEncryptionConfiguration$ = [
+      3,
+      n05,
+      _MTEC,
+      0,
+      [_SAs, _KKA],
+      [0, 0],
+      1
+    ];
+    var Metrics$ = [
+      3,
+      n05,
+      _Me,
+      0,
+      [_S, _ETv],
+      [0, () => ReplicationTimeValue$],
+      1
+    ];
+    var MetricsAndOperator$ = [
+      3,
+      n05,
+      _MAO,
+      0,
+      [_P2, _T2, _APAc],
+      [0, [() => TagSet, { [_xF]: 1, [_xN]: _Ta2 }], 0]
+    ];
+    var MetricsConfiguration$ = [
+      3,
+      n05,
+      _MCe,
+      0,
+      [_I, _F],
+      [0, [() => MetricsFilter$, 0]],
+      1
+    ];
+    var MultipartUpload$ = [
+      3,
+      n05,
+      _MU,
+      0,
+      [_UI, _K2, _Ini, _SC, _O, _In, _CA2, _CT2],
+      [0, 0, 4, 0, () => Owner$, () => Initiator$, 0, 0]
+    ];
+    var NoncurrentVersionExpiration$ = [
+      3,
+      n05,
+      _NVE,
+      0,
+      [_ND, _NNV],
+      [1, 1]
+    ];
+    var NoncurrentVersionTransition$ = [
+      3,
+      n05,
+      _NVTo,
+      0,
+      [_ND, _SC, _NNV],
+      [1, 0, 1]
+    ];
+    var NotificationConfiguration$ = [
+      3,
+      n05,
+      _NC,
+      0,
+      [_TCo, _QCu, _LFCa, _EBC],
+      [[() => TopicConfigurationList, { [_xF]: 1, [_xN]: _TCop }], [() => QueueConfigurationList, { [_xF]: 1, [_xN]: _QCue }], [() => LambdaFunctionConfigurationList, { [_xF]: 1, [_xN]: _CFC }], () => EventBridgeConfiguration$]
+    ];
+    var NotificationConfigurationFilter$ = [
+      3,
+      n05,
+      _NCF,
+      0,
+      [_K2],
+      [[() => S3KeyFilter$, { [_xN]: _SKe }]]
+    ];
+    var _Object$ = [
+      3,
+      n05,
+      _Obj,
+      0,
+      [_K2, _LM, _ET, _CA2, _CT2, _Si, _SC, _O, _RSe],
+      [0, 4, 0, [64 | 0, { [_xF]: 1 }], 0, 1, 0, () => Owner$, () => RestoreStatus$]
+    ];
+    var ObjectIdentifier$ = [
+      3,
+      n05,
+      _OI,
+      0,
+      [_K2, _VI, _ET, _LMT, _Si],
+      [0, 0, 0, 6, 1],
+      1
+    ];
+    var ObjectLockConfiguration$ = [
+      3,
+      n05,
+      _OLC,
+      0,
+      [_OLE, _Rul],
+      [0, () => ObjectLockRule$]
+    ];
+    var ObjectLockLegalHold$ = [
+      3,
+      n05,
+      _OLLH,
+      0,
+      [_S],
+      [0]
+    ];
+    var ObjectLockRetention$ = [
+      3,
+      n05,
+      _OLR,
+      0,
+      [_Mo, _RUD],
+      [0, 5]
+    ];
+    var ObjectLockRule$ = [
+      3,
+      n05,
+      _OLRb,
+      0,
+      [_DRe],
+      [() => DefaultRetention$]
+    ];
+    var ObjectPart$ = [
+      3,
+      n05,
+      _OPb,
+      0,
+      [_PN, _Si, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe],
+      [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    var ObjectVersion$ = [
+      3,
+      n05,
+      _OV,
+      0,
+      [_ET, _CA2, _CT2, _Si, _SC, _K2, _VI, _IL, _LM, _O, _RSe],
+      [0, [64 | 0, { [_xF]: 1 }], 0, 1, 0, 0, 0, 2, 4, () => Owner$, () => RestoreStatus$]
+    ];
+    var OutputLocation$ = [
+      3,
+      n05,
+      _OL,
+      0,
+      [_S_],
+      [[() => S3Location$, 0]]
+    ];
+    var OutputSerialization$ = [
+      3,
+      n05,
+      _OSu,
+      0,
+      [_CSV, _JSON],
+      [() => CSVOutput$, () => JSONOutput$]
+    ];
+    var Owner$ = [
+      3,
+      n05,
+      _O,
+      0,
+      [_DN, _ID],
+      [0, 0]
+    ];
+    var OwnershipControls$ = [
+      3,
+      n05,
+      _OC,
+      0,
+      [_Ru],
+      [[() => OwnershipControlsRules, { [_xF]: 1, [_xN]: _Rul }]],
+      1
+    ];
+    var OwnershipControlsRule$ = [
+      3,
+      n05,
+      _OCR,
+      0,
+      [_OO],
+      [0],
+      1
+    ];
+    var ParquetInput$ = [
+      3,
+      n05,
+      _PI2,
+      0,
+      [],
+      []
+    ];
+    var Part$ = [
+      3,
+      n05,
+      _Par,
+      0,
+      [_PN, _LM, _ET, _Si, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe],
+      [1, 4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    var PartitionedPrefix$ = [
+      3,
+      n05,
+      _PP,
+      { [_xN]: _PP },
+      [_PDS],
+      [0]
+    ];
+    var PolicyStatus$ = [
+      3,
+      n05,
+      _PS,
+      0,
+      [_IPs],
+      [[2, { [_xN]: _IPs }]]
+    ];
+    var Progress$ = [
+      3,
+      n05,
+      _Pr2,
+      0,
+      [_BS, _BP, _BRy],
+      [1, 1, 1]
+    ];
+    var ProgressEvent$ = [
+      3,
+      n05,
+      _PE,
+      0,
+      [_Det],
+      [[() => Progress$, { [_eP]: 1 }]]
+    ];
+    var PublicAccessBlockConfiguration$ = [
+      3,
+      n05,
+      _PABC,
+      0,
+      [_BPA, _IPA, _BPP, _RPB],
+      [[2, { [_xN]: _BPA }], [2, { [_xN]: _IPA }], [2, { [_xN]: _BPP }], [2, { [_xN]: _RPB }]]
+    ];
+    var PutBucketAbacRequest$ = [
+      3,
+      n05,
+      _PBAR,
+      0,
+      [_B, _AS, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => AbacStatus$, { [_hP]: 1, [_xN]: _AS }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketAccelerateConfigurationRequest$ = [
+      3,
+      n05,
+      _PBACR,
+      0,
+      [_B, _AC, _EBO, _CA2],
+      [[0, 1], [() => AccelerateConfiguration$, { [_hP]: 1, [_xN]: _AC }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xasca }]],
+      2
+    ];
+    var PutBucketAclRequest$ = [
+      3,
+      n05,
+      _PBARu,
+      0,
+      [_B, _ACL_, _ACP, _CMDo, _CA2, _GFC, _GR, _GRACP, _GW, _GWACP, _EBO],
+      [[0, 1], [0, { [_hH2]: _xaa }], [() => AccessControlPolicy$, { [_hP]: 1, [_xN]: _ACP }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xagfc }], [0, { [_hH2]: _xagr }], [0, { [_hH2]: _xagra }], [0, { [_hH2]: _xagw }], [0, { [_hH2]: _xagwa }], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var PutBucketAnalyticsConfigurationRequest$ = [
+      3,
+      n05,
+      _PBACRu,
+      0,
+      [_B, _I, _ACn, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [() => AnalyticsConfiguration$, { [_hP]: 1, [_xN]: _ACn }], [0, { [_hH2]: _xaebo }]],
+      3
+    ];
+    var PutBucketCorsRequest$ = [
+      3,
+      n05,
+      _PBCR,
+      0,
+      [_B, _CORSC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => CORSConfiguration$, { [_hP]: 1, [_xN]: _CORSC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketEncryptionRequest$ = [
+      3,
+      n05,
+      _PBER,
+      0,
+      [_B, _SSEC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => ServerSideEncryptionConfiguration$, { [_hP]: 1, [_xN]: _SSEC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketIntelligentTieringConfigurationRequest$ = [
+      3,
+      n05,
+      _PBITCR,
+      0,
+      [_B, _I, _ITC, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [() => IntelligentTieringConfiguration$, { [_hP]: 1, [_xN]: _ITC }], [0, { [_hH2]: _xaebo }]],
+      3
+    ];
+    var PutBucketInventoryConfigurationRequest$ = [
+      3,
+      n05,
+      _PBICR,
+      0,
+      [_B, _I, _IC, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [() => InventoryConfiguration$, { [_hP]: 1, [_xN]: _IC }], [0, { [_hH2]: _xaebo }]],
+      3
+    ];
+    var PutBucketLifecycleConfigurationOutput$ = [
+      3,
+      n05,
+      _PBLCO,
+      0,
+      [_TDMOS],
+      [[0, { [_hH2]: _xatdmos }]]
+    ];
+    var PutBucketLifecycleConfigurationRequest$ = [
+      3,
+      n05,
+      _PBLCR,
+      0,
+      [_B, _CA2, _LCi, _EBO, _TDMOS],
+      [[0, 1], [0, { [_hH2]: _xasca }], [() => BucketLifecycleConfiguration$, { [_hP]: 1, [_xN]: _LCi }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xatdmos }]],
+      1
+    ];
+    var PutBucketLoggingRequest$ = [
+      3,
+      n05,
+      _PBLR,
+      0,
+      [_B, _BLS, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => BucketLoggingStatus$, { [_hP]: 1, [_xN]: _BLS }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketMetricsConfigurationRequest$ = [
+      3,
+      n05,
+      _PBMCR,
+      0,
+      [_B, _I, _MCe, _EBO],
+      [[0, 1], [0, { [_hQ2]: _i }], [() => MetricsConfiguration$, { [_hP]: 1, [_xN]: _MCe }], [0, { [_hH2]: _xaebo }]],
+      3
+    ];
+    var PutBucketNotificationConfigurationRequest$ = [
+      3,
+      n05,
+      _PBNCR,
+      0,
+      [_B, _NC, _EBO, _SDV],
+      [[0, 1], [() => NotificationConfiguration$, { [_hP]: 1, [_xN]: _NC }], [0, { [_hH2]: _xaebo }], [2, { [_hH2]: _xasdv }]],
+      2
+    ];
+    var PutBucketOwnershipControlsRequest$ = [
+      3,
+      n05,
+      _PBOCR,
+      0,
+      [_B, _OC, _CMDo, _EBO, _CA2],
+      [[0, 1], [() => OwnershipControls$, { [_hP]: 1, [_xN]: _OC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xasca }]],
+      2
+    ];
+    var PutBucketPolicyRequest$ = [
+      3,
+      n05,
+      _PBPR,
+      0,
+      [_B, _Po, _CMDo, _CA2, _CRSBA, _EBO],
+      [[0, 1], [0, 16], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [2, { [_hH2]: _xacrsba }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketReplicationRequest$ = [
+      3,
+      n05,
+      _PBRR,
+      0,
+      [_B, _RCe, _CMDo, _CA2, _To, _EBO],
+      [[0, 1], [() => ReplicationConfiguration$, { [_hP]: 1, [_xN]: _RCe }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xabolt }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketRequestPaymentRequest$ = [
+      3,
+      n05,
+      _PBRPR,
+      0,
+      [_B, _RPC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => RequestPaymentConfiguration$, { [_hP]: 1, [_xN]: _RPC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketTaggingRequest$ = [
+      3,
+      n05,
+      _PBTR,
+      0,
+      [_B, _Tag, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => Tagging$, { [_hP]: 1, [_xN]: _Tag }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketVersioningRequest$ = [
+      3,
+      n05,
+      _PBVR,
+      0,
+      [_B, _VC, _CMDo, _CA2, _MFA, _EBO],
+      [[0, 1], [() => VersioningConfiguration$, { [_hP]: 1, [_xN]: _VC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xam_ }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutBucketWebsiteRequest$ = [
+      3,
+      n05,
+      _PBWR,
+      0,
+      [_B, _WC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => WebsiteConfiguration$, { [_hP]: 1, [_xN]: _WC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutObjectAclOutput$ = [
+      3,
+      n05,
+      _POAO,
+      0,
+      [_RC2],
+      [[0, { [_hH2]: _xarc }]]
+    ];
+    var PutObjectAclRequest$ = [
+      3,
+      n05,
+      _POAR,
+      0,
+      [_B, _K2, _ACL_, _ACP, _CMDo, _CA2, _GFC, _GR, _GRACP, _GW, _GWACP, _RP, _VI, _EBO],
+      [[0, 1], [0, 1], [0, { [_hH2]: _xaa }], [() => AccessControlPolicy$, { [_hP]: 1, [_xN]: _ACP }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xagfc }], [0, { [_hH2]: _xagr }], [0, { [_hH2]: _xagra }], [0, { [_hH2]: _xagw }], [0, { [_hH2]: _xagwa }], [0, { [_hH2]: _xarp }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutObjectAnnotationOutput$ = [
+      3,
+      n05,
+      _POAOu,
+      0,
+      [_K2, _AN, _OVI, _ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _SSE, _RC2],
+      [0, 0, [0, { [_hH2]: _xaovi }], [0, { [_hH2]: _ET }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xact }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xarc }]]
+    ];
+    var PutObjectAnnotationRequest$ = [
+      3,
+      n05,
+      _POARu,
+      0,
+      [_B, _K2, _AN, _AP, _VI, _OIM, _CA2, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CMDo, _RP, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _aN }], [() => StreamingBlob, 16], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xaoim }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      4
+    ];
+    var PutObjectLegalHoldOutput$ = [
+      3,
+      n05,
+      _POLHO,
+      0,
+      [_RC2],
+      [[0, { [_hH2]: _xarc }]]
+    ];
+    var PutObjectLegalHoldRequest$ = [
+      3,
+      n05,
+      _POLHR,
+      0,
+      [_B, _K2, _LH, _RP, _VI, _CMDo, _CA2, _EBO],
+      [[0, 1], [0, 1], [() => ObjectLockLegalHold$, { [_hP]: 1, [_xN]: _LH }], [0, { [_hH2]: _xarp }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutObjectLockConfigurationOutput$ = [
+      3,
+      n05,
+      _POLCO,
+      0,
+      [_RC2],
+      [[0, { [_hH2]: _xarc }]]
+    ];
+    var PutObjectLockConfigurationRequest$ = [
+      3,
+      n05,
+      _POLCR,
+      0,
+      [_B, _OLC, _RP, _To, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => ObjectLockConfiguration$, { [_hP]: 1, [_xN]: _OLC }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xabolt }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      1
+    ];
+    var PutObjectOutput$ = [
+      3,
+      n05,
+      _POO,
+      0,
+      [_Ex, _ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _CT2, _SSE, _VI, _SSECA, _SSECKMD, _SSEKMSKI, _SSEKMSEC, _BKE, _Si, _RC2],
+      [[0, { [_hH2]: _xae }], [0, { [_hH2]: _ET }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xact }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xavi }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }], [1, { [_hH2]: _xaos }], [0, { [_hH2]: _xarc }]]
+    ];
+    var PutObjectRequest$ = [
+      3,
+      n05,
+      _POR,
+      0,
+      [_B, _K2, _ACL_, _Bo, _CC, _CDo, _CEo, _CL, _CLo, _CMDo, _CTo, _CA2, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _Exp, _IM, _INM, _GFC, _GR, _GRACP, _GWACP, _WOB, _M, _SSE, _SC, _WRL, _SSECA, _SSECK, _SSECKMD, _SSEKMSKI, _SSEKMSEC, _BKE, _RP, _Tag, _OLM, _OLRUD, _OLLHS, _EBO],
+      [[0, 1], [0, 1], [0, { [_hH2]: _xaa }], [() => StreamingBlob, 16], [0, { [_hH2]: _CC_ }], [0, { [_hH2]: _CD_ }], [0, { [_hH2]: _CE_ }], [0, { [_hH2]: _CL_ }], [1, { [_hH2]: _CL__ }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _CT_ }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [4, { [_hH2]: _Exp }], [0, { [_hH2]: _IM_ }], [0, { [_hH2]: _INM_ }], [0, { [_hH2]: _xagfc }], [0, { [_hH2]: _xagr }], [0, { [_hH2]: _xagra }], [0, { [_hH2]: _xagwa }], [1, { [_hH2]: _xawob }], [128 | 0, { [_hPH]: _xam }], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xasc }], [0, { [_hH2]: _xawrl }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [() => SSEKMSEncryptionContext, { [_hH2]: _xassec }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xat }], [0, { [_hH2]: _xaolm }], [5, { [_hH2]: _xaolrud }], [0, { [_hH2]: _xaollh }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutObjectRetentionOutput$ = [
+      3,
+      n05,
+      _PORO,
+      0,
+      [_RC2],
+      [[0, { [_hH2]: _xarc }]]
+    ];
+    var PutObjectRetentionRequest$ = [
+      3,
+      n05,
+      _PORR,
+      0,
+      [_B, _K2, _Ret, _RP, _VI, _BGR, _CMDo, _CA2, _EBO],
+      [[0, 1], [0, 1], [() => ObjectLockRetention$, { [_hP]: 1, [_xN]: _Ret }], [0, { [_hH2]: _xarp }], [0, { [_hQ2]: _vI }], [2, { [_hH2]: _xabgr }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var PutObjectTaggingOutput$ = [
+      3,
+      n05,
+      _POTO,
+      0,
+      [_VI],
+      [[0, { [_hH2]: _xavi }]]
+    ];
+    var PutObjectTaggingRequest$ = [
+      3,
+      n05,
+      _POTR,
+      0,
+      [_B, _K2, _Tag, _VI, _CMDo, _CA2, _EBO, _RP],
+      [[0, 1], [0, 1], [() => Tagging$, { [_hP]: 1, [_xN]: _Tag }], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xarp }]],
+      3
+    ];
+    var PutPublicAccessBlockRequest$ = [
+      3,
+      n05,
+      _PPABR,
+      0,
+      [_B, _PABC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => PublicAccessBlockConfiguration$, { [_hP]: 1, [_xN]: _PABC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var QueueConfiguration$ = [
+      3,
+      n05,
+      _QCue,
+      0,
+      [_QA, _Ev, _I, _F],
+      [[0, { [_xN]: _Qu }], [64 | 0, { [_xF]: 1, [_xN]: _Eve }], 0, [() => NotificationConfigurationFilter$, 0]],
+      2
+    ];
+    var RecordExpiration$ = [
+      3,
+      n05,
+      _REe,
+      0,
+      [_Ex, _D],
+      [0, 1],
+      1
+    ];
+    var RecordsEvent$ = [
+      3,
+      n05,
+      _REec,
+      0,
+      [_Payl],
+      [[21, { [_eP]: 1 }]]
+    ];
+    var Redirect$ = [
+      3,
+      n05,
+      _Red,
+      0,
+      [_HN, _HRC, _Pro, _RKPW, _RKW],
+      [0, 0, 0, 0, 0]
+    ];
+    var RedirectAllRequestsTo$ = [
+      3,
+      n05,
+      _RART,
+      0,
+      [_HN, _Pro],
+      [0, 0],
+      1
+    ];
+    var RenameObjectOutput$ = [
+      3,
+      n05,
+      _ROO,
+      0,
+      [],
+      []
+    ];
+    var RenameObjectRequest$ = [
+      3,
+      n05,
+      _ROR,
+      0,
+      [_B, _K2, _RSen, _DIM, _DINM, _DIMS, _DIUS, _SIM, _SINM, _SIMS, _SIUS, _CTl],
+      [[0, 1], [0, 1], [0, { [_hH2]: _xars_ }], [0, { [_hH2]: _IM_ }], [0, { [_hH2]: _INM_ }], [4, { [_hH2]: _IMS_ }], [4, { [_hH2]: _IUS_ }], [0, { [_hH2]: _xarsim }], [0, { [_hH2]: _xarsinm }], [6, { [_hH2]: _xarsims }], [6, { [_hH2]: _xarsius }], [0, { [_hH2]: _xact_, [_iT3]: 1 }]],
+      3
+    ];
+    var ReplicaModifications$ = [
+      3,
+      n05,
+      _RM,
+      0,
+      [_S],
+      [0],
+      1
+    ];
+    var ReplicationConfiguration$ = [
+      3,
+      n05,
+      _RCe,
+      0,
+      [_R, _Ru],
+      [0, [() => ReplicationRules, { [_xF]: 1, [_xN]: _Rul }]],
+      2
+    ];
+    var ReplicationRule$ = [
+      3,
+      n05,
+      _RRe,
+      0,
+      [_S, _Des, _ID, _Pri, _P2, _F, _SSC, _EOR, _DMR],
+      [0, () => Destination$, 0, 1, 0, [() => ReplicationRuleFilter$, 0], () => SourceSelectionCriteria$, () => ExistingObjectReplication$, () => DeleteMarkerReplication$],
+      2
+    ];
+    var ReplicationRuleAndOperator$ = [
+      3,
+      n05,
+      _RRAO,
+      0,
+      [_P2, _T2],
+      [0, [() => TagSet, { [_xF]: 1, [_xN]: _Ta2 }]]
+    ];
+    var ReplicationRuleFilter$ = [
+      3,
+      n05,
+      _RRF,
+      0,
+      [_P2, _Ta2, _An],
+      [0, () => Tag$2, [() => ReplicationRuleAndOperator$, 0]]
+    ];
+    var ReplicationTime$ = [
+      3,
+      n05,
+      _RT3,
+      0,
+      [_S, _Tim],
+      [0, () => ReplicationTimeValue$],
+      2
+    ];
+    var ReplicationTimeValue$ = [
+      3,
+      n05,
+      _RTV,
+      0,
+      [_Mi],
+      [1]
+    ];
+    var RequestPaymentConfiguration$ = [
+      3,
+      n05,
+      _RPC,
+      0,
+      [_Pay],
+      [0],
+      1
+    ];
+    var RequestProgress$ = [
+      3,
+      n05,
+      _RPe,
+      0,
+      [_Ena],
+      [2]
+    ];
+    var RestoreObjectOutput$ = [
+      3,
+      n05,
+      _ROOe,
+      0,
+      [_RC2, _ROP],
+      [[0, { [_hH2]: _xarc }], [0, { [_hH2]: _xarop }]]
+    ];
+    var RestoreObjectRequest$ = [
+      3,
+      n05,
+      _RORe,
+      0,
+      [_B, _K2, _VI, _RRes, _RP, _CA2, _EBO],
+      [[0, 1], [0, 1], [0, { [_hQ2]: _vI }], [() => RestoreRequest$, { [_hP]: 1, [_xN]: _RRes }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var RestoreRequest$ = [
+      3,
+      n05,
+      _RRes,
+      0,
+      [_D, _GJP, _Ty, _Ti, _Desc, _SP, _OL],
+      [1, () => GlacierJobParameters$, 0, 0, 0, () => SelectParameters$, [() => OutputLocation$, 0]]
+    ];
+    var RestoreStatus$ = [
+      3,
+      n05,
+      _RSe,
+      0,
+      [_IRIP, _RED],
+      [2, 4]
+    ];
+    var RoutingRule$ = [
+      3,
+      n05,
+      _RRo,
+      0,
+      [_Red, _Co],
+      [() => Redirect$, () => Condition$],
+      1
+    ];
+    var S3KeyFilter$ = [
+      3,
+      n05,
+      _SKF,
+      0,
+      [_FRi],
+      [[() => FilterRuleList, { [_xF]: 1, [_xN]: _FR }]]
+    ];
+    var S3Location$ = [
+      3,
+      n05,
+      _SL,
+      0,
+      [_BNu, _P2, _En, _CACL, _ACL, _Tag, _UM, _SC],
+      [0, 0, [() => Encryption$, 0], 0, [() => Grants, 0], [() => Tagging$, 0], [() => UserMetadata, 0], 0],
+      2
+    ];
+    var S3TablesDestination$ = [
+      3,
+      n05,
+      _STD,
+      0,
+      [_TBA, _TN],
+      [0, 0],
+      2
+    ];
+    var S3TablesDestinationResult$ = [
+      3,
+      n05,
+      _STDR,
+      0,
+      [_TBA, _TN, _TA, _TNa],
+      [0, 0, 0, 0],
+      4
+    ];
+    var ScanRange$ = [
+      3,
+      n05,
+      _SR,
+      0,
+      [_St, _End],
+      [1, 1]
+    ];
+    var SelectObjectContentOutput$ = [
+      3,
+      n05,
+      _SOCO,
+      0,
+      [_Payl],
+      [[() => SelectObjectContentEventStream$, 16]]
+    ];
+    var SelectObjectContentRequest$ = [
+      3,
+      n05,
+      _SOCR,
+      0,
+      [_B, _K2, _Expr, _ETx, _IS, _OSu, _SSECA, _SSECK, _SSECKMD, _RPe, _SR, _EBO],
+      [[0, 1], [0, 1], 0, 0, () => InputSerialization$, () => OutputSerialization$, [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], () => RequestProgress$, () => ScanRange$, [0, { [_hH2]: _xaebo }]],
+      6
+    ];
+    var SelectParameters$ = [
+      3,
+      n05,
+      _SP,
+      0,
+      [_IS, _ETx, _Expr, _OSu],
+      [() => InputSerialization$, 0, 0, () => OutputSerialization$],
+      4
+    ];
+    var ServerSideEncryptionByDefault$ = [
+      3,
+      n05,
+      _SSEBD,
+      0,
+      [_SSEA, _KMSMKID],
+      [0, [() => SSEKMSKeyId, 0]],
+      1
+    ];
+    var ServerSideEncryptionConfiguration$ = [
+      3,
+      n05,
+      _SSEC,
+      0,
+      [_Ru],
+      [[() => ServerSideEncryptionRules, { [_xF]: 1, [_xN]: _Rul }]],
+      1
+    ];
+    var ServerSideEncryptionRule$ = [
+      3,
+      n05,
+      _SSER,
+      0,
+      [_ASSEBD, _BKE, _BET],
+      [[() => ServerSideEncryptionByDefault$, 0], 2, [() => BlockedEncryptionTypes$, 0]]
+    ];
+    var SessionCredentials$ = [
+      3,
+      n05,
+      _SCe,
+      0,
+      [_AKI2, _SAK2, _ST2, _Ex],
+      [[0, { [_xN]: _AKI2 }], [() => SessionCredentialValue, { [_xN]: _SAK2 }], [() => SessionCredentialValue, { [_xN]: _ST2 }], [4, { [_xN]: _Ex }]],
+      4
+    ];
+    var SimplePrefix$ = [
+      3,
+      n05,
+      _SPi,
+      { [_xN]: _SPi },
+      [],
+      []
+    ];
+    var SourceSelectionCriteria$ = [
+      3,
+      n05,
+      _SSC,
+      0,
+      [_SKEO, _RM],
+      [() => SseKmsEncryptedObjects$, () => ReplicaModifications$]
+    ];
+    var SSEKMS$ = [
+      3,
+      n05,
+      _SSEKMS,
+      { [_xN]: _SK },
+      [_KI],
+      [[() => SSEKMSKeyId, 0]],
+      1
+    ];
+    var SseKmsEncryptedObjects$ = [
+      3,
+      n05,
+      _SKEO,
+      0,
+      [_S],
+      [0],
+      1
+    ];
+    var SSEKMSEncryption$ = [
+      3,
+      n05,
+      _SSEKMSE,
+      { [_xN]: _SK },
+      [_KMSKA, _BKE],
+      [[() => NonEmptyKmsKeyArnString, 0], 2],
+      1
+    ];
+    var SSES3$ = [
+      3,
+      n05,
+      _SSES,
+      { [_xN]: _SS },
+      [],
+      []
+    ];
+    var Stats$ = [
+      3,
+      n05,
+      _Sta,
+      0,
+      [_BS, _BP, _BRy],
+      [1, 1, 1]
+    ];
+    var StatsEvent$ = [
+      3,
+      n05,
+      _SE,
+      0,
+      [_Det],
+      [[() => Stats$, { [_eP]: 1 }]]
+    ];
+    var StorageClassAnalysis$ = [
+      3,
+      n05,
+      _SCA,
+      0,
+      [_DE],
+      [() => StorageClassAnalysisDataExport$]
+    ];
+    var StorageClassAnalysisDataExport$ = [
+      3,
+      n05,
+      _SCADE,
+      0,
+      [_OSV, _Des],
+      [0, () => AnalyticsExportDestination$],
+      2
+    ];
+    var Tag$2 = [
+      3,
+      n05,
+      _Ta2,
+      0,
+      [_K2, _V2],
+      [0, 0],
+      2
+    ];
+    var Tagging$ = [
+      3,
+      n05,
+      _Tag,
+      0,
+      [_TSa],
+      [[() => TagSet, 0]],
+      1
+    ];
+    var TargetGrant$ = [
+      3,
+      n05,
+      _TGa,
+      0,
+      [_Gra, _Pe],
+      [[() => Grantee$, { [_xNm]: [_x, _hi] }], 0]
+    ];
+    var TargetObjectKeyFormat$ = [
+      3,
+      n05,
+      _TOKF,
+      0,
+      [_SPi, _PP],
+      [[() => SimplePrefix$, { [_xN]: _SPi }], [() => PartitionedPrefix$, { [_xN]: _PP }]]
+    ];
+    var Tiering$ = [
+      3,
+      n05,
+      _Tier,
+      0,
+      [_D, _AT3],
+      [1, 0],
+      2
+    ];
+    var TopicConfiguration$ = [
+      3,
+      n05,
+      _TCop,
+      0,
+      [_TAo, _Ev, _I, _F],
+      [[0, { [_xN]: _Top }], [64 | 0, { [_xF]: 1, [_xN]: _Eve }], 0, [() => NotificationConfigurationFilter$, 0]],
+      2
+    ];
+    var Transition$ = [
+      3,
+      n05,
+      _Tra,
+      0,
+      [_Da, _D, _SC],
+      [5, 1, 0]
+    ];
+    var UpdateBucketMetadataAnnotationTableConfigurationRequest$ = [
+      3,
+      n05,
+      _UBMATCR,
+      0,
+      [_B, _ATC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => AnnotationTableConfigurationUpdates$, { [_hP]: 1, [_xN]: _ATC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var UpdateBucketMetadataInventoryTableConfigurationRequest$ = [
+      3,
+      n05,
+      _UBMITCR,
+      0,
+      [_B, _ITCn, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => InventoryTableConfigurationUpdates$, { [_hP]: 1, [_xN]: _ITCn }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var UpdateBucketMetadataJournalTableConfigurationRequest$ = [
+      3,
+      n05,
+      _UBMJTCR,
+      0,
+      [_B, _JTC, _CMDo, _CA2, _EBO],
+      [[0, 1], [() => JournalTableConfigurationUpdates$, { [_hP]: 1, [_xN]: _JTC }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xaebo }]],
+      2
+    ];
+    var UpdateObjectEncryptionRequest$ = [
+      3,
+      n05,
+      _UOER,
+      0,
+      [_B, _K2, _OE, _VI, _RP, _EBO, _CMDo, _CA2],
+      [[0, 1], [0, 1], [() => ObjectEncryption$, 16], [0, { [_hQ2]: _vI }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }]],
+      3
+    ];
+    var UpdateObjectEncryptionResponse$ = [
+      3,
+      n05,
+      _UOERp,
+      0,
+      [_RC2],
+      [[0, { [_hH2]: _xarc }]]
+    ];
+    var UploadPartCopyOutput$ = [
+      3,
+      n05,
+      _UPCO,
+      0,
+      [_CSVI, _CPR, _SSE, _SSECA, _SSECKMD, _SSEKMSKI, _BKE, _RC2],
+      [[0, { [_hH2]: _xacsvi }], [() => CopyPartResult$, 16], [0, { [_hH2]: _xasse }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarc }]]
+    ];
+    var UploadPartCopyRequest$ = [
+      3,
+      n05,
+      _UPCR,
+      0,
+      [_B, _CSo, _K2, _PN, _UI, _CSIM, _CSIMS, _CSINM, _CSIUS, _CSRo, _SSECA, _SSECK, _SSECKMD, _CSSSECA, _CSSSECK, _CSSSECKMD, _RP, _EBO, _ESBO],
+      [[0, 1], [0, { [_hH2]: _xacs___ }], [0, 1], [1, { [_hQ2]: _pN }], [0, { [_hQ2]: _uI }], [0, { [_hH2]: _xacsim }], [4, { [_hH2]: _xacsims }], [0, { [_hH2]: _xacsinm }], [4, { [_hH2]: _xacsius }], [0, { [_hH2]: _xacsr }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [0, { [_hH2]: _xacssseca }], [() => CopySourceSSECustomerKey, { [_hH2]: _xacssseck }], [0, { [_hH2]: _xacssseckM }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }], [0, { [_hH2]: _xasebo }]],
+      5
+    ];
+    var UploadPartOutput$ = [
+      3,
+      n05,
+      _UPO,
+      0,
+      [_SSE, _ET, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _SSECA, _SSECKMD, _SSEKMSKI, _BKE, _RC2],
+      [[0, { [_hH2]: _xasse }], [0, { [_hH2]: _ET }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xasseca }], [0, { [_hH2]: _xasseckM }], [() => SSEKMSKeyId, { [_hH2]: _xasseakki }], [2, { [_hH2]: _xassebke }], [0, { [_hH2]: _xarc }]]
+    ];
+    var UploadPartRequest$ = [
+      3,
+      n05,
+      _UPR,
+      0,
+      [_B, _K2, _PN, _UI, _Bo, _CLo, _CMDo, _CA2, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _SSECA, _SSECK, _SSECKMD, _RP, _EBO],
+      [[0, 1], [0, 1], [1, { [_hQ2]: _pN }], [0, { [_hQ2]: _uI }], [() => StreamingBlob, 16], [1, { [_hH2]: _CL__ }], [0, { [_hH2]: _CM }], [0, { [_hH2]: _xasca }], [0, { [_hH2]: _xacc }], [0, { [_hH2]: _xacc_ }], [0, { [_hH2]: _xacc__ }], [0, { [_hH2]: _xacs }], [0, { [_hH2]: _xacs_ }], [0, { [_hH2]: _xacs__ }], [0, { [_hH2]: _xacm }], [0, { [_hH2]: _xacx }], [0, { [_hH2]: _xacx_ }], [0, { [_hH2]: _xacx__ }], [0, { [_hH2]: _xasseca }], [() => SSECustomerKey, { [_hH2]: _xasseck }], [0, { [_hH2]: _xasseckM }], [0, { [_hH2]: _xarp }], [0, { [_hH2]: _xaebo }]],
+      4
+    ];
+    var VersioningConfiguration$ = [
+      3,
+      n05,
+      _VC,
+      0,
+      [_MFAD, _S],
+      [[0, { [_xN]: _MDf }], 0]
+    ];
+    var WebsiteConfiguration$ = [
+      3,
+      n05,
+      _WC,
+      0,
+      [_EDr, _IDn, _RART, _RR],
+      [() => ErrorDocument$, () => IndexDocument$, () => RedirectAllRequestsTo$, [() => RoutingRules, 0]]
+    ];
+    var WriteGetObjectResponseRequest$ = [
+      3,
+      n05,
+      _WGORR,
+      0,
+      [_RReq, _RTe, _Bo, _SCt, _ECr, _EM, _AR2, _CC, _CDo, _CEo, _CL, _CLo, _CR, _CTo, _CCRC, _CCRCC, _CCRCNVME, _CSHA, _CSHAh, _CSHAhe, _CMD, _CXXHASH, _CXXHASHh, _CXXHASHhe, _DM, _ET, _Exp, _Ex, _LM, _MM, _M, _OLM, _OLLHS, _OLRUD, _PC2, _RS, _RC2, _Re, _SSE, _SSECA, _SSEKMSKI, _SSECKMD, _SC, _TC2, _VI, _BKE],
+      [[0, { [_hL]: 1, [_hH2]: _xarr }], [0, { [_hH2]: _xart }], [() => StreamingBlob, 16], [1, { [_hH2]: _xafs }], [0, { [_hH2]: _xafec }], [0, { [_hH2]: _xafem }], [0, { [_hH2]: _xafhar }], [0, { [_hH2]: _xafhCC }], [0, { [_hH2]: _xafhCD }], [0, { [_hH2]: _xafhCE }], [0, { [_hH2]: _xafhCL }], [1, { [_hH2]: _CL__ }], [0, { [_hH2]: _xafhCR }], [0, { [_hH2]: _xafhCT }], [0, { [_hH2]: _xafhxacc }], [0, { [_hH2]: _xafhxacc_ }], [0, { [_hH2]: _xafhxacc__ }], [0, { [_hH2]: _xafhxacs }], [0, { [_hH2]: _xafhxacs_ }], [0, { [_hH2]: _xafhxacs__ }], [0, { [_hH2]: _xafhxacm }], [0, { [_hH2]: _xafhxacx }], [0, { [_hH2]: _xafhxacx_ }], [0, { [_hH2]: _xafhxacx__ }], [2, { [_hH2]: _xafhxadm }], [0, { [_hH2]: _xafhE }], [4, { [_hH2]: _xafhE_ }], [0, { [_hH2]: _xafhxae }], [4, { [_hH2]: _xafhLM }], [1, { [_hH2]: _xafhxamm }], [128 | 0, { [_hPH]: _xam }], [0, { [_hH2]: _xafhxaolm }], [0, { [_hH2]: _xafhxaollh }], [5, { [_hH2]: _xafhxaolrud }], [1, { [_hH2]: _xafhxampc }], [0, { [_hH2]: _xafhxars }], [0, { [_hH2]: _xafhxarc }], [0, { [_hH2]: _xafhxar }], [0, { [_hH2]: _xafhxasse }], [0, { [_hH2]: _xafhxasseca }], [() => SSEKMSKeyId, { [_hH2]: _xafhxasseakki }], [0, { [_hH2]: _xafhxasseckM }], [0, { [_hH2]: _xafhxasc }], [1, { [_hH2]: _xafhxatc }], [0, { [_hH2]: _xafhxavi }], [2, { [_hH2]: _xafhxassebke }]],
+      2
+    ];
+    var __Unit = "unit";
+    var AnalyticsConfigurationList = [
+      1,
+      n05,
+      _ACLn,
+      0,
+      [
+        () => AnalyticsConfiguration$,
+        0
+      ]
+    ];
+    var AnnotationList = [
+      1,
+      n05,
+      _AL,
+      0,
+      [
+        () => AnnotationEntry$,
+        { [_xN]: _AE }
+      ]
+    ];
+    var Buckets = [
+      1,
+      n05,
+      _Bu,
+      0,
+      [
+        () => Bucket$,
+        { [_xN]: _B }
+      ]
+    ];
+    var CommonPrefixList = [
+      1,
+      n05,
+      _CPL,
+      0,
+      () => CommonPrefix$
+    ];
+    var CompletedPartList = [
+      1,
+      n05,
+      _CPLo,
+      0,
+      () => CompletedPart$
+    ];
+    var CORSRules = [
+      1,
+      n05,
+      _CORSR,
+      0,
+      [
+        () => CORSRule$,
+        0
+      ]
+    ];
+    var DeletedObjects = [
+      1,
+      n05,
+      _DOe,
+      0,
+      () => DeletedObject$
+    ];
+    var DeleteMarkers = [
+      1,
+      n05,
+      _DMe,
+      0,
+      () => DeleteMarkerEntry$
+    ];
+    var EncryptionTypeList = [
+      1,
+      n05,
+      _ETL,
+      0,
+      [
+        0,
+        { [_xN]: _ETn }
+      ]
+    ];
+    var Errors = [
+      1,
+      n05,
+      _Er,
+      0,
+      () => _Error$
+    ];
+    var FilterRuleList = [
+      1,
+      n05,
+      _FRL,
+      0,
+      () => FilterRule$
+    ];
+    var Grants = [
+      1,
+      n05,
+      _G,
+      0,
+      [
+        () => Grant$,
+        { [_xN]: _Gr }
+      ]
+    ];
+    var IntelligentTieringConfigurationList = [
+      1,
+      n05,
+      _ITCL,
+      0,
+      [
+        () => IntelligentTieringConfiguration$,
+        0
+      ]
+    ];
+    var InventoryConfigurationList = [
+      1,
+      n05,
+      _ICL,
+      0,
+      [
+        () => InventoryConfiguration$,
+        0
+      ]
+    ];
+    var InventoryOptionalFields = [
+      1,
+      n05,
+      _IOF,
+      0,
+      [
+        0,
+        { [_xN]: _Fi }
+      ]
+    ];
+    var LambdaFunctionConfigurationList = [
+      1,
+      n05,
+      _LFCL,
+      0,
+      [
+        () => LambdaFunctionConfiguration$,
+        0
+      ]
+    ];
+    var LifecycleRules = [
+      1,
+      n05,
+      _LRi,
+      0,
+      [
+        () => LifecycleRule$,
+        0
+      ]
+    ];
+    var MetricsConfigurationList = [
+      1,
+      n05,
+      _MCL,
+      0,
+      [
+        () => MetricsConfiguration$,
+        0
+      ]
+    ];
+    var MultipartUploadList = [
+      1,
+      n05,
+      _MUL,
+      0,
+      () => MultipartUpload$
+    ];
+    var NoncurrentVersionTransitionList = [
+      1,
+      n05,
+      _NVTL,
+      0,
+      () => NoncurrentVersionTransition$
+    ];
+    var ObjectIdentifierList = [
+      1,
+      n05,
+      _OIL,
+      0,
+      () => ObjectIdentifier$
+    ];
+    var ObjectList = [
+      1,
+      n05,
+      _OLb,
+      0,
+      [
+        () => _Object$,
+        0
+      ]
+    ];
+    var ObjectVersionList = [
+      1,
+      n05,
+      _OVL,
+      0,
+      [
+        () => ObjectVersion$,
+        0
+      ]
+    ];
+    var OwnershipControlsRules = [
+      1,
+      n05,
+      _OCRw,
+      0,
+      () => OwnershipControlsRule$
+    ];
+    var Parts = [
+      1,
+      n05,
+      _Pa,
+      0,
+      () => Part$
+    ];
+    var PartsList = [
+      1,
+      n05,
+      _PL,
+      0,
+      () => ObjectPart$
+    ];
+    var QueueConfigurationList = [
+      1,
+      n05,
+      _QCL,
+      0,
+      [
+        () => QueueConfiguration$,
+        0
+      ]
+    ];
+    var ReplicationRules = [
+      1,
+      n05,
+      _RRep,
+      0,
+      [
+        () => ReplicationRule$,
+        0
+      ]
+    ];
+    var RoutingRules = [
+      1,
+      n05,
+      _RR,
+      0,
+      [
+        () => RoutingRule$,
+        { [_xN]: _RRo }
+      ]
+    ];
+    var ServerSideEncryptionRules = [
+      1,
+      n05,
+      _SSERe,
+      0,
+      [
+        () => ServerSideEncryptionRule$,
+        0
+      ]
+    ];
+    var TagSet = [
+      1,
+      n05,
+      _TSa,
+      0,
+      [
+        () => Tag$2,
+        { [_xN]: _Ta2 }
+      ]
+    ];
+    var TargetGrants = [
+      1,
+      n05,
+      _TG,
+      0,
+      [
+        () => TargetGrant$,
+        { [_xN]: _Gr }
+      ]
+    ];
+    var TieringList = [
+      1,
+      n05,
+      _TL,
+      0,
+      () => Tiering$
+    ];
+    var TopicConfigurationList = [
+      1,
+      n05,
+      _TCL,
+      0,
+      [
+        () => TopicConfiguration$,
+        0
+      ]
+    ];
+    var TransitionList = [
+      1,
+      n05,
+      _TLr,
+      0,
+      () => Transition$
+    ];
+    var UserMetadata = [
+      1,
+      n05,
+      _UM,
+      0,
+      [
+        () => MetadataEntry$,
+        { [_xN]: _ME }
+      ]
+    ];
+    var AnalyticsFilter$ = [
+      4,
+      n05,
+      _AF,
+      0,
+      [_P2, _Ta2, _An],
+      [0, () => Tag$2, [() => AnalyticsAndOperator$, 0]]
+    ];
+    var MetricsFilter$ = [
+      4,
+      n05,
+      _MF,
+      0,
+      [_P2, _Ta2, _APAc, _An],
+      [0, () => Tag$2, 0, [() => MetricsAndOperator$, 0]]
+    ];
+    var ObjectEncryption$ = [
+      4,
+      n05,
+      _OE,
+      0,
+      [_SSEKMS],
+      [[() => SSEKMSEncryption$, { [_xN]: _SK }]]
+    ];
+    var SelectObjectContentEventStream$ = [
+      4,
+      n05,
+      _SOCES,
+      { [_st]: 1 },
+      [_Rec, _Sta, _Pr2, _Cont, _End],
+      [[() => RecordsEvent$, 0], [() => StatsEvent$, 0], [() => ProgressEvent$, 0], () => ContinuationEvent$, () => EndEvent$]
+    ];
+    var AbortMultipartUpload$ = [
+      9,
+      n05,
+      _AMU,
+      { [_h4]: ["DELETE", "/{Key+}?x-id=AbortMultipartUpload", 204] },
+      () => AbortMultipartUploadRequest$,
+      () => AbortMultipartUploadOutput$
+    ];
+    var CompleteMultipartUpload$ = [
+      9,
+      n05,
+      _CMUo,
+      { [_h4]: ["POST", "/{Key+}", 200] },
+      () => CompleteMultipartUploadRequest$,
+      () => CompleteMultipartUploadOutput$
+    ];
+    var CopyObject$ = [
+      9,
+      n05,
+      _CO,
+      { [_h4]: ["PUT", "/{Key+}?x-id=CopyObject", 200] },
+      () => CopyObjectRequest$,
+      () => CopyObjectOutput$
+    ];
+    var CreateBucket$ = [
+      9,
+      n05,
+      _CB,
+      { [_h4]: ["PUT", "/", 200] },
+      () => CreateBucketRequest$,
+      () => CreateBucketOutput$
+    ];
+    var CreateBucketMetadataConfiguration$ = [
+      9,
+      n05,
+      _CBMC,
+      { [_hC]: "-", [_h4]: ["POST", "/?metadataConfiguration", 200] },
+      () => CreateBucketMetadataConfigurationRequest$,
+      () => __Unit
+    ];
+    var CreateBucketMetadataTableConfiguration$ = [
+      9,
+      n05,
+      _CBMTC,
+      { [_hC]: "-", [_h4]: ["POST", "/?metadataTable", 200] },
+      () => CreateBucketMetadataTableConfigurationRequest$,
+      () => __Unit
+    ];
+    var CreateMultipartUpload$ = [
+      9,
+      n05,
+      _CMUr,
+      { [_h4]: ["POST", "/{Key+}?uploads", 200] },
+      () => CreateMultipartUploadRequest$,
+      () => CreateMultipartUploadOutput$
+    ];
+    var CreateSession$ = [
+      9,
+      n05,
+      _CSr,
+      { [_h4]: ["GET", "/?session", 200] },
+      () => CreateSessionRequest$,
+      () => CreateSessionOutput$
+    ];
+    var DeleteBucket$ = [
+      9,
+      n05,
+      _DB,
+      { [_h4]: ["DELETE", "/", 204] },
+      () => DeleteBucketRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketAnalyticsConfiguration$ = [
+      9,
+      n05,
+      _DBAC,
+      { [_h4]: ["DELETE", "/?analytics", 204] },
+      () => DeleteBucketAnalyticsConfigurationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketCors$ = [
+      9,
+      n05,
+      _DBC,
+      { [_h4]: ["DELETE", "/?cors", 204] },
+      () => DeleteBucketCorsRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketEncryption$ = [
+      9,
+      n05,
+      _DBE,
+      { [_h4]: ["DELETE", "/?encryption", 204] },
+      () => DeleteBucketEncryptionRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketIntelligentTieringConfiguration$ = [
+      9,
+      n05,
+      _DBITC,
+      { [_h4]: ["DELETE", "/?intelligent-tiering", 204] },
+      () => DeleteBucketIntelligentTieringConfigurationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketInventoryConfiguration$ = [
+      9,
+      n05,
+      _DBIC,
+      { [_h4]: ["DELETE", "/?inventory", 204] },
+      () => DeleteBucketInventoryConfigurationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketLifecycle$ = [
+      9,
+      n05,
+      _DBL,
+      { [_h4]: ["DELETE", "/?lifecycle", 204] },
+      () => DeleteBucketLifecycleRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketMetadataConfiguration$ = [
+      9,
+      n05,
+      _DBMC,
+      { [_h4]: ["DELETE", "/?metadataConfiguration", 204] },
+      () => DeleteBucketMetadataConfigurationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketMetadataTableConfiguration$ = [
+      9,
+      n05,
+      _DBMTC,
+      { [_h4]: ["DELETE", "/?metadataTable", 204] },
+      () => DeleteBucketMetadataTableConfigurationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketMetricsConfiguration$ = [
+      9,
+      n05,
+      _DBMCe,
+      { [_h4]: ["DELETE", "/?metrics", 204] },
+      () => DeleteBucketMetricsConfigurationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketOwnershipControls$ = [
+      9,
+      n05,
+      _DBOC,
+      { [_h4]: ["DELETE", "/?ownershipControls", 204] },
+      () => DeleteBucketOwnershipControlsRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketPolicy$ = [
+      9,
+      n05,
+      _DBP,
+      { [_h4]: ["DELETE", "/?policy", 204] },
+      () => DeleteBucketPolicyRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketReplication$ = [
+      9,
+      n05,
+      _DBRe,
+      { [_h4]: ["DELETE", "/?replication", 204] },
+      () => DeleteBucketReplicationRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketTagging$ = [
+      9,
+      n05,
+      _DBT,
+      { [_h4]: ["DELETE", "/?tagging", 204] },
+      () => DeleteBucketTaggingRequest$,
+      () => __Unit
+    ];
+    var DeleteBucketWebsite$ = [
+      9,
+      n05,
+      _DBW,
+      { [_h4]: ["DELETE", "/?website", 204] },
+      () => DeleteBucketWebsiteRequest$,
+      () => __Unit
+    ];
+    var DeleteObject$ = [
+      9,
+      n05,
+      _DOel,
+      { [_h4]: ["DELETE", "/{Key+}?x-id=DeleteObject", 204] },
+      () => DeleteObjectRequest$,
+      () => DeleteObjectOutput$
+    ];
+    var DeleteObjectAnnotation$ = [
+      9,
+      n05,
+      _DOA,
+      { [_h4]: ["DELETE", "/{Key+}?annotation", 204] },
+      () => DeleteObjectAnnotationRequest$,
+      () => DeleteObjectAnnotationOutput$
+    ];
+    var DeleteObjects$ = [
+      9,
+      n05,
+      _DOele,
+      { [_hC]: "-", [_h4]: ["POST", "/?delete", 200] },
+      () => DeleteObjectsRequest$,
+      () => DeleteObjectsOutput$
+    ];
+    var DeleteObjectTagging$ = [
+      9,
+      n05,
+      _DOT,
+      { [_h4]: ["DELETE", "/{Key+}?tagging", 204] },
+      () => DeleteObjectTaggingRequest$,
+      () => DeleteObjectTaggingOutput$
+    ];
+    var DeletePublicAccessBlock$ = [
+      9,
+      n05,
+      _DPAB,
+      { [_h4]: ["DELETE", "/?publicAccessBlock", 204] },
+      () => DeletePublicAccessBlockRequest$,
+      () => __Unit
+    ];
+    var GetBucketAbac$ = [
+      9,
+      n05,
+      _GBA,
+      { [_h4]: ["GET", "/?abac", 200] },
+      () => GetBucketAbacRequest$,
+      () => GetBucketAbacOutput$
+    ];
+    var GetBucketAccelerateConfiguration$ = [
+      9,
+      n05,
+      _GBAC,
+      { [_h4]: ["GET", "/?accelerate", 200] },
+      () => GetBucketAccelerateConfigurationRequest$,
+      () => GetBucketAccelerateConfigurationOutput$
+    ];
+    var GetBucketAcl$ = [
+      9,
+      n05,
+      _GBAe,
+      { [_h4]: ["GET", "/?acl", 200] },
+      () => GetBucketAclRequest$,
+      () => GetBucketAclOutput$
+    ];
+    var GetBucketAnalyticsConfiguration$ = [
+      9,
+      n05,
+      _GBACe,
+      { [_h4]: ["GET", "/?analytics&x-id=GetBucketAnalyticsConfiguration", 200] },
+      () => GetBucketAnalyticsConfigurationRequest$,
+      () => GetBucketAnalyticsConfigurationOutput$
+    ];
+    var GetBucketCors$ = [
+      9,
+      n05,
+      _GBC,
+      { [_h4]: ["GET", "/?cors", 200] },
+      () => GetBucketCorsRequest$,
+      () => GetBucketCorsOutput$
+    ];
+    var GetBucketEncryption$ = [
+      9,
+      n05,
+      _GBE,
+      { [_h4]: ["GET", "/?encryption", 200] },
+      () => GetBucketEncryptionRequest$,
+      () => GetBucketEncryptionOutput$
+    ];
+    var GetBucketIntelligentTieringConfiguration$ = [
+      9,
+      n05,
+      _GBITC,
+      { [_h4]: ["GET", "/?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration", 200] },
+      () => GetBucketIntelligentTieringConfigurationRequest$,
+      () => GetBucketIntelligentTieringConfigurationOutput$
+    ];
+    var GetBucketInventoryConfiguration$ = [
+      9,
+      n05,
+      _GBIC,
+      { [_h4]: ["GET", "/?inventory&x-id=GetBucketInventoryConfiguration", 200] },
+      () => GetBucketInventoryConfigurationRequest$,
+      () => GetBucketInventoryConfigurationOutput$
+    ];
+    var GetBucketLifecycleConfiguration$ = [
+      9,
+      n05,
+      _GBLC,
+      { [_h4]: ["GET", "/?lifecycle", 200] },
+      () => GetBucketLifecycleConfigurationRequest$,
+      () => GetBucketLifecycleConfigurationOutput$
+    ];
+    var GetBucketLocation$ = [
+      9,
+      n05,
+      _GBL,
+      { [_h4]: ["GET", "/?location", 200] },
+      () => GetBucketLocationRequest$,
+      () => GetBucketLocationOutput$
+    ];
+    var GetBucketLogging$ = [
+      9,
+      n05,
+      _GBLe,
+      { [_h4]: ["GET", "/?logging", 200] },
+      () => GetBucketLoggingRequest$,
+      () => GetBucketLoggingOutput$
+    ];
+    var GetBucketMetadataConfiguration$ = [
+      9,
+      n05,
+      _GBMC,
+      { [_h4]: ["GET", "/?metadataConfiguration", 200] },
+      () => GetBucketMetadataConfigurationRequest$,
+      () => GetBucketMetadataConfigurationOutput$
+    ];
+    var GetBucketMetadataTableConfiguration$ = [
+      9,
+      n05,
+      _GBMTC,
+      { [_h4]: ["GET", "/?metadataTable", 200] },
+      () => GetBucketMetadataTableConfigurationRequest$,
+      () => GetBucketMetadataTableConfigurationOutput$
+    ];
+    var GetBucketMetricsConfiguration$ = [
+      9,
+      n05,
+      _GBMCe,
+      { [_h4]: ["GET", "/?metrics&x-id=GetBucketMetricsConfiguration", 200] },
+      () => GetBucketMetricsConfigurationRequest$,
+      () => GetBucketMetricsConfigurationOutput$
+    ];
+    var GetBucketNotificationConfiguration$ = [
+      9,
+      n05,
+      _GBNC,
+      { [_h4]: ["GET", "/?notification", 200] },
+      () => GetBucketNotificationConfigurationRequest$,
+      () => NotificationConfiguration$
+    ];
+    var GetBucketOwnershipControls$ = [
+      9,
+      n05,
+      _GBOC,
+      { [_h4]: ["GET", "/?ownershipControls", 200] },
+      () => GetBucketOwnershipControlsRequest$,
+      () => GetBucketOwnershipControlsOutput$
+    ];
+    var GetBucketPolicy$ = [
+      9,
+      n05,
+      _GBP,
+      { [_h4]: ["GET", "/?policy", 200] },
+      () => GetBucketPolicyRequest$,
+      () => GetBucketPolicyOutput$
+    ];
+    var GetBucketPolicyStatus$ = [
+      9,
+      n05,
+      _GBPS,
+      { [_h4]: ["GET", "/?policyStatus", 200] },
+      () => GetBucketPolicyStatusRequest$,
+      () => GetBucketPolicyStatusOutput$
+    ];
+    var GetBucketReplication$ = [
+      9,
+      n05,
+      _GBR,
+      { [_h4]: ["GET", "/?replication", 200] },
+      () => GetBucketReplicationRequest$,
+      () => GetBucketReplicationOutput$
+    ];
+    var GetBucketRequestPayment$ = [
+      9,
+      n05,
+      _GBRP,
+      { [_h4]: ["GET", "/?requestPayment", 200] },
+      () => GetBucketRequestPaymentRequest$,
+      () => GetBucketRequestPaymentOutput$
+    ];
+    var GetBucketTagging$ = [
+      9,
+      n05,
+      _GBT,
+      { [_h4]: ["GET", "/?tagging", 200] },
+      () => GetBucketTaggingRequest$,
+      () => GetBucketTaggingOutput$
+    ];
+    var GetBucketVersioning$ = [
+      9,
+      n05,
+      _GBV,
+      { [_h4]: ["GET", "/?versioning", 200] },
+      () => GetBucketVersioningRequest$,
+      () => GetBucketVersioningOutput$
+    ];
+    var GetBucketWebsite$ = [
+      9,
+      n05,
+      _GBW,
+      { [_h4]: ["GET", "/?website", 200] },
+      () => GetBucketWebsiteRequest$,
+      () => GetBucketWebsiteOutput$
+    ];
+    var GetObject$ = [
+      9,
+      n05,
+      _GO,
+      { [_hC]: "-", [_h4]: ["GET", "/{Key+}?x-id=GetObject", 200] },
+      () => GetObjectRequest$,
+      () => GetObjectOutput$
+    ];
+    var GetObjectAcl$ = [
+      9,
+      n05,
+      _GOA,
+      { [_h4]: ["GET", "/{Key+}?acl", 200] },
+      () => GetObjectAclRequest$,
+      () => GetObjectAclOutput$
+    ];
+    var GetObjectAnnotation$ = [
+      9,
+      n05,
+      _GOAe,
+      { [_hC]: "-", [_h4]: ["GET", "/{Key+}?annotation&x-id=GetObjectAnnotation", 200] },
+      () => GetObjectAnnotationRequest$,
+      () => GetObjectAnnotationOutput$
+    ];
+    var GetObjectAttributes$ = [
+      9,
+      n05,
+      _GOAet,
+      { [_h4]: ["GET", "/{Key+}?attributes", 200] },
+      () => GetObjectAttributesRequest$,
+      () => GetObjectAttributesOutput$
+    ];
+    var GetObjectLegalHold$ = [
+      9,
+      n05,
+      _GOLH,
+      { [_h4]: ["GET", "/{Key+}?legal-hold", 200] },
+      () => GetObjectLegalHoldRequest$,
+      () => GetObjectLegalHoldOutput$
+    ];
+    var GetObjectLockConfiguration$ = [
+      9,
+      n05,
+      _GOLC,
+      { [_h4]: ["GET", "/?object-lock", 200] },
+      () => GetObjectLockConfigurationRequest$,
+      () => GetObjectLockConfigurationOutput$
+    ];
+    var GetObjectRetention$ = [
+      9,
+      n05,
+      _GORe,
+      { [_h4]: ["GET", "/{Key+}?retention", 200] },
+      () => GetObjectRetentionRequest$,
+      () => GetObjectRetentionOutput$
+    ];
+    var GetObjectTagging$ = [
+      9,
+      n05,
+      _GOT,
+      { [_h4]: ["GET", "/{Key+}?tagging", 200] },
+      () => GetObjectTaggingRequest$,
+      () => GetObjectTaggingOutput$
+    ];
+    var GetObjectTorrent$ = [
+      9,
+      n05,
+      _GOTe,
+      { [_h4]: ["GET", "/{Key+}?torrent", 200] },
+      () => GetObjectTorrentRequest$,
+      () => GetObjectTorrentOutput$
+    ];
+    var GetPublicAccessBlock$ = [
+      9,
+      n05,
+      _GPAB,
+      { [_h4]: ["GET", "/?publicAccessBlock", 200] },
+      () => GetPublicAccessBlockRequest$,
+      () => GetPublicAccessBlockOutput$
+    ];
+    var HeadBucket$ = [
+      9,
+      n05,
+      _HB,
+      { [_h4]: ["HEAD", "/", 200] },
+      () => HeadBucketRequest$,
+      () => HeadBucketOutput$
+    ];
+    var HeadObject$ = [
+      9,
+      n05,
+      _HO,
+      { [_h4]: ["HEAD", "/{Key+}", 200] },
+      () => HeadObjectRequest$,
+      () => HeadObjectOutput$
+    ];
+    var ListBucketAnalyticsConfigurations$ = [
+      9,
+      n05,
+      _LBAC,
+      { [_h4]: ["GET", "/?analytics&x-id=ListBucketAnalyticsConfigurations", 200] },
+      () => ListBucketAnalyticsConfigurationsRequest$,
+      () => ListBucketAnalyticsConfigurationsOutput$
+    ];
+    var ListBucketIntelligentTieringConfigurations$ = [
+      9,
+      n05,
+      _LBITC,
+      { [_h4]: ["GET", "/?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations", 200] },
+      () => ListBucketIntelligentTieringConfigurationsRequest$,
+      () => ListBucketIntelligentTieringConfigurationsOutput$
+    ];
+    var ListBucketInventoryConfigurations$ = [
+      9,
+      n05,
+      _LBIC,
+      { [_h4]: ["GET", "/?inventory&x-id=ListBucketInventoryConfigurations", 200] },
+      () => ListBucketInventoryConfigurationsRequest$,
+      () => ListBucketInventoryConfigurationsOutput$
+    ];
+    var ListBucketMetricsConfigurations$ = [
+      9,
+      n05,
+      _LBMC,
+      { [_h4]: ["GET", "/?metrics&x-id=ListBucketMetricsConfigurations", 200] },
+      () => ListBucketMetricsConfigurationsRequest$,
+      () => ListBucketMetricsConfigurationsOutput$
+    ];
+    var ListBuckets$ = [
+      9,
+      n05,
+      _LB,
+      { [_h4]: ["GET", "/?x-id=ListBuckets", 200] },
+      () => ListBucketsRequest$,
+      () => ListBucketsOutput$
+    ];
+    var ListDirectoryBuckets$ = [
+      9,
+      n05,
+      _LDB,
+      { [_h4]: ["GET", "/?x-id=ListDirectoryBuckets", 200] },
+      () => ListDirectoryBucketsRequest$,
+      () => ListDirectoryBucketsOutput$
+    ];
+    var ListMultipartUploads$ = [
+      9,
+      n05,
+      _LMU,
+      { [_h4]: ["GET", "/?uploads", 200] },
+      () => ListMultipartUploadsRequest$,
+      () => ListMultipartUploadsOutput$
+    ];
+    var ListObjectAnnotations$ = [
+      9,
+      n05,
+      _LOA,
+      { [_h4]: ["GET", "/{Key+}?annotation&x-id=ListObjectAnnotations", 200] },
+      () => ListObjectAnnotationsRequest$,
+      () => ListObjectAnnotationsOutput$
+    ];
+    var ListObjects$ = [
+      9,
+      n05,
+      _LO,
+      { [_h4]: ["GET", "/", 200] },
+      () => ListObjectsRequest$,
+      () => ListObjectsOutput$
+    ];
+    var ListObjectsV2$ = [
+      9,
+      n05,
+      _LOV,
+      { [_h4]: ["GET", "/?list-type=2", 200] },
+      () => ListObjectsV2Request$,
+      () => ListObjectsV2Output$
+    ];
+    var ListObjectVersions$ = [
+      9,
+      n05,
+      _LOVi,
+      { [_h4]: ["GET", "/?versions", 200] },
+      () => ListObjectVersionsRequest$,
+      () => ListObjectVersionsOutput$
+    ];
+    var ListParts$ = [
+      9,
+      n05,
+      _LP,
+      { [_h4]: ["GET", "/{Key+}?x-id=ListParts", 200] },
+      () => ListPartsRequest$,
+      () => ListPartsOutput$
+    ];
+    var PutBucketAbac$ = [
+      9,
+      n05,
+      _PBA,
+      { [_hC]: "-", [_h4]: ["PUT", "/?abac", 200] },
+      () => PutBucketAbacRequest$,
+      () => __Unit
+    ];
+    var PutBucketAccelerateConfiguration$ = [
+      9,
+      n05,
+      _PBAC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?accelerate", 200] },
+      () => PutBucketAccelerateConfigurationRequest$,
+      () => __Unit
+    ];
+    var PutBucketAcl$ = [
+      9,
+      n05,
+      _PBAu,
+      { [_hC]: "-", [_h4]: ["PUT", "/?acl", 200] },
+      () => PutBucketAclRequest$,
+      () => __Unit
+    ];
+    var PutBucketAnalyticsConfiguration$ = [
+      9,
+      n05,
+      _PBACu,
+      { [_h4]: ["PUT", "/?analytics", 200] },
+      () => PutBucketAnalyticsConfigurationRequest$,
+      () => __Unit
+    ];
+    var PutBucketCors$ = [
+      9,
+      n05,
+      _PBC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?cors", 200] },
+      () => PutBucketCorsRequest$,
+      () => __Unit
+    ];
+    var PutBucketEncryption$ = [
+      9,
+      n05,
+      _PBE,
+      { [_hC]: "-", [_h4]: ["PUT", "/?encryption", 200] },
+      () => PutBucketEncryptionRequest$,
+      () => __Unit
+    ];
+    var PutBucketIntelligentTieringConfiguration$ = [
+      9,
+      n05,
+      _PBITC,
+      { [_h4]: ["PUT", "/?intelligent-tiering", 200] },
+      () => PutBucketIntelligentTieringConfigurationRequest$,
+      () => __Unit
+    ];
+    var PutBucketInventoryConfiguration$ = [
+      9,
+      n05,
+      _PBIC,
+      { [_h4]: ["PUT", "/?inventory", 200] },
+      () => PutBucketInventoryConfigurationRequest$,
+      () => __Unit
+    ];
+    var PutBucketLifecycleConfiguration$ = [
+      9,
+      n05,
+      _PBLC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?lifecycle", 200] },
+      () => PutBucketLifecycleConfigurationRequest$,
+      () => PutBucketLifecycleConfigurationOutput$
+    ];
+    var PutBucketLogging$ = [
+      9,
+      n05,
+      _PBL,
+      { [_hC]: "-", [_h4]: ["PUT", "/?logging", 200] },
+      () => PutBucketLoggingRequest$,
+      () => __Unit
+    ];
+    var PutBucketMetricsConfiguration$ = [
+      9,
+      n05,
+      _PBMC,
+      { [_h4]: ["PUT", "/?metrics", 200] },
+      () => PutBucketMetricsConfigurationRequest$,
+      () => __Unit
+    ];
+    var PutBucketNotificationConfiguration$ = [
+      9,
+      n05,
+      _PBNC,
+      { [_h4]: ["PUT", "/?notification", 200] },
+      () => PutBucketNotificationConfigurationRequest$,
+      () => __Unit
+    ];
+    var PutBucketOwnershipControls$ = [
+      9,
+      n05,
+      _PBOC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?ownershipControls", 200] },
+      () => PutBucketOwnershipControlsRequest$,
+      () => __Unit
+    ];
+    var PutBucketPolicy$ = [
+      9,
+      n05,
+      _PBP,
+      { [_hC]: "-", [_h4]: ["PUT", "/?policy", 200] },
+      () => PutBucketPolicyRequest$,
+      () => __Unit
+    ];
+    var PutBucketReplication$ = [
+      9,
+      n05,
+      _PBR,
+      { [_hC]: "-", [_h4]: ["PUT", "/?replication", 200] },
+      () => PutBucketReplicationRequest$,
+      () => __Unit
+    ];
+    var PutBucketRequestPayment$ = [
+      9,
+      n05,
+      _PBRP,
+      { [_hC]: "-", [_h4]: ["PUT", "/?requestPayment", 200] },
+      () => PutBucketRequestPaymentRequest$,
+      () => __Unit
+    ];
+    var PutBucketTagging$ = [
+      9,
+      n05,
+      _PBT,
+      { [_hC]: "-", [_h4]: ["PUT", "/?tagging", 200] },
+      () => PutBucketTaggingRequest$,
+      () => __Unit
+    ];
+    var PutBucketVersioning$ = [
+      9,
+      n05,
+      _PBV,
+      { [_hC]: "-", [_h4]: ["PUT", "/?versioning", 200] },
+      () => PutBucketVersioningRequest$,
+      () => __Unit
+    ];
+    var PutBucketWebsite$ = [
+      9,
+      n05,
+      _PBW,
+      { [_hC]: "-", [_h4]: ["PUT", "/?website", 200] },
+      () => PutBucketWebsiteRequest$,
+      () => __Unit
+    ];
+    var PutObject$ = [
+      9,
+      n05,
+      _PO,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?x-id=PutObject", 200] },
+      () => PutObjectRequest$,
+      () => PutObjectOutput$
+    ];
+    var PutObjectAcl$ = [
+      9,
+      n05,
+      _POA,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?acl", 200] },
+      () => PutObjectAclRequest$,
+      () => PutObjectAclOutput$
+    ];
+    var PutObjectAnnotation$ = [
+      9,
+      n05,
+      _POAu,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?annotation", 200] },
+      () => PutObjectAnnotationRequest$,
+      () => PutObjectAnnotationOutput$
+    ];
+    var PutObjectLegalHold$ = [
+      9,
+      n05,
+      _POLH,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?legal-hold", 200] },
+      () => PutObjectLegalHoldRequest$,
+      () => PutObjectLegalHoldOutput$
+    ];
+    var PutObjectLockConfiguration$ = [
+      9,
+      n05,
+      _POLC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?object-lock", 200] },
+      () => PutObjectLockConfigurationRequest$,
+      () => PutObjectLockConfigurationOutput$
+    ];
+    var PutObjectRetention$ = [
+      9,
+      n05,
+      _PORu,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?retention", 200] },
+      () => PutObjectRetentionRequest$,
+      () => PutObjectRetentionOutput$
+    ];
+    var PutObjectTagging$ = [
+      9,
+      n05,
+      _POT,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?tagging", 200] },
+      () => PutObjectTaggingRequest$,
+      () => PutObjectTaggingOutput$
+    ];
+    var PutPublicAccessBlock$ = [
+      9,
+      n05,
+      _PPAB,
+      { [_hC]: "-", [_h4]: ["PUT", "/?publicAccessBlock", 200] },
+      () => PutPublicAccessBlockRequest$,
+      () => __Unit
+    ];
+    var RenameObject$ = [
+      9,
+      n05,
+      _RO,
+      { [_h4]: ["PUT", "/{Key+}?renameObject", 200] },
+      () => RenameObjectRequest$,
+      () => RenameObjectOutput$
+    ];
+    var RestoreObject$ = [
+      9,
+      n05,
+      _ROe,
+      { [_hC]: "-", [_h4]: ["POST", "/{Key+}?restore", 200] },
+      () => RestoreObjectRequest$,
+      () => RestoreObjectOutput$
+    ];
+    var SelectObjectContent$ = [
+      9,
+      n05,
+      _SOC,
+      { [_h4]: ["POST", "/{Key+}?select&select-type=2", 200] },
+      () => SelectObjectContentRequest$,
+      () => SelectObjectContentOutput$
+    ];
+    var UpdateBucketMetadataAnnotationTableConfiguration$ = [
+      9,
+      n05,
+      _UBMATC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?metadataAnnotationTable", 200] },
+      () => UpdateBucketMetadataAnnotationTableConfigurationRequest$,
+      () => __Unit
+    ];
+    var UpdateBucketMetadataInventoryTableConfiguration$ = [
+      9,
+      n05,
+      _UBMITC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?metadataInventoryTable", 200] },
+      () => UpdateBucketMetadataInventoryTableConfigurationRequest$,
+      () => __Unit
+    ];
+    var UpdateBucketMetadataJournalTableConfiguration$ = [
+      9,
+      n05,
+      _UBMJTC,
+      { [_hC]: "-", [_h4]: ["PUT", "/?metadataJournalTable", 200] },
+      () => UpdateBucketMetadataJournalTableConfigurationRequest$,
+      () => __Unit
+    ];
+    var UpdateObjectEncryption$ = [
+      9,
+      n05,
+      _UOE,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?encryption", 200] },
+      () => UpdateObjectEncryptionRequest$,
+      () => UpdateObjectEncryptionResponse$
+    ];
+    var UploadPart$ = [
+      9,
+      n05,
+      _UP,
+      { [_hC]: "-", [_h4]: ["PUT", "/{Key+}?x-id=UploadPart", 200] },
+      () => UploadPartRequest$,
+      () => UploadPartOutput$
+    ];
+    var UploadPartCopy$ = [
+      9,
+      n05,
+      _UPC,
+      { [_h4]: ["PUT", "/{Key+}?x-id=UploadPartCopy", 200] },
+      () => UploadPartCopyRequest$,
+      () => UploadPartCopyOutput$
+    ];
+    var WriteGetObjectResponse$ = [
+      9,
+      n05,
+      _WGOR,
+      { [_en]: ["{RequestRoute}."], [_h4]: ["POST", "/WriteGetObjectResponse", 200] },
+      () => WriteGetObjectResponseRequest$,
+      () => __Unit
+    ];
+    var CreateSessionCommand = class extends command5(_ep4, _mw05, "CreateSession", CreateSession$) {
+    };
+    var version = "3.1126.0";
+    var packageInfo = {
+      version
+    };
+    var getRuntimeConfig$1 = (config) => {
+      return {
+        apiVersion: "2006-03-01",
+        base64Decoder: config?.base64Decoder ?? fromBase642,
+        base64Encoder: config?.base64Encoder ?? toBase643,
+        disableHostPrefix: config?.disableHostPrefix ?? false,
+        endpointProvider: config?.endpointProvider ?? defaultEndpointResolver5,
+        extensions: config?.extensions ?? [],
+        getAwsChunkedEncodingStream: config?.getAwsChunkedEncodingStream ?? getAwsChunkedEncodingStream3,
+        httpAuthSchemeProvider: config?.httpAuthSchemeProvider ?? defaultS3HttpAuthSchemeProvider,
+        httpAuthSchemes: config?.httpAuthSchemes ?? [
+          {
+            schemeId: "aws.auth#sigv4",
+            identityProvider: (ipc) => ipc.getIdentityProvider("aws.auth#sigv4"),
+            signer: new AwsSdkSigV4Signer2()
+          },
+          {
+            schemeId: "aws.auth#sigv4a",
+            identityProvider: (ipc) => ipc.getIdentityProvider("aws.auth#sigv4a"),
+            signer: new AwsSdkSigV4ASigner2()
+          }
+        ],
+        logger: config?.logger ?? new NoOpLogger2(),
+        md5: config?.md5 ?? Md5,
+        protocol: config?.protocol ?? S3RestXmlProtocol2,
+        protocolSettings: config?.protocolSettings ?? {
+          defaultNamespace: "com.amazonaws.s3",
+          errorTypeRegistries: errorTypeRegistries5,
+          xmlNamespace: "http://s3.amazonaws.com/doc/2006-03-01/",
+          version: "2006-03-01",
+          serviceTarget: "AmazonS3"
+        },
+        sdkStreamMixin: config?.sdkStreamMixin ?? sdkStreamMixin3,
+        serviceId: config?.serviceId ?? "S3",
+        sha1: config?.sha1 ?? Sha1,
+        sha256: config?.sha256 ?? Sha256,
+        signerConstructor: config?.signerConstructor ?? SignatureV4MultiRegion3,
+        signingEscapePath: config?.signingEscapePath ?? false,
+        urlParser: config?.urlParser ?? parseUrl2,
+        useArnRegion: config?.useArnRegion ?? void 0,
+        utf8Decoder: config?.utf8Decoder ?? fromUtf83,
+        utf8Encoder: config?.utf8Encoder ?? toUtf83
+      };
+    };
+    var getRuntimeConfig9 = (config) => {
+      emitWarningIfUnsupportedVersion3(process.version);
+      const defaultsMode = resolveDefaultsModeConfig2(config);
+      const defaultConfigProvider = () => defaultsMode().then(loadConfigsForDefaultMode2);
+      const clientSharedValues = getRuntimeConfig$1(config);
+      emitWarningIfUnsupportedVersion$1(process.version);
+      const loaderConfig = {
+        profile: config?.profile,
+        logger: clientSharedValues.logger
+      };
+      return {
+        ...clientSharedValues,
+        ...config,
+        runtime: "node",
+        defaultsMode,
+        authSchemePreference: config?.authSchemePreference ?? loadConfig2(NODE_AUTH_SCHEME_PREFERENCE_OPTIONS2, loaderConfig),
+        bodyLengthChecker: config?.bodyLengthChecker ?? calculateBodyLength2,
+        credentialDefaultProvider: config?.credentialDefaultProvider ?? defaultProvider,
+        defaultUserAgentProvider: config?.defaultUserAgentProvider ?? createDefaultUserAgentProvider2({ serviceId: clientSharedValues.serviceId, clientVersion: packageInfo.version }),
+        disableS3ExpressSessionAuth: config?.disableS3ExpressSessionAuth ?? loadConfig2(NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS2, loaderConfig),
+        eventStreamSerdeProvider: config?.eventStreamSerdeProvider ?? eventStreamSerdeProvider3,
+        maxAttempts: config?.maxAttempts ?? loadConfig2(NODE_MAX_ATTEMPT_CONFIG_OPTIONS2, config),
+        region: config?.region ?? loadConfig2(NODE_REGION_CONFIG_OPTIONS2, { ...NODE_REGION_CONFIG_FILE_OPTIONS2, ...loaderConfig }),
+        requestChecksumCalculation: config?.requestChecksumCalculation ?? loadConfig2(NODE_REQUEST_CHECKSUM_CALCULATION_CONFIG_OPTIONS2, loaderConfig),
+        requestHandler: NodeHttpHandler.create(config?.requestHandler ?? defaultConfigProvider),
+        responseChecksumValidation: config?.responseChecksumValidation ?? loadConfig2(NODE_RESPONSE_CHECKSUM_VALIDATION_CONFIG_OPTIONS2, loaderConfig),
+        retryMode: config?.retryMode ?? loadConfig2({
+          ...NODE_RETRY_MODE_CONFIG_OPTIONS2,
+          default: async () => (await defaultConfigProvider()).retryMode || DEFAULT_RETRY_MODE2
+        }, config),
+        sigv4aSigningRegionSet: config?.sigv4aSigningRegionSet ?? loadConfig2(NODE_SIGV4A_CONFIG_OPTIONS2, loaderConfig),
+        streamCollector: config?.streamCollector ?? streamCollector7,
+        streamHasher: config?.streamHasher ?? readableStreamHasher2,
+        useArnRegion: config?.useArnRegion ?? loadConfig2(NODE_USE_ARN_REGION_CONFIG_OPTIONS2, loaderConfig),
+        useDualstackEndpoint: config?.useDualstackEndpoint ?? loadConfig2(NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS2, loaderConfig),
+        useFipsEndpoint: config?.useFipsEndpoint ?? loadConfig2(NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS2, loaderConfig),
+        userAgentAppId: config?.userAgentAppId ?? loadConfig2(NODE_APP_ID_CONFIG_OPTIONS2, loaderConfig)
+      };
+    };
+    var getHttpAuthExtensionConfiguration5 = (runtimeConfig) => {
+      const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
+      let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
+      let _credentials = runtimeConfig.credentials;
+      return {
+        setHttpAuthScheme(httpAuthScheme) {
+          const index = _httpAuthSchemes.findIndex((scheme) => scheme.schemeId === httpAuthScheme.schemeId);
+          if (index === -1) {
+            _httpAuthSchemes.push(httpAuthScheme);
+          } else {
+            _httpAuthSchemes.splice(index, 1, httpAuthScheme);
+          }
+        },
+        httpAuthSchemes() {
+          return _httpAuthSchemes;
+        },
+        setHttpAuthSchemeProvider(httpAuthSchemeProvider) {
+          _httpAuthSchemeProvider = httpAuthSchemeProvider;
+        },
+        httpAuthSchemeProvider() {
+          return _httpAuthSchemeProvider;
+        },
+        setCredentials(credentials) {
+          _credentials = credentials;
+        },
+        credentials() {
+          return _credentials;
+        }
+      };
+    };
+    var resolveHttpAuthRuntimeConfig5 = (config) => {
+      return {
+        httpAuthSchemes: config.httpAuthSchemes(),
+        httpAuthSchemeProvider: config.httpAuthSchemeProvider(),
+        credentials: config.credentials()
+      };
+    };
+    var resolveRuntimeExtensions5 = (runtimeConfig, extensions) => {
+      const extensionConfiguration = Object.assign(getAwsRegionExtensionConfiguration2(runtimeConfig), getDefaultExtensionConfiguration2(runtimeConfig), getHttpHandlerExtensionConfiguration2(runtimeConfig), getHttpAuthExtensionConfiguration5(runtimeConfig));
+      extensions.forEach((extension) => extension.configure(extensionConfiguration));
+      return Object.assign(runtimeConfig, resolveAwsRegionExtensionConfiguration2(extensionConfiguration), resolveDefaultRuntimeConfig2(extensionConfiguration), resolveHttpHandlerRuntimeConfig2(extensionConfiguration), resolveHttpAuthRuntimeConfig5(extensionConfiguration));
+    };
+    var S3Client2 = class extends Client2 {
+      config;
+      constructor(...[configuration]) {
+        const _config_0 = getRuntimeConfig9(configuration || {});
+        super(_config_0);
+        this.initConfig = _config_0;
+        const _config_1 = resolveClientEndpointParameters5(_config_0);
+        const _config_2 = resolveUserAgentConfig2(_config_1);
+        const _config_3 = resolveFlexibleChecksumsConfig2(_config_2);
+        const _config_4 = resolveRetryConfig2(_config_3);
+        const _config_5 = resolveRegionConfig2(_config_4);
+        const _config_6 = resolveHostHeaderConfig2(_config_5);
+        const _config_7 = resolveEndpointConfig2(_config_6);
+        const _config_8 = resolveEventStreamSerdeConfig2(_config_7);
+        const _config_9 = resolveHttpAuthSchemeConfig5(_config_8);
+        const _config_10 = resolveS3Config2(_config_9, { session: [() => this, CreateSessionCommand] });
+        const _config_11 = resolveRuntimeExtensions5(_config_10, configuration?.extensions || []);
+        this.config = _config_11;
+        this.middlewareStack.use(getSchemaSerdePlugin2(this.config));
+        this.middlewareStack.use(getUserAgentPlugin2(this.config));
+        this.middlewareStack.use(getRetryPlugin2(this.config));
+        this.middlewareStack.use(getContentLengthPlugin2(this.config));
+        this.middlewareStack.use(getHostHeaderPlugin2(this.config));
+        this.middlewareStack.use(getLoggerPlugin2(this.config));
+        this.middlewareStack.use(getRecursionDetectionPlugin2(this.config));
+        this.middlewareStack.use(getHttpAuthSchemeEndpointRuleSetPlugin2(this.config, {
+          httpAuthSchemeParametersProvider: defaultS3HttpAuthSchemeParametersProvider,
+          identityProviderConfigProvider: async (config) => new DefaultIdentityProviderConfig2({
+            "aws.auth#sigv4": config.credentials,
+            "aws.auth#sigv4a": config.credentials
+          })
+        }));
+        this.middlewareStack.use(getHttpSigningPlugin2(this.config));
+        this.middlewareStack.use(getValidateBucketNamePlugin2(this.config));
+        this.middlewareStack.use(getAddExpectContinuePlugin2(this.config));
+        this.middlewareStack.use(getRegionRedirectMiddlewarePlugin2(this.config));
+        this.middlewareStack.use(getS3ExpressPlugin2(this.config));
+        this.middlewareStack.use(getS3ExpressHttpSigningPlugin2(this.config));
+      }
+      destroy() {
+        super.destroy();
+      }
+    };
+    var AbortMultipartUploadCommand = class extends command5(_ep05, _mw05, "AbortMultipartUpload", AbortMultipartUpload$) {
+    };
+    var CompleteMultipartUploadCommand = class extends command5(_ep05, _mw1, "CompleteMultipartUpload", CompleteMultipartUpload$) {
+    };
+    var CopyObjectCommand = class extends command5(_ep12, _mw1, "CopyObject", CopyObject$) {
+    };
+    var CreateBucketCommand = class extends command5(_ep2, _mw2, "CreateBucket", CreateBucket$) {
+    };
+    var CreateBucketMetadataConfigurationCommand = class extends command5(_ep3, _mw3, "CreateBucketMetadataConfiguration", CreateBucketMetadataConfiguration$) {
+    };
+    var CreateBucketMetadataTableConfigurationCommand = class extends command5(_ep3, _mw3, "CreateBucketMetadataTableConfiguration", CreateBucketMetadataTableConfiguration$) {
+    };
+    var CreateMultipartUploadCommand = class extends command5(_ep05, _mw1, "CreateMultipartUpload", CreateMultipartUpload$) {
+    };
+    var DeleteBucketAnalyticsConfigurationCommand = class extends command5(_ep3, _mw4, "DeleteBucketAnalyticsConfiguration", DeleteBucketAnalyticsConfiguration$) {
+    };
+    var DeleteBucketCommand = class extends command5(_ep3, _mw4, "DeleteBucket", DeleteBucket$) {
+    };
+    var DeleteBucketCorsCommand = class extends command5(_ep3, _mw4, "DeleteBucketCors", DeleteBucketCors$) {
+    };
+    var DeleteBucketEncryptionCommand = class extends command5(_ep3, _mw4, "DeleteBucketEncryption", DeleteBucketEncryption$) {
+    };
+    var DeleteBucketIntelligentTieringConfigurationCommand = class extends command5(_ep3, _mw4, "DeleteBucketIntelligentTieringConfiguration", DeleteBucketIntelligentTieringConfiguration$) {
+    };
+    var DeleteBucketInventoryConfigurationCommand = class extends command5(_ep3, _mw4, "DeleteBucketInventoryConfiguration", DeleteBucketInventoryConfiguration$) {
+    };
+    var DeleteBucketLifecycleCommand = class extends command5(_ep3, _mw4, "DeleteBucketLifecycle", DeleteBucketLifecycle$) {
+    };
+    var DeleteBucketMetadataConfigurationCommand = class extends command5(_ep3, _mw4, "DeleteBucketMetadataConfiguration", DeleteBucketMetadataConfiguration$) {
+    };
+    var DeleteBucketMetadataTableConfigurationCommand = class extends command5(_ep3, _mw4, "DeleteBucketMetadataTableConfiguration", DeleteBucketMetadataTableConfiguration$) {
+    };
+    var DeleteBucketMetricsConfigurationCommand = class extends command5(_ep3, _mw4, "DeleteBucketMetricsConfiguration", DeleteBucketMetricsConfiguration$) {
+    };
+    var DeleteBucketOwnershipControlsCommand = class extends command5(_ep3, _mw4, "DeleteBucketOwnershipControls", DeleteBucketOwnershipControls$) {
+    };
+    var DeleteBucketPolicyCommand = class extends command5(_ep3, _mw4, "DeleteBucketPolicy", DeleteBucketPolicy$) {
+    };
+    var DeleteBucketReplicationCommand = class extends command5(_ep3, _mw4, "DeleteBucketReplication", DeleteBucketReplication$) {
+    };
+    var DeleteBucketTaggingCommand = class extends command5(_ep3, _mw4, "DeleteBucketTagging", DeleteBucketTagging$) {
+    };
+    var DeleteBucketWebsiteCommand = class extends command5(_ep3, _mw4, "DeleteBucketWebsite", DeleteBucketWebsite$) {
+    };
+    var DeleteObjectAnnotationCommand = class extends command5(_ep5, _mw05, "DeleteObjectAnnotation", DeleteObjectAnnotation$) {
+    };
+    var DeleteObjectCommand = class extends command5(_ep05, _mw05, "DeleteObject", DeleteObject$) {
+    };
+    var DeleteObjectsCommand = class extends command5(_ep5, _mw5, "DeleteObjects", DeleteObjects$) {
+    };
+    var DeleteObjectTaggingCommand = class extends command5(_ep5, _mw05, "DeleteObjectTagging", DeleteObjectTagging$) {
+    };
+    var DeletePublicAccessBlockCommand = class extends command5(_ep3, _mw4, "DeletePublicAccessBlock", DeletePublicAccessBlock$) {
+    };
+    var GetBucketAbacCommand = class extends command5(_ep5, _mw05, "GetBucketAbac", GetBucketAbac$) {
+    };
+    var GetBucketAccelerateConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketAccelerateConfiguration", GetBucketAccelerateConfiguration$) {
+    };
+    var GetBucketAclCommand = class extends command5(_ep3, _mw05, "GetBucketAcl", GetBucketAcl$) {
+    };
+    var GetBucketAnalyticsConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketAnalyticsConfiguration", GetBucketAnalyticsConfiguration$) {
+    };
+    var GetBucketCorsCommand = class extends command5(_ep3, _mw05, "GetBucketCors", GetBucketCors$) {
+    };
+    var GetBucketEncryptionCommand = class extends command5(_ep3, _mw05, "GetBucketEncryption", GetBucketEncryption$) {
+    };
+    var GetBucketIntelligentTieringConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketIntelligentTieringConfiguration", GetBucketIntelligentTieringConfiguration$) {
+    };
+    var GetBucketInventoryConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketInventoryConfiguration", GetBucketInventoryConfiguration$) {
+    };
+    var GetBucketLifecycleConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketLifecycleConfiguration", GetBucketLifecycleConfiguration$) {
+    };
+    var GetBucketLocationCommand = class extends command5(_ep3, _mw05, "GetBucketLocation", GetBucketLocation$) {
+    };
+    var GetBucketLoggingCommand = class extends command5(_ep3, _mw05, "GetBucketLogging", GetBucketLogging$) {
+    };
+    var GetBucketMetadataConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketMetadataConfiguration", GetBucketMetadataConfiguration$) {
+    };
+    var GetBucketMetadataTableConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketMetadataTableConfiguration", GetBucketMetadataTableConfiguration$) {
+    };
+    var GetBucketMetricsConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketMetricsConfiguration", GetBucketMetricsConfiguration$) {
+    };
+    var GetBucketNotificationConfigurationCommand = class extends command5(_ep3, _mw05, "GetBucketNotificationConfiguration", GetBucketNotificationConfiguration$) {
+    };
+    var GetBucketOwnershipControlsCommand = class extends command5(_ep3, _mw05, "GetBucketOwnershipControls", GetBucketOwnershipControls$) {
+    };
+    var GetBucketPolicyCommand = class extends command5(_ep3, _mw4, "GetBucketPolicy", GetBucketPolicy$) {
+    };
+    var GetBucketPolicyStatusCommand = class extends command5(_ep3, _mw05, "GetBucketPolicyStatus", GetBucketPolicyStatus$) {
+    };
+    var GetBucketReplicationCommand = class extends command5(_ep3, _mw05, "GetBucketReplication", GetBucketReplication$) {
+    };
+    var GetBucketRequestPaymentCommand = class extends command5(_ep3, _mw05, "GetBucketRequestPayment", GetBucketRequestPayment$) {
+    };
+    var GetBucketTaggingCommand = class extends command5(_ep3, _mw05, "GetBucketTagging", GetBucketTagging$) {
+    };
+    var GetBucketVersioningCommand = class extends command5(_ep3, _mw05, "GetBucketVersioning", GetBucketVersioning$) {
+    };
+    var GetBucketWebsiteCommand = class extends command5(_ep3, _mw05, "GetBucketWebsite", GetBucketWebsite$) {
+    };
+    var GetObjectAclCommand = class extends command5(_ep05, _mw05, "GetObjectAcl", GetObjectAcl$) {
+    };
+    var GetObjectAnnotationCommand = class extends command5(_ep05, _mw6, "GetObjectAnnotation", GetObjectAnnotation$) {
+    };
+    var GetObjectAttributesCommand = class extends command5(_ep5, _mw1, "GetObjectAttributes", GetObjectAttributes$) {
+    };
+    var GetObjectCommand = class extends command5(_ep05, _mw7, "GetObject", GetObject$) {
+    };
+    var GetObjectLegalHoldCommand = class extends command5(_ep5, _mw05, "GetObjectLegalHold", GetObjectLegalHold$) {
+    };
+    var GetObjectLockConfigurationCommand = class extends command5(_ep5, _mw05, "GetObjectLockConfiguration", GetObjectLockConfiguration$) {
+    };
+    var GetObjectRetentionCommand = class extends command5(_ep5, _mw05, "GetObjectRetention", GetObjectRetention$) {
+    };
+    var GetObjectTaggingCommand = class extends command5(_ep5, _mw05, "GetObjectTagging", GetObjectTagging$) {
+    };
+    var GetObjectTorrentCommand = class extends command5(_ep5, _mw4, "GetObjectTorrent", GetObjectTorrent$) {
+    };
+    var GetPublicAccessBlockCommand = class extends command5(_ep3, _mw05, "GetPublicAccessBlock", GetPublicAccessBlock$) {
+    };
+    var HeadBucketCommand = class extends command5(_ep5, _mw05, "HeadBucket", HeadBucket$) {
+    };
+    var HeadObjectCommand = class extends command5(_ep05, _mw8, "HeadObject", HeadObject$) {
+    };
+    var ListBucketAnalyticsConfigurationsCommand = class extends command5(_ep3, _mw05, "ListBucketAnalyticsConfigurations", ListBucketAnalyticsConfigurations$) {
+    };
+    var ListBucketIntelligentTieringConfigurationsCommand = class extends command5(_ep3, _mw05, "ListBucketIntelligentTieringConfigurations", ListBucketIntelligentTieringConfigurations$) {
+    };
+    var ListBucketInventoryConfigurationsCommand = class extends command5(_ep3, _mw05, "ListBucketInventoryConfigurations", ListBucketInventoryConfigurations$) {
+    };
+    var ListBucketMetricsConfigurationsCommand = class extends command5(_ep3, _mw05, "ListBucketMetricsConfigurations", ListBucketMetricsConfigurations$) {
+    };
+    var ListBucketsCommand = class extends command5(_ep6, _mw05, "ListBuckets", ListBuckets$) {
+    };
+    var ListDirectoryBucketsCommand = class extends command5(_ep7, _mw05, "ListDirectoryBuckets", ListDirectoryBuckets$) {
+    };
+    var ListMultipartUploadsCommand = class extends command5(_ep8, _mw05, "ListMultipartUploads", ListMultipartUploads$) {
+    };
+    var ListObjectAnnotationsCommand = class extends command5(_ep5, _mw05, "ListObjectAnnotations", ListObjectAnnotations$) {
+    };
+    var ListObjectsCommand = class extends command5(_ep8, _mw05, "ListObjects", ListObjects$) {
+    };
+    var ListObjectsV2Command = class extends command5(_ep8, _mw05, "ListObjectsV2", ListObjectsV2$) {
+    };
+    var ListObjectVersionsCommand = class extends command5(_ep8, _mw05, "ListObjectVersions", ListObjectVersions$) {
+    };
+    var ListPartsCommand = class extends command5(_ep05, _mw1, "ListParts", ListParts$) {
+    };
+    var PutBucketAbacCommand = class extends command5(_ep5, _mw9, "PutBucketAbac", PutBucketAbac$) {
+    };
+    var PutBucketAccelerateConfigurationCommand = class extends command5(_ep3, _mw9, "PutBucketAccelerateConfiguration", PutBucketAccelerateConfiguration$) {
+    };
+    var PutBucketAclCommand = class extends command5(_ep3, _mw3, "PutBucketAcl", PutBucketAcl$) {
+    };
+    var PutBucketAnalyticsConfigurationCommand = class extends command5(_ep3, _mw4, "PutBucketAnalyticsConfiguration", PutBucketAnalyticsConfiguration$) {
+    };
+    var PutBucketCorsCommand = class extends command5(_ep3, _mw3, "PutBucketCors", PutBucketCors$) {
+    };
+    var PutBucketEncryptionCommand = class extends command5(_ep3, _mw3, "PutBucketEncryption", PutBucketEncryption$) {
+    };
+    var PutBucketIntelligentTieringConfigurationCommand = class extends command5(_ep3, _mw4, "PutBucketIntelligentTieringConfiguration", PutBucketIntelligentTieringConfiguration$) {
+    };
+    var PutBucketInventoryConfigurationCommand = class extends command5(_ep3, _mw4, "PutBucketInventoryConfiguration", PutBucketInventoryConfiguration$) {
+    };
+    var PutBucketLifecycleConfigurationCommand = class extends command5(_ep3, _mw5, "PutBucketLifecycleConfiguration", PutBucketLifecycleConfiguration$) {
+    };
+    var PutBucketLoggingCommand = class extends command5(_ep3, _mw3, "PutBucketLogging", PutBucketLogging$) {
+    };
+    var PutBucketMetricsConfigurationCommand = class extends command5(_ep3, _mw4, "PutBucketMetricsConfiguration", PutBucketMetricsConfiguration$) {
+    };
+    var PutBucketNotificationConfigurationCommand = class extends command5(_ep3, _mw4, "PutBucketNotificationConfiguration", PutBucketNotificationConfiguration$) {
+    };
+    var PutBucketOwnershipControlsCommand = class extends command5(_ep3, _mw3, "PutBucketOwnershipControls", PutBucketOwnershipControls$) {
+    };
+    var PutBucketPolicyCommand = class extends command5(_ep3, _mw3, "PutBucketPolicy", PutBucketPolicy$) {
+    };
+    var PutBucketReplicationCommand = class extends command5(_ep3, _mw3, "PutBucketReplication", PutBucketReplication$) {
+    };
+    var PutBucketRequestPaymentCommand = class extends command5(_ep3, _mw3, "PutBucketRequestPayment", PutBucketRequestPayment$) {
+    };
+    var PutBucketTaggingCommand = class extends command5(_ep3, _mw3, "PutBucketTagging", PutBucketTagging$) {
+    };
+    var PutBucketVersioningCommand = class extends command5(_ep3, _mw3, "PutBucketVersioning", PutBucketVersioning$) {
+    };
+    var PutBucketWebsiteCommand = class extends command5(_ep3, _mw3, "PutBucketWebsite", PutBucketWebsite$) {
+    };
+    var PutObjectAclCommand = class extends command5(_ep05, _mw5, "PutObjectAcl", PutObjectAcl$) {
+    };
+    var PutObjectAnnotationCommand = class extends command5(_ep05, _mw10, "PutObjectAnnotation", PutObjectAnnotation$) {
+    };
+    var PutObjectCommand2 = class extends command5(_ep05, _mw11, "PutObject", PutObject$) {
+    };
+    var PutObjectLegalHoldCommand = class extends command5(_ep5, _mw5, "PutObjectLegalHold", PutObjectLegalHold$) {
+    };
+    var PutObjectLockConfigurationCommand = class extends command5(_ep5, _mw5, "PutObjectLockConfiguration", PutObjectLockConfiguration$) {
+    };
+    var PutObjectRetentionCommand = class extends command5(_ep5, _mw5, "PutObjectRetention", PutObjectRetention$) {
+    };
+    var PutObjectTaggingCommand = class extends command5(_ep5, _mw5, "PutObjectTagging", PutObjectTagging$) {
+    };
+    var PutPublicAccessBlockCommand = class extends command5(_ep3, _mw3, "PutPublicAccessBlock", PutPublicAccessBlock$) {
+    };
+    var RenameObjectCommand = class extends command5(_ep05, _mw05, "RenameObject", RenameObject$) {
+    };
+    var RestoreObjectCommand = class extends command5(_ep5, _mw10, "RestoreObject", RestoreObject$) {
+    };
+    var SelectObjectContentCommand = class extends command5(_ep5, _mw12, "SelectObjectContent", SelectObjectContent$) {
+    };
+    var UpdateBucketMetadataAnnotationTableConfigurationCommand = class extends command5(_ep3, _mw3, "UpdateBucketMetadataAnnotationTableConfiguration", UpdateBucketMetadataAnnotationTableConfiguration$) {
+    };
+    var UpdateBucketMetadataInventoryTableConfigurationCommand = class extends command5(_ep3, _mw3, "UpdateBucketMetadataInventoryTableConfiguration", UpdateBucketMetadataInventoryTableConfiguration$) {
+    };
+    var UpdateBucketMetadataJournalTableConfigurationCommand = class extends command5(_ep3, _mw3, "UpdateBucketMetadataJournalTableConfiguration", UpdateBucketMetadataJournalTableConfiguration$) {
+    };
+    var UpdateObjectEncryptionCommand = class extends command5(_ep5, _mw5, "UpdateObjectEncryption", UpdateObjectEncryption$) {
+    };
+    var UploadPartCommand = class extends command5(_ep05, _mw13, "UploadPart", UploadPart$) {
+    };
+    var UploadPartCopyCommand = class extends command5(_ep4, _mw1, "UploadPartCopy", UploadPartCopy$) {
+    };
+    var WriteGetObjectResponseCommand = class extends command5(_ep9, _mw4, "WriteGetObjectResponse", WriteGetObjectResponse$) {
+    };
+    var paginateListBuckets = createPaginator2(S3Client2, ListBucketsCommand, "ContinuationToken", "ContinuationToken", "MaxBuckets");
+    var paginateListDirectoryBuckets = createPaginator2(S3Client2, ListDirectoryBucketsCommand, "ContinuationToken", "ContinuationToken", "MaxDirectoryBuckets");
+    var paginateListObjectAnnotations = createPaginator2(S3Client2, ListObjectAnnotationsCommand, "ContinuationToken", "NextContinuationToken", "MaxAnnotationResults");
+    var paginateListObjectsV2 = createPaginator2(S3Client2, ListObjectsV2Command, "ContinuationToken", "NextContinuationToken", "MaxKeys");
+    var paginateListParts = createPaginator2(S3Client2, ListPartsCommand, "PartNumberMarker", "NextPartNumberMarker", "MaxParts");
+    var checkState$3 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new HeadBucketCommand(input));
+        reason = result;
+        return { state: WaiterState2.SUCCESS, reason };
+      } catch (exception) {
+        reason = exception;
+        if (exception.name === "NotFound") {
+          return { state: WaiterState2.RETRY, reason };
+        }
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForBucketExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$3);
+    };
+    var waitUntilBucketExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$3);
+      return checkExceptions2(result);
+    };
+    var checkState$2 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new HeadBucketCommand(input));
+        reason = result;
+      } catch (exception) {
+        reason = exception;
+        if (exception.name === "NotFound") {
+          return { state: WaiterState2.SUCCESS, reason };
+        }
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForBucketNotExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$2);
+    };
+    var waitUntilBucketNotExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$2);
+      return checkExceptions2(result);
+    };
+    var checkState$1 = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new HeadObjectCommand(input));
+        reason = result;
+        return { state: WaiterState2.SUCCESS, reason };
+      } catch (exception) {
+        reason = exception;
+        if (exception.name === "NotFound") {
+          return { state: WaiterState2.RETRY, reason };
+        }
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForObjectExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState$1);
+    };
+    var waitUntilObjectExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState$1);
+      return checkExceptions2(result);
+    };
+    var checkState = async (client2, input) => {
+      let reason;
+      try {
+        let result = await client2.send(new HeadObjectCommand(input));
+        reason = result;
+      } catch (exception) {
+        reason = exception;
+        if (exception.name === "NotFound") {
+          return { state: WaiterState2.SUCCESS, reason };
+        }
+      }
+      return { state: WaiterState2.RETRY, reason };
+    };
+    var waitForObjectNotExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      return createWaiter2({ ...serviceDefaults, ...params }, input, checkState);
+    };
+    var waitUntilObjectNotExists = async (params, input) => {
+      const serviceDefaults = { minDelay: 5, maxDelay: 120 };
+      const result = await createWaiter2({ ...serviceDefaults, ...params }, input, checkState);
+      return checkExceptions2(result);
+    };
+    var commands5 = {
+      AbortMultipartUploadCommand,
+      CompleteMultipartUploadCommand,
+      CopyObjectCommand,
+      CreateBucketCommand,
+      CreateBucketMetadataConfigurationCommand,
+      CreateBucketMetadataTableConfigurationCommand,
+      CreateMultipartUploadCommand,
+      CreateSessionCommand,
+      DeleteBucketCommand,
+      DeleteBucketAnalyticsConfigurationCommand,
+      DeleteBucketCorsCommand,
+      DeleteBucketEncryptionCommand,
+      DeleteBucketIntelligentTieringConfigurationCommand,
+      DeleteBucketInventoryConfigurationCommand,
+      DeleteBucketLifecycleCommand,
+      DeleteBucketMetadataConfigurationCommand,
+      DeleteBucketMetadataTableConfigurationCommand,
+      DeleteBucketMetricsConfigurationCommand,
+      DeleteBucketOwnershipControlsCommand,
+      DeleteBucketPolicyCommand,
+      DeleteBucketReplicationCommand,
+      DeleteBucketTaggingCommand,
+      DeleteBucketWebsiteCommand,
+      DeleteObjectCommand,
+      DeleteObjectAnnotationCommand,
+      DeleteObjectsCommand,
+      DeleteObjectTaggingCommand,
+      DeletePublicAccessBlockCommand,
+      GetBucketAbacCommand,
+      GetBucketAccelerateConfigurationCommand,
+      GetBucketAclCommand,
+      GetBucketAnalyticsConfigurationCommand,
+      GetBucketCorsCommand,
+      GetBucketEncryptionCommand,
+      GetBucketIntelligentTieringConfigurationCommand,
+      GetBucketInventoryConfigurationCommand,
+      GetBucketLifecycleConfigurationCommand,
+      GetBucketLocationCommand,
+      GetBucketLoggingCommand,
+      GetBucketMetadataConfigurationCommand,
+      GetBucketMetadataTableConfigurationCommand,
+      GetBucketMetricsConfigurationCommand,
+      GetBucketNotificationConfigurationCommand,
+      GetBucketOwnershipControlsCommand,
+      GetBucketPolicyCommand,
+      GetBucketPolicyStatusCommand,
+      GetBucketReplicationCommand,
+      GetBucketRequestPaymentCommand,
+      GetBucketTaggingCommand,
+      GetBucketVersioningCommand,
+      GetBucketWebsiteCommand,
+      GetObjectCommand,
+      GetObjectAclCommand,
+      GetObjectAnnotationCommand,
+      GetObjectAttributesCommand,
+      GetObjectLegalHoldCommand,
+      GetObjectLockConfigurationCommand,
+      GetObjectRetentionCommand,
+      GetObjectTaggingCommand,
+      GetObjectTorrentCommand,
+      GetPublicAccessBlockCommand,
+      HeadBucketCommand,
+      HeadObjectCommand,
+      ListBucketAnalyticsConfigurationsCommand,
+      ListBucketIntelligentTieringConfigurationsCommand,
+      ListBucketInventoryConfigurationsCommand,
+      ListBucketMetricsConfigurationsCommand,
+      ListBucketsCommand,
+      ListDirectoryBucketsCommand,
+      ListMultipartUploadsCommand,
+      ListObjectAnnotationsCommand,
+      ListObjectsCommand,
+      ListObjectsV2Command,
+      ListObjectVersionsCommand,
+      ListPartsCommand,
+      PutBucketAbacCommand,
+      PutBucketAccelerateConfigurationCommand,
+      PutBucketAclCommand,
+      PutBucketAnalyticsConfigurationCommand,
+      PutBucketCorsCommand,
+      PutBucketEncryptionCommand,
+      PutBucketIntelligentTieringConfigurationCommand,
+      PutBucketInventoryConfigurationCommand,
+      PutBucketLifecycleConfigurationCommand,
+      PutBucketLoggingCommand,
+      PutBucketMetricsConfigurationCommand,
+      PutBucketNotificationConfigurationCommand,
+      PutBucketOwnershipControlsCommand,
+      PutBucketPolicyCommand,
+      PutBucketReplicationCommand,
+      PutBucketRequestPaymentCommand,
+      PutBucketTaggingCommand,
+      PutBucketVersioningCommand,
+      PutBucketWebsiteCommand,
+      PutObjectCommand: PutObjectCommand2,
+      PutObjectAclCommand,
+      PutObjectAnnotationCommand,
+      PutObjectLegalHoldCommand,
+      PutObjectLockConfigurationCommand,
+      PutObjectRetentionCommand,
+      PutObjectTaggingCommand,
+      PutPublicAccessBlockCommand,
+      RenameObjectCommand,
+      RestoreObjectCommand,
+      SelectObjectContentCommand,
+      UpdateBucketMetadataAnnotationTableConfigurationCommand,
+      UpdateBucketMetadataInventoryTableConfigurationCommand,
+      UpdateBucketMetadataJournalTableConfigurationCommand,
+      UpdateObjectEncryptionCommand,
+      UploadPartCommand,
+      UploadPartCopyCommand,
+      WriteGetObjectResponseCommand
+    };
+    var paginators = {
+      paginateListBuckets,
+      paginateListDirectoryBuckets,
+      paginateListObjectAnnotations,
+      paginateListObjectsV2,
+      paginateListParts
+    };
+    var waiters = {
+      waitUntilBucketExists,
+      waitUntilBucketNotExists,
+      waitUntilObjectExists,
+      waitUntilObjectNotExists
+    };
+    var S3 = class extends S3Client2 {
+    };
+    createAggregatedClient2(commands5, S3, { paginators, waiters });
+    var BucketAbacStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var RequestCharged = {
+      requester: "requester"
+    };
+    var RequestPayer = {
+      requester: "requester"
+    };
+    var BucketAccelerateStatus = {
+      Enabled: "Enabled",
+      Suspended: "Suspended"
+    };
+    var Type = {
+      AmazonCustomerByEmail: "AmazonCustomerByEmail",
+      CanonicalUser: "CanonicalUser",
+      Group: "Group"
+    };
+    var Permission = {
+      FULL_CONTROL: "FULL_CONTROL",
+      READ: "READ",
+      READ_ACP: "READ_ACP",
+      WRITE: "WRITE",
+      WRITE_ACP: "WRITE_ACP"
+    };
+    var OwnerOverride = {
+      Destination: "Destination"
+    };
+    var ChecksumType = {
+      COMPOSITE: "COMPOSITE",
+      FULL_OBJECT: "FULL_OBJECT"
+    };
+    var ServerSideEncryption = {
+      AES256: "AES256",
+      aws_backup: "aws:backup",
+      aws_fsx: "aws:fsx",
+      aws_kms: "aws:kms",
+      aws_kms_dsse: "aws:kms:dsse"
+    };
+    var ObjectCannedACL = {
+      authenticated_read: "authenticated-read",
+      aws_exec_read: "aws-exec-read",
+      bucket_owner_full_control: "bucket-owner-full-control",
+      bucket_owner_read: "bucket-owner-read",
+      private: "private",
+      public_read: "public-read",
+      public_read_write: "public-read-write"
+    };
+    var AnnotationDirective = {
+      COPY: "COPY",
+      EXCLUDE: "EXCLUDE"
+    };
+    var ChecksumAlgorithm2 = {
+      CRC32: "CRC32",
+      CRC32C: "CRC32C",
+      CRC64NVME: "CRC64NVME",
+      MD5: "MD5",
+      SHA1: "SHA1",
+      SHA256: "SHA256",
+      SHA512: "SHA512",
+      XXHASH128: "XXHASH128",
+      XXHASH3: "XXHASH3",
+      XXHASH64: "XXHASH64"
+    };
+    var MetadataDirective = {
+      COPY: "COPY",
+      REPLACE: "REPLACE"
+    };
+    var ObjectLockLegalHoldStatus = {
+      OFF: "OFF",
+      ON: "ON"
+    };
+    var ObjectLockMode = {
+      COMPLIANCE: "COMPLIANCE",
+      GOVERNANCE: "GOVERNANCE"
+    };
+    var StorageClass = {
+      AWS_BACKUP_LOW_COST_WARM: "AWS_BACKUP_LOW_COST_WARM",
+      AWS_BACKUP_WARM: "AWS_BACKUP_WARM",
+      DEEP_ARCHIVE: "DEEP_ARCHIVE",
+      EXPRESS_ONEZONE: "EXPRESS_ONEZONE",
+      FSX_ONTAP: "FSX_ONTAP",
+      FSX_OPENZFS: "FSX_OPENZFS",
+      GLACIER: "GLACIER",
+      GLACIER_IR: "GLACIER_IR",
+      INTELLIGENT_TIERING: "INTELLIGENT_TIERING",
+      ONEZONE_IA: "ONEZONE_IA",
+      OUTPOSTS: "OUTPOSTS",
+      REDUCED_REDUNDANCY: "REDUCED_REDUNDANCY",
+      SNOW: "SNOW",
+      STANDARD: "STANDARD",
+      STANDARD_IA: "STANDARD_IA"
+    };
+    var TaggingDirective = {
+      COPY: "COPY",
+      REPLACE: "REPLACE"
+    };
+    var BucketCannedACL = {
+      authenticated_read: "authenticated-read",
+      private: "private",
+      public_read: "public-read",
+      public_read_write: "public-read-write"
+    };
+    var BucketNamespace = {
+      ACCOUNT_REGIONAL: "account-regional",
+      GLOBAL: "global"
+    };
+    var DataRedundancy = {
+      SingleAvailabilityZone: "SingleAvailabilityZone",
+      SingleLocalZone: "SingleLocalZone"
+    };
+    var BucketType = {
+      Directory: "Directory"
+    };
+    var LocationType = {
+      AvailabilityZone: "AvailabilityZone",
+      LocalZone: "LocalZone"
+    };
+    var BucketLocationConstraint = {
+      EU: "EU",
+      af_south_1: "af-south-1",
+      ap_east_1: "ap-east-1",
+      ap_east_2: "ap-east-2",
+      ap_northeast_1: "ap-northeast-1",
+      ap_northeast_2: "ap-northeast-2",
+      ap_northeast_3: "ap-northeast-3",
+      ap_south_1: "ap-south-1",
+      ap_south_2: "ap-south-2",
+      ap_southeast_1: "ap-southeast-1",
+      ap_southeast_2: "ap-southeast-2",
+      ap_southeast_3: "ap-southeast-3",
+      ap_southeast_4: "ap-southeast-4",
+      ap_southeast_5: "ap-southeast-5",
+      ap_southeast_6: "ap-southeast-6",
+      ap_southeast_7: "ap-southeast-7",
+      ca_central_1: "ca-central-1",
+      ca_west_1: "ca-west-1",
+      cn_north_1: "cn-north-1",
+      cn_northwest_1: "cn-northwest-1",
+      eu_central_1: "eu-central-1",
+      eu_central_2: "eu-central-2",
+      eu_north_1: "eu-north-1",
+      eu_south_1: "eu-south-1",
+      eu_south_2: "eu-south-2",
+      eu_west_1: "eu-west-1",
+      eu_west_2: "eu-west-2",
+      eu_west_3: "eu-west-3",
+      il_central_1: "il-central-1",
+      me_central_1: "me-central-1",
+      me_south_1: "me-south-1",
+      mx_central_1: "mx-central-1",
+      sa_east_1: "sa-east-1",
+      us_east_2: "us-east-2",
+      us_gov_east_1: "us-gov-east-1",
+      us_gov_west_1: "us-gov-west-1",
+      us_west_1: "us-west-1",
+      us_west_2: "us-west-2"
+    };
+    var ObjectOwnership = {
+      BucketOwnerEnforced: "BucketOwnerEnforced",
+      BucketOwnerPreferred: "BucketOwnerPreferred",
+      ObjectWriter: "ObjectWriter"
+    };
+    var AnnotationConfigurationState = {
+      DISABLED: "DISABLED",
+      ENABLED: "ENABLED"
+    };
+    var TableSseAlgorithm = {
+      AES256: "AES256",
+      aws_kms: "aws:kms"
+    };
+    var InventoryConfigurationState = {
+      DISABLED: "DISABLED",
+      ENABLED: "ENABLED"
+    };
+    var ExpirationState = {
+      DISABLED: "DISABLED",
+      ENABLED: "ENABLED"
+    };
+    var SessionMode = {
+      ReadOnly: "ReadOnly",
+      ReadWrite: "ReadWrite"
+    };
+    var AnalyticsS3ExportFileFormat = {
+      CSV: "CSV"
+    };
+    var StorageClassAnalysisSchemaVersion = {
+      V_1: "V_1"
+    };
+    var EncryptionType = {
+      NONE: "NONE",
+      SSE_C: "SSE-C"
+    };
+    var IntelligentTieringStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var IntelligentTieringAccessTier = {
+      ARCHIVE_ACCESS: "ARCHIVE_ACCESS",
+      DEEP_ARCHIVE_ACCESS: "DEEP_ARCHIVE_ACCESS"
+    };
+    var InventoryFormat = {
+      CSV: "CSV",
+      ORC: "ORC",
+      Parquet: "Parquet"
+    };
+    var InventoryIncludedObjectVersions = {
+      All: "All",
+      Current: "Current"
+    };
+    var InventoryOptionalField = {
+      BucketKeyStatus: "BucketKeyStatus",
+      ChecksumAlgorithm: "ChecksumAlgorithm",
+      ETag: "ETag",
+      EncryptionStatus: "EncryptionStatus",
+      IntelligentTieringAccessTier: "IntelligentTieringAccessTier",
+      IsMultipartUploaded: "IsMultipartUploaded",
+      LastModifiedDate: "LastModifiedDate",
+      LifecycleExpirationDate: "LifecycleExpirationDate",
+      ObjectAccessControlList: "ObjectAccessControlList",
+      ObjectLockLegalHoldStatus: "ObjectLockLegalHoldStatus",
+      ObjectLockMode: "ObjectLockMode",
+      ObjectLockRetainUntilDate: "ObjectLockRetainUntilDate",
+      ObjectOwner: "ObjectOwner",
+      ReplicationStatus: "ReplicationStatus",
+      Size: "Size",
+      StorageClass: "StorageClass"
+    };
+    var InventoryFrequency = {
+      Daily: "Daily",
+      Weekly: "Weekly"
+    };
+    var TransitionStorageClass = {
+      DEEP_ARCHIVE: "DEEP_ARCHIVE",
+      GLACIER: "GLACIER",
+      GLACIER_IR: "GLACIER_IR",
+      INTELLIGENT_TIERING: "INTELLIGENT_TIERING",
+      ONEZONE_IA: "ONEZONE_IA",
+      STANDARD_IA: "STANDARD_IA"
+    };
+    var ExpirationStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var TransitionDefaultMinimumObjectSize = {
+      all_storage_classes_128K: "all_storage_classes_128K",
+      varies_by_storage_class: "varies_by_storage_class"
+    };
+    var BucketLogsPermission = {
+      FULL_CONTROL: "FULL_CONTROL",
+      READ: "READ",
+      WRITE: "WRITE"
+    };
+    var PartitionDateSource = {
+      DeliveryTime: "DeliveryTime",
+      EventTime: "EventTime"
+    };
+    var S3TablesBucketType = {
+      aws: "aws",
+      customer: "customer"
+    };
+    var Event = {
+      s3_IntelligentTiering: "s3:IntelligentTiering",
+      s3_LifecycleExpiration_: "s3:LifecycleExpiration:*",
+      s3_LifecycleExpiration_Delete: "s3:LifecycleExpiration:Delete",
+      s3_LifecycleExpiration_DeleteMarkerCreated: "s3:LifecycleExpiration:DeleteMarkerCreated",
+      s3_LifecycleTransition: "s3:LifecycleTransition",
+      s3_ObjectAcl_Put: "s3:ObjectAcl:Put",
+      s3_ObjectAnnotation_: "s3:ObjectAnnotation:*",
+      s3_ObjectAnnotation_Delete: "s3:ObjectAnnotation:Delete",
+      s3_ObjectAnnotation_Put: "s3:ObjectAnnotation:Put",
+      s3_ObjectCreated_: "s3:ObjectCreated:*",
+      s3_ObjectCreated_CompleteMultipartUpload: "s3:ObjectCreated:CompleteMultipartUpload",
+      s3_ObjectCreated_Copy: "s3:ObjectCreated:Copy",
+      s3_ObjectCreated_Post: "s3:ObjectCreated:Post",
+      s3_ObjectCreated_Put: "s3:ObjectCreated:Put",
+      s3_ObjectRemoved_: "s3:ObjectRemoved:*",
+      s3_ObjectRemoved_Delete: "s3:ObjectRemoved:Delete",
+      s3_ObjectRemoved_DeleteMarkerCreated: "s3:ObjectRemoved:DeleteMarkerCreated",
+      s3_ObjectRestore_: "s3:ObjectRestore:*",
+      s3_ObjectRestore_Completed: "s3:ObjectRestore:Completed",
+      s3_ObjectRestore_Delete: "s3:ObjectRestore:Delete",
+      s3_ObjectRestore_Post: "s3:ObjectRestore:Post",
+      s3_ObjectTagging_: "s3:ObjectTagging:*",
+      s3_ObjectTagging_Delete: "s3:ObjectTagging:Delete",
+      s3_ObjectTagging_Put: "s3:ObjectTagging:Put",
+      s3_ReducedRedundancyLostObject: "s3:ReducedRedundancyLostObject",
+      s3_Replication_: "s3:Replication:*",
+      s3_Replication_OperationFailedReplication: "s3:Replication:OperationFailedReplication",
+      s3_Replication_OperationMissedThreshold: "s3:Replication:OperationMissedThreshold",
+      s3_Replication_OperationNotTracked: "s3:Replication:OperationNotTracked",
+      s3_Replication_OperationReplicatedAfterThreshold: "s3:Replication:OperationReplicatedAfterThreshold"
+    };
+    var FilterRuleName = {
+      prefix: "prefix",
+      suffix: "suffix"
+    };
+    var DeleteMarkerReplicationStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var MetricsStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var ReplicationTimeStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var ExistingObjectReplicationStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var ReplicaModificationsStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var SseKmsEncryptedObjectsStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var ReplicationRuleStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var Payer = {
+      BucketOwner: "BucketOwner",
+      Requester: "Requester"
+    };
+    var MFADeleteStatus = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var BucketVersioningStatus = {
+      Enabled: "Enabled",
+      Suspended: "Suspended"
+    };
+    var Protocol = {
+      http: "http",
+      https: "https"
+    };
+    var ReplicationStatus = {
+      COMPLETE: "COMPLETE",
+      COMPLETED: "COMPLETED",
+      FAILED: "FAILED",
+      PENDING: "PENDING",
+      REPLICA: "REPLICA"
+    };
+    var ChecksumMode = {
+      ENABLED: "ENABLED"
+    };
+    var ObjectAttributes = {
+      CHECKSUM: "Checksum",
+      ETAG: "ETag",
+      OBJECT_PARTS: "ObjectParts",
+      OBJECT_SIZE: "ObjectSize",
+      STORAGE_CLASS: "StorageClass"
+    };
+    var ObjectLockEnabled = {
+      Enabled: "Enabled"
+    };
+    var ObjectLockRetentionMode = {
+      COMPLIANCE: "COMPLIANCE",
+      GOVERNANCE: "GOVERNANCE"
+    };
+    var ArchiveStatus = {
+      ARCHIVE_ACCESS: "ARCHIVE_ACCESS",
+      DEEP_ARCHIVE_ACCESS: "DEEP_ARCHIVE_ACCESS"
+    };
+    var EncodingType = {
+      url: "url"
+    };
+    var ObjectStorageClass = {
+      AWS_BACKUP_LOW_COST_WARM: "AWS_BACKUP_LOW_COST_WARM",
+      AWS_BACKUP_WARM: "AWS_BACKUP_WARM",
+      DEEP_ARCHIVE: "DEEP_ARCHIVE",
+      EXPRESS_ONEZONE: "EXPRESS_ONEZONE",
+      FSX_ONTAP: "FSX_ONTAP",
+      FSX_OPENZFS: "FSX_OPENZFS",
+      GLACIER: "GLACIER",
+      GLACIER_IR: "GLACIER_IR",
+      INTELLIGENT_TIERING: "INTELLIGENT_TIERING",
+      ONEZONE_IA: "ONEZONE_IA",
+      OUTPOSTS: "OUTPOSTS",
+      REDUCED_REDUNDANCY: "REDUCED_REDUNDANCY",
+      SNOW: "SNOW",
+      STANDARD: "STANDARD",
+      STANDARD_IA: "STANDARD_IA"
+    };
+    var OptionalObjectAttributes = {
+      RESTORE_STATUS: "RestoreStatus"
+    };
+    var ObjectVersionStorageClass = {
+      STANDARD: "STANDARD"
+    };
+    var MFADelete = {
+      Disabled: "Disabled",
+      Enabled: "Enabled"
+    };
+    var Tier = {
+      Bulk: "Bulk",
+      Expedited: "Expedited",
+      Standard: "Standard"
+    };
+    var ExpressionType = {
+      SQL: "SQL"
+    };
+    var CompressionType = {
+      BZIP2: "BZIP2",
+      GZIP: "GZIP",
+      NONE: "NONE"
+    };
+    var FileHeaderInfo = {
+      IGNORE: "IGNORE",
+      NONE: "NONE",
+      USE: "USE"
+    };
+    var JSONType = {
+      DOCUMENT: "DOCUMENT",
+      LINES: "LINES"
+    };
+    var QuoteFields = {
+      ALWAYS: "ALWAYS",
+      ASNEEDED: "ASNEEDED"
+    };
+    var RestoreRequestType = {
+      SELECT: "SELECT"
+    };
+    exports2.AbacStatus$ = AbacStatus$;
+    exports2.AbortIncompleteMultipartUpload$ = AbortIncompleteMultipartUpload$;
+    exports2.AbortMultipartUpload$ = AbortMultipartUpload$;
+    exports2.AbortMultipartUploadCommand = AbortMultipartUploadCommand;
+    exports2.AbortMultipartUploadOutput$ = AbortMultipartUploadOutput$;
+    exports2.AbortMultipartUploadRequest$ = AbortMultipartUploadRequest$;
+    exports2.AccelerateConfiguration$ = AccelerateConfiguration$;
+    exports2.AccessControlPolicy$ = AccessControlPolicy$;
+    exports2.AccessControlTranslation$ = AccessControlTranslation$;
+    exports2.AccessDenied = AccessDenied;
+    exports2.AccessDenied$ = AccessDenied$;
+    exports2.AnalyticsAndOperator$ = AnalyticsAndOperator$;
+    exports2.AnalyticsConfiguration$ = AnalyticsConfiguration$;
+    exports2.AnalyticsExportDestination$ = AnalyticsExportDestination$;
+    exports2.AnalyticsFilter$ = AnalyticsFilter$;
+    exports2.AnalyticsS3BucketDestination$ = AnalyticsS3BucketDestination$;
+    exports2.AnalyticsS3ExportFileFormat = AnalyticsS3ExportFileFormat;
+    exports2.AnnotationConfigurationState = AnnotationConfigurationState;
+    exports2.AnnotationDirective = AnnotationDirective;
+    exports2.AnnotationEntry$ = AnnotationEntry$;
+    exports2.AnnotationLimitExceeded = AnnotationLimitExceeded;
+    exports2.AnnotationLimitExceeded$ = AnnotationLimitExceeded$;
+    exports2.AnnotationNameTooLong = AnnotationNameTooLong;
+    exports2.AnnotationNameTooLong$ = AnnotationNameTooLong$;
+    exports2.AnnotationTableConfiguration$ = AnnotationTableConfiguration$;
+    exports2.AnnotationTableConfigurationResult$ = AnnotationTableConfigurationResult$;
+    exports2.AnnotationTableConfigurationUpdates$ = AnnotationTableConfigurationUpdates$;
+    exports2.ArchiveStatus = ArchiveStatus;
+    exports2.BlockedEncryptionTypes$ = BlockedEncryptionTypes$;
+    exports2.Bucket$ = Bucket$;
+    exports2.BucketAbacStatus = BucketAbacStatus;
+    exports2.BucketAccelerateStatus = BucketAccelerateStatus;
+    exports2.BucketAlreadyExists = BucketAlreadyExists;
+    exports2.BucketAlreadyExists$ = BucketAlreadyExists$;
+    exports2.BucketAlreadyOwnedByYou = BucketAlreadyOwnedByYou;
+    exports2.BucketAlreadyOwnedByYou$ = BucketAlreadyOwnedByYou$;
+    exports2.BucketCannedACL = BucketCannedACL;
+    exports2.BucketInfo$ = BucketInfo$;
+    exports2.BucketLifecycleConfiguration$ = BucketLifecycleConfiguration$;
+    exports2.BucketLocationConstraint = BucketLocationConstraint;
+    exports2.BucketLoggingStatus$ = BucketLoggingStatus$;
+    exports2.BucketLogsPermission = BucketLogsPermission;
+    exports2.BucketNamespace = BucketNamespace;
+    exports2.BucketType = BucketType;
+    exports2.BucketVersioningStatus = BucketVersioningStatus;
+    exports2.CORSConfiguration$ = CORSConfiguration$;
+    exports2.CORSRule$ = CORSRule$;
+    exports2.CSVInput$ = CSVInput$;
+    exports2.CSVOutput$ = CSVOutput$;
+    exports2.Checksum$ = Checksum$;
+    exports2.ChecksumAlgorithm = ChecksumAlgorithm2;
+    exports2.ChecksumMode = ChecksumMode;
+    exports2.ChecksumType = ChecksumType;
+    exports2.CommonPrefix$ = CommonPrefix$;
+    exports2.CompleteMultipartUpload$ = CompleteMultipartUpload$;
+    exports2.CompleteMultipartUploadCommand = CompleteMultipartUploadCommand;
+    exports2.CompleteMultipartUploadOutput$ = CompleteMultipartUploadOutput$;
+    exports2.CompleteMultipartUploadRequest$ = CompleteMultipartUploadRequest$;
+    exports2.CompletedMultipartUpload$ = CompletedMultipartUpload$;
+    exports2.CompletedPart$ = CompletedPart$;
+    exports2.CompressionType = CompressionType;
+    exports2.Condition$ = Condition$;
+    exports2.ContinuationEvent$ = ContinuationEvent$;
+    exports2.CopyObject$ = CopyObject$;
+    exports2.CopyObjectCommand = CopyObjectCommand;
+    exports2.CopyObjectOutput$ = CopyObjectOutput$;
+    exports2.CopyObjectRequest$ = CopyObjectRequest$;
+    exports2.CopyObjectResult$ = CopyObjectResult$;
+    exports2.CopyPartResult$ = CopyPartResult$;
+    exports2.CreateBucket$ = CreateBucket$;
+    exports2.CreateBucketCommand = CreateBucketCommand;
+    exports2.CreateBucketConfiguration$ = CreateBucketConfiguration$;
+    exports2.CreateBucketMetadataConfiguration$ = CreateBucketMetadataConfiguration$;
+    exports2.CreateBucketMetadataConfigurationCommand = CreateBucketMetadataConfigurationCommand;
+    exports2.CreateBucketMetadataConfigurationRequest$ = CreateBucketMetadataConfigurationRequest$;
+    exports2.CreateBucketMetadataTableConfiguration$ = CreateBucketMetadataTableConfiguration$;
+    exports2.CreateBucketMetadataTableConfigurationCommand = CreateBucketMetadataTableConfigurationCommand;
+    exports2.CreateBucketMetadataTableConfigurationRequest$ = CreateBucketMetadataTableConfigurationRequest$;
+    exports2.CreateBucketOutput$ = CreateBucketOutput$;
+    exports2.CreateBucketRequest$ = CreateBucketRequest$;
+    exports2.CreateMultipartUpload$ = CreateMultipartUpload$;
+    exports2.CreateMultipartUploadCommand = CreateMultipartUploadCommand;
+    exports2.CreateMultipartUploadOutput$ = CreateMultipartUploadOutput$;
+    exports2.CreateMultipartUploadRequest$ = CreateMultipartUploadRequest$;
+    exports2.CreateSession$ = CreateSession$;
+    exports2.CreateSessionCommand = CreateSessionCommand;
+    exports2.CreateSessionOutput$ = CreateSessionOutput$;
+    exports2.CreateSessionRequest$ = CreateSessionRequest$;
+    exports2.DataRedundancy = DataRedundancy;
+    exports2.DefaultRetention$ = DefaultRetention$;
+    exports2.Delete$ = Delete$;
+    exports2.DeleteBucket$ = DeleteBucket$;
+    exports2.DeleteBucketAnalyticsConfiguration$ = DeleteBucketAnalyticsConfiguration$;
+    exports2.DeleteBucketAnalyticsConfigurationCommand = DeleteBucketAnalyticsConfigurationCommand;
+    exports2.DeleteBucketAnalyticsConfigurationRequest$ = DeleteBucketAnalyticsConfigurationRequest$;
+    exports2.DeleteBucketCommand = DeleteBucketCommand;
+    exports2.DeleteBucketCors$ = DeleteBucketCors$;
+    exports2.DeleteBucketCorsCommand = DeleteBucketCorsCommand;
+    exports2.DeleteBucketCorsRequest$ = DeleteBucketCorsRequest$;
+    exports2.DeleteBucketEncryption$ = DeleteBucketEncryption$;
+    exports2.DeleteBucketEncryptionCommand = DeleteBucketEncryptionCommand;
+    exports2.DeleteBucketEncryptionRequest$ = DeleteBucketEncryptionRequest$;
+    exports2.DeleteBucketIntelligentTieringConfiguration$ = DeleteBucketIntelligentTieringConfiguration$;
+    exports2.DeleteBucketIntelligentTieringConfigurationCommand = DeleteBucketIntelligentTieringConfigurationCommand;
+    exports2.DeleteBucketIntelligentTieringConfigurationRequest$ = DeleteBucketIntelligentTieringConfigurationRequest$;
+    exports2.DeleteBucketInventoryConfiguration$ = DeleteBucketInventoryConfiguration$;
+    exports2.DeleteBucketInventoryConfigurationCommand = DeleteBucketInventoryConfigurationCommand;
+    exports2.DeleteBucketInventoryConfigurationRequest$ = DeleteBucketInventoryConfigurationRequest$;
+    exports2.DeleteBucketLifecycle$ = DeleteBucketLifecycle$;
+    exports2.DeleteBucketLifecycleCommand = DeleteBucketLifecycleCommand;
+    exports2.DeleteBucketLifecycleRequest$ = DeleteBucketLifecycleRequest$;
+    exports2.DeleteBucketMetadataConfiguration$ = DeleteBucketMetadataConfiguration$;
+    exports2.DeleteBucketMetadataConfigurationCommand = DeleteBucketMetadataConfigurationCommand;
+    exports2.DeleteBucketMetadataConfigurationRequest$ = DeleteBucketMetadataConfigurationRequest$;
+    exports2.DeleteBucketMetadataTableConfiguration$ = DeleteBucketMetadataTableConfiguration$;
+    exports2.DeleteBucketMetadataTableConfigurationCommand = DeleteBucketMetadataTableConfigurationCommand;
+    exports2.DeleteBucketMetadataTableConfigurationRequest$ = DeleteBucketMetadataTableConfigurationRequest$;
+    exports2.DeleteBucketMetricsConfiguration$ = DeleteBucketMetricsConfiguration$;
+    exports2.DeleteBucketMetricsConfigurationCommand = DeleteBucketMetricsConfigurationCommand;
+    exports2.DeleteBucketMetricsConfigurationRequest$ = DeleteBucketMetricsConfigurationRequest$;
+    exports2.DeleteBucketOwnershipControls$ = DeleteBucketOwnershipControls$;
+    exports2.DeleteBucketOwnershipControlsCommand = DeleteBucketOwnershipControlsCommand;
+    exports2.DeleteBucketOwnershipControlsRequest$ = DeleteBucketOwnershipControlsRequest$;
+    exports2.DeleteBucketPolicy$ = DeleteBucketPolicy$;
+    exports2.DeleteBucketPolicyCommand = DeleteBucketPolicyCommand;
+    exports2.DeleteBucketPolicyRequest$ = DeleteBucketPolicyRequest$;
+    exports2.DeleteBucketReplication$ = DeleteBucketReplication$;
+    exports2.DeleteBucketReplicationCommand = DeleteBucketReplicationCommand;
+    exports2.DeleteBucketReplicationRequest$ = DeleteBucketReplicationRequest$;
+    exports2.DeleteBucketRequest$ = DeleteBucketRequest$;
+    exports2.DeleteBucketTagging$ = DeleteBucketTagging$;
+    exports2.DeleteBucketTaggingCommand = DeleteBucketTaggingCommand;
+    exports2.DeleteBucketTaggingRequest$ = DeleteBucketTaggingRequest$;
+    exports2.DeleteBucketWebsite$ = DeleteBucketWebsite$;
+    exports2.DeleteBucketWebsiteCommand = DeleteBucketWebsiteCommand;
+    exports2.DeleteBucketWebsiteRequest$ = DeleteBucketWebsiteRequest$;
+    exports2.DeleteMarkerEntry$ = DeleteMarkerEntry$;
+    exports2.DeleteMarkerReplication$ = DeleteMarkerReplication$;
+    exports2.DeleteMarkerReplicationStatus = DeleteMarkerReplicationStatus;
+    exports2.DeleteObject$ = DeleteObject$;
+    exports2.DeleteObjectAnnotation$ = DeleteObjectAnnotation$;
+    exports2.DeleteObjectAnnotationCommand = DeleteObjectAnnotationCommand;
+    exports2.DeleteObjectAnnotationOutput$ = DeleteObjectAnnotationOutput$;
+    exports2.DeleteObjectAnnotationRequest$ = DeleteObjectAnnotationRequest$;
+    exports2.DeleteObjectCommand = DeleteObjectCommand;
+    exports2.DeleteObjectOutput$ = DeleteObjectOutput$;
+    exports2.DeleteObjectRequest$ = DeleteObjectRequest$;
+    exports2.DeleteObjectTagging$ = DeleteObjectTagging$;
+    exports2.DeleteObjectTaggingCommand = DeleteObjectTaggingCommand;
+    exports2.DeleteObjectTaggingOutput$ = DeleteObjectTaggingOutput$;
+    exports2.DeleteObjectTaggingRequest$ = DeleteObjectTaggingRequest$;
+    exports2.DeleteObjects$ = DeleteObjects$;
+    exports2.DeleteObjectsCommand = DeleteObjectsCommand;
+    exports2.DeleteObjectsOutput$ = DeleteObjectsOutput$;
+    exports2.DeleteObjectsRequest$ = DeleteObjectsRequest$;
+    exports2.DeletePublicAccessBlock$ = DeletePublicAccessBlock$;
+    exports2.DeletePublicAccessBlockCommand = DeletePublicAccessBlockCommand;
+    exports2.DeletePublicAccessBlockRequest$ = DeletePublicAccessBlockRequest$;
+    exports2.DeletedObject$ = DeletedObject$;
+    exports2.Destination$ = Destination$;
+    exports2.DestinationResult$ = DestinationResult$;
+    exports2.EncodingType = EncodingType;
+    exports2.Encryption$ = Encryption$;
+    exports2.EncryptionConfiguration$ = EncryptionConfiguration$;
+    exports2.EncryptionType = EncryptionType;
+    exports2.EncryptionTypeMismatch = EncryptionTypeMismatch;
+    exports2.EncryptionTypeMismatch$ = EncryptionTypeMismatch$;
+    exports2.EndEvent$ = EndEvent$;
+    exports2.ErrorDetails$ = ErrorDetails$;
+    exports2.ErrorDocument$ = ErrorDocument$;
+    exports2.Event = Event;
+    exports2.EventBridgeConfiguration$ = EventBridgeConfiguration$;
+    exports2.ExistingObjectReplication$ = ExistingObjectReplication$;
+    exports2.ExistingObjectReplicationStatus = ExistingObjectReplicationStatus;
+    exports2.ExpirationState = ExpirationState;
+    exports2.ExpirationStatus = ExpirationStatus;
+    exports2.ExpressionType = ExpressionType;
+    exports2.FileHeaderInfo = FileHeaderInfo;
+    exports2.FilterRule$ = FilterRule$;
+    exports2.FilterRuleName = FilterRuleName;
+    exports2.GetBucketAbac$ = GetBucketAbac$;
+    exports2.GetBucketAbacCommand = GetBucketAbacCommand;
+    exports2.GetBucketAbacOutput$ = GetBucketAbacOutput$;
+    exports2.GetBucketAbacRequest$ = GetBucketAbacRequest$;
+    exports2.GetBucketAccelerateConfiguration$ = GetBucketAccelerateConfiguration$;
+    exports2.GetBucketAccelerateConfigurationCommand = GetBucketAccelerateConfigurationCommand;
+    exports2.GetBucketAccelerateConfigurationOutput$ = GetBucketAccelerateConfigurationOutput$;
+    exports2.GetBucketAccelerateConfigurationRequest$ = GetBucketAccelerateConfigurationRequest$;
+    exports2.GetBucketAcl$ = GetBucketAcl$;
+    exports2.GetBucketAclCommand = GetBucketAclCommand;
+    exports2.GetBucketAclOutput$ = GetBucketAclOutput$;
+    exports2.GetBucketAclRequest$ = GetBucketAclRequest$;
+    exports2.GetBucketAnalyticsConfiguration$ = GetBucketAnalyticsConfiguration$;
+    exports2.GetBucketAnalyticsConfigurationCommand = GetBucketAnalyticsConfigurationCommand;
+    exports2.GetBucketAnalyticsConfigurationOutput$ = GetBucketAnalyticsConfigurationOutput$;
+    exports2.GetBucketAnalyticsConfigurationRequest$ = GetBucketAnalyticsConfigurationRequest$;
+    exports2.GetBucketCors$ = GetBucketCors$;
+    exports2.GetBucketCorsCommand = GetBucketCorsCommand;
+    exports2.GetBucketCorsOutput$ = GetBucketCorsOutput$;
+    exports2.GetBucketCorsRequest$ = GetBucketCorsRequest$;
+    exports2.GetBucketEncryption$ = GetBucketEncryption$;
+    exports2.GetBucketEncryptionCommand = GetBucketEncryptionCommand;
+    exports2.GetBucketEncryptionOutput$ = GetBucketEncryptionOutput$;
+    exports2.GetBucketEncryptionRequest$ = GetBucketEncryptionRequest$;
+    exports2.GetBucketIntelligentTieringConfiguration$ = GetBucketIntelligentTieringConfiguration$;
+    exports2.GetBucketIntelligentTieringConfigurationCommand = GetBucketIntelligentTieringConfigurationCommand;
+    exports2.GetBucketIntelligentTieringConfigurationOutput$ = GetBucketIntelligentTieringConfigurationOutput$;
+    exports2.GetBucketIntelligentTieringConfigurationRequest$ = GetBucketIntelligentTieringConfigurationRequest$;
+    exports2.GetBucketInventoryConfiguration$ = GetBucketInventoryConfiguration$;
+    exports2.GetBucketInventoryConfigurationCommand = GetBucketInventoryConfigurationCommand;
+    exports2.GetBucketInventoryConfigurationOutput$ = GetBucketInventoryConfigurationOutput$;
+    exports2.GetBucketInventoryConfigurationRequest$ = GetBucketInventoryConfigurationRequest$;
+    exports2.GetBucketLifecycleConfiguration$ = GetBucketLifecycleConfiguration$;
+    exports2.GetBucketLifecycleConfigurationCommand = GetBucketLifecycleConfigurationCommand;
+    exports2.GetBucketLifecycleConfigurationOutput$ = GetBucketLifecycleConfigurationOutput$;
+    exports2.GetBucketLifecycleConfigurationRequest$ = GetBucketLifecycleConfigurationRequest$;
+    exports2.GetBucketLocation$ = GetBucketLocation$;
+    exports2.GetBucketLocationCommand = GetBucketLocationCommand;
+    exports2.GetBucketLocationOutput$ = GetBucketLocationOutput$;
+    exports2.GetBucketLocationRequest$ = GetBucketLocationRequest$;
+    exports2.GetBucketLogging$ = GetBucketLogging$;
+    exports2.GetBucketLoggingCommand = GetBucketLoggingCommand;
+    exports2.GetBucketLoggingOutput$ = GetBucketLoggingOutput$;
+    exports2.GetBucketLoggingRequest$ = GetBucketLoggingRequest$;
+    exports2.GetBucketMetadataConfiguration$ = GetBucketMetadataConfiguration$;
+    exports2.GetBucketMetadataConfigurationCommand = GetBucketMetadataConfigurationCommand;
+    exports2.GetBucketMetadataConfigurationOutput$ = GetBucketMetadataConfigurationOutput$;
+    exports2.GetBucketMetadataConfigurationRequest$ = GetBucketMetadataConfigurationRequest$;
+    exports2.GetBucketMetadataConfigurationResult$ = GetBucketMetadataConfigurationResult$;
+    exports2.GetBucketMetadataTableConfiguration$ = GetBucketMetadataTableConfiguration$;
+    exports2.GetBucketMetadataTableConfigurationCommand = GetBucketMetadataTableConfigurationCommand;
+    exports2.GetBucketMetadataTableConfigurationOutput$ = GetBucketMetadataTableConfigurationOutput$;
+    exports2.GetBucketMetadataTableConfigurationRequest$ = GetBucketMetadataTableConfigurationRequest$;
+    exports2.GetBucketMetadataTableConfigurationResult$ = GetBucketMetadataTableConfigurationResult$;
+    exports2.GetBucketMetricsConfiguration$ = GetBucketMetricsConfiguration$;
+    exports2.GetBucketMetricsConfigurationCommand = GetBucketMetricsConfigurationCommand;
+    exports2.GetBucketMetricsConfigurationOutput$ = GetBucketMetricsConfigurationOutput$;
+    exports2.GetBucketMetricsConfigurationRequest$ = GetBucketMetricsConfigurationRequest$;
+    exports2.GetBucketNotificationConfiguration$ = GetBucketNotificationConfiguration$;
+    exports2.GetBucketNotificationConfigurationCommand = GetBucketNotificationConfigurationCommand;
+    exports2.GetBucketNotificationConfigurationRequest$ = GetBucketNotificationConfigurationRequest$;
+    exports2.GetBucketOwnershipControls$ = GetBucketOwnershipControls$;
+    exports2.GetBucketOwnershipControlsCommand = GetBucketOwnershipControlsCommand;
+    exports2.GetBucketOwnershipControlsOutput$ = GetBucketOwnershipControlsOutput$;
+    exports2.GetBucketOwnershipControlsRequest$ = GetBucketOwnershipControlsRequest$;
+    exports2.GetBucketPolicy$ = GetBucketPolicy$;
+    exports2.GetBucketPolicyCommand = GetBucketPolicyCommand;
+    exports2.GetBucketPolicyOutput$ = GetBucketPolicyOutput$;
+    exports2.GetBucketPolicyRequest$ = GetBucketPolicyRequest$;
+    exports2.GetBucketPolicyStatus$ = GetBucketPolicyStatus$;
+    exports2.GetBucketPolicyStatusCommand = GetBucketPolicyStatusCommand;
+    exports2.GetBucketPolicyStatusOutput$ = GetBucketPolicyStatusOutput$;
+    exports2.GetBucketPolicyStatusRequest$ = GetBucketPolicyStatusRequest$;
+    exports2.GetBucketReplication$ = GetBucketReplication$;
+    exports2.GetBucketReplicationCommand = GetBucketReplicationCommand;
+    exports2.GetBucketReplicationOutput$ = GetBucketReplicationOutput$;
+    exports2.GetBucketReplicationRequest$ = GetBucketReplicationRequest$;
+    exports2.GetBucketRequestPayment$ = GetBucketRequestPayment$;
+    exports2.GetBucketRequestPaymentCommand = GetBucketRequestPaymentCommand;
+    exports2.GetBucketRequestPaymentOutput$ = GetBucketRequestPaymentOutput$;
+    exports2.GetBucketRequestPaymentRequest$ = GetBucketRequestPaymentRequest$;
+    exports2.GetBucketTagging$ = GetBucketTagging$;
+    exports2.GetBucketTaggingCommand = GetBucketTaggingCommand;
+    exports2.GetBucketTaggingOutput$ = GetBucketTaggingOutput$;
+    exports2.GetBucketTaggingRequest$ = GetBucketTaggingRequest$;
+    exports2.GetBucketVersioning$ = GetBucketVersioning$;
+    exports2.GetBucketVersioningCommand = GetBucketVersioningCommand;
+    exports2.GetBucketVersioningOutput$ = GetBucketVersioningOutput$;
+    exports2.GetBucketVersioningRequest$ = GetBucketVersioningRequest$;
+    exports2.GetBucketWebsite$ = GetBucketWebsite$;
+    exports2.GetBucketWebsiteCommand = GetBucketWebsiteCommand;
+    exports2.GetBucketWebsiteOutput$ = GetBucketWebsiteOutput$;
+    exports2.GetBucketWebsiteRequest$ = GetBucketWebsiteRequest$;
+    exports2.GetObject$ = GetObject$;
+    exports2.GetObjectAcl$ = GetObjectAcl$;
+    exports2.GetObjectAclCommand = GetObjectAclCommand;
+    exports2.GetObjectAclOutput$ = GetObjectAclOutput$;
+    exports2.GetObjectAclRequest$ = GetObjectAclRequest$;
+    exports2.GetObjectAnnotation$ = GetObjectAnnotation$;
+    exports2.GetObjectAnnotationCommand = GetObjectAnnotationCommand;
+    exports2.GetObjectAnnotationOutput$ = GetObjectAnnotationOutput$;
+    exports2.GetObjectAnnotationRequest$ = GetObjectAnnotationRequest$;
+    exports2.GetObjectAttributes$ = GetObjectAttributes$;
+    exports2.GetObjectAttributesCommand = GetObjectAttributesCommand;
+    exports2.GetObjectAttributesOutput$ = GetObjectAttributesOutput$;
+    exports2.GetObjectAttributesParts$ = GetObjectAttributesParts$;
+    exports2.GetObjectAttributesRequest$ = GetObjectAttributesRequest$;
+    exports2.GetObjectCommand = GetObjectCommand;
+    exports2.GetObjectLegalHold$ = GetObjectLegalHold$;
+    exports2.GetObjectLegalHoldCommand = GetObjectLegalHoldCommand;
+    exports2.GetObjectLegalHoldOutput$ = GetObjectLegalHoldOutput$;
+    exports2.GetObjectLegalHoldRequest$ = GetObjectLegalHoldRequest$;
+    exports2.GetObjectLockConfiguration$ = GetObjectLockConfiguration$;
+    exports2.GetObjectLockConfigurationCommand = GetObjectLockConfigurationCommand;
+    exports2.GetObjectLockConfigurationOutput$ = GetObjectLockConfigurationOutput$;
+    exports2.GetObjectLockConfigurationRequest$ = GetObjectLockConfigurationRequest$;
+    exports2.GetObjectOutput$ = GetObjectOutput$;
+    exports2.GetObjectRequest$ = GetObjectRequest$;
+    exports2.GetObjectRetention$ = GetObjectRetention$;
+    exports2.GetObjectRetentionCommand = GetObjectRetentionCommand;
+    exports2.GetObjectRetentionOutput$ = GetObjectRetentionOutput$;
+    exports2.GetObjectRetentionRequest$ = GetObjectRetentionRequest$;
+    exports2.GetObjectTagging$ = GetObjectTagging$;
+    exports2.GetObjectTaggingCommand = GetObjectTaggingCommand;
+    exports2.GetObjectTaggingOutput$ = GetObjectTaggingOutput$;
+    exports2.GetObjectTaggingRequest$ = GetObjectTaggingRequest$;
+    exports2.GetObjectTorrent$ = GetObjectTorrent$;
+    exports2.GetObjectTorrentCommand = GetObjectTorrentCommand;
+    exports2.GetObjectTorrentOutput$ = GetObjectTorrentOutput$;
+    exports2.GetObjectTorrentRequest$ = GetObjectTorrentRequest$;
+    exports2.GetPublicAccessBlock$ = GetPublicAccessBlock$;
+    exports2.GetPublicAccessBlockCommand = GetPublicAccessBlockCommand;
+    exports2.GetPublicAccessBlockOutput$ = GetPublicAccessBlockOutput$;
+    exports2.GetPublicAccessBlockRequest$ = GetPublicAccessBlockRequest$;
+    exports2.GlacierJobParameters$ = GlacierJobParameters$;
+    exports2.Grant$ = Grant$;
+    exports2.Grantee$ = Grantee$;
+    exports2.HeadBucket$ = HeadBucket$;
+    exports2.HeadBucketCommand = HeadBucketCommand;
+    exports2.HeadBucketOutput$ = HeadBucketOutput$;
+    exports2.HeadBucketRequest$ = HeadBucketRequest$;
+    exports2.HeadObject$ = HeadObject$;
+    exports2.HeadObjectCommand = HeadObjectCommand;
+    exports2.HeadObjectOutput$ = HeadObjectOutput$;
+    exports2.HeadObjectRequest$ = HeadObjectRequest$;
+    exports2.IdempotencyParameterMismatch = IdempotencyParameterMismatch;
+    exports2.IdempotencyParameterMismatch$ = IdempotencyParameterMismatch$;
+    exports2.IndexDocument$ = IndexDocument$;
+    exports2.Initiator$ = Initiator$;
+    exports2.InputSerialization$ = InputSerialization$;
+    exports2.IntelligentTieringAccessTier = IntelligentTieringAccessTier;
+    exports2.IntelligentTieringAndOperator$ = IntelligentTieringAndOperator$;
+    exports2.IntelligentTieringConfiguration$ = IntelligentTieringConfiguration$;
+    exports2.IntelligentTieringFilter$ = IntelligentTieringFilter$;
+    exports2.IntelligentTieringStatus = IntelligentTieringStatus;
+    exports2.InvalidAnnotationName = InvalidAnnotationName;
+    exports2.InvalidAnnotationName$ = InvalidAnnotationName$;
+    exports2.InvalidObjectState = InvalidObjectState;
+    exports2.InvalidObjectState$ = InvalidObjectState$;
+    exports2.InvalidPrefix = InvalidPrefix;
+    exports2.InvalidPrefix$ = InvalidPrefix$;
+    exports2.InvalidRequest = InvalidRequest;
+    exports2.InvalidRequest$ = InvalidRequest$;
+    exports2.InvalidWriteOffset = InvalidWriteOffset;
+    exports2.InvalidWriteOffset$ = InvalidWriteOffset$;
+    exports2.InventoryConfiguration$ = InventoryConfiguration$;
+    exports2.InventoryConfigurationState = InventoryConfigurationState;
+    exports2.InventoryDestination$ = InventoryDestination$;
+    exports2.InventoryEncryption$ = InventoryEncryption$;
+    exports2.InventoryFilter$ = InventoryFilter$;
+    exports2.InventoryFormat = InventoryFormat;
+    exports2.InventoryFrequency = InventoryFrequency;
+    exports2.InventoryIncludedObjectVersions = InventoryIncludedObjectVersions;
+    exports2.InventoryOptionalField = InventoryOptionalField;
+    exports2.InventoryS3BucketDestination$ = InventoryS3BucketDestination$;
+    exports2.InventorySchedule$ = InventorySchedule$;
+    exports2.InventoryTableConfiguration$ = InventoryTableConfiguration$;
+    exports2.InventoryTableConfigurationResult$ = InventoryTableConfigurationResult$;
+    exports2.InventoryTableConfigurationUpdates$ = InventoryTableConfigurationUpdates$;
+    exports2.JSONInput$ = JSONInput$;
+    exports2.JSONOutput$ = JSONOutput$;
+    exports2.JSONType = JSONType;
+    exports2.JournalTableConfiguration$ = JournalTableConfiguration$;
+    exports2.JournalTableConfigurationResult$ = JournalTableConfigurationResult$;
+    exports2.JournalTableConfigurationUpdates$ = JournalTableConfigurationUpdates$;
+    exports2.LambdaFunctionConfiguration$ = LambdaFunctionConfiguration$;
+    exports2.LifecycleExpiration$ = LifecycleExpiration$;
+    exports2.LifecycleRule$ = LifecycleRule$;
+    exports2.LifecycleRuleAndOperator$ = LifecycleRuleAndOperator$;
+    exports2.LifecycleRuleFilter$ = LifecycleRuleFilter$;
+    exports2.ListBucketAnalyticsConfigurations$ = ListBucketAnalyticsConfigurations$;
+    exports2.ListBucketAnalyticsConfigurationsCommand = ListBucketAnalyticsConfigurationsCommand;
+    exports2.ListBucketAnalyticsConfigurationsOutput$ = ListBucketAnalyticsConfigurationsOutput$;
+    exports2.ListBucketAnalyticsConfigurationsRequest$ = ListBucketAnalyticsConfigurationsRequest$;
+    exports2.ListBucketIntelligentTieringConfigurations$ = ListBucketIntelligentTieringConfigurations$;
+    exports2.ListBucketIntelligentTieringConfigurationsCommand = ListBucketIntelligentTieringConfigurationsCommand;
+    exports2.ListBucketIntelligentTieringConfigurationsOutput$ = ListBucketIntelligentTieringConfigurationsOutput$;
+    exports2.ListBucketIntelligentTieringConfigurationsRequest$ = ListBucketIntelligentTieringConfigurationsRequest$;
+    exports2.ListBucketInventoryConfigurations$ = ListBucketInventoryConfigurations$;
+    exports2.ListBucketInventoryConfigurationsCommand = ListBucketInventoryConfigurationsCommand;
+    exports2.ListBucketInventoryConfigurationsOutput$ = ListBucketInventoryConfigurationsOutput$;
+    exports2.ListBucketInventoryConfigurationsRequest$ = ListBucketInventoryConfigurationsRequest$;
+    exports2.ListBucketMetricsConfigurations$ = ListBucketMetricsConfigurations$;
+    exports2.ListBucketMetricsConfigurationsCommand = ListBucketMetricsConfigurationsCommand;
+    exports2.ListBucketMetricsConfigurationsOutput$ = ListBucketMetricsConfigurationsOutput$;
+    exports2.ListBucketMetricsConfigurationsRequest$ = ListBucketMetricsConfigurationsRequest$;
+    exports2.ListBuckets$ = ListBuckets$;
+    exports2.ListBucketsCommand = ListBucketsCommand;
+    exports2.ListBucketsOutput$ = ListBucketsOutput$;
+    exports2.ListBucketsRequest$ = ListBucketsRequest$;
+    exports2.ListDirectoryBuckets$ = ListDirectoryBuckets$;
+    exports2.ListDirectoryBucketsCommand = ListDirectoryBucketsCommand;
+    exports2.ListDirectoryBucketsOutput$ = ListDirectoryBucketsOutput$;
+    exports2.ListDirectoryBucketsRequest$ = ListDirectoryBucketsRequest$;
+    exports2.ListMultipartUploads$ = ListMultipartUploads$;
+    exports2.ListMultipartUploadsCommand = ListMultipartUploadsCommand;
+    exports2.ListMultipartUploadsOutput$ = ListMultipartUploadsOutput$;
+    exports2.ListMultipartUploadsRequest$ = ListMultipartUploadsRequest$;
+    exports2.ListObjectAnnotations$ = ListObjectAnnotations$;
+    exports2.ListObjectAnnotationsCommand = ListObjectAnnotationsCommand;
+    exports2.ListObjectAnnotationsOutput$ = ListObjectAnnotationsOutput$;
+    exports2.ListObjectAnnotationsRequest$ = ListObjectAnnotationsRequest$;
+    exports2.ListObjectVersions$ = ListObjectVersions$;
+    exports2.ListObjectVersionsCommand = ListObjectVersionsCommand;
+    exports2.ListObjectVersionsOutput$ = ListObjectVersionsOutput$;
+    exports2.ListObjectVersionsRequest$ = ListObjectVersionsRequest$;
+    exports2.ListObjects$ = ListObjects$;
+    exports2.ListObjectsCommand = ListObjectsCommand;
+    exports2.ListObjectsOutput$ = ListObjectsOutput$;
+    exports2.ListObjectsRequest$ = ListObjectsRequest$;
+    exports2.ListObjectsV2$ = ListObjectsV2$;
+    exports2.ListObjectsV2Command = ListObjectsV2Command;
+    exports2.ListObjectsV2Output$ = ListObjectsV2Output$;
+    exports2.ListObjectsV2Request$ = ListObjectsV2Request$;
+    exports2.ListParts$ = ListParts$;
+    exports2.ListPartsCommand = ListPartsCommand;
+    exports2.ListPartsOutput$ = ListPartsOutput$;
+    exports2.ListPartsRequest$ = ListPartsRequest$;
+    exports2.LocationInfo$ = LocationInfo$;
+    exports2.LocationType = LocationType;
+    exports2.LoggingEnabled$ = LoggingEnabled$;
+    exports2.MFADelete = MFADelete;
+    exports2.MFADeleteStatus = MFADeleteStatus;
+    exports2.MetadataConfiguration$ = MetadataConfiguration$;
+    exports2.MetadataConfigurationResult$ = MetadataConfigurationResult$;
+    exports2.MetadataDirective = MetadataDirective;
+    exports2.MetadataEntry$ = MetadataEntry$;
+    exports2.MetadataTableConfiguration$ = MetadataTableConfiguration$;
+    exports2.MetadataTableConfigurationResult$ = MetadataTableConfigurationResult$;
+    exports2.MetadataTableEncryptionConfiguration$ = MetadataTableEncryptionConfiguration$;
+    exports2.Metrics$ = Metrics$;
+    exports2.MetricsAndOperator$ = MetricsAndOperator$;
+    exports2.MetricsConfiguration$ = MetricsConfiguration$;
+    exports2.MetricsFilter$ = MetricsFilter$;
+    exports2.MetricsStatus = MetricsStatus;
+    exports2.MultipartUpload$ = MultipartUpload$;
+    exports2.NoSuchAnnotation = NoSuchAnnotation;
+    exports2.NoSuchAnnotation$ = NoSuchAnnotation$;
+    exports2.NoSuchBucket = NoSuchBucket;
+    exports2.NoSuchBucket$ = NoSuchBucket$;
+    exports2.NoSuchKey = NoSuchKey;
+    exports2.NoSuchKey$ = NoSuchKey$;
+    exports2.NoSuchUpload = NoSuchUpload;
+    exports2.NoSuchUpload$ = NoSuchUpload$;
+    exports2.NoncurrentVersionExpiration$ = NoncurrentVersionExpiration$;
+    exports2.NoncurrentVersionTransition$ = NoncurrentVersionTransition$;
+    exports2.NotFound = NotFound;
+    exports2.NotFound$ = NotFound$;
+    exports2.NotificationConfiguration$ = NotificationConfiguration$;
+    exports2.NotificationConfigurationFilter$ = NotificationConfigurationFilter$;
+    exports2.ObjectAlreadyInActiveTierError = ObjectAlreadyInActiveTierError;
+    exports2.ObjectAlreadyInActiveTierError$ = ObjectAlreadyInActiveTierError$;
+    exports2.ObjectAttributes = ObjectAttributes;
+    exports2.ObjectCannedACL = ObjectCannedACL;
+    exports2.ObjectEncryption$ = ObjectEncryption$;
+    exports2.ObjectIdentifier$ = ObjectIdentifier$;
+    exports2.ObjectLockConfiguration$ = ObjectLockConfiguration$;
+    exports2.ObjectLockEnabled = ObjectLockEnabled;
+    exports2.ObjectLockLegalHold$ = ObjectLockLegalHold$;
+    exports2.ObjectLockLegalHoldStatus = ObjectLockLegalHoldStatus;
+    exports2.ObjectLockMode = ObjectLockMode;
+    exports2.ObjectLockRetention$ = ObjectLockRetention$;
+    exports2.ObjectLockRetentionMode = ObjectLockRetentionMode;
+    exports2.ObjectLockRule$ = ObjectLockRule$;
+    exports2.ObjectNotInActiveTierError = ObjectNotInActiveTierError;
+    exports2.ObjectNotInActiveTierError$ = ObjectNotInActiveTierError$;
+    exports2.ObjectOwnership = ObjectOwnership;
+    exports2.ObjectPart$ = ObjectPart$;
+    exports2.ObjectStorageClass = ObjectStorageClass;
+    exports2.ObjectVersion$ = ObjectVersion$;
+    exports2.ObjectVersionStorageClass = ObjectVersionStorageClass;
+    exports2.OptionalObjectAttributes = OptionalObjectAttributes;
+    exports2.OutputLocation$ = OutputLocation$;
+    exports2.OutputSerialization$ = OutputSerialization$;
+    exports2.Owner$ = Owner$;
+    exports2.OwnerOverride = OwnerOverride;
+    exports2.OwnershipControls$ = OwnershipControls$;
+    exports2.OwnershipControlsRule$ = OwnershipControlsRule$;
+    exports2.ParquetInput$ = ParquetInput$;
+    exports2.Part$ = Part$;
+    exports2.PartitionDateSource = PartitionDateSource;
+    exports2.PartitionedPrefix$ = PartitionedPrefix$;
+    exports2.Payer = Payer;
+    exports2.Permission = Permission;
+    exports2.PolicyStatus$ = PolicyStatus$;
+    exports2.Progress$ = Progress$;
+    exports2.ProgressEvent$ = ProgressEvent$;
+    exports2.Protocol = Protocol;
+    exports2.PublicAccessBlockConfiguration$ = PublicAccessBlockConfiguration$;
+    exports2.PutBucketAbac$ = PutBucketAbac$;
+    exports2.PutBucketAbacCommand = PutBucketAbacCommand;
+    exports2.PutBucketAbacRequest$ = PutBucketAbacRequest$;
+    exports2.PutBucketAccelerateConfiguration$ = PutBucketAccelerateConfiguration$;
+    exports2.PutBucketAccelerateConfigurationCommand = PutBucketAccelerateConfigurationCommand;
+    exports2.PutBucketAccelerateConfigurationRequest$ = PutBucketAccelerateConfigurationRequest$;
+    exports2.PutBucketAcl$ = PutBucketAcl$;
+    exports2.PutBucketAclCommand = PutBucketAclCommand;
+    exports2.PutBucketAclRequest$ = PutBucketAclRequest$;
+    exports2.PutBucketAnalyticsConfiguration$ = PutBucketAnalyticsConfiguration$;
+    exports2.PutBucketAnalyticsConfigurationCommand = PutBucketAnalyticsConfigurationCommand;
+    exports2.PutBucketAnalyticsConfigurationRequest$ = PutBucketAnalyticsConfigurationRequest$;
+    exports2.PutBucketCors$ = PutBucketCors$;
+    exports2.PutBucketCorsCommand = PutBucketCorsCommand;
+    exports2.PutBucketCorsRequest$ = PutBucketCorsRequest$;
+    exports2.PutBucketEncryption$ = PutBucketEncryption$;
+    exports2.PutBucketEncryptionCommand = PutBucketEncryptionCommand;
+    exports2.PutBucketEncryptionRequest$ = PutBucketEncryptionRequest$;
+    exports2.PutBucketIntelligentTieringConfiguration$ = PutBucketIntelligentTieringConfiguration$;
+    exports2.PutBucketIntelligentTieringConfigurationCommand = PutBucketIntelligentTieringConfigurationCommand;
+    exports2.PutBucketIntelligentTieringConfigurationRequest$ = PutBucketIntelligentTieringConfigurationRequest$;
+    exports2.PutBucketInventoryConfiguration$ = PutBucketInventoryConfiguration$;
+    exports2.PutBucketInventoryConfigurationCommand = PutBucketInventoryConfigurationCommand;
+    exports2.PutBucketInventoryConfigurationRequest$ = PutBucketInventoryConfigurationRequest$;
+    exports2.PutBucketLifecycleConfiguration$ = PutBucketLifecycleConfiguration$;
+    exports2.PutBucketLifecycleConfigurationCommand = PutBucketLifecycleConfigurationCommand;
+    exports2.PutBucketLifecycleConfigurationOutput$ = PutBucketLifecycleConfigurationOutput$;
+    exports2.PutBucketLifecycleConfigurationRequest$ = PutBucketLifecycleConfigurationRequest$;
+    exports2.PutBucketLogging$ = PutBucketLogging$;
+    exports2.PutBucketLoggingCommand = PutBucketLoggingCommand;
+    exports2.PutBucketLoggingRequest$ = PutBucketLoggingRequest$;
+    exports2.PutBucketMetricsConfiguration$ = PutBucketMetricsConfiguration$;
+    exports2.PutBucketMetricsConfigurationCommand = PutBucketMetricsConfigurationCommand;
+    exports2.PutBucketMetricsConfigurationRequest$ = PutBucketMetricsConfigurationRequest$;
+    exports2.PutBucketNotificationConfiguration$ = PutBucketNotificationConfiguration$;
+    exports2.PutBucketNotificationConfigurationCommand = PutBucketNotificationConfigurationCommand;
+    exports2.PutBucketNotificationConfigurationRequest$ = PutBucketNotificationConfigurationRequest$;
+    exports2.PutBucketOwnershipControls$ = PutBucketOwnershipControls$;
+    exports2.PutBucketOwnershipControlsCommand = PutBucketOwnershipControlsCommand;
+    exports2.PutBucketOwnershipControlsRequest$ = PutBucketOwnershipControlsRequest$;
+    exports2.PutBucketPolicy$ = PutBucketPolicy$;
+    exports2.PutBucketPolicyCommand = PutBucketPolicyCommand;
+    exports2.PutBucketPolicyRequest$ = PutBucketPolicyRequest$;
+    exports2.PutBucketReplication$ = PutBucketReplication$;
+    exports2.PutBucketReplicationCommand = PutBucketReplicationCommand;
+    exports2.PutBucketReplicationRequest$ = PutBucketReplicationRequest$;
+    exports2.PutBucketRequestPayment$ = PutBucketRequestPayment$;
+    exports2.PutBucketRequestPaymentCommand = PutBucketRequestPaymentCommand;
+    exports2.PutBucketRequestPaymentRequest$ = PutBucketRequestPaymentRequest$;
+    exports2.PutBucketTagging$ = PutBucketTagging$;
+    exports2.PutBucketTaggingCommand = PutBucketTaggingCommand;
+    exports2.PutBucketTaggingRequest$ = PutBucketTaggingRequest$;
+    exports2.PutBucketVersioning$ = PutBucketVersioning$;
+    exports2.PutBucketVersioningCommand = PutBucketVersioningCommand;
+    exports2.PutBucketVersioningRequest$ = PutBucketVersioningRequest$;
+    exports2.PutBucketWebsite$ = PutBucketWebsite$;
+    exports2.PutBucketWebsiteCommand = PutBucketWebsiteCommand;
+    exports2.PutBucketWebsiteRequest$ = PutBucketWebsiteRequest$;
+    exports2.PutObject$ = PutObject$;
+    exports2.PutObjectAcl$ = PutObjectAcl$;
+    exports2.PutObjectAclCommand = PutObjectAclCommand;
+    exports2.PutObjectAclOutput$ = PutObjectAclOutput$;
+    exports2.PutObjectAclRequest$ = PutObjectAclRequest$;
+    exports2.PutObjectAnnotation$ = PutObjectAnnotation$;
+    exports2.PutObjectAnnotationCommand = PutObjectAnnotationCommand;
+    exports2.PutObjectAnnotationOutput$ = PutObjectAnnotationOutput$;
+    exports2.PutObjectAnnotationRequest$ = PutObjectAnnotationRequest$;
+    exports2.PutObjectCommand = PutObjectCommand2;
+    exports2.PutObjectLegalHold$ = PutObjectLegalHold$;
+    exports2.PutObjectLegalHoldCommand = PutObjectLegalHoldCommand;
+    exports2.PutObjectLegalHoldOutput$ = PutObjectLegalHoldOutput$;
+    exports2.PutObjectLegalHoldRequest$ = PutObjectLegalHoldRequest$;
+    exports2.PutObjectLockConfiguration$ = PutObjectLockConfiguration$;
+    exports2.PutObjectLockConfigurationCommand = PutObjectLockConfigurationCommand;
+    exports2.PutObjectLockConfigurationOutput$ = PutObjectLockConfigurationOutput$;
+    exports2.PutObjectLockConfigurationRequest$ = PutObjectLockConfigurationRequest$;
+    exports2.PutObjectOutput$ = PutObjectOutput$;
+    exports2.PutObjectRequest$ = PutObjectRequest$;
+    exports2.PutObjectRetention$ = PutObjectRetention$;
+    exports2.PutObjectRetentionCommand = PutObjectRetentionCommand;
+    exports2.PutObjectRetentionOutput$ = PutObjectRetentionOutput$;
+    exports2.PutObjectRetentionRequest$ = PutObjectRetentionRequest$;
+    exports2.PutObjectTagging$ = PutObjectTagging$;
+    exports2.PutObjectTaggingCommand = PutObjectTaggingCommand;
+    exports2.PutObjectTaggingOutput$ = PutObjectTaggingOutput$;
+    exports2.PutObjectTaggingRequest$ = PutObjectTaggingRequest$;
+    exports2.PutPublicAccessBlock$ = PutPublicAccessBlock$;
+    exports2.PutPublicAccessBlockCommand = PutPublicAccessBlockCommand;
+    exports2.PutPublicAccessBlockRequest$ = PutPublicAccessBlockRequest$;
+    exports2.QueueConfiguration$ = QueueConfiguration$;
+    exports2.QuoteFields = QuoteFields;
+    exports2.RecordExpiration$ = RecordExpiration$;
+    exports2.RecordsEvent$ = RecordsEvent$;
+    exports2.Redirect$ = Redirect$;
+    exports2.RedirectAllRequestsTo$ = RedirectAllRequestsTo$;
+    exports2.RenameObject$ = RenameObject$;
+    exports2.RenameObjectCommand = RenameObjectCommand;
+    exports2.RenameObjectOutput$ = RenameObjectOutput$;
+    exports2.RenameObjectRequest$ = RenameObjectRequest$;
+    exports2.ReplicaModifications$ = ReplicaModifications$;
+    exports2.ReplicaModificationsStatus = ReplicaModificationsStatus;
+    exports2.ReplicationConfiguration$ = ReplicationConfiguration$;
+    exports2.ReplicationRule$ = ReplicationRule$;
+    exports2.ReplicationRuleAndOperator$ = ReplicationRuleAndOperator$;
+    exports2.ReplicationRuleFilter$ = ReplicationRuleFilter$;
+    exports2.ReplicationRuleStatus = ReplicationRuleStatus;
+    exports2.ReplicationStatus = ReplicationStatus;
+    exports2.ReplicationTime$ = ReplicationTime$;
+    exports2.ReplicationTimeStatus = ReplicationTimeStatus;
+    exports2.ReplicationTimeValue$ = ReplicationTimeValue$;
+    exports2.RequestCharged = RequestCharged;
+    exports2.RequestPayer = RequestPayer;
+    exports2.RequestPaymentConfiguration$ = RequestPaymentConfiguration$;
+    exports2.RequestProgress$ = RequestProgress$;
+    exports2.RestoreObject$ = RestoreObject$;
+    exports2.RestoreObjectCommand = RestoreObjectCommand;
+    exports2.RestoreObjectOutput$ = RestoreObjectOutput$;
+    exports2.RestoreObjectRequest$ = RestoreObjectRequest$;
+    exports2.RestoreRequest$ = RestoreRequest$;
+    exports2.RestoreRequestType = RestoreRequestType;
+    exports2.RestoreStatus$ = RestoreStatus$;
+    exports2.RoutingRule$ = RoutingRule$;
+    exports2.S3 = S3;
+    exports2.S3Client = S3Client2;
+    exports2.S3KeyFilter$ = S3KeyFilter$;
+    exports2.S3Location$ = S3Location$;
+    exports2.S3ServiceException = S3ServiceException;
+    exports2.S3ServiceException$ = S3ServiceException$;
+    exports2.S3TablesBucketType = S3TablesBucketType;
+    exports2.S3TablesDestination$ = S3TablesDestination$;
+    exports2.S3TablesDestinationResult$ = S3TablesDestinationResult$;
+    exports2.SSEKMS$ = SSEKMS$;
+    exports2.SSEKMSEncryption$ = SSEKMSEncryption$;
+    exports2.SSES3$ = SSES3$;
+    exports2.ScanRange$ = ScanRange$;
+    exports2.SelectObjectContent$ = SelectObjectContent$;
+    exports2.SelectObjectContentCommand = SelectObjectContentCommand;
+    exports2.SelectObjectContentEventStream$ = SelectObjectContentEventStream$;
+    exports2.SelectObjectContentOutput$ = SelectObjectContentOutput$;
+    exports2.SelectObjectContentRequest$ = SelectObjectContentRequest$;
+    exports2.SelectParameters$ = SelectParameters$;
+    exports2.ServerSideEncryption = ServerSideEncryption;
+    exports2.ServerSideEncryptionByDefault$ = ServerSideEncryptionByDefault$;
+    exports2.ServerSideEncryptionConfiguration$ = ServerSideEncryptionConfiguration$;
+    exports2.ServerSideEncryptionRule$ = ServerSideEncryptionRule$;
+    exports2.SessionCredentials$ = SessionCredentials$;
+    exports2.SessionMode = SessionMode;
+    exports2.SimplePrefix$ = SimplePrefix$;
+    exports2.SourceSelectionCriteria$ = SourceSelectionCriteria$;
+    exports2.SseKmsEncryptedObjects$ = SseKmsEncryptedObjects$;
+    exports2.SseKmsEncryptedObjectsStatus = SseKmsEncryptedObjectsStatus;
+    exports2.Stats$ = Stats$;
+    exports2.StatsEvent$ = StatsEvent$;
+    exports2.StorageClass = StorageClass;
+    exports2.StorageClassAnalysis$ = StorageClassAnalysis$;
+    exports2.StorageClassAnalysisDataExport$ = StorageClassAnalysisDataExport$;
+    exports2.StorageClassAnalysisSchemaVersion = StorageClassAnalysisSchemaVersion;
+    exports2.TableSseAlgorithm = TableSseAlgorithm;
+    exports2.Tag$ = Tag$2;
+    exports2.Tagging$ = Tagging$;
+    exports2.TaggingDirective = TaggingDirective;
+    exports2.TargetGrant$ = TargetGrant$;
+    exports2.TargetObjectKeyFormat$ = TargetObjectKeyFormat$;
+    exports2.Tier = Tier;
+    exports2.Tiering$ = Tiering$;
+    exports2.TooManyParts = TooManyParts;
+    exports2.TooManyParts$ = TooManyParts$;
+    exports2.TopicConfiguration$ = TopicConfiguration$;
+    exports2.Transition$ = Transition$;
+    exports2.TransitionDefaultMinimumObjectSize = TransitionDefaultMinimumObjectSize;
+    exports2.TransitionStorageClass = TransitionStorageClass;
+    exports2.Type = Type;
+    exports2.UnsupportedMediaType = UnsupportedMediaType;
+    exports2.UnsupportedMediaType$ = UnsupportedMediaType$;
+    exports2.UpdateBucketMetadataAnnotationTableConfiguration$ = UpdateBucketMetadataAnnotationTableConfiguration$;
+    exports2.UpdateBucketMetadataAnnotationTableConfigurationCommand = UpdateBucketMetadataAnnotationTableConfigurationCommand;
+    exports2.UpdateBucketMetadataAnnotationTableConfigurationRequest$ = UpdateBucketMetadataAnnotationTableConfigurationRequest$;
+    exports2.UpdateBucketMetadataInventoryTableConfiguration$ = UpdateBucketMetadataInventoryTableConfiguration$;
+    exports2.UpdateBucketMetadataInventoryTableConfigurationCommand = UpdateBucketMetadataInventoryTableConfigurationCommand;
+    exports2.UpdateBucketMetadataInventoryTableConfigurationRequest$ = UpdateBucketMetadataInventoryTableConfigurationRequest$;
+    exports2.UpdateBucketMetadataJournalTableConfiguration$ = UpdateBucketMetadataJournalTableConfiguration$;
+    exports2.UpdateBucketMetadataJournalTableConfigurationCommand = UpdateBucketMetadataJournalTableConfigurationCommand;
+    exports2.UpdateBucketMetadataJournalTableConfigurationRequest$ = UpdateBucketMetadataJournalTableConfigurationRequest$;
+    exports2.UpdateObjectEncryption$ = UpdateObjectEncryption$;
+    exports2.UpdateObjectEncryptionCommand = UpdateObjectEncryptionCommand;
+    exports2.UpdateObjectEncryptionRequest$ = UpdateObjectEncryptionRequest$;
+    exports2.UpdateObjectEncryptionResponse$ = UpdateObjectEncryptionResponse$;
+    exports2.UploadPart$ = UploadPart$;
+    exports2.UploadPartCommand = UploadPartCommand;
+    exports2.UploadPartCopy$ = UploadPartCopy$;
+    exports2.UploadPartCopyCommand = UploadPartCopyCommand;
+    exports2.UploadPartCopyOutput$ = UploadPartCopyOutput$;
+    exports2.UploadPartCopyRequest$ = UploadPartCopyRequest$;
+    exports2.UploadPartOutput$ = UploadPartOutput$;
+    exports2.UploadPartRequest$ = UploadPartRequest$;
+    exports2.VersioningConfiguration$ = VersioningConfiguration$;
+    exports2.WebsiteConfiguration$ = WebsiteConfiguration$;
+    exports2.WriteGetObjectResponse$ = WriteGetObjectResponse$;
+    exports2.WriteGetObjectResponseCommand = WriteGetObjectResponseCommand;
+    exports2.WriteGetObjectResponseRequest$ = WriteGetObjectResponseRequest$;
+    exports2._Error$ = _Error$;
+    exports2._Object$ = _Object$;
+    exports2.errorTypeRegistries = errorTypeRegistries5;
+    exports2.paginateListBuckets = paginateListBuckets;
+    exports2.paginateListDirectoryBuckets = paginateListDirectoryBuckets;
+    exports2.paginateListObjectAnnotations = paginateListObjectAnnotations;
+    exports2.paginateListObjectsV2 = paginateListObjectsV2;
+    exports2.paginateListParts = paginateListParts;
+    exports2.waitForBucketExists = waitForBucketExists;
+    exports2.waitForBucketNotExists = waitForBucketNotExists;
+    exports2.waitForObjectExists = waitForObjectExists;
+    exports2.waitForObjectNotExists = waitForObjectNotExists;
+    exports2.waitUntilBucketExists = waitUntilBucketExists;
+    exports2.waitUntilBucketNotExists = waitUntilBucketNotExists;
+    exports2.waitUntilObjectExists = waitUntilObjectExists;
+    exports2.waitUntilObjectNotExists = waitUntilObjectNotExists;
+  }
+});
+
+// node_modules/@aws-sdk/util-dynamodb/dist-cjs/index.js
+var require_dist_cjs23 = __commonJS({
   "node_modules/@aws-sdk/util-dynamodb/dist-cjs/index.js"(exports2) {
     var NumberValue = class _NumberValue {
       value;
@@ -35937,14 +48007,14 @@ var require_dist_cjs22 = __commonJS({
 });
 
 // node_modules/@aws-sdk/lib-dynamodb/dist-cjs/index.js
-var require_dist_cjs23 = __commonJS({
+var require_dist_cjs24 = __commonJS({
   "node_modules/@aws-sdk/lib-dynamodb/dist-cjs/index.js"(exports2) {
     var { Command: Command2, Client: Client2 } = (init_client2(), __toCommonJS(client_exports));
     exports2.$Command = Command2;
     exports2.__Client = Client2;
     var { setFeature: setFeature4 } = (init_client3(), __toCommonJS(client_exports2));
-    var { marshall, unmarshall } = require_dist_cjs22();
-    var { NumberValueImpl: NumberValue } = require_dist_cjs22();
+    var { marshall, unmarshall } = require_dist_cjs23();
+    var { NumberValueImpl: NumberValue } = require_dist_cjs23();
     exports2.NumberValue = NumberValue;
     var { BatchExecuteStatementCommand: BatchExecuteStatementCommand$1, BatchGetItemCommand, BatchWriteItemCommand, DeleteItemCommand, ExecuteStatementCommand: ExecuteStatementCommand$1, ExecuteTransactionCommand: ExecuteTransactionCommand$1, GetItemCommand, PutItemCommand, QueryCommand: QueryCommand$1, ScanCommand: ScanCommand$1, SearchVectorsCommand: SearchVectorsCommand$1, TransactGetItemsCommand, TransactWriteItemsCommand, UpdateItemCommand, DynamoDBClient: DynamoDBClient2 } = require_dist_cjs21();
     var { createPaginator: createPaginator2 } = (init_dist_es(), __toCommonJS(dist_es_exports));
@@ -36797,10 +48867,12 @@ __export(index_exports, {
 module.exports = __toCommonJS(index_exports);
 var import_client_sqs = __toESM(require_dist_cjs17());
 var import_client_dynamodb = __toESM(require_dist_cjs21());
-var import_lib_dynamodb = __toESM(require_dist_cjs23());
+var import_client_s3 = __toESM(require_dist_cjs22());
+var import_lib_dynamodb = __toESM(require_dist_cjs24());
 var sqs = new import_client_sqs.SQSClient();
 var client = new import_client_dynamodb.DynamoDBClient({});
 var dynamo = import_lib_dynamodb.DynamoDBDocumentClient.from(client);
+var s3 = new import_client_s3.S3Client({});
 function returnInvalidEventResponse() {
   return {
     statusCode: 400,
@@ -36835,6 +48907,12 @@ var SQSToLambdaHandler = async (event) => {
   for (const record of event.Records) {
     const messageBody = JSON.parse(record.body);
     console.log("Received SQS message:", messageBody);
+    await s3.send(new import_client_s3.PutObjectCommand({
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: `events/${messageBody.user_id}/${messageBody.event_id}.json`,
+      Body: JSON.stringify(messageBody),
+      ContentType: "application/json"
+    }));
     const checkIfItemExists = await dynamo.send(new import_lib_dynamodb.GetCommand({
       TableName: process.env.DYNAMODB_TABLE_ARN,
       Key: {
