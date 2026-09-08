@@ -3,7 +3,8 @@ import {SQSClient, SendMessageCommand} from "@aws-sdk/client-sqs";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
-  PutCommand
+  PutCommand,
+  GetCommand,
 } from "@aws-sdk/lib-dynamodb";
 
 const sqs = new SQSClient();
@@ -58,6 +59,20 @@ export const SQSToLambdaHandler = async (event: SQSEvent) => {
 
   for (const record of event.Records) {
     const messageBody = JSON.parse(record.body);
+    console.log('Received SQS message:', messageBody);
+
+    const checkIfItemExists = await dynamo.send(new GetCommand({
+      TableName: process.env.DYNAMODB_TABLE_ARN,
+      Key: {
+        user_id: messageBody.user_id,
+        event_id: messageBody.event_id
+      }
+    }));
+
+    if (checkIfItemExists.Item) {
+      console.log(`Event with event_id ${messageBody.event_id} already exists in DynamoDB. Skipping insertion.`);
+      continue; // Skip to the next record
+    }
 
 
     await dynamo.send(
@@ -67,7 +82,6 @@ export const SQSToLambdaHandler = async (event: SQSEvent) => {
       })
     );
 
-    console.log('Received SQS message:', messageBody);
   }
 
 }

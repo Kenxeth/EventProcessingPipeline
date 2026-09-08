@@ -36268,7 +36268,7 @@ var require_dist_cjs23 = __commonJS({
         return async () => handler2(this.clientCommand);
       }
     };
-    var GetCommand = class extends DynamoDBDocumentClientCommand {
+    var GetCommand2 = class extends DynamoDBDocumentClientCommand {
       input;
       inputKeyNodes = {
         Key: ALL_VALUES
@@ -36662,7 +36662,7 @@ var require_dist_cjs23 = __commonJS({
         }
       }
       get(args, optionsOrCb, cb) {
-        const command5 = new GetCommand(args);
+        const command5 = new GetCommand2(args);
         if (typeof optionsOrCb === "function") {
           this.send(command5, optionsOrCb);
         } else if (typeof cb === "function") {
@@ -36775,7 +36775,7 @@ var require_dist_cjs23 = __commonJS({
     exports2.DynamoDBDocumentClientCommand = DynamoDBDocumentClientCommand;
     exports2.ExecuteStatementCommand = ExecuteStatementCommand;
     exports2.ExecuteTransactionCommand = ExecuteTransactionCommand;
-    exports2.GetCommand = GetCommand;
+    exports2.GetCommand = GetCommand2;
     exports2.PutCommand = PutCommand2;
     exports2.QueryCommand = QueryCommand;
     exports2.ScanCommand = ScanCommand;
@@ -36834,13 +36834,24 @@ var handler = async (event) => {
 var SQSToLambdaHandler = async (event) => {
   for (const record of event.Records) {
     const messageBody = JSON.parse(record.body);
+    console.log("Received SQS message:", messageBody);
+    const checkIfItemExists = await dynamo.send(new import_lib_dynamodb.GetCommand({
+      TableName: process.env.DYNAMODB_TABLE_ARN,
+      Key: {
+        user_id: messageBody.user_id,
+        event_id: messageBody.event_id
+      }
+    }));
+    if (checkIfItemExists.Item) {
+      console.log(`Event with event_id ${messageBody.event_id} already exists in DynamoDB. Skipping insertion.`);
+      continue;
+    }
     await dynamo.send(
       new import_lib_dynamodb.PutCommand({
         TableName: process.env.DYNAMODB_TABLE_ARN,
         Item: messageBody
       })
     );
-    console.log("Received SQS message:", messageBody);
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

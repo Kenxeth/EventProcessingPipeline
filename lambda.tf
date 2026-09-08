@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "lambda_dynamodb" {
     ]
 
     resources = [
-      aws_dynamodb_table.userevents-dynamodb-table.arn
+      aws_dynamodb_table.userid-eventid-table.arn
     ]
   }
 }
@@ -92,7 +92,7 @@ resource "aws_lambda_function" "sqs_to_lambda_worker" {
       ENVIRONMENT = "production"
       LOG_LEVEL   = "info"
       QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
-      DYNAMODB_TABLE_ARN = aws_dynamodb_table.userevents-dynamodb-table.arn
+      DYNAMODB_TABLE_ARN = aws_dynamodb_table.userid-eventid-table.arn
     }
   }
 
@@ -118,7 +118,7 @@ resource "aws_lambda_function" "example" {
       ENVIRONMENT = "production"
       LOG_LEVEL   = "info"
       QUEUE_URL = aws_sqs_queue.terraform_sqs_queue.url
-      DYNAMODB_TABLE_ARN = aws_dynamodb_table.userevents-dynamodb-table.arn
+      DYNAMODB_TABLE_ARN = aws_dynamodb_table.userid-eventid-table.arn
     }
   }
 
